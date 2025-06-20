@@ -1,6 +1,29 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@theme{
+  --font-title: "Bungee", sans-serif;
+
+  --color-gradient-set-1-1:#FCA976;
+  --color-gradient-set-1-2:#EB4375;
+
+  --color-card-bg:;
+
+  --color-bg-primary:#18181B;
+  --color-bg-secondary:#1A1F2C;
+
+  --color-text-primary:#F9FAFB;
+  --color-text-secondary:#D1D5DB;
+
+
+  --text-h1: 40px;
+  --text-h2: 32px;
+  --text-h3: 24px;
+  --text-p: 16px;
+  --text-label: 12px;
+
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
