@@ -1,4 +1,5 @@
-# React + TypeScript + Vite
+# Flag or Bet
+減重無法堅持？在遊戲中與朋友一起減重賺更多！
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
