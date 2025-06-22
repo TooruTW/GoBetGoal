@@ -1,20 +1,15 @@
-import Title from "./Title"
-import TitleIcon from "./TitleIcon"
+import Navigator from "./Navigator";
+import Title from "./Title";
 
-
-export default function Header(){
-    return (
-        <div className="w-full py-4 bg-bg-secondary">
-
-            <div className="wrap max-w-330">
-                {/* left div */}
-                <div className="flex items-center">
-                    <TitleIcon />
-                    <Title>Flag or Bet</Title>
-                </div>
-                {/* right nav */}
-                <nav></nav>
-            </div>
-        </div>
-    )
+export default function Header() {
+  return (
+    <div className="w-full py-4 bg-bg-secondary">
+      <div className="wrapper max-w-330 flex justify-between items-center">
+        {/* left div */}
+        <Title />
+        {/* right nav */}
+        <Navigator />
+      </div>
+    </div>
+  );
 }

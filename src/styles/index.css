@@ -11,6 +11,7 @@
 
   --color-bg-primary: #18181b;
   --color-bg-secondary: #1a1f2c;
+  --color-bg-module: #373739;
 
   --color-theme-primary: #f35b53;
 
@@ -242,6 +243,15 @@
 
   .neon-glow {
     animation: neon-glow 3s ease-in-out infinite alternate;
+  }
+
+  /* 漸層效果 */
+  .bg-gradient-set-1 {
+    background: linear-gradient(
+      135deg,
+      var(--color-gradient-set-1-1) 0%,
+      var(--color-gradient-set-1-2) 100%
+    );
   }
 }
 
