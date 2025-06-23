@@ -11,21 +11,23 @@ export default function Navigator() {
       <ul className="flex gap-3 items-center">
         <li>
           {/* 通知中心 */}
-          <LuBellRing />
+          <LuBellRing className="text-theme-primary" />
         </li>
         <li>
-          <CheatBlanket />
+          <CheatBlanket amount={999} />
         </li>
         <li>
-          <Candy />
+          <Candy amount={999999} />
         </li>
-        <Link to="trial">
-          <li className="text-label">我的試煉</li>
+        <Link className=" max-lg:hidden " to="trial">
+          <li className="text-label transition-all hover:scale-120 ">
+            我的試煉
+          </li>
         </Link>
-        <Link to="#">
-          <li className="text-label">DA平台</li>
+        <Link className=" max-lg:hidden " to="#">
+          <li className="text-label transition-all hover:scale-120 ">DA平台</li>
         </Link>
-        <li>
+        <li className=" max-lg:hidden ">
           <CreateChallenge />
         </li>
         <li>

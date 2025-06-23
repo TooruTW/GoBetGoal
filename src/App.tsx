@@ -24,7 +24,7 @@ function App() {
           <ul className="flex justify-center gap-4">
             {route.map((item, index) => {
               return (
-                <Link to={item}>
+                <Link  key={`${index}-${item}`} to={item}>
                   <li key={index} className="px-4 py-3 border-2">{item}</li>
                 </Link>
               );

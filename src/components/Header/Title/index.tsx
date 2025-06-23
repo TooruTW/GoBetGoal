@@ -6,7 +6,7 @@ export default function Title(){
     return(
         <div className="flex items-center">
             <TitleIcon />
-            <TitleText>Flag or Bet</TitleText>
+            <TitleText className="max-md:hidden">Flag or Bet</TitleText>
         </div>
     )
 }
