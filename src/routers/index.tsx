@@ -4,6 +4,9 @@ import ErrorPages from "@/ErrorPage";
 import UserPage from "@/components/layout/UserPage";
 import Home from "@/components/layout/Home";
 import Authentication from "@/components/layout/Authentication";
+import AuthAccount from "@/components/layout/AuthAccount";
+import AuthSuccess from "@/components/layout/AuthSuccess";
+import Trial from "@/components/layout/Trial";
 import Info from "@/components/layout/Info";
 import Shop from "@/components/layout/Shop";
 import Trials from "@/components/layout/Trials";
@@ -37,6 +40,16 @@ const routers = createBrowserRouter([
       {
         path: "authentication",
         element: <Authentication />,
+        children: [
+          {
+            path: "auth-account",
+            element:<AuthAccount />,
+          },
+          {
+            path: "auth-success",
+            element: <AuthSuccess />,
+          },
+        ],
       },
       {
         path: "info",
