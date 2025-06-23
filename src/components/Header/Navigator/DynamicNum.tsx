@@ -10,7 +10,7 @@ export default function DynamicNumber(props: acceptProps) {
   const { amount = 10000, duration = 1.5 } = props;
   const dynamicNumberRef: React.RefObject<HTMLSpanElement | null> =
     useRef(null);
-    const digits = amount.toLocaleString().length
+  const digits = amount.toLocaleString().length;
 
   useEffect(() => {
     const obj = { val: 0 };
@@ -21,11 +21,21 @@ export default function DynamicNumber(props: acceptProps) {
       ease: "pow2.out",
       onUpdate: () => {
         if (dynamicNumberRef.current) {
-          dynamicNumberRef.current.textContent = Math.floor(obj.val).toLocaleString().padStart(digits,"0");
+          if (obj.val > 10000) {
+            dynamicNumberRef.current.textContent = `${Math.floor(
+              obj.val * 0.001
+            )
+              .toLocaleString()
+              .padStart(digits - 4, "0")}K`;
+          } else {
+            dynamicNumberRef.current.textContent = Math.floor(obj.val)
+              .toLocaleString()
+              .padStart(digits, "0");
+          }
         }
       },
     });
-  }, [amount,duration,digits]);
+  }, [amount, duration, digits]);
 
   return (
     <>

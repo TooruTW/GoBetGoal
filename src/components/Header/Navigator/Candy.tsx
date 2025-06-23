@@ -18,7 +18,7 @@ export default function Candy(props: acceptProps) {
         <p  className="font-bold bg-gradient-set-1 bg-clip-text text-transparent font-mono">
         <DynamicNumber amount={amount}/>
         </p>
-        <GoPlus />
+        <GoPlus className="max-md:hidden"/>
       </div>
     </div>
   );

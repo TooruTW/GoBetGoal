@@ -13,7 +13,7 @@ export default function CheatBlanket(props: acceptProps) {
     <div className="px-4 py-1.5 rounded-full flex items-center gap-1 bg-bg-module">
       <LuTicket />
       <p className="font-bold bg-gradient-set-1 bg-clip-text text-transparent font-mono"><DynamicNumber amount={amount} /></p>
-      <GoPlus />
+      <GoPlus className="max-md:hidden"/>
     </div>
   );
 }
