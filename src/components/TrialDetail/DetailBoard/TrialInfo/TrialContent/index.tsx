@@ -29,7 +29,7 @@ export default function TrailContent(props: acceptProps) {
   return (
     <div>
       {/* left */}
-      <div className={`flex flex-col gap-2 ${isTrialOverRef.current && "opacity-40"}`}>
+      <div className={`flex flex-col gap-2 opacity-40 ${!isTrialOverRef.current && "opacity-100"}`}>
         <p>{countDownState}</p>
         <CountDown timeToCount={target} />
       </div>
