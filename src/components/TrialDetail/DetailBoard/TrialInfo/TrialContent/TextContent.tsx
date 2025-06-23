@@ -16,7 +16,7 @@ export default function TextContent(props: acceptProps) {
     <div className="w-full flex flex-col gap-3">
       <p className="text-p">{title}</p>
       <p>{content}</p>
-      <ul className="flex gap-3 justify-between">
+      <ul className="flex  gap-3 justify-between">
         <li className="p-2 bg-bg-secondary/50 rounded-md w-full">
           <p className="text-label">關卡頻率</p>
           <p>{trailInfo.frequency}</p>
