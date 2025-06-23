@@ -4,9 +4,9 @@ import TrialContent from "./TrialContent";
 
 export default function TrialInfo() {
   return (
-    <div className="bg-card-bg rounded-xl p-5">
+    <div className="bg-card-bg rounded-xl p-5 ">
       {/* left */}
-      <div>
+      <div >
         <ProgressBar
           candyPerfect={600000}
           candyPass={300000}
