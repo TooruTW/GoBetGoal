@@ -14,7 +14,7 @@ export default function TrialInfo() {
           stagePass={168}
           completeRate={0}
         />
-        <TrialContent />
+        <TrialContent start={new Date(2025,5,20)} deadLine={new Date(2025,5,22)}/>
       </div>
       {/* right */}
       <div></div>
