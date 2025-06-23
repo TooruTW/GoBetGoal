@@ -253,6 +253,10 @@
       var(--color-gradient-set-1-2) 100%
     );
   }
+
+  .error {
+    color: red;
+  }
 }
 
 /* 霓虹動畫關鍵幀 */
