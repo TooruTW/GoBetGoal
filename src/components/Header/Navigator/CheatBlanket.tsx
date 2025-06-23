@@ -8,7 +8,7 @@ interface acceptProps {
 }
 
 export default function CheatBlanket(props: acceptProps) {
-  const { amount = 10 } = props;
+  const { amount = 0 } = props;
   return (
     <div className="px-4 py-1.5 rounded-full flex items-center gap-1 bg-bg-module">
       <LuTicket />

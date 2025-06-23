@@ -7,7 +7,7 @@ interface acceptProps {
 }
 
 export default function DynamicNumber(props: acceptProps) {
-  const { amount = 10000, duration = 1.5 } = props;
+  const { amount = 0, duration = 1.5 } = props;
   const dynamicNumberRef: React.RefObject<HTMLSpanElement | null> =
     useRef(null);
   const digits = amount.toLocaleString().length;

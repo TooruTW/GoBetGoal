@@ -9,7 +9,7 @@ interface acceptProps {
 }
 
 export default function Candy(props: acceptProps) {
-  const { amount = 1000000 } = props;
+  const { amount = 0 } = props;
 
   return (
     <div>

@@ -14,10 +14,10 @@ export default function Navigator() {
           <LuBellRing className="text-theme-primary" />
         </li>
         <li>
-          <CheatBlanket amount={100} />
+          <CheatBlanket amount={999} />
         </li>
         <li>
-          <Candy amount={50000} />
+          <Candy amount={999999} />
         </li>
         <Link className=" max-lg:hidden " to="trial">
           <li className="text-label transition-all hover:scale-120 ">
@@ -27,7 +27,7 @@ export default function Navigator() {
         <Link className=" max-lg:hidden " to="#">
           <li className="text-label transition-all hover:scale-120 ">DA平台</li>
         </Link>
-        <li className=" max-lg:hidden " >
+        <li className=" max-lg:hidden ">
           <CreateChallenge />
         </li>
         <li>
