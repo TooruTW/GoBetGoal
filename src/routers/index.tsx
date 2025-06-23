@@ -4,9 +4,11 @@ import ErrorPages from "@/ErrorPage";
 import UserPage from "@/components/layout/UserPage";
 import Home from "@/components/layout/Home";
 import Authentication from "@/components/layout/Authentication";
-import Trial from "@/components/layout/Trial";
 import Info from "@/components/layout/Info";
 import Shop from "@/components/layout/Shop";
+import Trials from "@/components/layout/Trials";
+import TrialDetail from "@/components/TrialDetail";
+
 
 const routers = createBrowserRouter([
   {
@@ -15,7 +17,7 @@ const routers = createBrowserRouter([
     errorElement: <ErrorPages />,
     children: [
       {
-        path: "home",
+        index: true,
         element: <Home />,
       },
       {
@@ -23,8 +25,14 @@ const routers = createBrowserRouter([
         element: <UserPage />,
       },
       {
-        path: "trial",
-        element: <Trial />,
+        path: "trials",
+        element: <Trials />,
+        children:[
+          {
+            path: "trial-detail/:id",
+            element: <TrialDetail />
+          }
+        ]
       },
       {
         path: "authentication",

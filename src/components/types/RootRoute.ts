@@ -1,7 +1,7 @@
 export type RootRoute =
   | "home"
   | "user-page"
-  | "trial"
+  | "trials"
   | "authentication"
   | "info"
   | "shop";
