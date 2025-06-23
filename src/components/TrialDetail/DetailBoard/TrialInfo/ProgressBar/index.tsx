@@ -7,28 +7,38 @@ interface acceptProps {
 }
 
 export default function ProgressBar(props: acceptProps) {
-  const {
-    candyPerfect,
-    candyPass,
-    stagePerfect,
-    stagePass,
-    completeRate,
-  } = props;
+  const { candyPerfect, candyPass, stagePerfect, stagePass, completeRate } =
+    props;
   return (
     <div>
       <p className=" relative flex justify-between">
         <span>糖果總數</span>
-        <span className=" absolute left-4/5 translate-x-[-50%]">{candyPass}</span>
-        <span>{candyPerfect}</span>
+        <span className=" absolute left-4/5 translate-x-[-50%]">
+          {candyPass > 1000 ? `${candyPass / 1000}K` : candyPass}
+        </span>
+        <span>
+          {" "}
+          {candyPerfect > 1000 ? `${candyPerfect / 1000}K` : candyPerfect}
+        </span>
       </p>
       <div className="w-full rounded-full relative h-4 bg-bg-module">
-        <div className={`absolute rounded-full h-full bg-white min-w-4 w-[${completeRate}%] py-1 px-4 flex justify-end items-center`}>
-            <p className="text-label text-black">合作進度 <span>{completeRate}</span>%</p>
-        </div>
+        <p className=" absolute z-10 top-1/2 left-1/2 -translate-1/2 text-label text-white">
+          合作進度 <span>{completeRate}</span>%
+        </p>
+
+        <div
+          className={`absolute z-0 rounded-full h-full bg-gradient-set-1 flex`}
+          style={{
+            width: `${completeRate}%`,
+            filter: `saturate(${(completeRate / 100 )+ 0.5})`,
+          }}
+        ></div>
       </div>
       <p className=" relative flex justify-between">
         <span>關卡總數</span>
-        <span className=" absolute left-4/5 translate-x-[-50%]">{stagePass}</span>
+        <span className=" absolute left-4/5 translate-x-[-50%]">
+          {stagePass}
+        </span>
         <span>{stagePerfect}</span>
       </p>
     </div>

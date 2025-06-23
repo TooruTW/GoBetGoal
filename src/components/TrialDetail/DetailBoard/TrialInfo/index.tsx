@@ -12,7 +12,7 @@ export default function TrialInfo() {
           candyPass={300000}
           stagePerfect={135}
           stagePass={168}
-          completeRate={0}
+          completeRate={100}
         />
         <TrialContent start={new Date(2025,5,20)} deadLine={new Date(2025,5,22)}/>
       </div>
