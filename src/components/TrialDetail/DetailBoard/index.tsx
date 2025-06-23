@@ -5,7 +5,7 @@ import TrialInfo from "./TrialInfo"
 
 export default function DetailBoard(){
     return (
-        <div>
+        <div className="flex flex-col gap-6 w-full">
             <BackBtn />
             <TrialInfo />
             <Participant />            

@@ -29,7 +29,7 @@ const routers = createBrowserRouter([
         element: <Trials />,
         children:[
           {
-            path: "Trial-detail/:id",
+            path: "trial-detail/:id",
             element: <TrialDetail />
           }
         ]
