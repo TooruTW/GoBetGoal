@@ -7,11 +7,16 @@
   --color-gradient-set-1-1: #fca976;
   --color-gradient-set-1-2: #eb4375;
 
-  --color-card-bg: ;
+  --color-card-bg: #030712;
+
+  --color-unActivated-bg: #fcfcf7;
+  --color-unActivated-text: #212529;
 
   --color-bg-primary: #18181b;
   --color-bg-secondary: #1a1f2c;
   --color-bg-module: #373739;
+
+  --color-bg-root: #1b1c1d;
 
   --color-theme-primary: #f35b53;
 
