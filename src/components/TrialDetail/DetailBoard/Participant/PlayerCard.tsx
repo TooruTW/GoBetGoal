@@ -1,9 +1,13 @@
+import React, { useRef } from "react";
 import { IoClose } from "react-icons/io5";
 import ImageLoader from "./ImageLoader";
 import type { Participant } from "@/components/types/Participant";
 
 interface acceptProps extends Participant {
-  handleDelete?: (id: string) => void;
+  handleDelete?: (
+    event: React.MouseEvent<SVGElement, MouseEvent>,
+    id: string
+  ) => void;
   handleAddFriend?: () => void;
 }
 
@@ -18,14 +22,16 @@ export default function PlayerCard(props: acceptProps) {
     handleAddFriend,
   } = props;
 
+  const isCloseAbleRef = useRef(playerName !== "unknown");
+
   return (
     <div className="group flex flex-col items-center gap-4 max-w-1/6 w-full bg-card-bg rounded-md py-6 ">
       <IoClose
         id={id}
-        onClick={() => {
-          handleDelete?.(id);
-        }}
-        className="self-end text-3xl mx-6 opacity-0 scale-0 group-hover:scale-100 group-hover:opacity-100 transition"
+        onClick={(event) => handleDelete?.(event, id)}
+        className={`self-end text-3xl mx-6 opacity-0 scale-0  group-hover:opacity-100 transition ${
+          isCloseAbleRef.current && "group-hover:scale-100"
+        }`}
       />
       <div className="h-65 w-full ">
         <ImageLoader imgUrl={playerImgUrl} />
@@ -42,12 +48,14 @@ export default function PlayerCard(props: acceptProps) {
           加好友
         </button>
       )}
-      <button
-        onClick={handleAddFriend}
-        className={`rounded-md bg-bg-tags text-black py-2 w-8/10`}
-      >
-        查看個人頁面
-      </button>
+      {isCloseAbleRef.current && (
+        <button
+          onClick={handleAddFriend}
+          className={`rounded-md bg-bg-tags text-black py-2 w-8/10`}
+        >
+          查看個人頁面
+        </button>
+      )}
     </div>
   );
 }
