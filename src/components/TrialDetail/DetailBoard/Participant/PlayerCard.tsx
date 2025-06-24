@@ -17,8 +17,8 @@ export default function PlayerCard(props: acceptProps) {
   } = props;
 
   return (
-    <div className="flex flex-col items-center gap-4 max-w-1/6 bg-card-bg rounded-md py-6">
-      <IoClose className=" self-end text-3xl mx-6" />
+    <div className="group flex flex-col items-center gap-4 max-w-1/6 w-full bg-card-bg rounded-md py-6 ">
+      <IoClose className="self-end text-3xl mx-6 opacity-0 scale-0 group-hover:scale-100 group-hover:opacity-100 transition" />
       <div className="h-96 w-full ">
         <ImageLoader imgUrl={playerImgUrl} />
       </div>
@@ -26,9 +26,11 @@ export default function PlayerCard(props: acceptProps) {
         <p className=" font-bold text-h4 ">{playerName}</p>
         <p className="">參加試煉數 {playerTotalTrials}</p>
       </div>
-      {!isFriend && <button className={`rounded-md bg-bg-tags text-black py-2 px-2.5`}>
-        加好友
-      </button>}
+      {!isFriend && (
+        <button className={`rounded-md bg-bg-tags text-black py-2 px-2.5`}>
+          加好友
+        </button>
+      )}
     </div>
   );
 }
