@@ -18,6 +18,8 @@ export default function PlayerCard(props: acceptProps) {
     playerImgUrl = "",
     playerTotalTrials = 0,
     isFriend = false,
+    likedPosts,
+    friends,
     handleDelete,
     handleAddFriend,
   } = props;
@@ -36,18 +38,28 @@ export default function PlayerCard(props: acceptProps) {
       <div className="h-65 w-full ">
         <ImageLoader imgUrl={playerImgUrl} />
       </div>
-      <div className="self-start mx-6">
+      <div className="self-start w-full px-6">
         <p className=" font-bold text-h4 ">{playerName}</p>
-        <p className="">參加試煉數 {playerTotalTrials}</p>
+        <p className="flex justify-between">
+          <span>參加試煉數</span> <span> {playerTotalTrials}</span>
+        </p>
+        <p className="flex justify-between">
+          <span>朋友數</span> <span>{friends}</span>
+        </p>
+        <p className="flex justify-between">
+          <span>貼文讚數</span> <span>{likedPosts}</span>
+        </p>
       </div>
-      {!isFriend && (
-        <button
-          onClick={handleAddFriend}
-          className={`rounded-md bg-bg-tags text-black py-2 w-8/10`}
-        >
-          加好友
-        </button>
-      )}
+
+      <button
+        onClick={handleAddFriend}
+        className={`rounded-md bg-bg-tags text-black py-2 w-8/10 ${
+          isFriend && "opacity-0 scale-0"
+        }`}
+      >
+        加好友
+      </button>
+
       {isCloseAbleRef.current && (
         <button
           onClick={handleAddFriend}

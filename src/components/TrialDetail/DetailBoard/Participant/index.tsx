@@ -71,6 +71,8 @@ export default function Participant(props: { participant: Participant[] }) {
             isFriend={item.isFriend}
             playerImgUrl={item.playerImgUrl}
             handleDelete={handleDelete}
+            friends={item.friends}
+            likedPosts={item.likedPosts}
           />
         );
       })}
@@ -83,6 +85,8 @@ export default function Participant(props: { participant: Participant[] }) {
             playerTotalTrials={0}
             isFriend={true}
             playerImgUrl={"noImg"}
+            likedPosts={0}
+            friends={0}
           />
         );
       })}

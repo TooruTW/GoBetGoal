@@ -5,6 +5,8 @@ export const participantList = [
       playerTotalTrials: 12,
       isFriend: true,
       playerImgUrl: "/avatar/girlJacketBandage.webp",
+      likedPosts:2,
+      friends:15,
     },
     {
         id:"1",
@@ -12,6 +14,8 @@ export const participantList = [
       playerTotalTrials: 27,
       isFriend: false,
       playerImgUrl: "/avatar/girlSkirtBubble.webp",
+      likedPosts:5,
+      friends:32,
     },
     {
         id:"2",
@@ -19,6 +23,8 @@ export const participantList = [
       playerTotalTrials: 42,
       isFriend: true,
       playerImgUrl: "/avatar/girlJacketYoga.webp",
+      likedPosts:23,
+      friends:53,
     },
     {
         id:"3",
@@ -26,6 +32,8 @@ export const participantList = [
       playerTotalTrials: 9,
       isFriend: false,
       playerImgUrl: "/avatar/girlPurpleHeadphone.webp",
+      likedPosts:10,
+      friends:23,
     },
     {
         id:"4",
@@ -33,5 +41,7 @@ export const participantList = [
       playerTotalTrials: 15,
       isFriend: false,
       playerImgUrl: "/avatar/girlBearJacket.webp",
+      likedPosts:0,
+      friends:2,
     },
   ];
