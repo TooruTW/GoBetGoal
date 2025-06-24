@@ -1,7 +1,14 @@
-export default function Participant(){
-    return (
-        <div>
-            <h1>Participant</h1>
-        </div>
-    )
+import PlayerCard from "./PlayerCard";
+
+export default function Participant() {
+  return (
+    <div>
+      <PlayerCard
+        playerName="John Cena"
+        playerTotalTrials={100}
+        isFriend={false}
+        playerImgUrl="/avatar/girlPurpleCurly.webp"
+      />
+    </div>
+  );
 }
