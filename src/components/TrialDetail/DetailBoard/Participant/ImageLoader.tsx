@@ -14,6 +14,7 @@ export default function ImageLoader(props: { imgUrl: string }) {
     <div className="flex justify-center items-center h-full">
       {isLoad ? (
         <img
+          className="object-cover h-full"
           src={imgUrl}
           onLoad={() => setIsLoad(true)}
           onError={() => setIsLoad(false)}

@@ -28,7 +28,6 @@ export default function Participant(props:{participant:Participant[]}) {
   }, [cardContainerRef]);
 
 const handleDelete:(event:string)=>void = (event)=>{
-    console.log(event)
     setList((prev)=>{
         return(
             prev.filter((item)=>(item.id !== event))
