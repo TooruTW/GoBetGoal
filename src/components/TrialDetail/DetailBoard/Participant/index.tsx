@@ -1,42 +1,15 @@
 import gsap from "gsap";
 import PlayerCard from "./PlayerCard";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { Participant } from "@/components/types/Participant";
 
-const participantList = [
-  {
-    playerName: "阿強",
-    playerTotalTrials: 12,
-    isFriend: true,
-    playerImgUrl: "/avatar/girlJacketBandage.webp",
-  },
-  {
-    playerName: "小美",
-    playerTotalTrials: 27,
-    isFriend: false,
-    playerImgUrl: "/avatar/girlSkirtBubble.webp",
-  },
-  {
-    playerName: "獵魔士Geralt",
-    playerTotalTrials: 42,
-    isFriend: true,
-    playerImgUrl: "/avatar/girlJacketYoga.webp",
-  },
-  {
-    playerName: "貓貓教主",
-    playerTotalTrials: 9,
-    isFriend: false,
-    playerImgUrl: "/avatar/girlPurpleHeadphone.webp",
-  },
-  {
-    playerName: "雷姆",
-    playerTotalTrials: 15,
-    isFriend: false,
-    playerImgUrl: "/avatar/girlBearJacket.webp",
-  },
-];
 
-export default function Participant() {
+
+
+export default function Participant(props:{participant:Participant[]}) {
+    const {participant} = props
   const cardContainerRef = useRef<HTMLDivElement | null>(null);
+  const [list,setList] = useState(participant)
 
   useEffect(() => {
     if (!cardContainerRef.current) return;
@@ -54,23 +27,34 @@ export default function Participant() {
     );
   }, [cardContainerRef]);
 
+const handleDelete:(event:string)=>void = (event)=>{
+    console.log(event)
+    setList((prev)=>{
+        return(
+            prev.filter((item)=>(item.id !== event))
+        )
+    })
+}
   return (
     <div ref={cardContainerRef} className="flex justify-between gap-4">
-      {participantList.map((item, index) => {
+      {list.map((item) => {
         return (
           <PlayerCard
-            key={`player-${index}`}
+            key={item.id}
+            id={item.id}
             playerName={item.playerName}
             playerTotalTrials={item.playerTotalTrials}
             isFriend={item.isFriend}
             playerImgUrl={item.playerImgUrl}
+            handleDelete={handleDelete}
           />
         );
       })}
-      {Array.from({ length: 6 - participantList.length }).map((_, index) => {
+      {Array.from({ length: 6 - list.length }).map((_, index) => {
         return (
           <PlayerCard
             key={`unknown-${index}`}
+            id={`unknown-${index}`}
             playerName="unknown"
             playerTotalTrials={0}
             isFriend={true}
