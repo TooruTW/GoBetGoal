@@ -17,8 +17,8 @@ export default function TrailContent(props: acceptProps) {
   const { deadLine, start } = props;
   const [target, setTarget] = useState(start);
   const [countDownState, setCountDownState] =
-    useState("距離試煉開始還有......");
-  const isTrialOverRef = useRef(false);
+    useState("判斷中......");
+  const isTrialInProgressRef = useRef(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -26,20 +26,26 @@ export default function TrailContent(props: acceptProps) {
       if (now >= start.getTime() && now <= deadLine.getTime()) {
         setTarget(deadLine);
         setCountDownState("打卡死線還剩下......");
+        isTrialInProgressRef.current = true;
+
       } else if (now >= deadLine.getTime()) {
         setCountDownState("關卡結束");
-        isTrialOverRef.current = true;
+        isTrialInProgressRef.current = false;
+      } else if( now <= start.getTime() ){
+        setCountDownState("距離試煉開始還有......")
+        isTrialInProgressRef.current = false;
+
       }
     }, 1000);
     return () => clearInterval(timer);
   }, [start, deadLine]);
 
   return (
-    <div className="flex gap-6">
+    <div className="flex gap-6 max-lg:flex-col-reverse max-lg:items-center">
       {/* left */}
       <div
-        className={`flex flex-col gap-2 opacity-40 ${
-          !isTrialOverRef.current && "opacity-100"
+        className={`flex flex-col gap-2 ${
+          isTrialInProgressRef.current? "":" opacity-40 max-lg:hidden"
         }`}
       >
         <p>{countDownState}</p>
