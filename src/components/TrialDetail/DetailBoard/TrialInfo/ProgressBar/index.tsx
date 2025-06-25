@@ -1,18 +1,19 @@
 import gsap from "gsap";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import type { RootState } from "@/state/store";
 
-interface acceptProps {
-  candyPerfect: number;
-  candyPass: number;
-  stagePerfect: number;
-  stagePass: number;
-  completeRate: number;
-}
+export default function ProgressBar() {
+  const currentTrial = useSelector((state: RootState) => state.trials);
 
-export default function ProgressBar(props: acceptProps) {
-  const { candyPerfect, candyPass, stagePerfect, stagePass, completeRate } =
-    props;
-    const [rate,setRate] = useState(0)
+  const completeRate = currentTrial.passedChallengesCount / currentTrial.challengeCount * 100;
+  const candyPass = currentTrial.investment;
+  const candyPerfect = currentTrial.reward;
+  const stagePass = Math.floor(currentTrial.challengeCount * 0.8);
+  const stagePerfect = currentTrial.challengeCount;
+
+  const [rate,setRate] = useState(currentTrial.passedChallengesCount / currentTrial.challengeCount * 100)
+  
     useEffect(()=>{
         const obj = {val:0}
         gsap.to(obj,{
@@ -39,7 +40,7 @@ export default function ProgressBar(props: acceptProps) {
       </p>
       <div className="w-full rounded-full relative h-4 bg-bg-module">
         <p className=" absolute z-10 top-1/2 left-1/2 -translate-1/2 text-label text-white">
-          合作進度 <span>{rate}</span>%
+          合作進度 <span>{rate.toString()}</span>%
         </p>
 
         <div

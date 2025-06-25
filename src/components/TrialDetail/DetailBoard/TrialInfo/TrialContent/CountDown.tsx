@@ -1,19 +1,17 @@
 import { useEffect, useState } from "react";
 
 interface acceptProps {
-  timeToCount: Date;
+  timeToCount: Date | null;
 }
+
 export default function CountDown(props: acceptProps) {
   const { timeToCount } = props;
-  const [remain, setRemain] = useState(
-    Math.max(
-      0,
-      Math.floor((timeToCount.getTime() - new Date().getTime()) / 1000)
-    )
-  );
+  const [remain, setRemain] = useState(0);
 
   // timeToCount 改變時，重設 remain
   useEffect(() => {
+    console.log("timeToCount changed", timeToCount);
+    if (!timeToCount) return;
     setRemain(
       Math.max(
         0,

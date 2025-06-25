@@ -1,18 +1,21 @@
 import type { Participant } from "@/components/types/Participant";
 export interface Trial {
   id: string;
+  isPublic: boolean;
   category: "飲食" | "運動" | "作息" | "範例";
   checkType: "AI" | "MANUAL";
-  checkFrequency: number;
+  checkFrequency: "每日" | "每週" | "每月";
   title: string;
   description: string;
-  startDate: Date;
-  endDate: Date;
-  createdAt: Date;
+  startDate: string;
+  endDate: string;
+  duration: number;
+  createdAt: string;
   createdBy: string;
   maxParticipants: number;
   currentParticipants: Participant[];
   challenges: Challenge[];
+  passedChallengesCount: number;
   challengeCount: number;
   currentChallengeIndex: number;
   isActive: boolean;
@@ -34,6 +37,7 @@ export interface Challenge {
   uploadImage: UploadImage[] | null;
   exampleImage: string[];
   checkCountRemain: 3 | 2 | 1 | 0;
+  deadline: string;
 }
 
 export interface UploadImage {
