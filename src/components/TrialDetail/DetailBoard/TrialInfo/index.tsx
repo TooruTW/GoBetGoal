@@ -14,8 +14,8 @@ export default function TrialInfo() {
           completeRate={100}
         />
         <TrialContent
-          start={new Date(2025, 5, 23)}
-          deadLine={new Date(2025, 5, 26)}
+          start={new Date(2025, 5, 22)}
+          deadLine={new Date(2025, 5, 23)}
         />
       </div>
       {/* right */}
