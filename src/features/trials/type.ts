@@ -18,7 +18,7 @@ export interface Trial {
   passedChallengesCount: number;
   challengeCount: number;
   currentChallengeIndex: number;
-  isActive: boolean;
+  trialState: "待開始" | "進行中" | "已結束" | "通過" | "完美通過";
   investment: number;
   reward: number;
   bounceRate: number;

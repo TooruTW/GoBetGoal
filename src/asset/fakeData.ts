@@ -3,12 +3,12 @@ import type { Challenge } from "@/features/trials/type";
 
 const createdAt = new Date(2025, 5, 20);
 const createdAtFormatted = createdAt.toISOString();
-const startDate = new Date(2025, 5, 24);
+const startDate = new Date(2025, 5, 26);
 const startDateFormatted = startDate.toISOString();
 const duration = 7;
 const endDate = new Date(startDate.getTime() + duration * 1000 * 60 * 60 * 24);
 const endDateFormatted = endDate.toISOString();
-const isActive = new Date() < startDate;
+const trialState = new Date() < startDate ? "待開始" : "進行中";
 const checkFrequency = "每日";
 
 export const participantList = [
@@ -179,6 +179,363 @@ export const fakeChallengeList: Challenge[] = [
       startDate.getTime() + 7 * 1000 * 60 * 60 * 24
     ).toISOString(),
   },
+  {
+    id: "00008",
+    title: "關卡 8",
+    description:
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    state: "NOT_STARTED",
+    uploadImage: null,
+    exampleImage: [
+      "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
+      "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
+    ],
+    checkCountRemain: 3,
+    deadline: new Date(
+      startDate.getTime() + 8 * 1000 * 60 * 60 * 24
+    ).toISOString(),
+  },
+  {
+    id: "00009",
+    title: "關卡 9",
+    description:
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    state: "NOT_STARTED",
+    uploadImage: null,
+    exampleImage: [
+      "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
+      "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
+    ],
+    checkCountRemain: 3,
+    deadline: new Date(
+      startDate.getTime() + 8 * 1000 * 60 * 60 * 24
+    ).toISOString(),
+  },
+  {
+    id: "00010",
+    title: "關卡 10",
+    description:
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    state: "NOT_STARTED",
+    uploadImage: null,
+    exampleImage: [
+      "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
+      "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
+    ],
+    checkCountRemain: 3,
+    deadline: new Date(
+      startDate.getTime() + 8 * 1000 * 60 * 60 * 24
+    ).toISOString(),
+  },
+  {
+    id: "00011",
+    title: "關卡 11",
+    description:
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    state: "NOT_STARTED",
+    uploadImage: null,
+    exampleImage: [
+      "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
+      "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
+    ],
+    checkCountRemain: 3,
+    deadline: new Date(
+      startDate.getTime() + 8 * 1000 * 60 * 60 * 24
+    ).toISOString(),
+  },
+  {
+    id: "00012",
+    title: "關卡 12",
+    description:
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    state: "NOT_STARTED",
+    uploadImage: null,
+    exampleImage: [
+      "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
+      "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
+    ],
+    checkCountRemain: 3,
+    deadline: new Date(
+      startDate.getTime() + 8 * 1000 * 60 * 60 * 24
+    ).toISOString(),
+  },
+  {
+    id: "00013",
+    title: "關卡 13",
+    description:
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    state: "NOT_STARTED",
+    uploadImage: null,
+    exampleImage: [
+      "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
+      "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
+    ],
+    checkCountRemain: 3,
+    deadline: new Date(
+      startDate.getTime() + 8 * 1000 * 60 * 60 * 24
+    ).toISOString(),
+  },
+  {
+    id: "00014",
+    title: "關卡 14",
+    description:
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    state: "NOT_STARTED",
+    uploadImage: null,
+    exampleImage: [
+      "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
+      "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
+    ],
+    checkCountRemain: 3,
+    deadline: new Date(
+      startDate.getTime() + 8 * 1000 * 60 * 60 * 24
+    ).toISOString(),
+  },
+  {
+    id: "00015",
+    title: "關卡 15",
+    description:
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    state: "NOT_STARTED",
+    uploadImage: null,
+    exampleImage: [
+      "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
+      "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
+    ],
+    checkCountRemain: 3,
+    deadline: new Date(
+      startDate.getTime() + 8 * 1000 * 60 * 60 * 24
+    ).toISOString(),
+  },
+  {
+    id: "00016",
+    title: "關卡 16",
+    description:
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    state: "NOT_STARTED",
+    uploadImage: null,
+    exampleImage: [
+      "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
+      "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
+    ],
+    checkCountRemain: 3,
+    deadline: new Date(
+      startDate.getTime() + 8 * 1000 * 60 * 60 * 24
+    ).toISOString(),
+  },
+  {
+    id: "00017",
+    title: "關卡 17",
+    description:
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    state: "NOT_STARTED",
+    uploadImage: null,
+    exampleImage: [
+      "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
+      "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
+    ],
+    checkCountRemain: 3,
+    deadline: new Date(
+      startDate.getTime() + 8 * 1000 * 60 * 60 * 24
+    ).toISOString(),
+  },
+  {
+    id: "00018",
+    title: "關卡 18",
+    description:
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    state: "NOT_STARTED",
+    uploadImage: null,
+    exampleImage: [
+      "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
+      "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
+    ],
+    checkCountRemain: 3,
+    deadline: new Date(
+      startDate.getTime() + 8 * 1000 * 60 * 60 * 24
+    ).toISOString(),
+  },
+  {
+    id: "00019",
+    title: "關卡 19",
+    description:
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    state: "NOT_STARTED",
+    uploadImage: null,
+    exampleImage: [
+      "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
+      "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
+    ],
+    checkCountRemain: 3,
+    deadline: new Date(
+      startDate.getTime() + 8 * 1000 * 60 * 60 * 24
+    ).toISOString(),
+  },
+  {
+    id: "00020",
+    title: "關卡 20",
+    description:
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    state: "NOT_STARTED",
+    uploadImage: null,
+    exampleImage: [
+      "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
+      "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
+    ],
+    checkCountRemain: 3,
+    deadline: new Date(
+      startDate.getTime() + 8 * 1000 * 60 * 60 * 24
+    ).toISOString(),
+  },
+  {
+    id: "00021",
+    title: "關卡 21",
+    description:
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    state: "NOT_STARTED",
+    uploadImage: null,
+    exampleImage: [
+      "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
+      "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
+    ],
+    checkCountRemain: 3,
+    deadline: new Date(
+      startDate.getTime() + 8 * 1000 * 60 * 60 * 24
+    ).toISOString(),
+  },
+  {
+    id: "00022",
+    title: "關卡 22",
+    description:
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    state: "NOT_STARTED",
+    uploadImage: null,
+    exampleImage: [
+      "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
+      "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
+    ],
+    checkCountRemain: 3,
+    deadline: new Date(
+      startDate.getTime() + 8 * 1000 * 60 * 60 * 24
+    ).toISOString(),
+  },
+  {
+    id: "00023",
+    title: "關卡 23",
+    description:
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    state: "NOT_STARTED",
+    uploadImage: null,
+    exampleImage: [
+      "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
+      "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
+    ],
+    checkCountRemain: 3,
+    deadline: new Date(
+      startDate.getTime() + 8 * 1000 * 60 * 60 * 24
+    ).toISOString(),
+  },
+  {
+    id: "00024",
+    title: "關卡 24",
+    description:
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    state: "NOT_STARTED",
+    uploadImage: null,
+    exampleImage: [
+      "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
+      "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
+    ],
+    checkCountRemain: 3,
+    deadline: new Date(
+      startDate.getTime() + 8 * 1000 * 60 * 60 * 24
+    ).toISOString(),
+  },
+  {
+    id: "00025",
+    title: "關卡 25",
+    description:
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    state: "NOT_STARTED",
+    uploadImage: null,
+    exampleImage: [
+      "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
+      "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
+    ],
+    checkCountRemain: 3,
+    deadline: new Date(
+      startDate.getTime() + 8 * 1000 * 60 * 60 * 24
+    ).toISOString(),
+  },
+  {
+    id: "00026",
+    title: "關卡 26",
+    description:
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    state: "NOT_STARTED",
+    uploadImage: null,
+    exampleImage: [
+      "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
+      "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
+    ],
+    checkCountRemain: 3,
+    deadline: new Date(
+      startDate.getTime() + 8 * 1000 * 60 * 60 * 24
+    ).toISOString(),
+  },
+  {
+    id: "00027",
+    title: "關卡 27",
+    description:
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    state: "NOT_STARTED",
+    uploadImage: null,
+    exampleImage: [
+      "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
+      "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
+    ],
+    checkCountRemain: 3,
+    deadline: new Date(
+      startDate.getTime() + 8 * 1000 * 60 * 60 * 24
+    ).toISOString(),
+  },
+  {
+    id: "00028",
+    title: "關卡 28",
+    description:
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    state: "NOT_STARTED",
+    uploadImage: null,
+    exampleImage: [
+      "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
+      "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
+    ],
+    checkCountRemain: 3,
+    deadline: new Date(
+      startDate.getTime() + 8 * 1000 * 60 * 60 * 24
+    ).toISOString(),
+  },
 ];
 
 export const fakeCurrentTrial: Trial = {
@@ -199,10 +556,10 @@ export const fakeCurrentTrial: Trial = {
   currentParticipants: participantList,
   challenges: fakeChallengeList,
   challengeCount: fakeChallengeList.length,
-  passedChallengesCount: 6,
-  currentChallengeIndex: 7,
-  isActive: isActive,
+  passedChallengesCount: 23,
+  currentChallengeIndex: 28,
   investment: 300000,
   reward: 600000,
   bounceRate: 2,
+  trialState: trialState,
 };
