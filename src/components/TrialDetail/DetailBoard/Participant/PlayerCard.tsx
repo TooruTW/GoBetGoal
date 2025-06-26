@@ -3,7 +3,8 @@ import { IoClose } from "react-icons/io5";
 import ImageLoader from "./ImageLoader";
 import type { Participant } from "@/components/types/Participant";
 
-interface acceptProps extends Participant {
+interface acceptProps {
+  participant?: Participant;
   handleDelete?: (
     event: React.MouseEvent<SVGElement, MouseEvent>,
     id: string
@@ -12,17 +13,17 @@ interface acceptProps extends Participant {
 }
 
 export default function PlayerCard(props: acceptProps) {
+  const { participant, handleDelete, handleAddFriend } = props;
+
   const {
-    id,
+    id = "",
     playerName = "unknown",
-    playerImgUrl = "",
+    playerImgUrl = "noImg",
     playerTotalTrials = 0,
     isFriend = false,
-    likedPosts,
-    friends,
-    handleDelete,
-    handleAddFriend,
-  } = props;
+    likedPosts = 0,
+    friends = 0,
+  } = participant || {};
 
   const isCloseAbleRef = useRef(playerName !== "unknown");
 

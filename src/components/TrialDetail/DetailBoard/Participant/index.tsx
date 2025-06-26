@@ -62,33 +62,10 @@ export default function Participant(props: { participant: Participant[] }) {
   return (
     <div ref={cardContainerRef} className="flex justify-between gap-4">
       {list.map((item) => {
-        return (
-          <PlayerCard
-            key={item.id}
-            id={item.id}
-            playerName={item.playerName}
-            playerTotalTrials={item.playerTotalTrials}
-            isFriend={item.isFriend}
-            playerImgUrl={item.playerImgUrl}
-            handleDelete={handleDelete}
-            friends={item.friends}
-            likedPosts={item.likedPosts}
-          />
-        );
+        return <PlayerCard key={item.id} participant={item} handleDelete={handleDelete}/>;
       })}
       {Array.from({ length: 6 - list.length }).map((_, index) => {
-        return (
-          <PlayerCard
-            key={`unknown-${index}`}
-            id={`unknown-${index}`}
-            playerName="unknown"
-            playerTotalTrials={0}
-            isFriend={true}
-            playerImgUrl={"noImg"}
-            likedPosts={0}
-            friends={0}
-          />
-        );
+        return <PlayerCard key={`unknown-${index}`} />;
       })}
       {/* confirm */}
       {notice.show && (
