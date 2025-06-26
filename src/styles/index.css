@@ -277,6 +277,11 @@
     border: 1px solid #EF4445;  /* 邊框顏色 */
   }
 
+  .parallelogram-border .content{
+    background: #09090B;
+    transform: skew(30deg);
+  }
+
 
 }
 
