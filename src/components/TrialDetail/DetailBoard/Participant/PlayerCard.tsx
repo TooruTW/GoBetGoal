@@ -42,7 +42,7 @@ export default function PlayerCard(props: acceptProps) {
       <div className="self-start w-full px-6">
         <p className=" font-bold text-h4 ">{playerName}</p>
         <p className="flex justify-between">
-          <span>參加試煉數</span> <span> {playerTotalTrials}</span>
+          <span>成功試煉數</span> <span> {playerTotalTrials}</span>
         </p>
         <p className="flex justify-between">
           <span>朋友數</span> <span>{friends}</span>

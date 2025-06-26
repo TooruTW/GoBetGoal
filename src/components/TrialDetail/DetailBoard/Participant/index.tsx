@@ -3,9 +3,12 @@ import PlayerCard from "./PlayerCard";
 import { useEffect, useRef, useState } from "react";
 import type { Participant } from "@/components/types/Participant";
 import { IoClose } from "react-icons/io5";
+import { useSelector } from "react-redux";
+import { RootState } from "@/state/store";
+export default function Participant() {
 
-export default function Participant(props: { participant: Participant[] }) {
-  const { participant } = props;
+  const participantList = useSelector((state: RootState) => state.trials.currentParticipants);
+
   const cardContainerRef = useRef<HTMLDivElement | null>(null);
   const [notice, setNotice] = useState<{
     show: boolean;
@@ -20,7 +23,7 @@ export default function Participant(props: { participant: Participant[] }) {
     id: null,
     name: "",
   });
-  const [list, setList] = useState(participant);
+  const [list, setList] = useState(participantList);
 
   useEffect(() => {
     if (!cardContainerRef.current) return;

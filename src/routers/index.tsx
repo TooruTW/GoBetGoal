@@ -6,7 +6,6 @@ import Home from "@/components/layout/Home";
 import Authentication from "@/components/layout/Authentication";
 import AuthAccount from "@/components/layout/AuthAccount";
 import AuthSuccess from "@/components/layout/AuthSuccess";
-import Trial from "@/components/layout/Trial";
 import Info from "@/components/layout/Info";
 import Shop from "@/components/layout/Shop";
 import Trials from "@/components/layout/Trials";

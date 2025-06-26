@@ -15,8 +15,8 @@
   --color-bg-primary: #18181b;
   --color-bg-secondary: #1a1f2c;
   --color-bg-module: #373739;
-  --color-bg-notice:#282A2C;
-  --color-btn-notice:#F4F4F580;
+  --color-bg-notice: #282a2c;
+  --color-btn-notice: #f4f4f580;
 
   --color-bg-root: #1b1c1d;
   --color-bg-tags: #f4f4f5;
@@ -25,6 +25,9 @@
 
   --color-text-primary: #f9fafb;
   --color-text-secondary: #d1d5db;
+  --color-text-muted: #71717a;
+
+  --color-border-primary: #EF444450;
 
   /* 霓虹特效系統 */
   --neon-red: #ea384c;
@@ -62,7 +65,7 @@
   --text-h1: 40px;
   --text-h2: 32px;
   --text-h3: 24px;
-  --text-h4: 18px
+  --text-h4: 18px;
   --text-p: 16px;
   --text-label: 12px;
   --text-title: 30px;
@@ -266,6 +269,15 @@
   .error {
     color: red;
   }
+  .parallelogram-border {
+    display: inline-block;
+    padding: 2px;
+    background: #09090B;
+    transform: skew(-30deg); /* 改這個會影響角度 */
+    border: 1px solid #EF4445;  /* 邊框顏色 */
+  }
+
+
 }
 
 /* 霓虹動畫關鍵幀 */
