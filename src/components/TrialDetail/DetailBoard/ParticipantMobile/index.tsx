@@ -1,15 +1,17 @@
 import PlayerCard from "./PlayerCard";
-import { useSelector } from "react-redux";
-import { RootState } from "@/state/store";
 import ReactFlipCard from "reactjs-flip-card";
 import BackSideCard from "./BackSideCard";
 import gsap from "gsap";
 import { useEffect, useState } from "react";
+import type { Trial } from "@/features/trials/type";
+interface acceptProps {
+  trial: Trial;
+}
 
-export default function ParticipantMobile() {
-  const participantList = useSelector(
-    (state: RootState) => state.trials.currentParticipants
-  );
+export default function ParticipantMobile(props: acceptProps) {
+  const { trial } = props;
+  const participantList = trial.currentParticipants;
+
   const [flipStates, setFlipStates] = useState(
     new Array(participantList.length).fill(false)
   );
