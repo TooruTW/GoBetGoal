@@ -25,8 +25,8 @@ export default function DetailBoard() {
   return (
     <div className="flex flex-col gap-6 w-full">
       <BackBtn />
-      <TrialInfo trial={data} />
-      {isMobile ? <ParticipantMobile /> : <Participant />}
+      <TrialInfo trial={data.trial} />
+      {isMobile ? <ParticipantMobile trial={data.trial} /> : <Participant trial={data.trial} />}
     </div>
   );
 }

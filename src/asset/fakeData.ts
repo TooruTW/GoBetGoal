@@ -588,7 +588,7 @@ export const fakeTrialList: Trial[] = [
     investment: 300000,
     reward: 600000,
     bounceRate: 2,
-    trialState: trialState,
+    trialState: "待開始",
   },
   {
     id: "01",

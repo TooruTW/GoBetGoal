@@ -1,16 +1,18 @@
 import gsap from "gsap";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import type { RootState } from "@/state/store";
+import type { Trial } from "@/features/trials/type";
+interface acceptProps {
+  trial: Trial;
+}
 
-export default function ProgressBar() {
-  const currentTrial = useSelector((state: RootState) => state.trials);
-  const challengeCount = currentTrial.challengeCount;
-  
-  const passedChallengesCount = currentTrial.passedChallengesCount;
+export default function ProgressBar(props: acceptProps) {
+  const { trial } = props;
+
+  const challengeCount = trial.challengeCount;
+  const passedChallengesCount = trial.passedChallengesCount;
   const completeRate = (passedChallengesCount / challengeCount) * 100;
-  const candyPass = currentTrial.investment;
-  const candyPerfect = currentTrial.reward;
+  const candyPass = trial.investment;
+  const candyPerfect = trial.reward;
   const stagePass = Math.floor(challengeCount * 0.8);
   const stagePerfect = challengeCount;
 

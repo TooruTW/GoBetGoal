@@ -1,19 +1,22 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import CountDown from "./CountDown";
 import TextContent from "./TextContent";
-import { useSelector } from "react-redux";
-import type { RootState } from "@/state/store";
+import type { Trial } from "@/features/trials/type";
 
-export default function TrailContent() {
-  const currentTrial = useSelector((state: RootState) => state.trials);
+interface acceptProps {
+  trial: Trial;
+}
+
+export default function TrailContent(props: acceptProps) {
+  const { trial } = props;
 
   const startDate = useMemo(
-    () => new Date(currentTrial.startDate),
-    [currentTrial.startDate]
+    () => new Date(trial.startDate),
+    [trial.startDate]
   );
   const endDate = useMemo(
-    () => new Date(currentTrial.endDate),
-    [currentTrial.endDate]
+    () => new Date(trial.endDate),
+    [trial.endDate]
   );
 
 
@@ -56,7 +59,7 @@ export default function TrailContent() {
       </div>
       {/* right */}
 
-      <TextContent />
+      <TextContent trial={trial} />
     </div>
   );
 }

@@ -3,11 +3,22 @@ import PlayerCard from "./PlayerCard";
 import { useEffect, useRef, useState } from "react";
 import type { Participant } from "@/components/types/Participant";
 import { IoClose } from "react-icons/io5";
-import { useSelector } from "react-redux";
-import { RootState } from "@/state/store";
-export default function Participant() {
+import type { Trial } from "@/features/trials/type";
+import { useDeleteParticipantInTrial } from "@/api/index";
+interface acceptProps {
+  trial: Trial;
+}
 
-  const participantList = useSelector((state: RootState) => state.trials.currentParticipants);
+export default function Participant(props: acceptProps) {
+  const { trial } = props;
+  const participantList = trial.currentParticipants;
+  const [selectedParticipantId, setSelectedParticipantId] = useState<
+    string | null
+  >(null);
+  const deleteParticipantInTrial = useDeleteParticipantInTrial(
+    trial.id,
+    selectedParticipantId || "placeholder"
+  );
 
   const cardContainerRef = useRef<HTMLDivElement | null>(null);
   const [notice, setNotice] = useState<{
@@ -23,7 +34,6 @@ export default function Participant() {
     id: null,
     name: "",
   });
-  const [list, setList] = useState(participantList);
 
   useEffect(() => {
     if (!cardContainerRef.current) return;
@@ -42,32 +52,44 @@ export default function Participant() {
   }, [cardContainerRef]);
 
   const handleDelete = (e: React.MouseEvent, id: string) => {
+    console.log("handleDelete", id);
     e.stopPropagation();
+    setSelectedParticipantId(id);
     setNotice((prev) => ({
       ...prev,
       show: true,
       x: e.clientX,
       y: e.clientY,
       id: id,
-      name: list.find((item) => item.id === id)?.playerName || "",
+      name: participantList.find((item) => item.id === id)?.playerName || "",
     }));
   };
 
   const handleDeleteConfirm = (ans: boolean) => {
-    if (ans) {
-      if (notice.id) {
-        setList((prev) => prev.filter((item) => item.id !== notice.id));
-      }
+    console.log("got click");
+    console.log(ans, selectedParticipantId);
+    if (ans && selectedParticipantId) {
+      deleteParticipantInTrial.mutate(undefined, {
+        onSuccess: () => {
+          setSelectedParticipantId(null);
+        },
+      });
     }
 
     setNotice((prev) => ({ ...prev, show: false, x: 0, y: 0, id: null }));
   };
   return (
     <div ref={cardContainerRef} className="flex justify-between gap-4">
-      {list.map((item) => {
-        return <PlayerCard key={item.id} participant={item} handleDelete={handleDelete}/>;
+      {participantList.map((item) => {
+        return (
+          <PlayerCard
+            key={item.id}
+            participant={item}
+            handleDelete={handleDelete}
+          />
+        );
       })}
-      {Array.from({ length: 6 - list.length }).map((_, index) => {
+      {Array.from({ length: 6 - participantList.length }).map((_, index) => {
         return <PlayerCard key={`unknown-${index}`} />;
       })}
       {/* confirm */}
