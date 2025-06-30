@@ -1,6 +1,6 @@
 import type { Participant } from "@/components/types/Participant";
 import { useSwipeable } from "react-swipeable";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function PlayerCard(props: { participantInfo: Participant }) {
   const {
@@ -15,35 +15,37 @@ export default function PlayerCard(props: { participantInfo: Participant }) {
 
   const handlers = useSwipeable({
     onSwiped: (eventData) => {
-      console.log("User Swiped!", eventData.deltaX);
       if (eventData.deltaX > 0) {
-        if( eventData.deltaX > 50 && eventData.deltaX < 100){
-          setPosition(100)
+        if (eventData.deltaX > 50 && eventData.deltaX < 100) {
+          setPosition(100);
         }
-      }else{
-        if( eventData.deltaX < -50 && eventData.deltaX > -100){
-          setPosition(-100)
+      } else {
+        if (eventData.deltaX < -50 && eventData.deltaX > -100) {
+          setPosition(-100);
         }
       }
     },
     onSwiping: (eventData) => {
-      console.log("User Swiping!", eventData.deltaX);
-      if(eventData.deltaX > 0 ){
+      if (eventData.deltaX > 0) {
         if (position > 100) return;
         setPosition(eventData.deltaX);
       } else {
         if (position < -100) return;
         setPosition(eventData.deltaX);
       }
-        
     },
+    onTap:()=>{
+      if(position !== 0) setPosition(0)
+    }
   });
 
-  useEffect(()=>{
-    if(position > -50 && position < 50){
-      setPosition(0)
+  useEffect(() => {
+    if (position > -50 && position < 50) {
+      setPosition(0);
     }
-  },[position])
+  }, [position]);
+
+
 
   return (
     <div
