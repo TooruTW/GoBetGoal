@@ -1,8 +1,8 @@
 export function routesHandler(server) {
   server.namespace = "api";
 
-  server.get("/trials", () => {
-    return JSON.stringify("get all trials");
+  server.get("/trials", (schema) => {
+    return schema.trials.all();
   });
 
   server.get("/participants", (schema) => {
