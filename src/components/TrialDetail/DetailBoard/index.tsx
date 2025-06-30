@@ -8,6 +8,30 @@ import ParticipantMobile from "./ParticipantMobile";
 export default function DetailBoard(){
     const [isMobile,setIsMobile] = useState(false);
 
+    async function getAllTrials(){
+        const response = await fetch("/api/trials");
+        const data = await response.json();
+        console.log(data);
+    }
+
+    async function getAllParticipants(){
+        const response = await fetch("/api/participants");
+        const data = await response.json();
+        console.log(data);
+    }
+
+    async function getTrialById(id:string){
+        const response = await fetch(`/api/trials/${id}`);
+        const data = await response.json();
+        console.log(data);
+    }
+
+    useEffect(()=>{
+        getAllTrials();
+        getAllParticipants();
+        getTrialById("00");
+    },[])
+
     useEffect(()=>{
         const handleResize = () => {
             setIsMobile(window.innerWidth < 960);
