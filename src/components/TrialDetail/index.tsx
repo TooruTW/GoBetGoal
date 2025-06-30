@@ -13,7 +13,7 @@ export default function TrialDetail() {
   }, [dispatch]);
 
   return (
-    <div className="flex py-20 w-full max-w-330 relative">
+    <div className="flex py-20 w-full max-w-330 relative px-4">
       <DetailBoard />
       <div className=" absolute bottom-0 left-0">
         <SideBoard />

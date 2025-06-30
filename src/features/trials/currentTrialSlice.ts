@@ -20,7 +20,7 @@ const initialState: Trial = {
   challengeCount: 0,
   passedChallengesCount: 0,
   currentChallengeIndex: 0,
-  isActive: false,
+  trialState: "待開始",
   investment: 0,
   reward: 0,
   bounceRate: 0,

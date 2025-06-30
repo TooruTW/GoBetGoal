@@ -3,9 +3,12 @@ import PlayerCard from "./PlayerCard";
 import { useEffect, useRef, useState } from "react";
 import type { Participant } from "@/components/types/Participant";
 import { IoClose } from "react-icons/io5";
+import { useSelector } from "react-redux";
+import { RootState } from "@/state/store";
+export default function Participant() {
 
-export default function Participant(props: { participant: Participant[] }) {
-  const { participant } = props;
+  const participantList = useSelector((state: RootState) => state.trials.currentParticipants);
+
   const cardContainerRef = useRef<HTMLDivElement | null>(null);
   const [notice, setNotice] = useState<{
     show: boolean;
@@ -20,7 +23,7 @@ export default function Participant(props: { participant: Participant[] }) {
     id: null,
     name: "",
   });
-  const [list, setList] = useState(participant);
+  const [list, setList] = useState(participantList);
 
   useEffect(() => {
     if (!cardContainerRef.current) return;
@@ -62,33 +65,10 @@ export default function Participant(props: { participant: Participant[] }) {
   return (
     <div ref={cardContainerRef} className="flex justify-between gap-4">
       {list.map((item) => {
-        return (
-          <PlayerCard
-            key={item.id}
-            id={item.id}
-            playerName={item.playerName}
-            playerTotalTrials={item.playerTotalTrials}
-            isFriend={item.isFriend}
-            playerImgUrl={item.playerImgUrl}
-            handleDelete={handleDelete}
-            friends={item.friends}
-            likedPosts={item.likedPosts}
-          />
-        );
+        return <PlayerCard key={item.id} participant={item} handleDelete={handleDelete}/>;
       })}
       {Array.from({ length: 6 - list.length }).map((_, index) => {
-        return (
-          <PlayerCard
-            key={`unknown-${index}`}
-            id={`unknown-${index}`}
-            playerName="unknown"
-            playerTotalTrials={0}
-            isFriend={true}
-            playerImgUrl={"noImg"}
-            likedPosts={0}
-            friends={0}
-          />
-        );
+        return <PlayerCard key={`unknown-${index}`} />;
       })}
       {/* confirm */}
       {notice.show && (
