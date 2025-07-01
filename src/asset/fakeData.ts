@@ -35,7 +35,7 @@ export const participantList = [
     playerName: "獵魔士Geralt",
     playerTotalTrials: 42,
     isFriend: true,
-    playerImgUrl: "/avatar/girlJacketYoga.webp",
+    playerImgUrl: "/avatar/boyGymStrong.webp",
     likedPosts: 23,
     friends: 53,
   },
@@ -588,7 +588,7 @@ export const fakeTrialList: Trial[] = [
     investment: 300000,
     reward: 600000,
     bounceRate: 2,
-    trialState: trialState,
+    trialState: "待開始",
   },
   {
     id: "01",

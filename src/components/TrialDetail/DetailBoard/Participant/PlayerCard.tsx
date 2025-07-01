@@ -2,18 +2,28 @@ import React, { useRef } from "react";
 import { IoClose } from "react-icons/io5";
 import ImageLoader from "./ImageLoader";
 import type { Participant } from "@/components/types/Participant";
-
+import { useNavigate } from "react-router-dom";
 interface acceptProps {
   participant?: Participant;
   handleDelete?: (
     event: React.MouseEvent<SVGElement, MouseEvent>,
     id: string
   ) => void;
-  handleAddFriend?: () => void;
 }
 
 export default function PlayerCard(props: acceptProps) {
-  const { participant, handleDelete, handleAddFriend } = props;
+  const navigate = useNavigate();
+  const { participant, handleDelete } = props;
+  function handleAddFriend() {
+    if (!isFriend) {
+      console.log("add friend", participant?.id);
+    }
+  }
+
+  function handleNavigateToProfile() {
+    console.log("navigate to profile", participant?.id);
+    navigate(`/profile/${participant?.id}`);
+  }
 
   const {
     id = "",
@@ -52,21 +62,33 @@ export default function PlayerCard(props: acceptProps) {
         </p>
       </div>
 
-      <button
+    {isCloseAbleRef.current?(  <button
         onClick={handleAddFriend}
         className={`rounded-md bg-bg-tags text-black py-2 w-8/10 ${
-          isFriend && "opacity-0 scale-0"
+          isFriend && "opacity-50"
         }`}
       >
-        加好友
-      </button>
-
-      {isCloseAbleRef.current && (
+        {isFriend ? "已成為好友" : "加好友"}
+      </button>):(
         <button
-          onClick={handleAddFriend}
+          className={`rounded-md bg-bg-tags text-black py-2 w-8/10 opacity-50`}
+        >
+          別加這個啦
+        </button>
+      )}
+
+      {isCloseAbleRef.current ? (
+        <button
+          onClick={handleNavigateToProfile}
           className={`rounded-md bg-bg-tags text-black py-2 w-8/10`}
         >
           查看個人頁面
+        </button>
+      ) : (
+        <button
+          className={`rounded-md bg-bg-tags text-black py-2 w-8/10 opacity-50`}
+        >
+          沒什麼好看的
         </button>
       )}
     </div>

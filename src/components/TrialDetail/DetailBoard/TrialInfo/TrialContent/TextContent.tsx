@@ -1,11 +1,12 @@
-import { useSelector } from "react-redux";
-import { RootState } from "@/state/store";
+import type { Trial } from "@/features/trials/type";
+interface acceptProps { 
+  trial: Trial;
+}
 
-export default function TextContent() {
+export default function TextContent(props: acceptProps) {
+  const { trial } = props;
 
-  const currentTrial = useSelector((state: RootState) => state.trials);
-
-  const { title, description, checkFrequency, challengeCount, maxParticipants, duration } = currentTrial;
+  const { title, description, checkFrequency, challengeCount, maxParticipants, duration } = trial;
 
   return (
     <div className="w-full flex flex-col gap-3">
