@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import CountDown from "./CountDown";
 import TextContent from "./TextContent";
-import type { Trial } from "@/features/trials/type";
+import type { Trial } from "@/components/types/Trial";
 
 interface acceptProps {
   trial: Trial;

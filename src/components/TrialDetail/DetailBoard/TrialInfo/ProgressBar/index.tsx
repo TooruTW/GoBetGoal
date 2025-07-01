@@ -1,6 +1,6 @@
 import gsap from "gsap";
 import { useEffect, useState } from "react";
-import type { Trial } from "@/features/trials/type";
+import type { Trial } from "@/components/types/Trial";
 interface acceptProps {
   trial: Trial;
 }
