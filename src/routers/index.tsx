@@ -10,7 +10,8 @@ import Info from "@/components/layout/Info";
 import Shop from "@/components/layout/Shop";
 import Trials from "@/components/layout/Trials";
 import TrialDetail from "@/components/TrialDetail";
-
+import TrialErrorPage from "@/components/TrialDetail/TrialErrorPage";
+import TrialsList from "@/components/TrialsList";
 
 const routers = createBrowserRouter([
   {
@@ -32,7 +33,12 @@ const routers = createBrowserRouter([
         children:[
           {
             path: "trial-detail/:id",
-            element: <TrialDetail />
+            element: <TrialDetail />,
+            errorElement: <TrialErrorPage />,
+          },
+          {
+            path: "trial-list",
+            element: <TrialsList />,
           }
         ]
       },
