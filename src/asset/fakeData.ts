@@ -1,5 +1,5 @@
-import type { Trial } from "@/features/trials/type";
-import type { Challenge } from "@/features/trials/type";
+import type { Trial } from "@/components/types/Trial";
+import type { Challenge } from "@/components/types/Challenge";
 
 const createdAt = new Date(2025, 5, 20);
 const createdAtFormatted = createdAt.toISOString();
@@ -63,8 +63,11 @@ export const fakeChallengeList: Challenge[] = [
   {
     id: "00001",
     title: "關卡 1",
-    description:
-      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    description: [
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡",
+      "午餐：一種水果吃到飽",
+      "晚餐：煎雞胸肉＋蔬菜沙拉",
+    ],
     state: "NOT_STARTED",
     uploadImage: null,
     exampleImage: [
@@ -80,8 +83,11 @@ export const fakeChallengeList: Challenge[] = [
   {
     id: "00002",
     title: "關卡 2",
-    description:
-      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    description: [
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡",
+      "午餐：一種水果吃到飽",
+      "晚餐：煎雞胸肉＋蔬菜沙拉",
+    ],
     state: "NOT_STARTED",
     uploadImage: null,
     exampleImage: [
@@ -97,8 +103,11 @@ export const fakeChallengeList: Challenge[] = [
   {
     id: "00003",
     title: "關卡 3",
-    description:
-      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    description: [
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡",
+      "午餐：一種水果吃到飽",
+      "晚餐：煎雞胸肉＋蔬菜沙拉",
+    ],
     state: "NOT_STARTED",
     uploadImage: null,
     exampleImage: [
@@ -114,8 +123,11 @@ export const fakeChallengeList: Challenge[] = [
   {
     id: "00004",
     title: "關卡 4",
-    description:
-      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    description: [
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡",
+      "午餐：一種水果吃到飽",
+      "晚餐：煎雞胸肉＋蔬菜沙拉",
+    ],
     state: "NOT_STARTED",
     uploadImage: null,
     exampleImage: [
@@ -131,8 +143,11 @@ export const fakeChallengeList: Challenge[] = [
   {
     id: "00005",
     title: "關卡 5",
-    description:
-      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    description: [
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡",
+      "午餐：一種水果吃到飽",
+      "晚餐：煎雞胸肉＋蔬菜沙拉",
+    ],
     state: "NOT_STARTED",
     uploadImage: null,
     exampleImage: [
@@ -148,8 +163,11 @@ export const fakeChallengeList: Challenge[] = [
   {
     id: "00006",
     title: "關卡 6",
-    description:
-      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    description: [
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡",
+      "午餐：一種水果吃到飽",
+      "晚餐：煎雞胸肉＋蔬菜沙拉",
+    ],
     state: "NOT_STARTED",
     uploadImage: null,
     exampleImage: [
@@ -165,8 +183,11 @@ export const fakeChallengeList: Challenge[] = [
   {
     id: "00007",
     title: "關卡 7",
-    description:
-      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    description: [
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡",
+      "午餐：一種水果吃到飽",
+      "晚餐：煎雞胸肉＋蔬菜沙拉",
+    ],
     state: "NOT_STARTED",
     uploadImage: null,
     exampleImage: [
@@ -182,8 +203,11 @@ export const fakeChallengeList: Challenge[] = [
   {
     id: "00008",
     title: "關卡 8",
-    description:
-      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    description: [
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡",
+      "午餐：一種水果吃到飽",
+      "晚餐：煎雞胸肉＋蔬菜沙拉",
+    ],
     state: "NOT_STARTED",
     uploadImage: null,
     exampleImage: [
@@ -199,8 +223,11 @@ export const fakeChallengeList: Challenge[] = [
   {
     id: "00009",
     title: "關卡 9",
-    description:
-      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    description: [
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡",
+      "午餐：一種水果吃到飽",
+      "晚餐：煎雞胸肉＋蔬菜沙拉",
+    ],
     state: "NOT_STARTED",
     uploadImage: null,
     exampleImage: [
@@ -216,8 +243,11 @@ export const fakeChallengeList: Challenge[] = [
   {
     id: "00010",
     title: "關卡 10",
-    description:
-      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    description: [
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡",
+      "午餐：一種水果吃到飽",
+      "晚餐：煎雞胸肉＋蔬菜沙拉",
+    ],
     state: "NOT_STARTED",
     uploadImage: null,
     exampleImage: [
@@ -233,8 +263,11 @@ export const fakeChallengeList: Challenge[] = [
   {
     id: "00011",
     title: "關卡 11",
-    description:
-      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    description: [
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡",
+      "午餐：一種水果吃到飽",
+      "晚餐：煎雞胸肉＋蔬菜沙拉",
+    ],
     state: "NOT_STARTED",
     uploadImage: null,
     exampleImage: [
@@ -250,8 +283,11 @@ export const fakeChallengeList: Challenge[] = [
   {
     id: "00012",
     title: "關卡 12",
-    description:
-      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    description: [
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡",
+      "午餐：一種水果吃到飽",
+      "晚餐：煎雞胸肉＋蔬菜沙拉",
+    ],
     state: "NOT_STARTED",
     uploadImage: null,
     exampleImage: [
@@ -267,8 +303,11 @@ export const fakeChallengeList: Challenge[] = [
   {
     id: "00013",
     title: "關卡 13",
-    description:
-      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    description: [
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡",
+      "午餐：一種水果吃到飽",
+      "晚餐：煎雞胸肉＋蔬菜沙拉",
+    ],
     state: "NOT_STARTED",
     uploadImage: null,
     exampleImage: [
@@ -284,8 +323,11 @@ export const fakeChallengeList: Challenge[] = [
   {
     id: "00014",
     title: "關卡 14",
-    description:
-      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    description: [
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡",
+      "午餐：一種水果吃到飽",
+      "晚餐：煎雞胸肉＋蔬菜沙拉",
+    ],
     state: "NOT_STARTED",
     uploadImage: null,
     exampleImage: [
@@ -301,8 +343,11 @@ export const fakeChallengeList: Challenge[] = [
   {
     id: "00015",
     title: "關卡 15",
-    description:
-      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    description: [
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡",
+      "午餐：一種水果吃到飽",
+      "晚餐：煎雞胸肉＋蔬菜沙拉",
+    ],
     state: "NOT_STARTED",
     uploadImage: null,
     exampleImage: [
@@ -318,8 +363,11 @@ export const fakeChallengeList: Challenge[] = [
   {
     id: "00016",
     title: "關卡 16",
-    description:
-      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    description: [
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡",
+      "午餐：一種水果吃到飽",
+      "晚餐：煎雞胸肉＋蔬菜沙拉",
+    ],
     state: "NOT_STARTED",
     uploadImage: null,
     exampleImage: [
@@ -335,8 +383,11 @@ export const fakeChallengeList: Challenge[] = [
   {
     id: "00017",
     title: "關卡 17",
-    description:
-      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    description: [
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡",
+      "午餐：一種水果吃到飽",
+      "晚餐：煎雞胸肉＋蔬菜沙拉",
+    ],
     state: "NOT_STARTED",
     uploadImage: null,
     exampleImage: [
@@ -352,8 +403,11 @@ export const fakeChallengeList: Challenge[] = [
   {
     id: "00018",
     title: "關卡 18",
-    description:
-      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    description: [
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡",
+      "午餐：一種水果吃到飽",
+      "晚餐：煎雞胸肉＋蔬菜沙拉",
+    ],
     state: "NOT_STARTED",
     uploadImage: null,
     exampleImage: [
@@ -369,8 +423,11 @@ export const fakeChallengeList: Challenge[] = [
   {
     id: "00019",
     title: "關卡 19",
-    description:
-      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    description: [
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡",
+      "午餐：一種水果吃到飽",
+      "晚餐：煎雞胸肉＋蔬菜沙拉",
+    ],
     state: "NOT_STARTED",
     uploadImage: null,
     exampleImage: [
@@ -386,8 +443,11 @@ export const fakeChallengeList: Challenge[] = [
   {
     id: "00020",
     title: "關卡 20",
-    description:
-      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    description: [
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡",
+      "午餐：一種水果吃到飽",
+      "晚餐：煎雞胸肉＋蔬菜沙拉",
+    ],
     state: "NOT_STARTED",
     uploadImage: null,
     exampleImage: [
@@ -403,8 +463,11 @@ export const fakeChallengeList: Challenge[] = [
   {
     id: "00021",
     title: "關卡 21",
-    description:
-      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    description: [
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡",
+      "午餐：一種水果吃到飽",
+      "晚餐：煎雞胸肉＋蔬菜沙拉",
+    ],
     state: "NOT_STARTED",
     uploadImage: null,
     exampleImage: [
@@ -420,8 +483,11 @@ export const fakeChallengeList: Challenge[] = [
   {
     id: "00022",
     title: "關卡 22",
-    description:
-      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    description: [
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡",
+      "午餐：一種水果吃到飽",
+      "晚餐：煎雞胸肉＋蔬菜沙拉",
+    ],
     state: "NOT_STARTED",
     uploadImage: null,
     exampleImage: [
@@ -437,8 +503,11 @@ export const fakeChallengeList: Challenge[] = [
   {
     id: "00023",
     title: "關卡 23",
-    description:
-      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    description: [
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡",
+      "午餐：一種水果吃到飽",
+      "晚餐：煎雞胸肉＋蔬菜沙拉",
+    ],
     state: "NOT_STARTED",
     uploadImage: null,
     exampleImage: [
@@ -454,8 +523,11 @@ export const fakeChallengeList: Challenge[] = [
   {
     id: "00024",
     title: "關卡 24",
-    description:
-      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    description: [
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡",
+      "午餐：一種水果吃到飽",
+      "晚餐：煎雞胸肉＋蔬菜沙拉",
+    ],
     state: "NOT_STARTED",
     uploadImage: null,
     exampleImage: [
@@ -471,8 +543,11 @@ export const fakeChallengeList: Challenge[] = [
   {
     id: "00025",
     title: "關卡 25",
-    description:
-      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    description: [
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡",
+      "午餐：一種水果吃到飽",
+      "晚餐：煎雞胸肉＋蔬菜沙拉",
+    ],
     state: "NOT_STARTED",
     uploadImage: null,
     exampleImage: [
@@ -488,8 +563,11 @@ export const fakeChallengeList: Challenge[] = [
   {
     id: "00026",
     title: "關卡 26",
-    description:
-      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    description: [
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡",
+      "午餐：一種水果吃到飽",
+      "晚餐：煎雞胸肉＋蔬菜沙拉",
+    ],
     state: "NOT_STARTED",
     uploadImage: null,
     exampleImage: [
@@ -505,8 +583,11 @@ export const fakeChallengeList: Challenge[] = [
   {
     id: "00027",
     title: "關卡 27",
-    description:
-      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    description: [
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡",
+      "午餐：一種水果吃到飽",
+      "晚餐：煎雞胸肉＋蔬菜沙拉",
+    ],
     state: "NOT_STARTED",
     uploadImage: null,
     exampleImage: [
@@ -522,8 +603,11 @@ export const fakeChallengeList: Challenge[] = [
   {
     id: "00028",
     title: "關卡 28",
-    description:
-      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡 午餐：一種水果吃到飽 晚餐：煎雞胸肉＋蔬菜沙拉",
+    description: [
+      "早餐：半顆葡萄柚＋1顆水煮蛋＋黑咖啡",
+      "午餐：一種水果吃到飽",
+      "晚餐：煎雞胸肉＋蔬菜沙拉",
+    ],
     state: "NOT_STARTED",
     uploadImage: null,
     exampleImage: [

@@ -1,6 +1,6 @@
 import gsap from "gsap";
 import { useEffect, useState } from "react";
-import type { Trial } from "@/features/trials/type";
+import type { Trial } from "@/components/types/Trial";
 interface acceptProps {
   trial: Trial;
 }
@@ -31,7 +31,7 @@ export default function ProgressBar(props: acceptProps) {
   }, [completeRate]);
 
   return (
-    <div>
+    <div className="w-full max-w-3/5">
       <p className=" relative flex justify-between">
         <span>糖果總數</span>
         <span

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import CountDown from "./CountDown";
 import TextContent from "./TextContent";
-import type { Trial } from "@/features/trials/type";
+import type { Trial } from "@/components/types/Trial";
 
 interface acceptProps {
   trial: Trial;
@@ -10,16 +10,8 @@ interface acceptProps {
 export default function TrailContent(props: acceptProps) {
   const { trial } = props;
 
-  const startDate = useMemo(
-    () => new Date(trial.startDate),
-    [trial.startDate]
-  );
-  const endDate = useMemo(
-    () => new Date(trial.endDate),
-    [trial.endDate]
-  );
-
-
+  const startDate = useMemo(() => new Date(trial.startDate), [trial.startDate]);
+  const endDate = useMemo(() => new Date(trial.endDate), [trial.endDate]);
 
   const [timeToCount, setTimeToCount] = useState<Date | null>(null);
 
@@ -27,7 +19,6 @@ export default function TrailContent(props: acceptProps) {
   const isTrialInProgressRef = useRef(false);
 
   useEffect(() => {
-
     const timer = setInterval(() => {
       const now = new Date().getTime();
       if (now >= startDate.getTime() && now <= endDate.getTime()) {
@@ -48,7 +39,8 @@ export default function TrailContent(props: acceptProps) {
 
   return (
     <div className="flex gap-6 max-lg:flex-col-reverse max-lg:items-center">
-      {/* left */}
+      <TextContent trial={trial} />
+
       <div
         className={`flex flex-col gap-2 ${
           isTrialInProgressRef.current ? "" : " opacity-40 max-lg:hidden"
@@ -57,9 +49,6 @@ export default function TrailContent(props: acceptProps) {
         <p>{countDownState}</p>
         <CountDown timeToCount={timeToCount} />
       </div>
-      {/* right */}
-
-      <TextContent trial={trial} />
     </div>
   );
 }
