@@ -8,7 +8,6 @@ const startDateFormatted = startDate.toISOString();
 const duration = 7;
 const endDate = new Date(startDate.getTime() + duration * 1000 * 60 * 60 * 24);
 const endDateFormatted = endDate.toISOString();
-const trialState = new Date() < startDate ? "待開始" : "進行中";
 const checkFrequency = "每日";
 
 export const participantList = [
@@ -622,32 +621,6 @@ export const fakeChallengeList: Challenge[] = [
   },
 ];
 
-export const fakeCurrentTrial: Trial = {
-  id: "00001",
-  isPublic: true,
-  category: "飲食",
-  checkType: "AI",
-  checkFrequency: checkFrequency,
-  title: "28天哈佛減肥法",
-  description:
-    "適合能忍耐重複食物，逐步瘦身者，採用低卡、低碳、減糖及油為原則，瘦身成效高",
-  startDate: startDateFormatted,
-  endDate: endDateFormatted,
-  duration: duration,
-  createdAt: createdAtFormatted,
-  createdBy: "園長",
-  maxParticipants: 6,
-  currentParticipants: participantList,
-  challenges: fakeChallengeList,
-  challengeCount: fakeChallengeList.length,
-  passedChallengesCount: 23,
-  currentChallengeIndex: 28,
-  investment: 300000,
-  reward: 600000,
-  bounceRate: 2,
-  trialState: trialState,
-};
-
 export const fakeTrialList: Trial[] = [
   {
     id: "00",
@@ -673,6 +646,13 @@ export const fakeTrialList: Trial[] = [
     reward: 600000,
     bounceRate: 2,
     trialState: "待開始",
+    history: [
+      {
+        id: "00001",
+        message: "試煉將於 2025/06/25 00:00 開始",
+        createdAt: new Date(2025, 5, 24).toISOString(),
+      },
+    ],
   },
   {
     id: "01",
@@ -698,6 +678,58 @@ export const fakeTrialList: Trial[] = [
     reward: 400000,
     bounceRate: 1.5,
     trialState: "進行中",
+    history: [
+      {
+        id: "00001",
+        message: "阿強 創建試煉",
+        createdAt: "2025-06-30T10:00:00.000Z",
+      },
+      {
+        id: "00002",
+        message: "小美 加入試煉團隊",
+        createdAt: "2025-06-30T10:05:00.000Z",
+      },
+      {
+        id: "00003",
+        message: "獵魔士Geralt 加入試煉團隊",
+        createdAt: "2025-06-30T10:10:00.000Z",
+      },
+      {
+        id: "00004",
+        message: "貓貓教主 加入試煉團隊",
+        createdAt: "2025-07-30T10:15:00.000Z",
+      },
+      {
+        id: "00005",
+        message: "雷姆 加入試煉團隊",
+        createdAt: "2025-06-30T10:20:00.000Z",
+      },
+      {
+        id: "00006",
+        message: "試煉將於 1 天後開始",
+        createdAt: "2025-07-01T10:25:00.000Z",
+      },
+      {
+        id: "00007",
+        message: "試煉開始",
+        createdAt: "2025-07-02T00:00:00.000Z",
+      },
+      {
+        id: "00008",
+        message: "阿強 通過關卡 1",
+        createdAt: "2025-07-03T10:35:00.000Z",
+      },
+      {
+        id: "00009",
+        message: "獵魔士Geralt 關卡 1 失敗",
+        createdAt: "2025-07-03T10:40:00.000Z",
+      },
+      {
+        id: "00010",
+        message: "貓貓教主 通過關卡 1",
+        createdAt: "2025-07-03T10:45:00.000Z",
+      },
+    ],
   },
   {
     id: "02",
@@ -723,6 +755,33 @@ export const fakeTrialList: Trial[] = [
     reward: 300000,
     bounceRate: 1.8,
     trialState: "進行中",
+    history: [
+      {
+        id: "10001",
+        message: "阿強 創建試煉 A",
+        createdAt: "2025-07-01T09:00:00.000Z",
+      },
+      {
+        id: "10002",
+        message: "小美 加入試煉 A 團隊",
+        createdAt: "2025-07-01T09:05:00.000Z",
+      },
+      {
+        id: "10003",
+        message: "試煉 A 將於 1 天後開始",
+        createdAt: "2025-07-01T09:10:00.000Z",
+      },
+      {
+        id: "10004",
+        message: "試煉 A 開始",
+        createdAt: "2025-07-02T00:00:00.000Z",
+      },
+      {
+        id: "10005",
+        message: "阿強 通過試煉 A 關卡 1",
+        createdAt: "2025-07-02T10:00:00.000Z",
+      },
+    ],
   },
   {
     id: "03",
@@ -747,5 +806,32 @@ export const fakeTrialList: Trial[] = [
     reward: 200000,
     bounceRate: 3,
     trialState: "待開始",
+    history: [
+      {
+        id: "20001",
+        message: "雷姆 創建試煉 B",
+        createdAt: "2025-07-05T09:00:00.000Z",
+      },
+      {
+        id: "20002",
+        message: "貓貓教主 加入試煉 B 團隊",
+        createdAt: "2025-07-05T09:10:00.000Z",
+      },
+      {
+        id: "20003",
+        message: "試煉 B 將於 1 天後開始",
+        createdAt: "2025-07-05T09:20:00.000Z",
+      },
+      {
+        id: "20004",
+        message: "試煉 B 開始",
+        createdAt: "2025-07-06T00:00:00.000Z",
+      },
+      {
+        id: "20005",
+        message: "雷姆 通過試煉 B 關卡 1",
+        createdAt: "2025-07-06T10:00:00.000Z",
+      },
+    ],
   },
 ];
