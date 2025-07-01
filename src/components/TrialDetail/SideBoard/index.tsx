@@ -34,7 +34,6 @@ export default function SideBoard(props: acceptProps) {
     if (!containerRef.current) return;
     const container = containerRef.current;
     const handleClick = () => {
-      console.log("click");
       setIsActive(true);
     };
     container.addEventListener("click", handleClick);

@@ -740,10 +740,10 @@ export const fakeTrialList: Trial[] = [
     title: "21天英文口說練習",
     description:
       "每天練習英文口說15分鐘，透過AI語音辨識技術，提升發音準確度和流暢度",
-    startDate: new Date(2025, 6, 15).toISOString(),
-    endDate: new Date(2025, 7, 5).toISOString(),
+    startDate: new Date(2025, 5, 15).toISOString(),
+    endDate: new Date(2025, 6, 5).toISOString(),
     duration: 21,
-    createdAt: new Date(2025, 6, 10).toISOString(),
+    createdAt: new Date(2025, 5, 10).toISOString(),
     createdBy: "英文老師小華",
     maxParticipants: 4,
     currentParticipants: participantList.slice(1, 4),
