@@ -1,6 +1,6 @@
 export interface UploadImage {
   id: string;
-  imageUrl: string;
+  imageUrl: string[];
   createdAt: Date;
   isPassed: boolean;
 }
