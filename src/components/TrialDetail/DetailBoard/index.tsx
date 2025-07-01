@@ -11,7 +11,7 @@ interface acceptProps {
 
 export default function DetailBoard({ trial }: acceptProps) {
   const [isMobile, setIsMobile] = useState(false);
-  const [trialState, setTrialState] = useState<"待開始" | "進行中" | "已結束" | "通過" | "完美通過">(trial.trialState);
+  const [trialState] = useState<"待開始" | "進行中" | "已結束" | "通過" | "完美通過">(trial.trialState);
 
 
   useEffect(() => {

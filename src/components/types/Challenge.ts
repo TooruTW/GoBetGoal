@@ -1,7 +1,7 @@
 export interface UploadImage {
   id: string;
-  imageUrl: string[];
-  createdAt: Date;
+  imageUrl: string;
+  createdAt: Date|null;
   isPassed: boolean;
 }
 export interface Challenge {
@@ -14,7 +14,7 @@ export interface Challenge {
     | "PASSED"
     | "PASSED_WITHOUT_HONOR"
     | "FAILED";
-  uploadImage: UploadImage[] | null;
+  uploadImage: UploadImage[] ;
   exampleImage: string[];
   checkCountRemain: 3 | 2 | 1 | 0;
   deadline: string;
