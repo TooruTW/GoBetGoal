@@ -31,7 +31,7 @@ export default function ProgressBar(props: acceptProps) {
   }, [completeRate]);
 
   return (
-    <div>
+    <div className="w-full max-w-3/5">
       <p className=" relative flex justify-between">
         <span>糖果總數</span>
         <span

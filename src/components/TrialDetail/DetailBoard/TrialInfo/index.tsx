@@ -8,30 +8,27 @@ interface acceptProps {
 export default function TrialInfo(props: acceptProps) {
   const { trial } = props;
 
-
-  // 添加調試資訊
   if (!trial) {
     return <div className="bg-card-bg rounded-xl p-5">No trial data</div>;
   }
 
   return (
-    <div className="bg-card-bg rounded-xl p-5 flex justify-between gap-4 max-lg:flex-col-reverse ">
-      {/* left */}
-      <div className="flex flex-col w-full max-w-8/10 max-lg:max-w-none max-lg:flex-col-reverse ">
+    <div className="bg-card-bg rounded-xl p-5 flex flex-col justify-between gap-4 max-lg:flex-col-reverse ">
+      <div className="flex w-full justify-between max-lg:max-w-none max-lg:flex-col-reverse ">
+        <div className="flex gap-4 w-fit max-lg:justify-start">
+          {trial.isPublic && (
+            <p className="text-label rounded-full bg-gray-200 font-semibold text-black w-fit h-fit py-0.5 px-2.5">
+              公開
+            </p>
+          )}
+          <p className="text-xs rounded-full bg-gray-200 font-semibold text-black w-fit h-fit py-0.5 px-2.5">
+            {trial.trialState}
+          </p>
+        </div>
         <ProgressBar trial={trial} />
-        <TrialContent trial={trial} />
       </div>
       {/* right */}
-      <div className="flex justify-end gap-4 max-lg:justify-start">
-        {trial.isPublic && (
-          <p className="text-label rounded-full bg-gray-200 font-semibold text-black w-fit h-fit py-0.5 px-2.5">
-            公開
-          </p>
-        )}
-        <p className="text-xs rounded-full bg-gray-200 font-semibold text-black w-fit h-fit py-0.5 px-2.5">
-          {trial.trialState}
-        </p>
-      </div>
+      <TrialContent trial={trial} />
     </div>
   );
 }
