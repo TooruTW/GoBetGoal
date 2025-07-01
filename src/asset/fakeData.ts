@@ -35,7 +35,7 @@ export const participantList = [
     playerName: "獵魔士Geralt",
     playerTotalTrials: 42,
     isFriend: true,
-    playerImgUrl: "/avatar/girlJacketYoga.webp",
+    playerImgUrl: "/avatar/boyGymStrong.webp",
     likedPosts: 23,
     friends: 53,
   },

@@ -34,9 +34,9 @@ export default function PlayerCard(props: { participantInfo: Participant }) {
         setPosition(eventData.deltaX);
       }
     },
-    onTap:()=>{
-      if(position !== 0) setPosition(0)
-    }
+    onTap: () => {
+      if (position !== 0) setPosition(0);
+    },
   });
 
   useEffect(() => {
@@ -45,15 +45,13 @@ export default function PlayerCard(props: { participantInfo: Participant }) {
     }
   }, [position]);
 
-
-
   return (
     <div
       {...handlers}
       className="w-full h-20 flex gap-2 items-end justify-center relative"
       style={{ transform: `translateX(${position}px)` }}
     >
-      <div className="absolute bottom-0 left-0 w-full h-2/3 parallelogram-border z-0  "></div>
+      <div className="absolute bottom-0 left-0 w-full h-2/3 scale-x-[1.1] parallelogram-border z-0"></div>
       <div className="w-full h-full z-20 flex justify-between items-center max-w-100">
         <img
           className="object-cover h-full z-10 mb-2"
@@ -63,15 +61,15 @@ export default function PlayerCard(props: { participantInfo: Participant }) {
         <h4 className="self-end mb-4">{playerName}</h4>
         <ul className="flex gap-2 self-end ">
           <li className="flex flex-col items-center">
-            <span className="text-muted/50 font-medium">成功試煉數</span>
+            <span className="text-muted/50 font-medium">成功試煉</span>
             <span>{playerTotalTrials}</span>
           </li>
           <li className="flex flex-col items-center">
-            <span className="text-muted/50 font-">朋友數</span>
+            <span className="text-muted/50 font-">朋友</span>
             <span>{friends}</span>
           </li>
           <li className="flex flex-col items-center">
-            <span className="text-muted/50 font-">貼文讚數</span>
+            <span className="text-muted/50 font-">貼文讚</span>
             <span>{likedPosts}</span>
           </li>
         </ul>
