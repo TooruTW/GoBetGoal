@@ -1,6 +1,6 @@
 import type { Challenge } from "./Challenge";
 import type { Participant } from "./Participant";
-
+import type { TrialHistory } from "./TrialHistory";
 export interface Trial {
   id: string;
   isPublic: boolean;
@@ -24,6 +24,7 @@ export interface Trial {
     investment: number;
     reward: number;
     bounceRate: number;
+    history:TrialHistory[]
   }
   
   
