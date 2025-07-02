@@ -2,6 +2,7 @@ import { Challenge } from "@/components/types/Challenge";
 import { GoPlus } from "react-icons/go";
 import { useEffect, useState } from "react";
 import { usePostChallengeImage } from "@/api";
+import UploadImage from "./UploadImage";
 
 interface acceptProps {
   currentChallenge: Challenge;
@@ -66,6 +67,7 @@ export default function UploadCard(props: acceptProps) {
             className="w-full rounded-md bg-bg-module p-2 text-text-primary text-label"
             placeholder="請輸入圖片網址"
           />
+          <UploadImage />
         </div>
       ))}
     </div>
