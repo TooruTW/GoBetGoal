@@ -8,7 +8,6 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
-    
   },
   "dependencies": {
     "@radix-ui/react-hover-card": "^1.1.14",
@@ -16,6 +15,7 @@
     "@reduxjs/toolkit": "^2.8.2",
     "@tailwindcss/vite": "^4.1.10",
     "@tanstack/react-query": "^5.81.5",
+    "@tanstack/react-query-devtools": "^5.81.5",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.6.0",

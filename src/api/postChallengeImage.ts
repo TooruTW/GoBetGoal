@@ -30,6 +30,7 @@ export function usePostChallengeImage(
     onSuccess: () => {
       console.log("upload success", trialId, challengeId, imageId);
       queryClient.invalidateQueries({ queryKey: ["trial", trialId] });
+      console.log("invalidateQueries called");
     },
   });
 
