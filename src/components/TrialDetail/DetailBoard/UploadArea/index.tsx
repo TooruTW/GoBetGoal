@@ -7,9 +7,7 @@ interface acceptProps {
 export default function UploadArea(props: acceptProps) {
   const { challenges, currentChallengeIndex,id } = props.trial;
   const currentChallenge = challenges[currentChallengeIndex];
-  console.log(challenges, currentChallengeIndex);
-  console.log(challenges[currentChallengeIndex]);
-  console.log("trialId",id);
+
 
   return (
     <div>

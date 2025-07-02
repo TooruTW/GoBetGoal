@@ -24,7 +24,6 @@ export default function UploadCard(props: acceptProps) {
   );
 
   useEffect(() => {
-    console.log("images",currentChallenge.uploadImage);
     
     setImages([...currentChallenge.uploadImage.map((item) => item.imageUrl)]);
     setNewImageUrl(null);

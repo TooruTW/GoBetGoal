@@ -29,39 +29,44 @@ export function routesHandler(server) {
   );
 
   server.post(
-    "trials/trial-detail/:id/upload-image/:challengeId/:imageId",
+    "/trials/trial-detail/:id/upload-image/:challengeId/:imageId",
     (schema, request) => {
       const { id, challengeId, imageId } = request.params;
       const { imageUrl } = JSON.parse(request.requestBody);
 
+      console.log("params", id, challengeId, imageId);
+
       const targetTrial = schema.trials.find(id);
-      const targetChallengeList = targetTrial.challenges;
-      const targetChallenge = targetChallengeList.find(challengeId);
-      const targetUploadImageList = targetChallenge.uploadImage;
+      const targetChallenge = targetTrial.attrs.challenges.find(
+        (item) => item.id === challengeId
+      );
+      const targetUploadImage = schema.trials
+        .find(id)
+        .attrs.challenges.find((item) => item.id === challengeId)
+        .uploadImage.find((item) => item.id === imageId);
 
-      const newUploadImageList = targetUploadImageList.map((item) => {
-        if (item.id === imageId) {
-          return { ...item, imageUrl };
-        }
-        return item;
-      });
+      console.log(targetUploadImage, "targetUploadImage");
 
-      const newChallenge = {
-        ...targetChallenge,
-        uploadImage: newUploadImageList,
-      };
-      const newChallengeList = targetChallengeList.map((item) => {
-        if (item.id === challengeId) {
-          return newChallenge;
-        }
-        return item;
-      });
+      const newUploadImage = {...targetUploadImage, imageUrl:imageUrl, createdAt:new Date().toISOString()}
+      console.log(newUploadImage, "newUploadImage");
+    const newUploadImages = targetChallenge.uploadImage.map((item)=>{
+      if(item.id === imageId){
+        return newUploadImage;
+      }
+      return item;
+    })
 
-      const updatedTrial = schema.trials.find(id).update({
-        challenges: newChallengeList,
-      });
+    const newChallenge = {...targetChallenge, uploadImage:newUploadImages}
 
-      return updatedTrial;
+    const newChallenges = targetTrial.attrs.challenges.map((item)=>{
+      if(item.id === challengeId){
+        return newChallenge;
+      }
+      return item;
+    })
+    console.log(newChallenges, "newChallenges");
+    
+      return targetTrial.update({challenges:newChallenges});
     }
   );
 }

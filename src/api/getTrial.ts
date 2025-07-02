@@ -7,6 +7,5 @@ export function useTrial(id: string) {
     queryFn: () => fetch(url).then((res) => res.json()),
   });
 
-  console.log("useTrial data updated:", data);
   return { data, isLoading, error };
 }
