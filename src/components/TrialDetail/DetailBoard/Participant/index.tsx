@@ -3,7 +3,7 @@ import PlayerCard from "./PlayerCard";
 import { useEffect, useRef, useState } from "react";
 import type { Participant } from "@/components/types/Participant";
 import { IoClose } from "react-icons/io5";
-import type { Trial } from "@/features/trials/type";
+import type { Trial } from "@/components/types/Trial";
 import { useDeleteParticipantInTrial } from "@/api/index";
 interface acceptProps {
   trial: Trial;
