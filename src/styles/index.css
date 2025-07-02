@@ -7,16 +7,29 @@
   --color-gradient-set-1-1: #fca976;
   --color-gradient-set-1-2: #eb4375;
 
-  --color-card-bg: ;
+  --color-card-bg: #030712;
+
+  --color-unActivated-bg: #fcfcf7;
+  --color-unActivated-text: #212529;
 
   --color-bg-primary: #18181b;
   --color-bg-secondary: #1a1f2c;
   --color-bg-module: #373739;
+  --color-bg-notice: #282a2c;
+  --color-btn-notice: #f4f4f580;
+
+  --color-bg-root: #1b1c1d;
+  --color-bg-tags: #f4f4f5;
 
   --color-theme-primary: #f35b53;
 
+  --color-schema-primary: #d784b9;
+
   --color-text-primary: #f9fafb;
   --color-text-secondary: #d1d5db;
+  --color-text-muted: #71717a;
+
+  --color-border-primary: #ef444450;
 
   /* 霓虹特效系統 */
   --neon-red: #ea384c;
@@ -54,6 +67,7 @@
   --text-h1: 40px;
   --text-h2: 32px;
   --text-h3: 24px;
+  --text-h4: 18px;
   --text-p: 16px;
   --text-label: 12px;
   --text-title: 30px;
@@ -256,6 +270,18 @@
 
   .error {
     color: red;
+  }
+  .parallelogram-border {
+    display: inline-block;
+    padding: 2px;
+    background: #09090b;
+    transform: skew(-30deg); /* 改這個會影響角度 */
+    border: 1px solid #ef4445; /* 邊框顏色 */
+  }
+
+  .parallelogram-border .content {
+    background: #09090b;
+    transform: skew(30deg);
   }
 }
 
