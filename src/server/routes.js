@@ -33,9 +33,6 @@ export function routesHandler(server) {
     (schema, request) => {
       const { id, challengeId, imageId } = request.params;
       const { imageUrl } = JSON.parse(request.requestBody);
-
-      console.log("params", id, challengeId, imageId);
-
       const targetTrial = schema.trials.find(id);
       const targetChallenge = targetTrial.attrs.challenges.find(
         (item) => item.id === challengeId
@@ -44,33 +41,25 @@ export function routesHandler(server) {
         .find(id)
         .attrs.challenges.find((item) => item.id === challengeId)
         .uploadImage.find((item) => item.id === imageId);
-
-      console.log(targetUploadImage, "targetUploadImage");
-
       const newUploadImage = {
         ...targetUploadImage,
         imageUrl: imageUrl,
         createdAt: new Date().toISOString(),
         isPending: true,
       };
-      console.log(newUploadImage, "newUploadImage");
       const newUploadImages = targetChallenge.uploadImage.map((item) => {
         if (item.id === imageId) {
           return newUploadImage;
         }
         return item;
       });
-
       const newChallenge = { ...targetChallenge, uploadImage: newUploadImages };
-
       const newChallenges = targetTrial.attrs.challenges.map((item) => {
         if (item.id === challengeId) {
           return newChallenge;
         }
         return item;
       });
-      console.log(newChallenges, "newChallenges");
-
       return targetTrial.update({ challenges: newChallenges });
     }
   );
