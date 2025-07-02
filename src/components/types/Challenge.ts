@@ -2,6 +2,7 @@ export interface UploadImage {
   id: string;
   imageUrl: string;
   createdAt: Date|null;
+  isPending: boolean;
   isPassed: boolean;
 }
 export interface Challenge {

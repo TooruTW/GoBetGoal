@@ -47,26 +47,31 @@ export function routesHandler(server) {
 
       console.log(targetUploadImage, "targetUploadImage");
 
-      const newUploadImage = {...targetUploadImage, imageUrl:imageUrl, createdAt:new Date().toISOString()}
+      const newUploadImage = {
+        ...targetUploadImage,
+        imageUrl: imageUrl,
+        createdAt: new Date().toISOString(),
+        isPending: true,
+      };
       console.log(newUploadImage, "newUploadImage");
-    const newUploadImages = targetChallenge.uploadImage.map((item)=>{
-      if(item.id === imageId){
-        return newUploadImage;
-      }
-      return item;
-    })
+      const newUploadImages = targetChallenge.uploadImage.map((item) => {
+        if (item.id === imageId) {
+          return newUploadImage;
+        }
+        return item;
+      });
 
-    const newChallenge = {...targetChallenge, uploadImage:newUploadImages}
+      const newChallenge = { ...targetChallenge, uploadImage: newUploadImages };
 
-    const newChallenges = targetTrial.attrs.challenges.map((item)=>{
-      if(item.id === challengeId){
-        return newChallenge;
-      }
-      return item;
-    })
-    console.log(newChallenges, "newChallenges");
-    
-      return targetTrial.update({challenges:newChallenges});
+      const newChallenges = targetTrial.attrs.challenges.map((item) => {
+        if (item.id === challengeId) {
+          return newChallenge;
+        }
+        return item;
+      });
+      console.log(newChallenges, "newChallenges");
+
+      return targetTrial.update({ challenges: newChallenges });
     }
   );
 }

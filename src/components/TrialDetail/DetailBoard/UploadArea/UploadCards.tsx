@@ -10,8 +10,6 @@ interface acceptProps {
 
 export default function UploadCard(props: acceptProps) {
   const { currentChallenge, trialId } = props;
-  const [images, setImages] = useState<string[]>([]);
-  const [isUploaded] = useState<boolean[]>([false, false, false]);
   const [newImageUrl, setNewImageUrl] = useState<string | null>(null);
   const [newImageId, setNewImageId] = useState<string | null>(null);
   const [isReadyToUpload, setIsReadyToUpload] = useState(false);
@@ -24,8 +22,6 @@ export default function UploadCard(props: acceptProps) {
   );
 
   useEffect(() => {
-    
-    setImages([...currentChallenge.uploadImage.map((item) => item.imageUrl)]);
     setNewImageUrl(null);
     setNewImageId(null);
     setIsReadyToUpload(false);
@@ -48,18 +44,18 @@ export default function UploadCard(props: acceptProps) {
 
   return (
     <div className="flex gap-4 items-center justify-center w-full">
-      {images.map((item, index) => (
+      {currentChallenge.uploadImage.map((item, index) => (
         <div key={index} className="flex flex-col gap-2 w-1/3">
           <div
             className="aspect-square bg-bg-module rounded-md flex items-center justify-center relative"
             style={{
-              backgroundImage: `url(${item})`,
+              backgroundImage: `url(${item.imageUrl})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
-              filter: isUploaded[index] ? "grayscale(0%)" : "grayscale(80%)",
+              filter: (item.isPending || item.isPassed)? "opacity(100%)" : "opacity(30%)",
             }}
           >
-            <GoPlus className="text-text-primary text-4xl" />
+            {(!item.isPending && !item.isPassed) && <GoPlus className="text-text-primary text-4xl" />}
             <p className="absolute bottom-4 left-4 text-text-primary text-label p-2 rounded-md bg-bg-module">
               {currentChallenge.description[index]}
             </p>

@@ -74,6 +74,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -81,6 +82,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -88,6 +90,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
     ],
@@ -116,6 +119,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -123,6 +127,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -130,6 +135,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
     ],
@@ -158,6 +164,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -165,6 +172,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -172,6 +180,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
     ],
@@ -200,6 +209,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -207,6 +217,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -214,6 +225,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
     ],
@@ -242,6 +254,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -249,6 +262,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -256,6 +270,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
     ],
@@ -284,6 +299,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -291,6 +307,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -298,6 +315,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
     ],
@@ -326,6 +344,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -333,6 +352,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -340,6 +360,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
     ],
@@ -368,6 +389,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -375,6 +397,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -382,6 +405,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
     ],
@@ -410,6 +434,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -417,6 +442,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -424,6 +450,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
     ],
@@ -452,6 +479,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -459,6 +487,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -466,6 +495,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
     ],
@@ -494,6 +524,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -501,6 +532,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -508,6 +540,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
     ],
@@ -536,6 +569,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -543,6 +577,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -550,6 +585,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
     ],
@@ -578,6 +614,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -585,6 +622,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -592,6 +630,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
     ],
@@ -620,6 +659,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -627,6 +667,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -634,6 +675,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
     ],
@@ -662,6 +704,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -669,6 +712,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -676,6 +720,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
     ],
@@ -704,6 +749,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -711,6 +757,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -718,6 +765,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
     ],
@@ -746,6 +794,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -753,6 +802,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -760,6 +810,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
     ],
@@ -788,6 +839,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -795,6 +847,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -802,6 +855,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
     ],
@@ -830,6 +884,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -837,6 +892,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -844,6 +900,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
     ],
@@ -872,6 +929,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -879,6 +937,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -886,6 +945,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
     ],
@@ -914,6 +974,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -921,6 +982,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -928,6 +990,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
     ],
@@ -956,6 +1019,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -963,6 +1027,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -970,6 +1035,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
     ],
@@ -998,6 +1064,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -1005,6 +1072,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -1012,6 +1080,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
     ],
@@ -1040,6 +1109,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -1047,6 +1117,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -1054,6 +1125,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
     ],
@@ -1082,6 +1154,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -1089,6 +1162,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -1096,6 +1170,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
     ],
@@ -1124,6 +1199,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -1131,6 +1207,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -1138,6 +1215,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
     ],
@@ -1166,6 +1244,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -1173,6 +1252,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -1180,6 +1260,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
     ],
@@ -1208,6 +1289,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -1215,6 +1297,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
       {
@@ -1222,6 +1305,7 @@ export const fakeChallengeList: Challenge[] = [
         imageUrl:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
         createdAt: null,
+        isPending:false,
         isPassed: false,
       },
     ],
@@ -1379,6 +1463,7 @@ export const fakeTrialList: Trial[] = [
             imageUrl:
               "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
             createdAt: null,
+            isPending:false,
             isPassed: false,
           },
           {
@@ -1386,6 +1471,7 @@ export const fakeTrialList: Trial[] = [
             imageUrl:
               "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
             createdAt: null,
+            isPending:false,
             isPassed: false,
           },
           {
@@ -1393,6 +1479,7 @@ export const fakeTrialList: Trial[] = [
             imageUrl:
               "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
             createdAt: null,
+            isPending:false,
             isPassed: false,
           },
         ],
@@ -1421,6 +1508,7 @@ export const fakeTrialList: Trial[] = [
             imageUrl:
               "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
             createdAt: null,
+            isPending:false,
             isPassed: false,
           },
           {
@@ -1428,6 +1516,7 @@ export const fakeTrialList: Trial[] = [
             imageUrl:
               "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
             createdAt: null,
+            isPending:false,
             isPassed: false,
           },
           {
@@ -1435,6 +1524,7 @@ export const fakeTrialList: Trial[] = [
             imageUrl:
               "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
             createdAt: null,
+            isPending:false,
             isPassed: false,
           },
         ],
@@ -1463,6 +1553,7 @@ export const fakeTrialList: Trial[] = [
             imageUrl:
               "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
             createdAt: null,
+            isPending:false,
             isPassed: false,
           },
           {
@@ -1470,6 +1561,7 @@ export const fakeTrialList: Trial[] = [
             imageUrl:
               "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
             createdAt: null,
+            isPending:false,
             isPassed: false,
           },
           {
@@ -1477,6 +1569,7 @@ export const fakeTrialList: Trial[] = [
             imageUrl:
               "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
             createdAt: null,
+            isPending:false,
             isPassed: false,
           },
         ],
@@ -1505,6 +1598,7 @@ export const fakeTrialList: Trial[] = [
             imageUrl:
               "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
             createdAt: null,
+            isPending:false,
             isPassed: false,
           },
           {
@@ -1512,6 +1606,7 @@ export const fakeTrialList: Trial[] = [
             imageUrl:
               "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
             createdAt: null,
+            isPending:false,
             isPassed: false,
           },
           {
@@ -1519,6 +1614,7 @@ export const fakeTrialList: Trial[] = [
             imageUrl:
               "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
             createdAt: null,
+            isPending:false,
             isPassed: false,
           },
         ],
@@ -1547,6 +1643,7 @@ export const fakeTrialList: Trial[] = [
             imageUrl:
               "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
             createdAt: null,
+            isPending:false,
             isPassed: false,
           },
           {
@@ -1554,6 +1651,7 @@ export const fakeTrialList: Trial[] = [
             imageUrl:
               "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
             createdAt: null,
+            isPending:false,
             isPassed: false,
           },
           {
@@ -1561,6 +1659,7 @@ export const fakeTrialList: Trial[] = [
             imageUrl:
               "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
             createdAt: null,
+            isPending:false,
             isPassed: false,
           },
         ],
@@ -1589,6 +1688,7 @@ export const fakeTrialList: Trial[] = [
             imageUrl:
               "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
             createdAt: null,
+            isPending:false,
             isPassed: false,
           },
           {
@@ -1596,6 +1696,7 @@ export const fakeTrialList: Trial[] = [
             imageUrl:
               "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
             createdAt: null,
+            isPending:false,
             isPassed: false,
           },
           {
@@ -1603,6 +1704,7 @@ export const fakeTrialList: Trial[] = [
             imageUrl:
               "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
             createdAt: null,
+            isPending:false,
             isPassed: false,
           },
         ],
@@ -1631,6 +1733,7 @@ export const fakeTrialList: Trial[] = [
             imageUrl:
               "https://www.dailynews.com/wp-content/uploads/2022/04/GettyImages-1293479617.jpg?w=525",
             createdAt: null,
+            isPending:false,
             isPassed: false,
           },
           {
@@ -1638,6 +1741,7 @@ export const fakeTrialList: Trial[] = [
             imageUrl:
               "https://dana.dexterra.com/wp-content/uploads/2024/04/Capture.png",
             createdAt: null,
+            isPending:false,
             isPassed: false,
           },
           {
@@ -1645,6 +1749,7 @@ export const fakeTrialList: Trial[] = [
             imageUrl:
               "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVXxqMAGXOp1LowO9f-30xueB7hYk4_RoyRX55I04-vtelof2ibRkG4tmhyXIYDT9FGJg&usqp=CAU",
             createdAt: null,
+            isPending:false,
             isPassed: false,
           },
         ],
