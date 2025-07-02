@@ -1,27 +1,76 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@theme{
+@theme {
   --font-title: "Bungee", sans-serif;
 
-  --color-gradient-set-1-1:#FCA976;
-  --color-gradient-set-1-2:#EB4375;
+  --color-gradient-set-1-1: #fca976;
+  --color-gradient-set-1-2: #eb4375;
 
-  --color-card-bg:;
+  --color-card-bg: #030712;
 
-  --color-bg-primary:#18181B;
-  --color-bg-secondary:#1A1F2C;
+  --color-unActivated-bg: #fcfcf7;
+  --color-unActivated-text: #212529;
 
-  --color-text-primary:#F9FAFB;
-  --color-text-secondary:#D1D5DB;
+  --color-bg-primary: #18181b;
+  --color-bg-secondary: #1a1f2c;
+  --color-bg-module: #373739;
+  --color-bg-notice: #282a2c;
+  --color-btn-notice: #f4f4f580;
 
+  --color-bg-root: #1b1c1d;
+  --color-bg-tags: #f4f4f5;
+
+  --color-theme-primary: #f35b53;
+
+  --color-schema-primary: #d784b9;
+
+  --color-text-primary: #f9fafb;
+  --color-text-secondary: #d1d5db;
+  --color-text-muted: #71717a;
+
+  --color-border-primary: #ef444450;
+
+  /* 霓虹特效系統 */
+  --neon-red: #ea384c;
+  --neon-white: #ffffff;
+  --neon-blue: #00ffff;
+  --neon-purple: #ff00ff;
+  --neon-green: #00ff00;
+
+  /* 霓虹陰影效果 */
+  --neon-shadow-red: 0 0 5px var(--neon-red), 0 0 10px var(--neon-red),
+    0 0 15px var(--neon-red), 0 0 20px var(--neon-red), 0 0 25px var(--neon-red),
+    0 0 30px var(--neon-red), 0 0 35px var(--neon-red);
+
+  --neon-shadow-white: 0 0 5px var(--neon-white), 0 0 10px var(--neon-white),
+    0 0 15px var(--neon-white), 0 0 20px var(--neon-white);
+
+  --neon-shadow-blue: 0 0 5px var(--neon-blue), 0 0 10px var(--neon-blue),
+    0 0 15px var(--neon-blue), 0 0 20px var(--neon-blue);
+
+  --neon-shadow-purple: 0 0 5px var(--neon-purple), 0 0 10px var(--neon-purple),
+    0 0 15px var(--neon-purple), 0 0 20px var(--neon-purple);
+
+  --neon-shadow-green: 0 0 5px var(--neon-green), 0 0 10px var(--neon-green),
+    0 0 15px var(--neon-green), 0 0 20px var(--neon-green);
+
+  /* 保留原有的單獨陰影變數以向後兼容 */
+  --drop-shadow-title-1: 0 0 35px 0 #ea384c;
+  --drop-shadow-title-2: 0 0 30px 0 #ea384c;
+  --drop-shadow-title-3: 0 0 25px 0 #ea384c;
+  --drop-shadow-title-4: 0 0 20px 0 #ea384c;
+  --drop-shadow-title-5: 0 0 15px 0 #ea384c;
+  --drop-shadow-title-6: 0 0 10px 0 #ffffff;
+  --drop-shadow-title-7: 0 0 5px 0 #ffffff;
 
   --text-h1: 40px;
   --text-h2: 32px;
   --text-h3: 24px;
+  --text-h4: 18px;
   --text-p: 16px;
   --text-label: 12px;
-
+  --text-title: 30px;
 }
 
 @custom-variant dark (&:is(.dark *));
@@ -142,3 +191,141 @@
   }
 }
 
+/* 霓虹特效類別 */
+@layer components {
+  /* 基礎霓虹效果 */
+  .neon-red {
+    color: var(--neon-red);
+    text-shadow: var(--neon-shadow-red);
+  }
+
+  .neon-white {
+    color: var(--neon-white);
+    text-shadow: var(--neon-shadow-white);
+  }
+
+  .neon-blue {
+    color: var(--neon-blue);
+    text-shadow: var(--neon-shadow-blue);
+  }
+
+  .neon-purple {
+    color: var(--neon-purple);
+    text-shadow: var(--neon-shadow-purple);
+  }
+
+  .neon-green {
+    color: var(--neon-green);
+    text-shadow: var(--neon-shadow-green);
+  }
+
+  /* 霓虹邊框效果 */
+  .neon-border-red {
+    border: 2px solid var(--neon-red);
+    box-shadow: var(--neon-shadow-red);
+  }
+
+  .neon-border-white {
+    border: 2px solid var(--neon-white);
+    box-shadow: var(--neon-shadow-white);
+  }
+
+  .neon-border-blue {
+    border: 2px solid var(--neon-blue);
+    box-shadow: var(--neon-shadow-blue);
+  }
+
+  /* 霓虹背景效果 */
+  .neon-bg-red {
+    background: var(--neon-red);
+    box-shadow: var(--neon-shadow-red);
+  }
+
+  .neon-bg-white {
+    background: var(--neon-white);
+    box-shadow: var(--neon-shadow-white);
+  }
+
+  /* 脈動動畫效果 */
+  .neon-pulse {
+    animation: neon-pulse 2s ease-in-out infinite alternate;
+  }
+
+  .neon-flicker {
+    animation: neon-flicker 1.5s infinite alternate;
+  }
+
+  .neon-glow {
+    animation: neon-glow 3s ease-in-out infinite alternate;
+  }
+
+  /* 漸層效果 */
+  .bg-gradient-set-1 {
+    background: linear-gradient(
+      135deg,
+      var(--color-gradient-set-1-1) 0%,
+      var(--color-gradient-set-1-2) 100%
+    );
+  }
+
+  .error {
+    color: red;
+  }
+  .parallelogram-border {
+    display: inline-block;
+    padding: 2px;
+    background: #09090b;
+    transform: skew(-30deg); /* 改這個會影響角度 */
+    border: 1px solid #ef4445; /* 邊框顏色 */
+  }
+
+  .parallelogram-border .content {
+    background: #09090b;
+    transform: skew(30deg);
+  }
+}
+
+/* 霓虹動畫關鍵幀 */
+@keyframes neon-pulse {
+  0% {
+    text-shadow: var(--neon-shadow-red);
+  }
+  100% {
+    text-shadow: 0 0 5px var(--neon-red), 0 0 10px var(--neon-red),
+      0 0 15px var(--neon-red), 0 0 20px var(--neon-red),
+      0 0 25px var(--neon-red), 0 0 30px var(--neon-red),
+      0 0 35px var(--neon-red), 0 0 40px var(--neon-red);
+  }
+}
+
+@keyframes neon-flicker {
+  0%,
+  18%,
+  22%,
+  25%,
+  53%,
+  57%,
+  100% {
+    text-shadow: var(--neon-shadow-red);
+  }
+  20%,
+  24%,
+  55% {
+    text-shadow: none;
+  }
+}
+
+@keyframes neon-glow {
+  0% {
+    text-shadow: 0 0 5px var(--neon-red), 0 0 10px var(--neon-red),
+      0 0 15px var(--neon-red);
+  }
+  50% {
+    text-shadow: 0 0 10px var(--neon-red), 0 0 20px var(--neon-red),
+      0 0 30px var(--neon-red), 0 0 40px var(--neon-red);
+  }
+  100% {
+    text-shadow: 0 0 5px var(--neon-red), 0 0 10px var(--neon-red),
+      0 0 15px var(--neon-red);
+  }
+}
