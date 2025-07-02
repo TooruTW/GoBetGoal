@@ -303,3 +303,11 @@
       0 0 15px var(--neon-red);
   }
 }
+
+input:-webkit-autofill {
+  -webkit-text-fill-color: #fff !important; /* 改成你想要的顏色，例如黑色 */
+  transition: background-color 9999s ease-in-out 0s !important;
+  background-color: transparent !important;
+  box-shadow: 0 0 0 1000px transparent inset !important;
+}
+
