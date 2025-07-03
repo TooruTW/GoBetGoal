@@ -4,7 +4,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import LoginSuccess from "../Auth/LoginSucccess";
+import LoginSuccess from "../Auth/LoginSuccess";
 
 const fakeUsers = [
   { mail: "flagorbet@gmail.com", password: "test1234" },
