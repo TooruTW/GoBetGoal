@@ -4,7 +4,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import LoginSuccess from "../Auth/LoginSucccess";
+import LoginSuccess from "../Auth/LoginSuccess";
 
 const fakeUsers = [
   { mail: "flagorbet@gmail.com", password: "test1234" },
@@ -64,7 +64,7 @@ export default function Authentication() {
       return;
     }
     // 註冊成功，導向下一頁
-    alert("註冊成功！");
+    
     setRegisterSuccess(true);
     navigate("/authentication/auth-account");
   };
