@@ -21,7 +21,7 @@ export default function LoginSuccess() {
   }, [navigate]);
 
   return (
-    <div className="w-1/3 shadow-2xl rounded-lg p-6 bg-[var(--card)]  flex flex-col items-center justify-center gap-4">
+    <div className="w-full h-screen md:w-auto  md:h-auto  shadow-2xl rounded-lg p-6 bg-[var(--card)]  flex flex-col items-center justify-center gap-4">
         <img src="/monster/monsterDefault.webp" alt="monster" className="w-40" />
         <h2 className="text-lg font-bold mb-2">登入成功</h2>
         <p className="text-sm text-gray-600">歡迎回來！</p>
