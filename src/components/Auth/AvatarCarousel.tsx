@@ -14,7 +14,8 @@ type AvatarCarouselProps = {
 
 // 物件陣列，每個 avatar 有 src 和 price
 const avatarImages = [
-  { src: "/avatar/bear.webp", price: 0 },
+  { src: "/avatar/girlSkirtFly.webp", price: 0 },
+  { src: "/avatar/girlBlueSister.webp", price: 0 },
   { src: "/avatar/boyCatHatBoard.webp", price: 0 },
   { src: "/avatar/boyCatHatSit.webp", price: 10000 },
   { src: "/avatar/boyCatHatSmile.webp", price: 0 },
@@ -34,7 +35,7 @@ const avatarImages = [
   { src: "/avatar/girlBlueBall.webp", price: 0 },
   { src: "/avatar/girlBlueBird.webp", price: 0 },
   { src: "/avatar/girlBlueRing.webp", price: 20000 },
-  { src: "/avatar/girlBlueSister.webp", price: 0 },
+
   { src: "/avatar/girlJacketBandage.webp", price: 0 },
   { src: "/avatar/girlJacketFace.webp", price: 0 },
   { src: "/avatar/girlJacketInflated.webp", price: 10000 },
@@ -44,23 +45,23 @@ const avatarImages = [
   { src: "/avatar/girlPurpleHeadphone.webp", price: 20000 },
   { src: "/avatar/girlPurplePonytail.webp", price: 0 },
   { src: "/avatar/girlSkirtBubble.webp", price: 0 },
-  { src: "/avatar/girlSkirtFly.webp", price: 0 },
+  
   { src: "/avatar/girlSkirtInnocence.webp", price: 10000 },
   { src: "/avatar/girlSkirtPrincess.webp", price: 0 },
-  { src: "/avatar/monster.webp", price: 0 },
+  { src: "/avatar/bear.webp", price: 0 },
 ];
 
 export default function AvatarCarousel({ onSelect, selectedAvatar }: AvatarCarouselProps) {
   return (
     <div className=" overflow-visible">
      <Carousel className="overflow-visible">
-        <CarouselContent className="overflow-visible">
+        <CarouselContent className="overflow-visible p-12">
           {avatarImages.map((avatar, idx) => (
             <CarouselItem
               key={idx}
-              className={`basis-1/4 p-2 transition-transform overflow-visible rounded-2xl relative
-                ${avatar.price !== 0 ? "opacity-60 pointer-events-none" : "hover:scale-110 hover:cursor-pointer hover:shadow-lg hover:bg-gray-800"}
-                ${selectedAvatar?.src === avatar.src ? "ring-4 ring-blue-400" : ""}
+              className={`basis-1/6 p-2 transition-transform overflow-visible rounded-2xl relative
+                ${avatar.price !== 0 ? "opacity-60 pointer-events-none" : "hover:scale-150 hover:cursor-pointer hover:shadow-lg hover:bg-gray-800"}
+                ${selectedAvatar?.src === avatar.src ? "ring ring-[var(--color-gradient-set-1-1)] scale-150" : ""}
               `}
             >
 

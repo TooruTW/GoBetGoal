@@ -64,7 +64,7 @@ export default function Authentication() {
       return;
     }
     // 註冊成功，導向下一頁
-    alert("註冊成功！");
+    
     setRegisterSuccess(true);
     navigate("/authentication/auth-account");
   };

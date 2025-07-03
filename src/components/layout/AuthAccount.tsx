@@ -50,7 +50,7 @@ export default function AuthAccount() {
 
   return (
     <div className="w-full h-screen  justify-center items-center flex">
-      <section className="w-3/4 h-screen  my-auto">
+      <section className="w-3/4 ">
         <AvatarCarousel onSelect={setSelectedAvatar} selectedAvatar={selectedAvatar} />
 
         <form
