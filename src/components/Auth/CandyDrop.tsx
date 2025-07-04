@@ -1,8 +1,7 @@
-// src/components/FallingStack.tsx
-import { FC, useLayoutEffect, useRef } from 'react'
+
+import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 
-// 1️⃣ 四張圖片路徑（可替換成你的圖）
 const IMAGES = [
   '/candy/CandyBlue.webp',
   '/candy/CandyGreen.webp',
@@ -10,33 +9,27 @@ const IMAGES = [
   '/candy/CandyYellow.webp',
 ]
 
-const COLS = IMAGES.length      // 4
-const ROWS = 5                  // 5 × 4 = 20
-const BOX_SIZE = 100            // 圖片寬高 (px)
-const GAP = 20                  // 每列上下間距
+const cols = IMAGES.length      // 4
+const rows = 4                  // 5 × 4 = 20
+const box = 100            // 圖片寬高 (px)
+// const gap = 20                  // 每列上下間距
 
-/** 會把 4 張圖重複 5 次產出 20 個元素並掉落堆疊 */
-const FallingStack: FC = () => {
+
+const CandyDrop= () => {
   const containerRef = useRef<HTMLDivElement>(null)
 
-  // 產生 20 個圖片路徑
-  const items = Array.from({ length: ROWS * COLS }, (_, i) => IMAGES[i % COLS])
+  const items = Array.from({ length: rows * cols }, (_, i) => IMAGES[i % cols])
 
-  // 2️⃣ GSAP 動畫
-  useLayoutEffect(() => {
+  useEffect(() => {
     const ctx = gsap.context(() => {
       const nodes = gsap.utils.toArray<HTMLImageElement>('.falling')
 
       nodes.forEach((el, idx) => {
-        const row = Math.floor(idx / COLS)           // 第幾列 (0~4)
-       
-        const yTarget = row * (BOX_SIZE + GAP)       // 堆疊位置
-
         gsap.fromTo(
           el,
-          { y: -400, opacity: 0 },                   // 從畫面外上方開始
+          { y: -400, opacity: 0 },                   
           {
-            y: yTarget,
+            y: 0,
             opacity: 1,
             ease: 'bounce.out',                      // 模擬落地彈跳
             duration: 1,
@@ -52,7 +45,7 @@ const FallingStack: FC = () => {
   return (
     <div
       ref={containerRef}
-      className="relative mx-auto"
+      className="relative mx-auto h-screen"
       style={{
         width: 800, // 固定寬度
         height: 320, // 固定高度
@@ -61,7 +54,7 @@ const FallingStack: FC = () => {
     >
       {items.map((src, idx) => {
         // left: 隨機在容器寬度內（不超出）
-        const left = Math.random() * (800 - BOX_SIZE);
+        const left = Math.random() * (800 - box);
         // 落點 bottom: 0 ~ bottom: 20 之間
         const minBottom = 0;
         const maxBottom = 0;
@@ -71,12 +64,12 @@ const FallingStack: FC = () => {
           <img
             key={idx}
             src={src}
-            className="falling"
+            className="falling w-24 h-24"
             style={{
-              width: BOX_SIZE,
-              height: BOX_SIZE,
+              width: box,
+              height: box,
               position: 'absolute',
-              left: Math.max(0, Math.min(left, 800 - BOX_SIZE)),
+              left: Math.max(0, Math.min(left, 800 - box)),
               bottom: Math.max(0, Math.min(bottom, 0)),
               userSelect: 'none',
               transform: `rotate(${rotate}deg)`,
@@ -89,4 +82,4 @@ const FallingStack: FC = () => {
   );
 }
 
-export default FallingStack
+export default CandyDrop
