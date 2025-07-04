@@ -17,8 +17,8 @@ export default function RegisterSuccess({ nickname, avatar }: RegisterSuccessPro
     }, 1000);
 
     const timer = setTimeout(() => {
-      navigate("/home");
-    }, 200000000);
+      navigate("/");
+    }, 5000);
 
     return () => {
       clearInterval(interval);

@@ -2,7 +2,7 @@ import { useState } from "react";
 import AvatarCarousel from "@/components/Auth/AvatarCarousel";
 import { useForm, SubmitHandler } from "react-hook-form";
 import RegisterSuccess from "../Auth/RegisterSuccess";
-import FallingStack from "../Auth/CandyDrop";
+import CandyDrop from "../Auth/CandyDrop";
 
 type Avatar = { src: string; price: number };
 
@@ -113,7 +113,7 @@ export default function AuthAccount() {
         <div className="fixed  inset-0 z-30 flex flex-col gap-1 items-center justify-center bg-black/40 backdrop-blur-sm w-full h-screen">
           <RegisterSuccess nickname={registerInfo.nickname} avatar={registerInfo.avatar} />
           <div className="absolute  z-50  bottom-0 left-1/2 transform -translate-x-1/2  flex-col items-end justify-end">
-            <FallingStack/>
+            <CandyDrop/>
           </div>
           
         </div>

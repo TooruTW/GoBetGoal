@@ -11,7 +11,7 @@ export default function LoginSuccess() {
     }, 1000);
 
     const timer = setTimeout(() => {
-      navigate("/home");
+      navigate("/");
     }, 3000);
 
     return () => {
@@ -29,3 +29,5 @@ export default function LoginSuccess() {
     </div>
   );
 }
+
+
