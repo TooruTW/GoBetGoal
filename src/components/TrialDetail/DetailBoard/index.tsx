@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import ParticipantMobile from "./ParticipantMobile";
 import type { Trial } from "@/components/types/Trial";
 import UploadArea from "./UploadArea";
+import UploadCalendar from "./UploadCalender";
 interface acceptProps {
   trial: Trial;
 }
@@ -30,6 +31,7 @@ export default function DetailBoard({ trial }: acceptProps) {
       <BackBtn />
       <TrialInfo trial={trial} />
       {trialState === "進行中" && <UploadArea trial={trial}/>}
+      {trialState === "進行中" && <UploadCalendar />}
       {isMobile ? <ParticipantMobile trial={trial} /> : <Participant trial={trial} />}
     </div>
   );

@@ -24,6 +24,9 @@
   --color-theme-primary: #f35b53;
 
   --color-schema-primary: #d784b9;
+  --color-schema-outline: #9f8c8e;
+  --color-schema-surface: #191113;
+  --color-schema-on-surface: #382e2f;
 
   --color-text-primary: #f9fafb;
   --color-text-secondary: #d1d5db;
@@ -336,4 +339,3 @@ input:-webkit-autofill {
   background-color: transparent !important;
   box-shadow: 0 0 0 1000px transparent inset !important;
 }
-
