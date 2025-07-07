@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 
 const monthArr = [
@@ -15,29 +14,17 @@ const monthArr = [
   "November",
   "December",
 ];
-
 interface acceptProps {
   month: number;
   year: number;
+  editCalender: (key: "month" | "year", value: number) => void;
 }
 
 export default function MonthSelector(props: acceptProps) {
-  const { month, year } = props;
-
-  const [displayMonth, setDisplayMonth] = useState(month);
-  const [displayYear, setDisplayYear] = useState(year);
+  const { month, year, editCalender } = props;
 
   const handleMonthChange = (number: number) => {
-    setDisplayMonth((prev) => {
-      if (prev + number < 0) {
-        setDisplayYear((prev) => prev - 1);
-        return 11;
-      } else if (prev + number > 11) {
-        setDisplayYear((prev) => prev + 1);
-        return 0;
-      }
-      return prev + number;
-    });
+    editCalender("month", month + number);
   };
 
   return (
@@ -49,7 +36,7 @@ export default function MonthSelector(props: acceptProps) {
         <IoIosArrowBack />
       </div>
       <p>
-        {monthArr[displayMonth]} {displayYear}
+        {monthArr[month]} {year}
       </p>
       <div
         className="cursor-pointer border-1 border-schema-outline rounded-md p-2.5 aspect-square text-schema-on-surface"

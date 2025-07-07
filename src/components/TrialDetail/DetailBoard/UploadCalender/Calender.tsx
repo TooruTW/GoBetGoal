@@ -1,6 +1,31 @@
 import DayBox from "./DayBox";
+import type { Trial } from "@/components/types/Trial";
+import { useState, useEffect } from "react";
+interface acceptProps {
+  trial: Trial;
+  month: number;
+  year: number;
+}
 
-export default function Calender() {
+export default function Calender(props:acceptProps) {
+  const {trial} = props
+
+  const [calenderRange, setCalenderRange] = useState<{
+    startDate: string;
+    endDate: string;
+  }>({
+    startDate: "",
+    endDate: "",
+  });
+
+  useEffect(()=>{
+    if(!trial) return
+    setCalenderRange({
+      startDate:trial.startDate,
+      endDate:trial.endDate,
+    });
+  }, [trial]);
+
   return (
     <div className="w-full">
       <div className="columns-7 w-full">
@@ -13,21 +38,7 @@ export default function Calender() {
         <p className="text-label text-schema-on-surface-variant">Sat</p>
       </div>
       <div className="columns-7 w-full">
-        <DayBox day={1} isThisMonth={true} imgUrl={[]} />
-        <DayBox day={2} isThisMonth={true} imgUrl={[]} />
-        <DayBox day={3} isThisMonth={true} imgUrl={[]} />
-        <DayBox day={4} isThisMonth={true} imgUrl={[]} />
-        <DayBox day={5} isThisMonth={true} imgUrl={[]} />
-        <DayBox
-          day={6}
-          isThisMonth={true}
-          imgUrl={[
-            "/challengeSample/sample-1.jpg",
-            "/challengeSample/sample-2.jpg",
-            "/challengeSample/sample-3.jpg",
-          ]}
-        />
-        <DayBox day={7} isThisMonth={true} imgUrl={[]} />
+      
       </div>
     </div>
   );
