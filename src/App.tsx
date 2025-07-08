@@ -7,8 +7,6 @@ function App() {
     <div className="text-amber-50 ">
       <Header />
       <Outlet />
-
-
     </div>
   );
 }

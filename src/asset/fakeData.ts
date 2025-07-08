@@ -1625,7 +1625,7 @@ export const fakeTrialList: Trial[] = [
         ],
         checkCountRemain: 3,
         deadline: new Date(
-          startDate.getTime() + 3 * 1000 * 60 * 60 * 24
+          startDate.getTime() + 4 * 1000 * 60 * 60 * 24
         ).toISOString(),
       },
       {
@@ -1670,7 +1670,7 @@ export const fakeTrialList: Trial[] = [
         ],
         checkCountRemain: 3,
         deadline: new Date(
-          startDate.getTime() + 3 * 1000 * 60 * 60 * 24
+          startDate.getTime() + 5 * 1000 * 60 * 60 * 24
         ).toISOString(),
       },
       {
@@ -1715,7 +1715,7 @@ export const fakeTrialList: Trial[] = [
         ],
         checkCountRemain: 3,
         deadline: new Date(
-          startDate.getTime() + 3 * 1000 * 60 * 60 * 24
+          startDate.getTime() + 6 * 1000 * 60 * 60 * 24
         ).toISOString(),
       },
       {
@@ -1760,7 +1760,7 @@ export const fakeTrialList: Trial[] = [
         ],
         checkCountRemain: 3,
         deadline: new Date(
-          startDate.getTime() + 3 * 1000 * 60 * 60 * 24
+          startDate.getTime() + 7 * 1000 * 60 * 60 * 24
         ).toISOString(),
       },
     ],

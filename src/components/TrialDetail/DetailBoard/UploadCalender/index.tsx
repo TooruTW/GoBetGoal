@@ -9,7 +9,7 @@ interface acceptProps {
 export default function UploadCalendar(props: acceptProps) {
   const { trial } = props;
 
-  const [calendarRange, setCalenderRange] = useState({ month: 0, year: 2025 });
+  const [calendarRange, setCalenderRange] = useState({ month: 6, year: 2025 });
 
   useEffect(()=>{
     if(calendarRange.month < 0){
