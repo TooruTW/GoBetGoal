@@ -1,6 +1,7 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/state/store";
+import PopupCard from "./PopupCard";
 interface acceptProps {
   date: number;
   isThisMonth: boolean;
@@ -12,7 +13,18 @@ export default function DayBox(props: acceptProps) {
   const { date, isThisMonth, isThisDate, imgUrl = [] } = props;
   const { width } = useSelector((state: RootState) => state.screen);
   const imgContainerRef = useRef<HTMLDivElement>(null);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
+  // handle click effect
+  const handleClick = () => {
+    if(imgUrl.length === 0) return;
+    if(isPopupOpen) return;
+    console.log("clicked");
+    setIsPopupOpen(true);
+
+  };
+
+  // handle hover effect
   useEffect(() => {
     if (width < 960) return;
     if (!imgContainerRef.current) return;
@@ -44,8 +56,10 @@ export default function DayBox(props: acceptProps) {
     });
   }, [imgUrl, width]);
 
+
   return (
-    <div className="aspect-square w-full  relative">
+    <div onClick={handleClick} className="aspect-square w-full relative">
+      {isPopupOpen &&<PopupCard imgUrl={imgUrl} onClose={() => setIsPopupOpen(false)} />}
       <p
         className={`${
           isThisMonth
