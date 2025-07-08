@@ -1,3 +1,4 @@
+import { IoCloseSharp } from "react-icons/io5";
 import React from "react";
 import {
   Carousel,
@@ -42,7 +43,9 @@ export default function PopupCard(props: acceptProps) {
 
   return (
     <div ref={backgroundRef} onClick={(event) => handleClose(event)} className="fixed top-0 left-0 w-full h-full z-30 flex justify-center items-center backdrop-blur-sm">
+
       <Carousel  className="w-110 rounded-md overflow-hidden" setApi={setApi}>
+        <IoCloseSharp className="absolute w-16 h-16 top-0 right-0 p-4 z-50 text-white/50 hover:text-white/80 active:text-white" onClick={onClose}/>
         <CarouselContent>
           {imgUrl.map((item, index) => {
             return (
