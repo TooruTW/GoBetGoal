@@ -1,20 +1,25 @@
 import { useRef, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "@/state/store";
 interface acceptProps {
   date: number;
   isThisMonth: boolean;
   imgUrl: string[];
+  isThisDate: boolean;
 }
 
 export default function DayBox(props: acceptProps) {
-  const { date = 1, isThisMonth = true, imgUrl = [] } = props;
-
+  const { date, isThisMonth, isThisDate, imgUrl = [] } = props;
+  const { width } = useSelector((state: RootState) => state.screen);
   const imgContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (width < 960) return;
     if (!imgContainerRef.current) return;
     if (imgUrl.length === 0) return;
     const middleIndex = Math.floor(imgUrl.length / 2);
     const length = imgUrl.length;
+
     imgContainerRef.current.addEventListener("mouseenter", () => {
       Array.from(imgContainerRef.current?.children || []).forEach(
         (child, index) => {
@@ -23,29 +28,40 @@ export default function DayBox(props: acceptProps) {
           }%) translateX(${(index - middleIndex) * 10}%) rotate(${
             (index - middleIndex) * 10
           }deg)`;
-          (child as HTMLElement).style.zIndex = "2";
-          (child as HTMLElement).style.scale = "1";
+          (child as HTMLElement).style.zIndex = "20";
+          (child as HTMLElement).style.scale = "1.2";
         }
       );
     });
+
     imgContainerRef.current.addEventListener("mouseleave", () => {
       Array.from(imgContainerRef.current?.children || []).forEach((child) => {
         (child as HTMLElement).style.transform =
           "translateY(0%) translateX(0%)";
         (child as HTMLElement).style.zIndex = "0";
-        (child as HTMLElement).style.scale = "0.8";
+        (child as HTMLElement).style.scale = "1";
       });
     });
-  }, [imgUrl]);
+  }, [imgUrl, width]);
 
   return (
     <div className="aspect-square w-full  relative">
       <p
         className={`${
           isThisMonth
-            ? "text-schema-on-surface-variant"
+            ? isThisDate
+              ? "text-theme-primary font-bold"
+              : "text-schema-on-surface-variant"
             : "text-schema-on-surface"
-        }`}
+        } 
+        ${
+          width < 960
+            ? "bg-transparent w-full h-full text-calender-day-mobile "
+            : isThisDate
+            ? "bg-schema-surface-variant w-10 h-10"
+            : "bg-schema-surface w-10 h-10"
+        }
+        flex items-center justify-center rounded-md z-10 relative`}
       >
         {date}
       </p>
@@ -53,7 +69,9 @@ export default function DayBox(props: acceptProps) {
         {imgUrl.map((item, index) => {
           return (
             <img
-              className={`w-full h-full rounded-md object-cover object-center absolute top-0 left-0 transition-all duration-300 scale-80`}
+              className={` rounded-md object-cover object-center absolute bottom-0 right-0 transition-all duration-300 w-full h-full ${
+                width < 960 ? "opacity-30 " : "opacity-100"
+              }`}
               key={`${date}-${index}`}
               src={item}
               alt="img"

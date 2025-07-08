@@ -6,23 +6,29 @@ import ParticipantMobile from "./ParticipantMobile";
 import type { Trial } from "@/components/types/Trial";
 import UploadArea from "./UploadArea";
 import UploadCalendar from "./UploadCalender";
+import { useDispatch, useSelector } from "react-redux";
+import { setScreenSize } from "@/features/user/currentScreenSize";
+import { RootState } from "@/state/store";
 interface acceptProps {
   trial: Trial;
 }
 
 export default function DetailBoard({ trial }: acceptProps) {
-  const [isMobile, setIsMobile] = useState(false);
   const [trialState] = useState<"待開始" | "進行中" | "已結束" | "通過" | "完美通過">(trial.trialState);
+  const {width} = useSelector((state: RootState) => state.screen);
+  const dispatch = useDispatch();
+
+
 
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 960);
+      dispatch(setScreenSize({width: window.innerWidth}))
     };
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [dispatch]);
 
  
 
@@ -32,7 +38,7 @@ export default function DetailBoard({ trial }: acceptProps) {
       <TrialInfo trial={trial} />
       {trialState === "進行中" && <UploadArea trial={trial}/>}
       {trialState === "進行中" && <UploadCalendar trial={trial}/>}
-      {isMobile ? <ParticipantMobile trial={trial} /> : <Participant trial={trial} />}
+      {width < 960 ? <ParticipantMobile trial={trial} /> : <Participant trial={trial} />}
     </div>
   );
 }
