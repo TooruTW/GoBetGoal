@@ -46,30 +46,10 @@ export default function Calender(props: acceptProps) {
           currentList[updateIndex] = item;
         }
       });
-      console.log(currentList, "current list");
       return currentList;
     },
     [month, year]
   );
-
-  // const updateCurrentList = (arr: Challenge[],currentList:dayBoxType[]) => {
-  //   const newList: dayBoxType[] = arr.map((item) => {
-  //     return {
-  //       date: new Date(item.deadline).getDate(),
-  //       isThisMonth: new Date(item.deadline).getMonth() === month,
-  //       challenge: item.description,
-  //       imageUrl: item.uploadImage.map((item) => item.imageUrl),
-  //     };
-  //   });
-  //   newList.forEach((item)=>{
-  //     if(item.isThisMonth){
-  //       const updateIndex = currentList.findIndex((i)=>i.date === item.date)
-  //       if(updateIndex === -1) return
-  //       currentList[updateIndex] = item
-  //     }
-  //   })
-  //   console.log(currentList,"current list");
-  // };
 
   useEffect(() => {
     if (!trial) return;
