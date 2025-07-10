@@ -13,8 +13,8 @@ export default function PlayerInfo({ participant }: PlayerInfoProps) {
   } = participant || {};
 
   return (
-    <div className="flex-col md:flex w-full px-6  ">
-        <div className="h-[200px] md:w-1/2 overflow-hidden">
+    <div className=" md:flex w-full px-6  ">
+        <div className="h-[200px] md:w-1/2 overflow-hidden max-w-330">
             <img
                 src="/avatar/girlPurpleCurly.webp"
                 alt="avatar"
