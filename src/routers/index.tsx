@@ -12,6 +12,8 @@ import Trials from "@/components/layout/Trials";
 import TrialDetail from "@/components/TrialDetail";
 import TrialErrorPage from "@/components/TrialDetail/TrialErrorPage";
 import TrialsList from "@/components/TrialsList";
+import DevPage from "@/components/layout/DevPage";
+import DevAchievement from "@/components/DevComponent/DevAchievement";
 
 const routers = createBrowserRouter([
   {
@@ -63,6 +65,16 @@ const routers = createBrowserRouter([
       {
         path: "shop",
         element: <Shop />,
+      },
+      {
+        path: "dev",
+        element: <DevPage />,
+        children: [
+          {
+            path: "achievement",
+            element: <DevAchievement />,
+          },
+        ],
       },
     ],
   },
