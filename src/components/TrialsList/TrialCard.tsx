@@ -1,25 +1,25 @@
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa6";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+import gsap from "gsap";
 
 type trialParticipant = {
-    user_info: {
-        nick_name: string;
-        charactor_img_link: string;
-    }
-}
-
+  user_info: {
+    nick_name: string;
+    charactor_img_link: string;
+  };
+};
 type challenge = {
-    catagory: string[];
+  catagory: string[];
+  description: string;
+  frequency: string;
+  title: string;
+  challenge_stage: {
     description: string;
-    frequency: string;
-    title: string;
-    challenge_stage: {
-        description: string;
-    }[]
-}
-
+  }[];
+};
 interface acceptProps {
   trial: {
     id: string;
@@ -30,8 +30,8 @@ interface acceptProps {
     start_at: string;
     title: string;
     trial_status: string;
-    trial_participant: trialParticipant[]
-    challenge: challenge
+    trial_participant: trialParticipant[];
+    challenge: challenge;
   };
 }
 
@@ -39,24 +39,71 @@ export default function TrialCard(porps: acceptProps) {
   const { trial } = porps;
   const { trial_participant, challenge, title, deposit } = trial;
   const [startAt, setStartAt] = useState("NOW");
-
   const [isLiked, setIsLiked] = useState(false);
+
+  const cardRef = useRef<HTMLDivElement>(null);
+  const shineRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!cardRef.current) return;
+
+    cardRef.current.addEventListener("mouseenter", () => {
+      console.log("mouseenter");
+      gsap.fromTo(
+        shineRef.current,
+        {
+          xPercent: 0,
+          duration: 0.5,
+          ease: "linear",
+        },
+        {
+          xPercent: 800,
+          duration: 0.5,
+          ease: "linear",
+        }
+      );
+    });
+
+    cardRef.current.addEventListener("mouseleave", () => {
+      console.log("mouseleave");
+      gsap.fromTo(
+        shineRef.current,
+        {
+          xPercent: 800,
+          duration: 0.5,
+          ease: "linear",
+        },
+        {
+          xPercent: 0,
+          duration: 0.5,
+          ease: "linear",
+        }
+      );
+    });
+  }, [cardRef]);
+
   const handleLike = () => {
     setIsLiked(!isLiked);
   };
+  const handleGetDetail = () => {
+    navigate(`/trials/trial-detail/${trial.id}`);
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     const time = new Date(trial.start_at);
     const date = time.getDate();
     const month = time.getMonth();
     const year = time.getFullYear();
+    setStartAt(`${year}-${month}-${date}`);
+  }, [trial]);
 
-    setStartAt(`${year}-${month}-${date}`)
-  },[trial])
-
-  
   return (
-    <div className="border-2 border-schema-outline rounded-md p-3 min-w-102.5 w-full flex flex-col gap-4">
+    <div
+      ref={cardRef}
+      className="border-2 relative border-schema-outline rounded-md p-3 min-w-102.5 w-full flex flex-col gap-4 hover:cursor-pointer overflow-hidden"
+      onClick={handleGetDetail}
+    >
       <div className="flex justify-between items-center">
         <div>
           <div className="flex max-w-20 -space-x-5 hover:space-x-0">
@@ -72,7 +119,10 @@ export default function TrialCard(porps: acceptProps) {
         </div>
         <div>
           {challenge.catagory.map((catagory, index) => (
-            <span key={index} className=" rounded-full px-2.5 py-1 font-bold text-p bg-schema-on-surface">
+            <span
+              key={index}
+              className=" rounded-full px-2.5 py-1 font-bold text-p bg-schema-on-surface"
+            >
               {catagory}
             </span>
           ))}
@@ -84,7 +134,6 @@ export default function TrialCard(porps: acceptProps) {
           >
             {isLiked ? <FaHeart /> : <FaRegHeart />}
           </div>
-
           <Button variant="trialsJoin" className="w-20">
             加入
           </Button>
@@ -94,9 +143,7 @@ export default function TrialCard(porps: acceptProps) {
         <div className="flex flex-col gap-1">
           <h3 className="text-h3 font-semibold">{title}</h3>
           <h4 className="text-h4 font-semibold">{challenge.title}</h4>
-          <p className="text-p ">
-            {challenge.description}
-          </p>
+          <p className="text-p ">{challenge.description}</p>
         </div>
         <div className="flex justify-between gap-3">
           <div className="rounded-md px-2 py-1 font-bold text-p bg-schema-container-height w-full">
@@ -117,6 +164,10 @@ export default function TrialCard(porps: acceptProps) {
           </div>
         </div>
       </div>
+      <div
+        ref={shineRef}
+        className="absolute top-0 -left-[100%] w-1/3 -skew-x-12 h-full bg-schema-on-surface-variant/20 border backdrop-blur-sm border-white/20 "
+      ></div>
     </div>
   );
 }

@@ -16,8 +16,6 @@ export default function ListContainer() {
       {data?.map((trial) => (
         <TrialCard key={trial.id} trial={trial} />
       ))}
-    
-
     </div>
   );
 }
