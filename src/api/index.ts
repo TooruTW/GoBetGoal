@@ -4,3 +4,4 @@ export { useParticipants } from "./getParticipants";
 export { useDeleteParticipantInTrial } from "./deleteParticipantInTrial";
 export { usePostChallengeImage } from "./postChallengeImage";
 export { useTrialSupa } from "./getTrialSupa";
+export { useTrialAllSupa } from "./getTrialAllSupa";

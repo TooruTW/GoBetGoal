@@ -3,7 +3,38 @@ import { FaHeart } from "react-icons/fa6";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
-export default function TrialCard() {
+type trialParticipant = {
+    user_info: {
+        nick_name: string;
+        charactor_img_link: string;
+    }
+}
+
+type challenge = {
+    catagory: string[];
+    description: string;
+    frequency: string;
+    title: string;
+}
+
+interface acceptProps {
+  trial: {
+    id: string;
+    challenge_id: number;
+    created_by: number;
+    created_at: string;
+    deposit: number;
+    start_at: string;
+    title: string;
+    trial_status: string;
+    trial_participant: trialParticipant[]
+    challenge: challenge
+  };
+}
+
+export default function TrialCard(porps: acceptProps) {
+  const { trial } = porps;
+
   const [isLiked, setIsLiked] = useState(false);
   const handleLike = () => {
     setIsLiked(!isLiked);
@@ -36,15 +67,21 @@ export default function TrialCard() {
           </span>
         </div>
         <div className="flex items-center gap-5 ">
-          <div onClick={handleLike} className="cursor-pointer w-6 aspect-square flex items-center justify-center">
+          <div
+            onClick={handleLike}
+            className="cursor-pointer w-6 aspect-square flex items-center justify-center"
+          >
             {isLiked ? <FaHeart /> : <FaRegHeart />}
           </div>
 
-          <Button variant="trialsJoin" className="w-20">加入</Button>
+          <Button variant="trialsJoin" className="w-20">
+            加入
+          </Button>
         </div>
       </div>
       <div className="flex flex-col gap-1">
         <div className="flex flex-col gap-1">
+          <h3 className="text-h3 font-semibold">暑假都要結束了還這麼胖！！</h3>
           <h4 className="text-h4 font-semibold">28天哈佛減肥法</h4>
           <p className="text-p ">
             適合能忍耐重複食物，逐步瘦身者，採用低卡、低碳、減糖及油為原則，瘦身成效高
