@@ -30,7 +30,7 @@ export default function PlayerInfo({ participant }: PlayerInfoProps) {
 
         
         <div className="md:w-1/2 flex-col my-6 z-50">
-            <p className="font-bold text-h4">{playerName}</p>
+            <p className="font-bold text-2xl">{playerName}</p>
             <div className="flex justify-between">
                 <div className="flex-col justify-center text-center">
                 <p className="font-sm opacity-50">成功試煉數</p> <p>{playerTotalTrials}</p>

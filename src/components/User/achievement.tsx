@@ -1,6 +1,7 @@
 import { useAchievementSupa } from "@/api";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
+import SpotlightCard from '../reactBit/SpotlightCard';
 
 type Achievement = {
   id?: number;
@@ -60,18 +61,20 @@ export default function Achievement({ gridCols, gridColsMd, gridColsLg }: Achiev
     >
       {achievements.length > 0 &&
         achievements.map((achievement) => (
-          <li
-            className="p-4 flex flex-col text-center achievement"
+        <li
+            className=" flex flex-col text-center achievement"
             key={achievement.id}
-          >
-            <img
-              src={achievement.icon_url}
-              alt={achievement.title}
-              className="w-40"
-            />
-            <h2 className="font-bold">{achievement.title}</h2>
-            <p className="text-sm opacity-50">{achievement.description}</p>
-          </li>
+        >
+            <SpotlightCard className="custom-spotlight-card" spotlightColor="rgba(255, 255, 255, 0.2)">
+                <img
+                src={achievement.icon_url}
+                alt={achievement.title}
+                className="w-40"
+                />
+                <h2 className="font-bold">{achievement.title}</h2>
+                <p className="text-sm opacity-50">{achievement.description}</p>
+            </SpotlightCard>
+        </li>
         ))}
     </div>
   );
