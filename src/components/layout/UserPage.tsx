@@ -1,10 +1,10 @@
 import Achievement from "../User/achievement";
 import UserTitle from "../User/UserTitle";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 
 export default function UserPage() {
- 
+
 
   return (
     <div className="w-full min-h-screen py-20 dark">
@@ -23,19 +23,13 @@ export default function UserPage() {
         </section>
         <section className="w-full h-[400px] overflow-hidden md:w-1/2 ">
         <h3 className="text-xl font-bold">成就</h3>
-            <ul className="grid grid-cols-4  gap-0 md:gap-2 ">
-              <Achievement/>
-              </ul>
+           
+              <Achievement gridCols={3} gridColsMd={4} gridColsLg={4} />
+              
         </section>
       </TabsContent>
       <TabsContent value="achievements">
-          
-        <section className="w-full  flex flex-col justify-center items-center">
-            <ul className="grid grid-cols-3 md:grid-cols-6 gap-0 md:gap-4 max-w-330">
-              <Achievement/>
-              </ul>
-        </section>
-    
+        <Achievement gridCols={3} gridColsMd={4} gridColsLg={6} />
       </TabsContent>
       <TabsContent value="friends">Manage your friends here.</TabsContent>
      
