@@ -37,7 +37,7 @@ const routers = createBrowserRouter([
             errorElement: <TrialErrorPage />,
           },
           {
-            path: "trial-list",
+            index: true,
             element: <TrialsList />,
           }
         ]

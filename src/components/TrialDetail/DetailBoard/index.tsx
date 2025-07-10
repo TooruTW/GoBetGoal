@@ -18,9 +18,6 @@ export default function DetailBoard({ trial }: acceptProps) {
   const {width} = useSelector((state: RootState) => state.screen);
   const dispatch = useDispatch();
 
-
-
-
   useEffect(() => {
     const handleResize = () => {
       dispatch(setScreenSize({width: window.innerWidth}))
@@ -29,8 +26,6 @@ export default function DetailBoard({ trial }: acceptProps) {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, [dispatch]);
-
- 
 
   return (
     <div className="flex flex-col gap-6 w-full">

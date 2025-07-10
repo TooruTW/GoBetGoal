@@ -7,11 +7,11 @@ export default function TrialErrorPage() {
   const navigate = useNavigate();
   useEffect(() => {
     setTimeout(() => {
-      navigate("/trials/trial-list");
+      navigate("/trials");
     }, 5000);
   }, [navigate]);
   function handleNavigate() {
-    navigate("/trials/trial-list");
+    navigate("/trials");
   }
   return (
     <div className="flex flex-col items-center justify-center w-full gap-4 ">
