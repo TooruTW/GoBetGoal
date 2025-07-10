@@ -1,5 +1,6 @@
 import Achievement from "../User/achievement";
 import UserTitle from "../User/UserTitle";
+import Friend from "../User/Friend";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 
@@ -19,24 +20,25 @@ export default function UserPage() {
       </TabsList>
       <TabsContent value="account" className="md:flex">
         <section className="w-full md:w-1/2">
-          這裡放長條圖
+           <h3 className="text-xl font-bold">年度總覽</h3>
         </section>
         <section className="w-full h-[400px] overflow-hidden md:w-1/2 ">
         <h3 className="text-xl font-bold">成就</h3>
-           
-              <Achievement gridCols={3} gridColsMd={4} gridColsLg={4} />
+        <Achievement gridCols={3} gridColsMd={4} gridColsLg={4} />
               
         </section>
       </TabsContent>
       <TabsContent value="achievements">
         <Achievement gridCols={3} gridColsMd={4} gridColsLg={6} />
       </TabsContent>
-      <TabsContent value="friends">Manage your friends here.</TabsContent>
+      <TabsContent value="friends"> <Friend/></TabsContent>
      
       <TabsContent value="settings">Change your account settings here.</TabsContent>
     </Tabs>
       <section className="w-full  flex flex-col justify-center items-center">
-        
+        <button className=" text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors">
+          登出
+        </button>
       </section>
     </div>
   );
