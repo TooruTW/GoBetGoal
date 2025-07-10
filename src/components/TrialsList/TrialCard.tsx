@@ -1,6 +1,6 @@
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa6";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 
 type trialParticipant = {
@@ -15,6 +15,9 @@ type challenge = {
     description: string;
     frequency: string;
     title: string;
+    challenge_stage: {
+        description: string;
+    }[]
 }
 
 interface acceptProps {
@@ -34,37 +37,45 @@ interface acceptProps {
 
 export default function TrialCard(porps: acceptProps) {
   const { trial } = porps;
+  const { trial_participant, challenge, title, deposit } = trial;
+  const [startAt, setStartAt] = useState("NOW");
 
   const [isLiked, setIsLiked] = useState(false);
   const handleLike = () => {
     setIsLiked(!isLiked);
   };
+
+  useEffect(()=>{
+    const time = new Date(trial.start_at);
+    const date = time.getDate();
+    const month = time.getMonth();
+    const year = time.getFullYear();
+
+    setStartAt(`${year}-${month}-${date}`)
+  },[trial])
+
+  
   return (
     <div className="border-2 border-schema-outline rounded-md p-3 min-w-102.5 w-full flex flex-col gap-4">
       <div className="flex justify-between items-center">
         <div>
           <div className="flex max-w-20 -space-x-5 hover:space-x-0">
-            <img
-              className="rounded-full w-11 aspect-square bg-gray-200 border-2 border-schema-outline object-cover object-top-left"
-              src="/avatar/dog.webp"
-              alt=""
-            />
-            <img
-              className="rounded-full w-11 aspect-square bg-gray-200 border-2 border-schema-outline object-cover object-top-left"
-              src="/avatar/girlBearHat.webp"
-              alt=""
-            />
-            <img
-              className="rounded-full w-11 aspect-square bg-gray-200 border-2 border-schema-outline object-cover object-top-left"
-              src="/avatar/monster.webp"
-              alt=""
-            />
+            {trial_participant.map((participant, index) => (
+              <img
+                key={index}
+                className="rounded-full w-11 aspect-square bg-gray-200 border-2 border-schema-outline object-cover object-top-left"
+                src={participant.user_info.charactor_img_link}
+                alt=""
+              />
+            ))}
           </div>
         </div>
         <div>
-          <span className=" rounded-full px-2.5 py-1 font-bold text-p bg-schema-on-surface">
-            飲食
-          </span>
+          {challenge.catagory.map((catagory, index) => (
+            <span key={index} className=" rounded-full px-2.5 py-1 font-bold text-p bg-schema-on-surface">
+              {catagory}
+            </span>
+          ))}
         </div>
         <div className="flex items-center gap-5 ">
           <div
@@ -81,28 +92,28 @@ export default function TrialCard(porps: acceptProps) {
       </div>
       <div className="flex flex-col gap-1">
         <div className="flex flex-col gap-1">
-          <h3 className="text-h3 font-semibold">暑假都要結束了還這麼胖！！</h3>
-          <h4 className="text-h4 font-semibold">28天哈佛減肥法</h4>
+          <h3 className="text-h3 font-semibold">{title}</h3>
+          <h4 className="text-h4 font-semibold">{challenge.title}</h4>
           <p className="text-p ">
-            適合能忍耐重複食物，逐步瘦身者，採用低卡、低碳、減糖及油為原則，瘦身成效高
+            {challenge.description}
           </p>
         </div>
         <div className="flex justify-between gap-3">
           <div className="rounded-md px-2 py-1 font-bold text-p bg-schema-container-height w-full">
             <p className="text-label">預計賺取</p>
-            <p className="leading-6">150,000</p>
+            <p className="leading-6">{(deposit * 1.5).toLocaleString()}</p>
           </div>
           <div className="rounded-md px-2 py-1 font-bold text-p bg-schema-container-height w-full">
             <p className="text-label">開始時間</p>
-            <p className="leading-6">1 D 12 hr</p>
+            <p className="leading-6">{startAt}</p>
           </div>
           <div className="rounded-md px-2 py-1 font-bold text-p bg-schema-container-height w-full">
             <p className="text-label">關卡數</p>
-            <p className="leading-6">28</p>
+            <p className="leading-6">{challenge.challenge_stage.length}</p>
           </div>
           <div className="rounded-md px-2 py-1 font-bold text-p bg-schema-container-height w-full">
             <p className="text-label">檢查頻率</p>
-            <p className="leading-6">每日</p>
+            <p className="leading-6"> {challenge.frequency} 天</p>
           </div>
         </div>
       </div>

@@ -2,10 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/supabaseClient";
 
 const getTrialAllSupa = async () => {
-  const { data, error } = await supabase
-    .from("trial")
-    .select(`
-    *,challenge:challenge_id (catagory,description,frequency,title),
+  const { data, error } = await supabase.from("trial").select(`
+    *,challenge:challenge_id (catagory,description,frequency,title,challenge_stage(description)),
     trial_participant (
       user_info:participant_id (
         nick_name,charactor_img_link
