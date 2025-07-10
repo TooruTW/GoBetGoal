@@ -51,7 +51,7 @@ export default function Achievement({ gridCols, gridColsMd, gridColsLg }: Achiev
     gridCols ? `grid-cols-${gridCols}` : "",
     gridColsMd ? `md:grid-cols-${gridColsMd}` : "",
     gridColsLg ? `lg:grid-cols-${gridColsLg}` : "",
-    "grid gap-4"
+    "grid gap-2 h-full"
   ].join(" ").trim();
 
   return (
@@ -65,7 +65,7 @@ export default function Achievement({ gridCols, gridColsMd, gridColsLg }: Achiev
             className=" flex flex-col text-center achievement"
             key={achievement.id}
         >
-            <SpotlightCard className="custom-spotlight-card" spotlightColor="rgba(255, 255, 255, 0.2)">
+            <SpotlightCard className="custom-spotlight-card h-full" spotlightColor="rgba(255, 255, 255, 0.2)">
                 <img
                 src={achievement.icon_url}
                 alt={achievement.title}
