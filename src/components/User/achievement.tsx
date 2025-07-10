@@ -22,7 +22,7 @@ export default function Achievement() {
   return (
     <div className="w-full  py-20">
       <section className="w-full  flex flex-col justify-center items-center">
-          <ul className="grid grid-cols-3 md:grid-cols-6 gap-0 md:gap-4 max-w-330 mx-auto">
+          <ul className="grid grid-cols-3 md:grid-cols-6 gap-0 md:gap-4 max-w-330">
             {achievements.length > 0 &&
               achievements.map((achievement) => (
                 <li

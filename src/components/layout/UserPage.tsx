@@ -9,7 +9,7 @@ export default function UserPage() {
   return (
     <div className="w-full min-h-screen py-20">
     <UserTitle />
-    <Tabs defaultValue="account" className="w-full max-w-330 mx-auto">
+    <Tabs defaultValue="account" className="w-full max-w-330 px-4 ">
       <TabsList>
         <TabsTrigger value="account">總覽</TabsTrigger>
         <TabsTrigger value="achievements">成就</TabsTrigger>
