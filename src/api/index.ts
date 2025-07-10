@@ -5,3 +5,6 @@ export { useDeleteParticipantInTrial } from "./deleteParticipantInTrial";
 export { usePostChallengeImage } from "./postChallengeImage";
 export { useTrialSupa } from "./getTrialSupa";
 export { useTrialAllSupa } from "./getTrialAllSupa";
+export { useAchievementSupa } from "./getAchievementSupa";
+export { usePostAchievementSupa } from "./postAchievementSupa";
+export { useDeleteAchievementSupa } from "./deleteAcievementSupa";
