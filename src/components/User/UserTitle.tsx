@@ -44,12 +44,12 @@ export default function PlayerInfo({ participant }: PlayerInfoProps) {
             </div>
             
         </div>
-        <div className="opacity-30 absolute z-0 top-0 left-0 w-full h-full pointer-events-none">
+        <div className="opacity-50 absolute z-0 top-0 left-0 w-full h-full pointer-events-none">
               <Aurora
-              colorStops={["#EBA7E4", "#FF94B4", "#FF3232"]}
+              colorStops={["#EBA7E4", "#FF94B4", "#EAC3EB"]}
               blend={0.5}
               amplitude={1.0}
-              speed={0.5}
+              speed={1}
             />
             </div>
     </div>
