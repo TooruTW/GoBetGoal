@@ -21,6 +21,5 @@ export function useTrialAllSupa() {
     queryKey: ["trial", "all"],
     queryFn: getTrialAllSupa,
   });
-
   return { data, isLoading, error };
 }

@@ -3,7 +3,6 @@ import { FaHeart } from "react-icons/fa6";
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import gsap from "gsap";
 
 type trialParticipant = {
   user_info: {
@@ -42,50 +41,18 @@ export default function TrialCard(porps: acceptProps) {
   const [isLiked, setIsLiked] = useState(false);
 
   const cardRef = useRef<HTMLDivElement>(null);
-  const shineRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!cardRef.current) return;
-
-    cardRef.current.addEventListener("mouseenter", () => {
-      console.log("mouseenter");
-      gsap.fromTo(
-        shineRef.current,
-        {
-          xPercent: 0,
-          duration: 0.5,
-          ease: "linear",
-        },
-        {
-          xPercent: 800,
-          duration: 0.5,
-          ease: "linear",
-        }
-      );
-    });
-
-    cardRef.current.addEventListener("mouseleave", () => {
-      console.log("mouseleave");
-      gsap.fromTo(
-        shineRef.current,
-        {
-          xPercent: 800,
-          duration: 0.5,
-          ease: "linear",
-        },
-        {
-          xPercent: 0,
-          duration: 0.5,
-          ease: "linear",
-        }
-      );
-    });
-  }, [cardRef]);
-
-  const handleLike = () => {
+  const handleLike = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
     setIsLiked(!isLiked);
   };
+  
+  const handleJoin = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    console.log("join");
+  };
+
   const handleGetDetail = () => {
     navigate(`/trials/trial-detail/${trial.id}`);
   };
@@ -129,12 +96,12 @@ export default function TrialCard(porps: acceptProps) {
         </div>
         <div className="flex items-center gap-5 ">
           <div
-            onClick={handleLike}
+            onClick={(e) => handleLike(e)}
             className="cursor-pointer w-6 aspect-square flex items-center justify-center"
           >
             {isLiked ? <FaHeart /> : <FaRegHeart />}
           </div>
-          <Button variant="trialsJoin" className="w-20">
+          <Button variant="trialsJoin" className="w-20" onClick={(e) => handleJoin(e)}>
             加入
           </Button>
         </div>
@@ -164,10 +131,6 @@ export default function TrialCard(porps: acceptProps) {
           </div>
         </div>
       </div>
-      <div
-        ref={shineRef}
-        className="absolute top-0 -left-[100%] w-1/3 -skew-x-12 h-full bg-schema-on-surface-variant/20 border backdrop-blur-sm border-white/20 "
-      ></div>
     </div>
   );
 }

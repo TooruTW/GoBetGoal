@@ -1,6 +1,8 @@
 import TrialCard from "./TrialCard";
 import { useTrialAllSupa } from "@/api";
 import { useEffect } from "react";
+import GlareHover from "../reactBit/GlareaHover";
+
 export default function ListContainer() {
 
     const {data, isLoading, error} = useTrialAllSupa()
@@ -14,7 +16,9 @@ export default function ListContainer() {
   return (
     <div className="w-full grid grid-cols-2 gap-6">
       {data?.map((trial) => (
-        <TrialCard key={trial.id} trial={trial} />
+        <GlareHover key={trial.id} >
+          <TrialCard trial={trial} />
+        </GlareHover>
       ))}
     </div>
   );
