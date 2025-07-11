@@ -7,7 +7,6 @@ export default function ErrorPages() {
   const titleRef: RefObject<HTMLHeadingElement | null> = useRef(null);
   useEffect(() => {
     if (!titleRef.current) return;
-
     gsap.fromTo(
       titleRef.current,
       {

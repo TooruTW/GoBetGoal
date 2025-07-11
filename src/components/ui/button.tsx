@@ -20,6 +20,8 @@ const buttonVariants = cva(
         ghost:
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
+        trialsJoin:
+          "bg-schema-primary text-white shadow-xs hover:bg-schema-primary/90 hover:scale-110 focus-visible:ring-schema-primary/20 dark:focus-visible:ring-schema-primary/40 dark:bg-schema-primary/60 active:scale-105",
 
       },
       size: {

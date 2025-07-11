@@ -10,11 +10,12 @@ export default function TrialErrorPage() {
       navigate("/trials");
     }, 5000);
   }, [navigate]);
+
   function handleNavigate() {
     navigate("/trials");
   }
   return (
-    <div className="flex flex-col items-center justify-center w-full gap-4 ">
+    <div className="flex flex-col items-center justify-center w-full gap-4 h-screen ">
       <h1 className="text-h1 font-normal font-title">can't not found trial</h1>
       <p className="text-p font-normal">五秒後跳轉回試煉列表</p>
       <Link to="/trials">
