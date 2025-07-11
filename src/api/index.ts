@@ -12,3 +12,4 @@ export { usePostSignInSupa } from "./postSignInSupa";
 export { usePostLogInSupa } from "./postLogInSupa";
 export { useGetUserSupa } from "./getUserSupa";
 export { usePostLogOutSupa } from "./postLogOutSupa";
+export { useGetUserInfoSupa } from "./getUserInfoSupa";
