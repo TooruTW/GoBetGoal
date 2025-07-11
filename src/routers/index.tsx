@@ -5,7 +5,6 @@ import UserPage from "@/components/layout/UserPage";
 import Home from "@/components/layout/Home";
 import Authentication from "@/components/layout/Authentication";
 import AuthAccount from "@/components/layout/AuthAccount";
-import AuthSuccess from "@/components/layout/AuthSuccess";
 import Info from "@/components/layout/Info";
 import Shop from "@/components/layout/Shop";
 import Trials from "@/components/layout/Trials";
@@ -14,6 +13,9 @@ import TrialErrorPage from "@/components/TrialDetail/TrialErrorPage";
 import TrialsList from "@/components/TrialsList";
 import DevPage from "@/components/layout/DevPage";
 import DevAchievement from "@/components/DevComponent/DevAchievement";
+import Auth from "@/components/Auth/index";
+import LoginSuccess from "@/components/Auth/LoginSuccess";
+import RegisterSuccess from "@/components/Auth/RegisterSuccess";
 
 const routers = createBrowserRouter([
   {
@@ -49,12 +51,16 @@ const routers = createBrowserRouter([
         element: <Authentication />,
         children: [
           {
-            path: "auth-account",
+            index: true,
+            element: <Auth />,
+          },
+          {
+            path: "auth-account/:id",
             element:<AuthAccount />,
           },
           {
-            path: "auth-success",
-            element: <AuthSuccess />,
+            path: "auth-success/:id",
+            element: <LoginSuccess />,
           },
         ],
       },

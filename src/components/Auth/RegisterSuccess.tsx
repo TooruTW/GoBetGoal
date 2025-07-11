@@ -27,7 +27,7 @@ export default function RegisterSuccess({ nickname, avatar }: RegisterSuccessPro
   }, [navigate]);
 
   return (
-    <div className="w-full h-screen md:w-auto  md:h-auto   shadow-2xl rounded-lg p-6 bg-[var(--card)]  flex flex-col items-center justify-center gap-4">
+    <div className="w-full h-screen md:w-auto  md:h-auto dark shadow-2xl rounded-lg p-6 bg-[var(--card)]  flex flex-col items-center justify-center gap-4">
         <div className="flex items-end -gap-10 justify-center">
           <img src={avatar} alt="選擇的頭像" className="w-60 rounded-full mx-auto my-4" />
           <img src="/monster/monsterDefault.webp" alt="monster" className="w-32 h-36 -ml-24" />

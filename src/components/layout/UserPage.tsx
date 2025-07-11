@@ -2,10 +2,19 @@ import Achievement from "../User/achievement";
 import UserTitle from "../User/UserTitle";
 import Friend from "../User/Friend";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
+import { usePostLogOutSupa, useGetUserSupa } from "@/api";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function UserPage() {
-
+  const { mutate: postLogOutSupa } = usePostLogOutSupa();
+  const { data: user } = useGetUserSupa();
+  const navigate = useNavigate();
+  useEffect(()=>{
+    if(!user){
+      navigate("/authentication")
+    }
+  },[user,navigate])
 
   return (
     <div className="w-full min-h-screen py-20 dark">
@@ -36,7 +45,7 @@ export default function UserPage() {
       <TabsContent value="settings">Change your account settings here.</TabsContent>
     </Tabs>
       <section className="w-full  flex flex-col justify-center items-center">
-        <button className=" text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors">
+        <button onClick={() => postLogOutSupa()} className=" text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors">
           登出
         </button>
       </section>

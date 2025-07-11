@@ -1,12 +1,13 @@
-import TitleIcon from "@/components/Icons/TitleIcon"
-import TitleText from "./TitleText"
-
-
-export default function Title(){
-    return(
-        <div className="flex items-center">
-            <TitleIcon />
-            <TitleText className="max-md:hidden">Flag or Bet</TitleText>
-        </div>
-    )
+import TitleIcon from "@/components/Icons/TitleIcon";
+import TitleText from "./TitleText";
+import { Link } from "react-router-dom";
+export default function Title() {
+  return (
+    <div >
+      <Link className="flex items-center cursor-pointer" to="/">
+        <TitleIcon />
+        <TitleText className="max-md:hidden">Flag or Bet</TitleText>{" "}
+      </Link>
+    </div>
+  );
 }

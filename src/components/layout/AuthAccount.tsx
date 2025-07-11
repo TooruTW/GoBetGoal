@@ -3,7 +3,8 @@ import AvatarCarousel from "@/components/Auth/AvatarCarousel";
 import { useForm, SubmitHandler } from "react-hook-form";
 import RegisterSuccess from "../Auth/RegisterSuccess";
 import CandyDrop from "../Auth/CandyDrop";
-
+import { usePostFristEditUserInfo } from "@/api";
+import { useParams } from "react-router-dom";
 type Avatar = { src: string; price: number };
 
 type FormValues = {
@@ -16,7 +17,10 @@ const fakeNicknames = ["小明", "testuser", "flagorbet"];
 export default function AuthAccount() {
   const [selectedAvatar, setSelectedAvatar] = useState<Avatar | null>(null);
   const [accountSuccess, setAccountSuccess] = useState(false);
-  const [registerInfo, setRegisterInfo] = useState<{ nickname: string; avatar: string } | null>(null);
+  const [registerInfo, setRegisterInfo] = useState<{
+    nickname: string;
+    avatar: string;
+  } | null>(null);
   const {
     register,
     formState: { errors },
@@ -27,7 +31,7 @@ export default function AuthAccount() {
   } = useForm<FormValues>({
     mode: "onBlur",
   });
-
+  const { id } = useParams();
   const checkNickname = async (nickname: string) => {
     await new Promise((res) => setTimeout(res, 300));
     return fakeNicknames.includes(nickname);
@@ -38,17 +42,34 @@ export default function AuthAccount() {
     setSelectedAvatar(avatar);
     setValue("avatar", avatar.src, { shouldValidate: true });
   };
+  const { mutate: postFristEditUserInfo } = usePostFristEditUserInfo();
 
   const onRegister: SubmitHandler<FormValues> = async (data) => {
-    const isDuplicate = await checkNickname(data.nickname || "");
-    if (isDuplicate) {
-      setError("nickname", { type: "manual", message: "暱稱重複" });
-      return;
-    }
-    // 這裡 data.avatar 就是選中的圖片 src
-    setRegisterInfo({ nickname: data.nickname || "", avatar: data.avatar });
-    setAccountSuccess(true)
-    // await api.saveProfile({ nickname: data.nickname, avatar: data.avatar });
+    console.log(data);
+    if (!id || !data.nickname || !data.avatar) return;
+    postFristEditUserInfo(
+      {
+        user_id: id,
+        nickname: data.nickname,
+        avatarUrl: data.avatar,
+      },
+      {
+        onSuccess: () => {
+          if (!id || !data.nickname || !data.avatar) return;
+
+          console.log("setting success");
+          setAccountSuccess(true);
+          setRegisterInfo({
+            nickname: data.nickname,
+            avatar: data.avatar,
+          });
+        },
+        onError: (error) => {
+          console.log("setting error", error.message);
+          setError("nickname", { type: "manual", message: error.message });
+        },
+      }
+    );
   };
 
   return (
@@ -69,7 +90,9 @@ export default function AuthAccount() {
             {...register("avatar", { required: "請選擇頭像" })}
           />
           {errors.avatar && (
-            <p className="text-[var(--destructive)] text-sm">{errors.avatar.message}</p>
+            <p className="text-[var(--destructive)] text-sm">
+              {errors.avatar.message}
+            </p>
           )}
 
           {/* 暱稱 */}
@@ -94,7 +117,9 @@ export default function AuthAccount() {
             />
             <p
               role="alert"
-              className={`${errors.nickname ? "block" : "hidden"} text-[var(--destructive)] text-sm`}
+              className={`${
+                errors.nickname ? "block" : "hidden"
+              } text-[var(--destructive)] text-sm`}
             >
               {errors.nickname?.message}
             </p>
@@ -108,14 +133,16 @@ export default function AuthAccount() {
           </button>
         </form>
       </section>
-      {/* 登入成功 Modal */}
+      {/* 註冊成功 Modal */}
       {accountSuccess && registerInfo && (
         <div className="fixed  inset-0 z-30 flex flex-col gap-1 items-center justify-center bg-black/40 backdrop-blur-sm w-full h-screen">
-          <RegisterSuccess nickname={registerInfo.nickname} avatar={registerInfo.avatar} />
+          <RegisterSuccess
+            nickname={registerInfo.nickname}
+            avatar={registerInfo.avatar}
+          />
           <div className="absolute  z-50  bottom-0 left-1/2 transform -translate-x-1/2  flex-col items-end justify-end">
-            <CandyDrop/>
+            <CandyDrop />
           </div>
-          
         </div>
       )}
     </div>
