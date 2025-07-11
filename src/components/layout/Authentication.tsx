@@ -79,7 +79,7 @@ export default function Authentication() {
             alt="monster"
             className="w-40"
           />
-          <Tabs defaultValue="register" className="w-1/3 ">
+          <Tabs defaultValue="login" className="w-1/3 ">
             <TabsList className="flex justify-center mb-4 w-full">
               <TabsTrigger value="register">註冊</TabsTrigger>
               <TabsTrigger value="login">登入</TabsTrigger>

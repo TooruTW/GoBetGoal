@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/supabaseClient";
 
 type LogInData = {
@@ -16,6 +16,7 @@ const postLogInSupa = async (logInData: LogInData) => {
 };
 
 export function usePostLogInSupa() {
+  const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: (logInData: LogInData) => postLogInSupa(logInData),
 
@@ -27,6 +28,7 @@ export function usePostLogInSupa() {
     },
     onSuccess: () => {
       console.log("log in success");
+      queryClient.invalidateQueries({ queryKey: ["user"] });
     },
   });
 

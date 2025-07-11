@@ -11,3 +11,4 @@ export { useDeleteAchievementSupa } from "./deleteAcievementSupa";
 export { usePostSignInSupa } from "./postSignInSupa";
 export { usePostLogInSupa } from "./postLogInSupa";
 export { useGetUserSupa } from "./getUserSupa";
+export { usePostLogOutSupa } from "./postLogOutSupa";
