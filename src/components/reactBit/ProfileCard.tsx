@@ -59,7 +59,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
   className = "",
   enableTilt = true,
   miniAvatarUrl,
-  handle = "javicodes",
+  handle = "",
   status = "Online",
   contactText = "Contact",
   showUserInfo = true,
@@ -271,7 +271,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
             <img
               className="avatar"
               src={avatarUrl}
-              alt={`${name || "User"} avatar`}
+              alt={`${ "User"} avatar`}
               loading="lazy"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;

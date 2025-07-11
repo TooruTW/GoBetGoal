@@ -61,7 +61,7 @@ export default function Friend() {
   return (
     <div
       ref={cardContainerRef}
-      className="grid gap-2 grid-cols-4 h-full"
+      className="grid gap-6 grid-cols-4 h-full"
     >
       {Friends.length > 0 &&
         Friends.map((Friend) => (
