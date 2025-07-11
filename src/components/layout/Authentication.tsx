@@ -7,10 +7,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import LoginSuccess from "../Auth/LoginSuccess";
 import { usePostSignInSupa, usePostLogInSupa, useGetUserSupa } from "@/api";
 
-const fakeUsers = [
-  { mail: "testingSupa@gmail.com", password: "qwer1234" },
-  { mail: "user2@gmail.com", password: "abc12345" },
-];
 
 type FormValues = {
   mail: string;
@@ -36,6 +32,7 @@ export default function Authentication() {
   const { data: user } = useGetUserSupa();
 
   useEffect(() => {
+    
     if (user) {
       console.log(user);
       navigate("/user-page");
@@ -45,29 +42,32 @@ export default function Authentication() {
   // 註冊送出
   const onRegister: SubmitHandler<FormValues> = async (data) => {
     setRegisterError("");
-    console.log(data);
-    postSignInSupa(data);
-    // const result = await fakeRegister(data.mail, data.password);
-    // if (!result.success) {
-    //   setRegisterError(result.error || "註冊失敗");
-    //   return;
-    // }
-    // // 註冊成功，導向下一頁
-
-    // setRegisterSuccess(true);
-    // navigate("/authentication/auth-account");
+    postSignInSupa(data, {
+      onError: (error) => {
+        console.log("sing in error", error);
+        setRegisterError(error.message);
+      },
+      onSuccess: () => {
+        console.log("sign in success");
+        setRegisterSuccess(true);
+        navigate("/authentication/auth-account");
+      },
+    });
   };
 
   // 登入送出
   const onLogin: SubmitHandler<FormValues> = async (data) => {
     setLoginError("");
-    postLogInSupa(data);
-    // const isLogin = await fakeLogin(data.mail, data.password);
-    // if (!isLogin) {
-    //   setLoginError("帳號或密碼錯誤");
-    //   return;
-    // }
-    // setLoginSuccess(true);
+    postLogInSupa(data, {
+      onError: (error) => {
+        console.log("post error", error);
+        setLoginError(error.message);
+      },
+      onSuccess: () => {
+        console.log("log in success");
+        setLoginSuccess(true);
+      },
+    });
   };
 
   return (
@@ -257,6 +257,7 @@ export default function Authentication() {
       ) : (
         <Outlet />
       )}
+
       {/* 登入成功 Modal */}
       {loginSuccess && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm w-full h-screen">

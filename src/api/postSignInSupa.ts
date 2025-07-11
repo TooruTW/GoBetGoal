@@ -18,16 +18,6 @@ const postSignInSupa = async (signInData: SignInData) => {
 export function usePostSignInSupa() {
   const mutation = useMutation({
     mutationFn: (signInData: SignInData) => postSignInSupa(signInData),
-
-    onError: (error) => {
-      console.log("post error", error);
-    },
-    onMutate: () => {
-      console.log("uploading");
-    },
-    onSuccess: () => {
-      console.log("sign in success");
-    },
   });
 
   return mutation;
