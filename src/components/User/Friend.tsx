@@ -28,6 +28,41 @@ const fakeFriends: Friend[] = [
     icon_url: "/avatar/girlPurpleCurly.webp",
   },
   {
+    id: 2,
+    order: 2,
+    title: "小美",
+    description: "喜歡閱讀的朋友",
+    icon_url: "/avatar/girlPurpleCurly.webp",
+  },
+  {
+    id: 2,
+    order: 2,
+    title: "小美",
+    description: "喜歡閱讀的朋友",
+    icon_url: "/avatar/girlPurpleCurly.webp",
+  },
+  {
+    id: 2,
+    order: 2,
+    title: "小美",
+    description: "喜歡閱讀的朋友",
+    icon_url: "/avatar/girlPurpleCurly.webp",
+  },
+  {
+    id: 2,
+    order: 2,
+    title: "小美",
+    description: "喜歡閱讀的朋友",
+    icon_url: "/avatar/girlPurpleCurly.webp",
+  },
+  {
+    id: 2,
+    order: 2,
+    title: "小美",
+    description: "喜歡閱讀的朋友",
+    icon_url: "/avatar/girlPurpleCurly.webp",
+  },
+  {
     id: 3,
     order: 3,
     title: "阿狗",
@@ -45,11 +80,11 @@ export default function Friend() {
     gsap.fromTo(
       cardContainerRef.current.children,
       {
-        x: "50",
+        x: 50,
         opacity: 0,
       },
       {
-        y: 0,
+        x: 0,
         opacity: 1,
         duration: 0.5,
         ease: "back",
@@ -59,18 +94,21 @@ export default function Friend() {
   }, [Friends]);
 
   return (
-    <div
+    <div className="py-20">
+      <h2 className="text-2xl font-bold my-6">
+        新增好友
+      </h2>
+      <div
       ref={cardContainerRef}
-      className="grid gap-6 grid-cols-4 h-full"
+      className="grid gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 h-full w-full px-auto"
     >
       {Friends.length > 0 &&
         Friends.map((Friend) => (
         <li
-            className="w-full flex flex-col text-center Friend justify-center items-center"
+            className="w-full flex flex-col text-center Friend  justify-center items-center"
             key={Friend.id}
         >
             <ProfileCard
-            
             handle={Friend.title}
             status="Online"
             contactText="Contact Me"
@@ -80,17 +118,38 @@ export default function Friend() {
             className="w-[10px]"
             onContactClick={() => console.log('Contact clicked')}
             />
-            {/* <SpotlightCard className="custom-spotlight-card h-full" spotlightColor="rgba(255, 255, 255, 0.2)">
-                <img
-                src={Friend.icon_url}
-                alt={Friend.title}
-                className="w-40"
-                />
-                <h2 className="font-bold">{Friend.title}</h2>
-                <p className="text-sm opacity-50">{Friend.description}</p>
-            </SpotlightCard> */}
+            
         </li>
         ))}
+      </div>
+      <h2 className="text-2xl font-bold my-6">
+        好友列表
+      </h2>
+      <div
+      ref={cardContainerRef}
+      className="grid gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 h-full w-full px-auto"
+    >
+      {Friends.length > 0 &&
+        Friends.map((Friend) => (
+        <li
+            className="w-full flex flex-col text-center Friend  justify-center items-center"
+            key={Friend.id}
+        >
+            <ProfileCard
+            handle={Friend.title}
+            status="Online"
+            contactText="Contact Me"
+            avatarUrl={Friend.icon_url}
+            showUserInfo={true}
+            enableTilt={true}
+            className="w-[10px]"
+            onContactClick={() => console.log('Contact clicked')}
+            />
+            
+        </li>
+        ))}
+      </div>
     </div>
+   
   );
 }

@@ -257,19 +257,19 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
   return (
     <div
       ref={wrapRef}
-      className={`pc-card-wrapper w-full h-full ${className ? className : ''}`.trim()}
+      className={`pc-card-wrapper w-full h-full  ${className ? className : ''}`.trim()}
       style={cardStyle}
     >
       <section
         ref={cardRef}
         className="pc-card w-full h-full"
       >
-        <div className="pc-inside">
+        <div className="pc-inside ">
           <div className="pc-shine" />
           <div className="pc-glare" />
-          <div className="pc-content pc-avatar-content">
+          <div className="pc-content pc-avatar-content ">
             <img
-              className="avatar"
+              className="avatar p-4"
               src={avatarUrl}
               alt={`${ "User"} avatar`}
               loading="lazy"
@@ -281,10 +281,10 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
             {showUserInfo && (
               <div className="pc-user-info">
                 <div className="pc-user-details">
-                  <div className="pc-mini-avatar">
+                  {/* <div className="pc-mini-avatar">
                     <img
                       src={miniAvatarUrl || avatarUrl}
-                      alt={`${name || "User"} mini avatar`}
+                      alt={`${"User"} mini avatar`}
                       loading="lazy"
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
@@ -292,21 +292,21 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                         target.src = avatarUrl;
                       }}
                     />
-                  </div>
+                  </div> */}
                   <div className="pc-user-text">
-                    <div className="pc-handle">@{handle}</div>
+                    <div className="pc-handle">{handle}</div>
                     <div className="pc-status">{status}</div>
                   </div>
                 </div>
-                <button
+                {/* <button
                   className="pc-contact-btn"
                   onClick={handleContactClick}
                   style={{ pointerEvents: "auto" }}
                   type="button"
-                  aria-label={`Contact ${name || "user"}`}
+                  aria-label={`Contact ${"user"}`}
                 >
                   {contactText}
-                </button>
+                </button> */}
               </div>
             )}
           </div>
