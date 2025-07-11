@@ -1,13 +1,14 @@
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import LoginSuccess from "../Auth/LoginSuccess";
+import { usePostSignInSupa, usePostLogInSupa, useGetUserSupa } from "@/api";
 
 const fakeUsers = [
-  { mail: "flagorbet@gmail.com", password: "test1234" },
+  { mail: "testingSupa@gmail.com", password: "qwer1234" },
   { mail: "user2@gmail.com", password: "abc12345" },
 ];
 
@@ -30,61 +31,54 @@ export default function Authentication() {
   } = useForm<FormValues>({
     mode: "onBlur",
   });
+  const { mutate: postSignInSupa } = usePostSignInSupa();
+  const { mutate: postLogInSupa } = usePostLogInSupa();
+  const { data: user } = useGetUserSupa();
 
-  // 假API註冊
-  const fakeRegister = async (mail: string, password: string) => {
-    await new Promise((res) => setTimeout(res, 500));
-    // 檢查是否已註冊
-    if (fakeUsers.some((user) => user.mail === mail)) {
-      return { success: false, error: "此信箱已註冊" };
+  useEffect(() => {
+    if (user) {
+      console.log(user);
+      navigate("/user-page");
     }
-    // 模擬伺服器錯誤（10% 機率）
-    if (Math.random() < 0.1) {
-      return { success: false, error: "註冊失敗，請稍後再試" };
-    }
-    // 註冊成功
-    fakeUsers.push({ mail, password });
-    return { success: true };
-  };
-
-  // 假API登入
-  const fakeLogin = async (mail: string, password: string) => {
-    await new Promise((res) => setTimeout(res, 300));
-    return fakeUsers.some(
-      (user) => user.mail === mail && user.password === password
-    );
-  };
+  }, [user, navigate]);
 
   // 註冊送出
   const onRegister: SubmitHandler<FormValues> = async (data) => {
     setRegisterError("");
-    const result = await fakeRegister(data.mail, data.password);
-    if (!result.success) {
-      setRegisterError(result.error || "註冊失敗");
-      return;
-    }
-    // 註冊成功，導向下一頁
-    
-    setRegisterSuccess(true);
-    navigate("/authentication/auth-account");
+    console.log(data);
+    postSignInSupa(data);
+    // const result = await fakeRegister(data.mail, data.password);
+    // if (!result.success) {
+    //   setRegisterError(result.error || "註冊失敗");
+    //   return;
+    // }
+    // // 註冊成功，導向下一頁
+
+    // setRegisterSuccess(true);
+    // navigate("/authentication/auth-account");
   };
 
   // 登入送出
   const onLogin: SubmitHandler<FormValues> = async (data) => {
     setLoginError("");
-    const isLogin = await fakeLogin(data.mail, data.password);
-    if (!isLogin) {
-      setLoginError("帳號或密碼錯誤");
-      return;
-    }
-    setLoginSuccess(true);
+    postLogInSupa(data);
+    // const isLogin = await fakeLogin(data.mail, data.password);
+    // if (!isLogin) {
+    //   setLoginError("帳號或密碼錯誤");
+    //   return;
+    // }
+    // setLoginSuccess(true);
   };
 
   return (
     <div className="flex justify-center items-center h-screen max-w-[1320px] mx-auto px-4 gap-8 dark">
       {!registerSuccess ? (
         <>
-          <img src="/monster/monsterDefault.webp" alt="monster" className="w-40" />
+          <img
+            src="/monster/monsterDefault.webp"
+            alt="monster"
+            className="w-40"
+          />
           <Tabs defaultValue="register" className="w-1/3 ">
             <TabsList className="flex justify-center mb-4 w-full">
               <TabsTrigger value="register">註冊</TabsTrigger>
@@ -114,7 +108,10 @@ export default function Authentication() {
                     aria-invalid={errors.mail ? "true" : "false"}
                   />
                   {errors.mail && (
-                    <p role="alert" className="text-[var(--destructive)] text-sm">
+                    <p
+                      role="alert"
+                      className="text-[var(--destructive)] text-sm"
+                    >
                       {errors.mail.message}
                     </p>
                   )}
@@ -135,8 +132,9 @@ export default function Authentication() {
                           message: "密碼需至少6碼",
                         },
                         validate: (value) =>
-                          /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(value) ||
-                          "密碼需包含英文與數字",
+                          /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(
+                            value
+                          ) || "密碼需包含英文與數字",
                       })}
                       aria-invalid={errors.password ? "true" : "false"}
                       autoComplete="current-password"
@@ -149,14 +147,19 @@ export default function Authentication() {
                     </span>
                   </div>
                   {errors.password && (
-                    <p role="alert" className="text-[var(--destructive)] text-sm">
+                    <p
+                      role="alert"
+                      className="text-[var(--destructive)] text-sm"
+                    >
                       {errors.password.message}
                     </p>
                   )}
                 </div>
                 {/* 註冊錯誤訊息 */}
                 {registerError && (
-                  <p role="alert" className="text-[var(--destructive)] text-sm">{registerError}</p>
+                  <p role="alert" className="text-[var(--destructive)] text-sm">
+                    {registerError}
+                  </p>
                 )}
                 <input
                   type="submit"
@@ -189,7 +192,10 @@ export default function Authentication() {
                     aria-invalid={errors.mail ? "true" : "false"}
                   />
                   {errors.mail && (
-                    <p role="alert" className="text-[var(--destructive)] text-sm">
+                    <p
+                      role="alert"
+                      className="text-[var(--destructive)] text-sm"
+                    >
                       {errors.mail.message}
                     </p>
                   )}
@@ -210,8 +216,9 @@ export default function Authentication() {
                           message: "密碼需至少6碼",
                         },
                         validate: (value) =>
-                          /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(value) ||
-                          "密碼需包含英文與數字",
+                          /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(
+                            value
+                          ) || "密碼需包含英文與數字",
                       })}
                       aria-invalid={errors.password ? "true" : "false"}
                       autoComplete="current-password"
@@ -224,14 +231,19 @@ export default function Authentication() {
                     </span>
                   </div>
                   {errors.password && (
-                    <p role="alert" className="text-[var(--destructive)] text-sm">
+                    <p
+                      role="alert"
+                      className="text-[var(--destructive)] text-sm"
+                    >
                       {errors.password.message}
                     </p>
                   )}
                 </div>
                 {/* 登入錯誤訊息 */}
                 {loginError && (
-                  <p role="alert" className="text-[var(--destructive)] text-sm">{loginError}</p>
+                  <p role="alert" className="text-[var(--destructive)] text-sm">
+                    {loginError}
+                  </p>
                 )}
                 <input
                   type="submit"

@@ -8,3 +8,6 @@ export { useTrialAllSupa } from "./getTrialAllSupa";
 export { useAchievementSupa } from "./getAchievementSupa";
 export { usePostAchievementSupa } from "./postAchievementSupa";
 export { useDeleteAchievementSupa } from "./deleteAcievementSupa";
+export { usePostSignInSupa } from "./postSignInSupa";
+export { usePostLogInSupa } from "./postLogInSupa";
+export { useGetUserSupa } from "./getUserSupa";
