@@ -50,7 +50,7 @@ export default function Achievement(props: acceptProps) {
         stagger: 0.1,
       }
     );
-  }, [cardContainerRef]);
+  }, [cardContainerRef, achievements]);
 
   // const gridClass = [
   //   gridCols ? `grid-cols-${gridCols}` : "",
@@ -70,13 +70,13 @@ export default function Achievement(props: acceptProps) {
             className=" flex flex-col text-center"
             key={achievement.id}
         >
-            <SpotlightCard className="custom-spotlight-card h-full flex flex-col justify-center items-center" spotlightColor="rgba(255, 255, 255, 0.2)">
+            <SpotlightCard className="custom-spotlight-card h-full flex flex-col  items-center" spotlightColor="rgba(255, 255, 255, 0.2)">
                 <img
                 src={achievement.icon_url}
                 alt={achievement.title}
                 className="w-40"
                 />
-                <h2 className="font-bold">{achievement.title}</h2>
+                <h2 className="font-bold text-nowrap">{achievement.title}</h2>
                 <p className="text-sm opacity-50">{achievement.description}</p>
             </SpotlightCard>
         </li>
