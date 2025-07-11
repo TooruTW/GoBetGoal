@@ -6,33 +6,33 @@ export default function LoginSuccess() {
   const [seconds, setSeconds] = useState(5);
 
   const { id } = useParams();
-  const { data: userInfo , error } = useGetUserInfoSupa(id);
+  const { data: userInfo, error, isLoading } = useGetUserInfoSupa(id);
 
   useEffect(() => {
     if (error) {
       console.log("error", error);
       return;
     }
-    if(!userInfo){
+    if (!userInfo) {
       console.log("no userInfo");
-      navigate(`/authentication/auth-account`);
+      navigate(`/authentication/auth-account/${id}`);
     }
-  }, [userInfo, error,navigate]);
+  }, [userInfo, error, navigate, id, isLoading]);
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setSeconds((prev) => prev - 1);
-  //   }, 1000);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSeconds((prev) => prev - 1);
+    }, 1000);
 
-  //   const timer = setTimeout(() => {
-  //     navigate("/");
-  //   }, 3000);
+    const timer = setTimeout(() => {
+      navigate("/");
+    }, 3000);
 
-  //   return () => {
-  //     clearInterval(interval);
-  //     clearTimeout(timer);
-  //   };
-  // }, [navigate]);
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timer);
+    };
+  }, [navigate]);
 
   return (
     <div className="w-full h-screen flex justify-center items-center">

@@ -5,8 +5,8 @@ import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { usePostSignInSupa, usePostLogInSupa, useGetUserSupa } from "@/api";
-
-
+import { useEffect } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 type FormValues = {
   mail: string;
   password: string;
@@ -26,7 +26,8 @@ export default function Auth() {
   });
   const { mutate: postSignInSupa } = usePostSignInSupa();
   const { mutate: postLogInSupa } = usePostLogInSupa();
-  const { data: user } = useGetUserSupa();
+  const { data: user ,isLoading,error} = useGetUserSupa();
+  const queryClient = useQueryClient();
 
   // 註冊送出
   const onRegister: SubmitHandler<FormValues> = async (data) => {
@@ -52,11 +53,16 @@ export default function Auth() {
         setLoginError(error.message);
       },
       onSuccess: () => {
-        console.log("log in success",user);
-        navigate(`/authentication/auth-success/${user?.id}`);
+        queryClient.invalidateQueries({ queryKey: ["user"] });
       },
     });
   };
+
+  useEffect(() => {
+    if (user) {
+      navigate(`/authentication/auth-success/${user.id}`);
+    }
+  }, [user, navigate,isLoading,error]);
 
   return (
     <div className="flex justify-center items-center h-screen w-full px-4 gap-8 dark">

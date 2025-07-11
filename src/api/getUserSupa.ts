@@ -9,10 +9,10 @@ import { useQuery } from "@tanstack/react-query";
 };
 
 export function useGetUserSupa() {
-  const { data, error } = useQuery({
+  const { data, error,isLoading } = useQuery({
     queryKey: ["user"],
     queryFn: getUserSupa,
   });
 
-  return { data, error };
+  return { data, error,isLoading };
 }

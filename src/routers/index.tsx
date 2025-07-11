@@ -55,7 +55,7 @@ const routers = createBrowserRouter([
             element: <Auth />,
           },
           {
-            path: "auth-account",
+            path: "auth-account/:id",
             element:<AuthAccount />,
           },
           {

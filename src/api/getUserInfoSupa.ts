@@ -14,10 +14,10 @@ const getUserInfoSupa = async (user_id: string) => {
 };
 
 export function useGetUserInfoSupa(user_id: string = "") {
-  const { data, error } = useQuery({
+  const { data, error,isLoading } = useQuery({
     queryKey: ["user_info", user_id],
     queryFn: () => getUserInfoSupa(user_id),
   });
 
-  return { data, error };
+  return { data, error,isLoading };
 }
