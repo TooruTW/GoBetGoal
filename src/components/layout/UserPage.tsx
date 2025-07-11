@@ -24,12 +24,12 @@ export default function UserPage() {
         </section>
         <section className="w-full h-[400px] overflow-hidden md:w-1/2 ">
         <h3 className="text-xl font-bold">成就</h3>
-        <Achievement />
+        <Achievement girdCols={`grid-cols-3 lg:grid-cols-4`}/>
               
         </section>
       </TabsContent>
       <TabsContent value="achievements">
-        <Achievement  />
+        <Achievement girdCols={`grid-cols-3 md:grid-cols-4 lg:grid-cols-6`}/>
       </TabsContent>
       <TabsContent value="friends"> <Friend/></TabsContent>
      

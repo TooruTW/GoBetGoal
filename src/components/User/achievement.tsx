@@ -12,13 +12,18 @@ type Achievement = {
   icon_url: string;
 };
 
+interface acceptProps{
+  girdCols?: string;
+}
+
 // interface AchievementProps {
 //   gridCols?: number;
 //   gridColsMd?: number;
 //   gridColsLg?: number;
 // }
 
-export default function Achievement() {
+export default function Achievement(props: acceptProps) {
+  const {girdCols} = props;
   const { data, isLoading, error } = useAchievementSupa();
   const [achievements, setAchievements] = useState<Achievement[]>([]);
   const cardContainerRef = useRef<HTMLDivElement | null>(null);
@@ -27,10 +32,10 @@ export default function Achievement() {
     if (isLoading) return;
     if (error) console.log(error);
     if (data) setAchievements(data);
-  }, [data, isLoading, error]);
+  }, [data, isLoading, error, props]);
 
   useEffect(() => {
-    if (!cardContainerRef.current) return;
+    if (!cardContainerRef.current?.children.length) return;
     gsap.fromTo(
       cardContainerRef.current.children,
       {
@@ -45,7 +50,7 @@ export default function Achievement() {
         stagger: 0.1,
       }
     );
-  }, [achievements]);
+  }, [cardContainerRef]);
 
   // const gridClass = [
   //   gridCols ? `grid-cols-${gridCols}` : "",
@@ -57,7 +62,7 @@ export default function Achievement() {
   return (
     <div
       ref={cardContainerRef}
-      className="grid gap-2 grid-col-3"
+      className={`grid gap-2 ${girdCols}`}
     >
       {achievements.length > 0 &&
         achievements.map((achievement) => (
@@ -65,7 +70,7 @@ export default function Achievement() {
             className=" flex flex-col text-center"
             key={achievement.id}
         >
-            <SpotlightCard className="custom-spotlight-card h-full" spotlightColor="rgba(255, 255, 255, 0.2)">
+            <SpotlightCard className="custom-spotlight-card h-full flex flex-col justify-center items-center" spotlightColor="rgba(255, 255, 255, 0.2)">
                 <img
                 src={achievement.icon_url}
                 alt={achievement.title}
