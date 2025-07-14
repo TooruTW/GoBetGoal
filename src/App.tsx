@@ -7,9 +7,9 @@ import { useGetUserInfoSupa } from "./api";
 import { setAccount } from "./features/user/account";
 function App() {
   const [userID, setUserID] = useState<string>("");
-
   const userInfo = useSelector((state: RootState) => state.account);
   const dispatch = useDispatch();
+
   useEffect(() => {
     const userID = localStorage.getItem("sb-rbrltczejudsoxphrxnq-auth-token");
     if (userID) {

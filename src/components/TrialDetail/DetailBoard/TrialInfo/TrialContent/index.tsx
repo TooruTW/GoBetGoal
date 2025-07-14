@@ -48,7 +48,7 @@ export default function TrailContent(props: acceptProps) {
 
   return (
     <div className="flex gap-6 max-lg:flex-col-reverse max-lg:items-center">
-      <TextContent trial={trial} />
+      <TextContent trial={trial[0]} />
 
       <div
         className={`flex flex-col gap-2 ${
