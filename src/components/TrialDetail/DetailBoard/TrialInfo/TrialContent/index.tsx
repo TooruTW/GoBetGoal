@@ -1,17 +1,27 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import CountDown from "./CountDown";
 import TextContent from "./TextContent";
-import type { Trial } from "@/components/types/Trial";
+import type { TrialDetailSupa } from "@/components/types/TrialDetailSupa";
+import dayjs from "dayjs";
+import isBetween from "dayjs/plugin/isBetween";
 
 interface acceptProps {
-  trial: Trial;
+  trial: TrialDetailSupa[];
 }
+dayjs.extend(isBetween);
+
 
 export default function TrailContent(props: acceptProps) {
   const { trial } = props;
-
-  const startDate = useMemo(() => new Date(trial.startDate), [trial.startDate]);
-  const endDate = useMemo(() => new Date(trial.endDate), [trial.endDate]);
+  const trialStartDate = useMemo(() => new Date(trial[0].start_at), [trial]);
+  const today = dayjs().startOf("day");
+  const currentStage = useMemo(
+    () =>
+      trial.find((item) =>
+        today.isBetween(dayjs(item.start_at), dayjs(item.end_at), "day", "[)")
+  ),
+    [trial, today]
+  );
 
   const [timeToCount, setTimeToCount] = useState<Date | null>(null);
 
@@ -20,22 +30,21 @@ export default function TrailContent(props: acceptProps) {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      const now = new Date().getTime();
-      if (now >= startDate.getTime() && now <= endDate.getTime()) {
-        setTimeToCount(endDate);
+      if (currentStage) {
+        setTimeToCount(dayjs(currentStage?.end_at).toDate());
         setCountDownState("打卡死線還剩下......");
         isTrialInProgressRef.current = true;
-      } else if (now >= endDate.getTime()) {
-        setCountDownState("關卡結束");
-        isTrialInProgressRef.current = false;
-      } else if (now <= startDate.getTime()) {
-        setCountDownState("距離試煉開始還有......");
-        setTimeToCount(startDate);
-        isTrialInProgressRef.current = false;
+      } else{
+        if(today.isAfter(dayjs(trialStartDate))){
+          setCountDownState("關卡結束");
+        }else{
+          setCountDownState("距離試煉開始還有......");
+          setTimeToCount(trialStartDate);
+        }
       }
     }, 1000);
     return () => clearInterval(timer);
-  }, [startDate, endDate]);
+  }, [trialStartDate, currentStage, today]);
 
   return (
     <div className="flex gap-6 max-lg:flex-col-reverse max-lg:items-center">

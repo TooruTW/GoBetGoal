@@ -4,16 +4,19 @@ import { Button } from "@/components/ui/button"
 
 
 export default function TrialErrorPage() {
+
   const navigate = useNavigate();
-  useEffect(() => {
-    setTimeout(() => {
-      navigate("/trials");
-    }, 5000);
-  }, [navigate]);
+  
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     navigate("/trials");
+  //   }, 5000);
+  // }, [navigate]);
 
   function handleNavigate() {
     navigate("/trials");
   }
+
   return (
     <div className="flex flex-col items-center justify-center w-full gap-4 h-screen ">
       <h1 className="text-h1 font-normal font-title">can't not found trial</h1>
