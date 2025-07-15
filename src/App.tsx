@@ -3,8 +3,9 @@ import Header from "./components/Header";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "./state/store";
 import { useEffect, useState } from "react";
-import { useGetUserInfoSupa } from "./api";
+import { useGetUserInfoSupa, useGetFriendSupa } from "./api";
 import { setAccount } from "./features/user/account";
+import { setFriends } from "./features/user/friends";
 function App() {
   const [userID, setUserID] = useState<string>("");
   const userInfo = useSelector((state: RootState) => state.account);
@@ -32,11 +33,20 @@ function App() {
     error,
   } = useGetUserInfoSupa(userID, userID !== "");
 
+  const {
+    data: friendsSupa,
+    isLoading: friendsLoading,
+    error: friendsError,
+  } = useGetFriendSupa(userID);
+
   useEffect(() => {
     if (userID !== "" && !isLoading && !error && userInfoSupa) {
       dispatch(setAccount(userInfoSupa[0]));
     }
-  }, [userID, userInfoSupa, userInfo, isLoading, error, dispatch]);
+    if (userID !== "" && !friendsLoading && !friendsError && friendsSupa) {
+      dispatch(setFriends(friendsSupa));
+    }
+  }, [userID, userInfoSupa, userInfo, isLoading, error, dispatch, friendsSupa, friendsLoading, friendsError]);
 
   return (
     <div className="text-amber-50 ">

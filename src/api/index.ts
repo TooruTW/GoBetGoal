@@ -14,3 +14,4 @@ export { useGetUserSupa } from "./getUserSupa";
 export { usePostLogOutSupa } from "./postLogOutSupa";
 export { useGetUserInfoSupa } from "./getUserInfoSupa";
 export { usePostFristEditUserInfo } from "./postFristEditUserInfo";
+export { useGetFriendSupa } from "./getFriendSupa";
