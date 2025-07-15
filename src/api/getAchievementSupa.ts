@@ -4,7 +4,7 @@ import { supabase } from "@/supabaseClient";
 const getAchievementSupa = async () => {
   const { data, error } = await supabase
     .from("achievements")
-    .select("*");
+    .select("*").order("order", { ascending: true });
 
   if (error) throw error;
   return data;

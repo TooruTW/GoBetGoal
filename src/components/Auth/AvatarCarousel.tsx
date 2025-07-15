@@ -60,8 +60,8 @@ export default function AvatarCarousel({ onSelect, selectedAvatar }: AvatarCarou
             <CarouselItem
               key={idx}
               className={`basis-1/6 p-2 transition-transform overflow-visible rounded-2xl relative
-                ${avatar.price !== 0 ? "opacity-60 pointer-events-none" : "hover:scale-150 hover:cursor-pointer hover:shadow-lg hover:bg-gray-800"}
-                ${selectedAvatar?.src === avatar.src ? "ring ring-[var(--color-gradient-set-1-1)] scale-150" : ""}
+                ${avatar.price !== 0 ? "opacity-60 pointer-events-none" : "hover:scale-120 hover:cursor-pointer hover:shadow-lg hover:bg-gray-800"}
+                ${selectedAvatar?.src === avatar.src ? "ring ring-[var(--color-gradient-set-1-1)] scale-120" : ""}
               `}
             >
 
@@ -77,8 +77,7 @@ export default function AvatarCarousel({ onSelect, selectedAvatar }: AvatarCarou
               />
               {avatar.price !== 0 && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <FaLock className="text-3xl text-gray-700 mb-2" />
-                  <span className="bg-black/70 text-white px-2 py-1 rounded text-xs">{avatar.price} 金幣解鎖</span>
+                  <FaLock className="text-lg text-gray-700 mb-2" />
                 </div>
               )}
             </CarouselItem>

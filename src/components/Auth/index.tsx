@@ -35,7 +35,7 @@ export default function Auth() {
     postSignInSupa(data, {
       onError: (error) => {
         console.log("sing in error", error);
-        setRegisterError(error.message);
+        setRegisterError("抓到已經註冊過囉！乖乖走登入通道吧");
       },
       onSuccess: () => {
         console.log("sign in success");
@@ -50,7 +50,7 @@ export default function Auth() {
     postLogInSupa(data, {
       onError: (error) => {
         console.log("post error", error);
-        setLoginError(error.message);
+        setLoginError("是不是想偷溜？去乖乖註冊");
       },
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["user"] });
