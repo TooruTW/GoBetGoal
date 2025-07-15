@@ -13,7 +13,7 @@ export const accountSlice = createSlice({
   name: "account",
   initialState,
   reducers: {
-    setAccount: (state, action) => {
+    setAccount: (state, action) => {      
       state.candy_count = action.payload.candy_count;
       state.charactor_img_link = action.payload.charactor_img_link;
       state.cheat_blanket = action.payload.cheat_blanket;

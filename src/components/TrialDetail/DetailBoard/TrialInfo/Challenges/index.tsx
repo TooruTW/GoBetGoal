@@ -1,20 +1,36 @@
-import type { Challenge } from "@/components/types/Challenge";
+import type { TrialDetailSupa } from "@/components/types/TrialDetailSupa";
 
 interface acceptProps {
-  challenges: Challenge[];
+  trial: TrialDetailSupa[];
 }
 
 export default function Challenges(props: acceptProps) {
-  const { challenges } = props;
-  const challengeCount = challenges.length;
+  const { trial } = props;
+
+  // 使用 Map 來記錄 stage-index，避免重複
+  const stageMap = new Map();
+  trial.forEach((item) => {
+    const stageKey = item.challenge_stage.id;
+    if (!stageMap.has(stageKey)) {
+      stageMap.set(stageKey, item.challenge_stage);
+    }
+  });
+
+  const uniqueStages = Array.from(stageMap.values());
+
   return (
     <div className="flex w-full gap-2 overflow-x-scroll snap-x snap-mandatory">
-      {challenges.map((item) => (
-        <div key={item.id} className="bg-card-bg rounded-sm py-2 px-4 text-nowrap snap-center">
-          <p className="text-label font-normal">關卡{Number(item.id)}/{challengeCount}</p>
+      {uniqueStages.map((stage, index) => (
+        <div
+          key={stage.id}
+          className="bg-card-bg rounded-sm py-2 px-4 text-nowrap snap-center"
+        >
+          <p className="text-label font-normal">
+            關卡{index + 1}/{uniqueStages.length}
+          </p>
           <ul>
-            {item.description.map((item, index)=>(
-                <li key={`${item}-${index}`}>{item}</li>
+            {stage.description.map((item: string, index: number) => (
+              <li key={index}>{item}</li>
             ))}
           </ul>
         </div>

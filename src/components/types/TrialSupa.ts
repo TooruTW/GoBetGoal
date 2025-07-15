@@ -1,4 +1,4 @@
-import { ChallengeSupa } from "./challengeSupa";
+import { ChallengeSupa } from "./ChallengeSupa";
 
 export interface TrialSupa {
   id: string;

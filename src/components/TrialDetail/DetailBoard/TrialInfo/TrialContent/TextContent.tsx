@@ -1,5 +1,4 @@
 import type { TrialDetailSupa } from "@/components/types/TrialDetailSupa";
-import { useEffect } from "react";
 interface acceptProps {
   trial: TrialDetailSupa;
 }
@@ -8,9 +7,6 @@ export default function TextContent(props: acceptProps) {
   const { trial } = props;
   const thisTrial = trial.trial;
 
-  useEffect(() => {
-    console.log(thisTrial);
-  }, [thisTrial]);
 
   return (
     <div className="w-full flex flex-col gap-3">

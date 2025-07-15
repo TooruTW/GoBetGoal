@@ -33,9 +33,8 @@ function App() {
   } = useGetUserInfoSupa(userID, userID !== "");
 
   useEffect(() => {
-    if (userID !== "" && !isLoading && !error) {
-      console.log("userInfo", userInfoSupa);
-      dispatch(setAccount(userInfoSupa));
+    if (userID !== "" && !isLoading && !error && userInfoSupa) {
+      dispatch(setAccount(userInfoSupa[0]));
     }
   }, [userID, userInfoSupa, userInfo, isLoading, error, dispatch]);
 
