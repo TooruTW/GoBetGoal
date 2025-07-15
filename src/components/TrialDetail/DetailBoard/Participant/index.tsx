@@ -26,7 +26,6 @@ export default function Participant(props: acceptProps) {
       trial.map((item) => [item.user_info.user_id, item.user_info])
     );
     const participantListArray = Array.from(participantList);
-    console.log(participantListArray, "participantListArray");
     setParticipantListArray(participantListArray);
   }, [trial]);
 
@@ -48,7 +47,7 @@ export default function Participant(props: acceptProps) {
   });
 
   useEffect(() => {
-    if (!cardContainerRef.current) return;
+    if (!cardContainerRef.current || participantListArray.length === 0) return;
     gsap.fromTo(
       cardContainerRef.current.children,
       {
@@ -56,12 +55,13 @@ export default function Participant(props: acceptProps) {
       },
       {
         x: 0,
-        duration: 0.5,
+        duration: 0.75,
         ease: "back",
         stagger: 0.1,
+        delay: 0.5,
       }
     );
-  }, [cardContainerRef]);
+  }, [cardContainerRef,participantListArray]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -134,7 +134,7 @@ export default function Participant(props: acceptProps) {
   };
 
   return (
-    <div ref={cardContainerRef} className="flex justify-between gap-4">
+    <div ref={cardContainerRef} className="flex justify-between gap-4 min-h-160">
       {participantListArray.map((item) => {
         return (
           <PlayerCard
