@@ -12,7 +12,6 @@ type FormValues = {
   avatar: string;
 };
 
-const fakeNicknames = ["小明", "testuser", "flagorbet"];
 
 export default function AuthAccount() {
   const [selectedAvatar, setSelectedAvatar] = useState<Avatar | null>(null);
@@ -32,10 +31,7 @@ export default function AuthAccount() {
     mode: "onBlur",
   });
   const { id } = useParams();
-  const checkNickname = async (nickname: string) => {
-    await new Promise((res) => setTimeout(res, 300));
-    return fakeNicknames.includes(nickname);
-  };
+  
 
   // 當選擇圖片時，同步設到 form
   const handleAvatarSelect = (avatar: Avatar) => {
@@ -66,7 +62,7 @@ export default function AuthAccount() {
         },
         onError: (error) => {
           console.log("setting error", error.message);
-          setError("nickname", { type: "manual", message: error.message });
+          setError("nickname", { type: "manual", message: "這個名字太受歡迎啦～再想個獨一無二的暱稱吧" });
         },
       }
     );
@@ -74,11 +70,14 @@ export default function AuthAccount() {
 
   return (
     <div className="w-full h-screen  justify-center items-center flex">
-      <section className="w-3/4 ">
+      <section className="w-full md:w-3/4 ">
         <form
           onSubmit={handleSubmit(onRegister)}
-          className="flex-col flex justify-start w-full items-center gap-6 text-white mx-auto"
+          className="flex-col flex justify-center w-full items-center gap-6 text-white mx-auto"
         >
+          <h2 className="text-2xl font-bold mb-4">
+            選擇角色
+          </h2>
           {/* 頭像選擇（單選） */}
           <AvatarCarousel
             onSelect={handleAvatarSelect}
@@ -96,7 +95,7 @@ export default function AuthAccount() {
           )}
 
           {/* 暱稱 */}
-          <div className="flex flex-col w-full">
+          <div className="flex flex-col w-full md:w-2/3">
             <label htmlFor="nickname" className="block w-full pb-2">
               暱稱
             </label>
@@ -104,10 +103,9 @@ export default function AuthAccount() {
               className="border-b border-[var(--ring)] py-2 text-sm focus:outline-none pr-10 w-full bg-transparent"
               {...register("nickname", {
                 required: "暱稱為必填",
-                validate: async (value) => {
-                  if (!value) return "暱稱為必填";
-                  if (await checkNickname(value)) return "暱稱重複";
-                  return true;
+                maxLength: {
+                  value: 5,
+                  message: "暱稱須在5字以內",
                 },
               })}
               aria-invalid={errors.nickname ? "true" : "false"}
@@ -126,7 +124,7 @@ export default function AuthAccount() {
           </div>
           <button
             type="submit"
-            className="p-2 justify-center flex items-center gap-2 cursor-pointer rounded-full w-full py-2.5 mt-4 bg-gradient-set-1 hover:scale-105 transition-all duration-300  disabled:opacity-50 disabled:cursor-not-allowed"
+            className="p-2 justify-center flex items-center gap-2 cursor-pointer rounded-full  w-full md:w-2/3 py-2.5 mt-4 bg-gradient-set-1 hover:scale-105 transition-all duration-300  disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={!selectedAvatar}
           >
             確認

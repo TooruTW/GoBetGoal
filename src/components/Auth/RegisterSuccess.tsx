@@ -37,7 +37,7 @@ export default function RegisterSuccess({ nickname, avatar }: RegisterSuccessPro
         <p className="text-sm border-gradient-set-1">快拿糖果去參加試煉吧，減肥為了吃更多糖果</p>
       </div>
         <Candy amount={10000} />
-        <p className="text-sm text-gray-600">{seconds}s後自動跳轉首頁</p>
+        <p className="text-sm text-gray-500">{seconds}s後自動跳轉首頁</p>
     </div>
   );
 }
