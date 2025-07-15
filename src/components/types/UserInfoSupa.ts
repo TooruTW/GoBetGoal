@@ -4,5 +4,8 @@ export interface UserInfoSupa {
     cheat_blanket: number;
     nick_name: string;
     system_preference_color_mode: string;
+    total_trial_count: number;
+    liked_post_count: number;
+    friend_count: number;
     user_id: string;
 }
