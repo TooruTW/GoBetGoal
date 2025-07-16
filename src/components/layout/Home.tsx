@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 
 import type { RootRoute } from "../types/RootRoute";
 
+import Hero from "../Home/Hero";
 
 
 const route: RootRoute[] = [
@@ -31,7 +32,10 @@ export default function Home() {
             })}
           </ul>
         </nav>
+
       </section>
+        <Hero />
+      
     </div>
   );
 }
