@@ -1,26 +1,37 @@
 import gsap from "gsap";
 import PlayerCard from "./PlayerCard";
 import { useEffect, useRef, useState } from "react";
-import type { Participant } from "@/components/types/Participant";
+import type { TrialDetailSupa } from "@/components/types/TrialDetailSupa";
+import type { UserInfoSupa } from "@/components/types/UserInfoSupa";
 import { IoClose } from "react-icons/io5";
-import type { Trial } from "@/components/types/Trial";
-import { useDeleteParticipantInTrial } from "@/api/index";
+import { useDeleteParticipantInTrialSupa } from "@/api/deleteParticipantInTrialSupa";
+import { useQueryClient } from "@tanstack/react-query";
 interface acceptProps {
-  trial: Trial;
+  trial: TrialDetailSupa[];
 }
 
 export default function Participant(props: acceptProps) {
   const { trial } = props;
-  const participantList = trial.currentParticipants;
+
   const [selectedParticipantId, setSelectedParticipantId] = useState<
     string | null
   >(null);
-  const deleteParticipantInTrial = useDeleteParticipantInTrial(
-    trial.id,
-    selectedParticipantId || "placeholder"
-  );
+
+  const [participantListArray, setParticipantListArray] = useState<
+    [string, UserInfoSupa][]
+  >([]);
+
+  useEffect(() => {
+    const participantList = new Map(
+      trial.map((item) => [item.user_info.user_id, item.user_info])
+    );
+    const participantListArray = Array.from(participantList);
+    setParticipantListArray(participantListArray);
+  }, [trial]);
 
   const cardContainerRef = useRef<HTMLDivElement | null>(null);
+  const noticeRef = useRef<HTMLDivElement | null>(null);
+
   const [notice, setNotice] = useState<{
     show: boolean;
     x: number;
@@ -36,7 +47,7 @@ export default function Participant(props: acceptProps) {
   });
 
   useEffect(() => {
-    if (!cardContainerRef.current) return;
+    if (!cardContainerRef.current || participantListArray.length === 0) return;
     gsap.fromTo(
       cardContainerRef.current.children,
       {
@@ -44,15 +55,32 @@ export default function Participant(props: acceptProps) {
       },
       {
         x: 0,
-        duration: 0.5,
+        duration: 0.75,
         ease: "back",
         stagger: 0.1,
+        delay: 0.5,
       }
     );
-  }, [cardContainerRef]);
+  }, [cardContainerRef,participantListArray]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        notice.show &&
+        noticeRef.current &&
+        !noticeRef.current.contains(event.target as Node)
+      ) {
+        setNotice((prev) => ({ ...prev, show: false }));
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [notice.show]);
 
   const handleDelete = (e: React.MouseEvent, id: string) => {
-    console.log("handleDelete", id);
     e.stopPropagation();
     setSelectedParticipantId(id);
     setNotice((prev) => ({
@@ -61,40 +89,69 @@ export default function Participant(props: acceptProps) {
       x: e.clientX,
       y: e.clientY,
       id: id,
-      name: participantList.find((item) => item.id === id)?.playerName || "",
+      name:
+        participantListArray.find((item) => item[0] === id)?.[1].nick_name ||
+        "",
     }));
   };
 
+  const { mutate: deleteParticipantInTrial } =
+    useDeleteParticipantInTrialSupa();
+  const queryClient = useQueryClient();
+
   const handleDeleteConfirm = (ans: boolean) => {
-    console.log("got click");
-    console.log(ans, selectedParticipantId);
     if (ans && selectedParticipantId) {
-      deleteParticipantInTrial.mutate(undefined, {
-        onSuccess: () => {
-          setSelectedParticipantId(null);
+      deleteParticipantInTrial(
+        {
+          trialId: trial[0].trial_id,
+          userId: selectedParticipantId,
         },
-      });
+        {
+          onSuccess: () => {
+            console.log("delete success");
+            queryClient.invalidateQueries({
+              queryKey: ["trial", trial[0].trial_id],
+            });
+          },
+          onError: (error) => {
+            console.error("delete failed:", error);
+            // 可以添加錯誤提示給使用者
+          },
+        }
+      );
     }
 
-    setNotice((prev) => ({ ...prev, show: false, x: 0, y: 0, id: null }));
+    // 只清理 notice 狀態，selectedParticipantId 在 API 完成後才清理
+    setNotice((prev) => ({
+      ...prev,
+      show: false,
+      x: 0,
+      y: 0,
+      id: null,
+      name: "",
+    }));
   };
+
   return (
-    <div ref={cardContainerRef} className="flex justify-between gap-4">
-      {participantList.map((item) => {
+    <div ref={cardContainerRef} className="flex justify-between gap-4 min-h-160">
+      {participantListArray.map((item) => {
         return (
           <PlayerCard
-            key={item.id}
-            participant={item}
+            key={item[1].user_id}
+            participant={item[1]}
             handleDelete={handleDelete}
           />
         );
       })}
-      {Array.from({ length: 6 - participantList.length }).map((_, index) => {
-        return <PlayerCard key={`unknown-${index}`} />;
-      })}
+      {Array.from({ length: 6 - participantListArray.length }).map(
+        (_, index) => {
+          return <PlayerCard key={`unknown-${index}`} />;
+        }
+      )}
       {/* confirm */}
       {notice.show && (
         <div
+          ref={noticeRef}
           className="fixed z-50 bg-bg-notice rounded-md gap-2  p-4 flex flex-col"
           style={{ left: notice.x, top: notice.y }}
         >

@@ -1,9 +1,9 @@
 import ProgressBar from "./ProgressBar";
 import TrialContent from "./TrialContent";
-import type { Trial } from "@/components/types/Trial";
+import { TrialDetailSupa } from "@/components/types/TrialDetailSupa";
 import Challenges from "./Challenges";
 interface acceptProps {
-  trial: Trial;
+  trial: TrialDetailSupa[];
 }
 
 export default function TrialInfo(props: acceptProps) {
@@ -18,13 +18,10 @@ export default function TrialInfo(props: acceptProps) {
       <div className="bg-card-bg rounded-xl p-5 flex flex-col justify-between gap-4 max-lg:flex-col-reverse ">
         <div className="flex w-full justify-between max-lg:max-w-none max-lg:flex-col-reverse ">
           <div className="flex gap-4 w-fit max-lg:justify-start">
-            {trial.isPublic && (
-              <p className="text-label rounded-full bg-gray-200 font-semibold text-black w-fit h-fit py-0.5 px-2.5">
-                公開
-              </p>
-            )}
             <p className="text-xs rounded-full bg-gray-200 font-semibold text-black w-fit h-fit py-0.5 px-2.5">
-              {trial.trialState}
+              {trial[0].trial.challenge.catagory.map((catagory) => (
+                <span key={catagory}>{catagory}</span>
+              ))}
             </p>
           </div>
           <ProgressBar trial={trial} />
@@ -32,7 +29,7 @@ export default function TrialInfo(props: acceptProps) {
         {/* right */}
         <TrialContent trial={trial} />
       </div>
-      <Challenges challenges={trial.challenges} />
+      <Challenges trial={trial} />
     </div>
   );
 }

@@ -3,7 +3,7 @@ import { supabase } from "@/supabaseClient";
 const getTrialSupa = async (id: string) => {
   const { data: trial_participant_stage_history, error } = await supabase
     .from("trial_participant_stage_history")
-    .select("*,user_info(nick_name),trial(*)")
+    .select("*,user_info(*),trial(*,challenge(*)),challenge_stage(*)")
     .eq("trial_id", id);
 
   if (error) throw error;

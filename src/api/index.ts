@@ -1,8 +1,3 @@
-export { useTrial } from "./getTrial";
-export { useTrials } from "./getTrials";
-export { useParticipants } from "./getParticipants";
-export { useDeleteParticipantInTrial } from "./deleteParticipantInTrial";
-export { usePostChallengeImage } from "./postChallengeImage";
 export { useTrialSupa } from "./getTrialSupa";
 export { useTrialAllSupa } from "./getTrialAllSupa";
 export { useAchievementSupa } from "./getAchievementSupa";
@@ -14,3 +9,5 @@ export { useGetUserSupa } from "./getUserSupa";
 export { usePostLogOutSupa } from "./postLogOutSupa";
 export { useGetUserInfoSupa } from "./getUserInfoSupa";
 export { usePostFristEditUserInfo } from "./postFristEditUserInfo";
+export { useGetFriendSupa } from "./getFriendSupa";
+export { usePatchTrialHistory } from "./patchTrialHistory";

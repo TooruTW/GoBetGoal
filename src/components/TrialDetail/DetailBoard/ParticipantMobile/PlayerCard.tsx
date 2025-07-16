@@ -1,14 +1,14 @@
-import type { Participant } from "@/components/types/Participant";
+import type { UserInfoSupa } from "@/components/types/UserInfoSupa";
 import { useSwipeable } from "react-swipeable";
 import { useEffect, useState } from "react";
 
-export default function PlayerCard(props: { participantInfo: Participant }) {
+export default function PlayerCard(props: { participantInfo: UserInfoSupa }) {
   const {
-    playerName = "unknown",
-    playerImgUrl = "noImg",
-    playerTotalTrials = 0,
-    likedPosts = 0,
-    friends = 0,
+    nick_name = "unknown",
+    charactor_img_link = "noImg",
+    total_trial_count = 0,
+    liked_post_count = 0,
+    friend_count = 0,
   } = props.participantInfo;
 
   const [position, setPosition] = useState<number>(0);
@@ -48,29 +48,31 @@ export default function PlayerCard(props: { participantInfo: Participant }) {
   return (
     <div
       {...handlers}
-      className="w-full h-20 flex gap-2 items-end justify-center relative"
       style={{ transform: `translateX(${position}px)` }}
+      className="relative"
     >
-      <div className="absolute bottom-0 left-0 w-full h-2/3 scale-x-[1.1] parallelogram-border z-0"></div>
-      <div className="w-full h-full z-20 flex justify-between items-center max-w-100">
+      <div className="border-2 border-schema-primary absolute top-1/6 left-0 w-full h-2/3 -skew-x-24"></div>
+      <div className="grid grid-cols-6 px-4">
         <img
-          className="object-cover h-full z-10 mb-2"
-          src={playerImgUrl}
+          src={charactor_img_link}
           alt="playerImg"
+          className="col-span-1 -translate-y-5 h-full object-cover"
         />
-        <h4 className="self-end mb-4">{playerName}</h4>
-        <ul className="flex gap-2 self-end ">
+        <h4 className="col-span-2 text-h3 max-md:text-p flex items-center justify-center">
+          {nick_name}
+        </h4>
+        <ul className="col-span-3 text-h4 max-md:text-label flex items-center w-full justify-between">
           <li className="flex flex-col items-center">
-            <span className="text-muted/50 font-medium">成功試煉</span>
-            <span>{playerTotalTrials}</span>
+            <span>成功試煉</span>
+            <span>{total_trial_count}</span>
           </li>
           <li className="flex flex-col items-center">
-            <span className="text-muted/50 font-">朋友</span>
-            <span>{friends}</span>
+            <span>朋友</span>
+            <span>{friend_count}</span>
           </li>
           <li className="flex flex-col items-center">
-            <span className="text-muted/50 font-">貼文讚</span>
-            <span>{likedPosts}</span>
+            <span>貼文讚數</span>
+            <span>{liked_post_count}</span>
           </li>
         </ul>
       </div>

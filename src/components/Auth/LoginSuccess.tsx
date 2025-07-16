@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetUserInfoSupa } from "@/api";
+
 export default function LoginSuccess() {
   const navigate = useNavigate();
   const [seconds, setSeconds] = useState(5);
@@ -13,9 +14,12 @@ export default function LoginSuccess() {
       console.log("error", error);
       return;
     }
-    if (!userInfo) {
+    if (!isLoading && !userInfo) {
       console.log("no userInfo");
       navigate(`/authentication/auth-account/${id}`);
+    }
+    if (!isLoading && userInfo) {
+      navigate("/");
     }
   }, [userInfo, error, navigate, id, isLoading]);
 
