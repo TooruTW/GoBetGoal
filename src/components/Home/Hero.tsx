@@ -2,6 +2,7 @@ import GradientText from '../reactBit/GradientText'
 import SplitText from "../reactBit/SplitText";
 
 
+
   export default function Home() {
 const handleAnimationComplete = () => {
   console.log('All letters have animated!');
