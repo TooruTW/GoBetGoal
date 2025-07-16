@@ -1,12 +1,11 @@
 import DayBox from "./DayBox";
-import type { Trial } from "@/components/types/Trial";
-import type { Challenge } from "@/components/types/Challenge";
+import { TrialDetailSupa } from "@/components/types/TrialDetailSupa";
 import { useState, useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/state/store";
 
 interface acceptProps {
-  trial: Trial;
+  trial: TrialDetailSupa[];
   month: number;
   year: number;
 }
@@ -23,20 +22,28 @@ export default function Calender(props: acceptProps) {
   const { trial, month, year } = props;
   const [dateList, setDateList] = useState<dayBoxType[]>([]);
   const { width } = useSelector((state: RootState) => state.screen);
+
   const updateCurrentList = useCallback(
-    (arr: Challenge[], currentList: dayBoxType[]): dayBoxType[] => {
+    (arr: TrialDetailSupa[], currentList: dayBoxType[]): dayBoxType[] => {
       const newList: dayBoxType[] = arr.map((item) => {
-        return {
-          date: new Date(item.deadline).getDate(),
+        const newItem = {
+          date: new Date(item.start_at).getDate(),
           isThisMonth:
-            new Date(item.deadline).getMonth() === month &&
-            new Date(item.deadline).getFullYear() === year,
-          isThisDate:
-            new Date().getDate() === new Date(item.deadline).getDate(),
-          challenge: item.description,
-          imageUrl: item.uploadImage.map((item) => item.imageUrl),
+            new Date(item.end_at).getMonth() === month &&
+            new Date(item.end_at).getFullYear() === year,
+          isThisDate: new Date().getDate() === new Date(item.end_at).getDate(),
+          challenge: item.challenge_stage.description,
+          imageUrl: item.upload_image || item.challenge_stage.sample_image,
         };
+        if (item.upload_image) {
+          console.log("has upload image", newItem.date);
+          console.log(newItem, "newItem update");
+        }
+        return newItem;
       });
+
+      console.log(newList.length, "newList");
+
       newList.forEach((item) => {
         if (item.isThisMonth) {
           const updateIndex = currentList.findIndex(
@@ -53,10 +60,14 @@ export default function Calender(props: acceptProps) {
 
   useEffect(() => {
     if (!trial) return;
+
+    console.log(trial, "trial");
+    
     const lastDate = new Date(year, month + 1, 0).getDate();
     const firstDay = new Date(year, month, 1).getDay();
     const lastDay = new Date(year, month + 1, 0).getDay();
     const lastDayOfLastMonth = new Date(year, month, 0).getDate();
+
     const headList = new Array(firstDay).fill(0).map((_, index) => ({
       date: lastDayOfLastMonth - firstDay + index + 1,
       isThisMonth: false,
@@ -64,6 +75,7 @@ export default function Calender(props: acceptProps) {
       challenge: [],
       imageUrl: [],
     }));
+
     const tailList = new Array(7 - lastDay - 1).fill(0).map((_, index) => ({
       date: index + 1,
       isThisMonth: false,
@@ -71,17 +83,21 @@ export default function Calender(props: acceptProps) {
       challenge: [],
       imageUrl: [],
     }));
+
     let currentList: dayBoxType[] = new Array(lastDate)
       .fill(0)
       .map((_, index) => ({
         date: index + 1,
         isThisMonth: true,
-        isThisDate: (index + 1 === new Date().getDate()) && (new Date().getMonth() === month) && (new Date().getFullYear() === year),
+        isThisDate:
+          index + 1 === new Date().getDate() &&
+          new Date().getMonth() === month &&
+          new Date().getFullYear() === year,
         challenge: [],
         imageUrl: [],
       }));
 
-    currentList = updateCurrentList(trial.challenges, currentList);
+    currentList = updateCurrentList(trial, currentList);
 
     setDateList([...headList, ...currentList, ...tailList]);
   }, [month, year, trial, updateCurrentList]);

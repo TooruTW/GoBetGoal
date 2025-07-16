@@ -18,17 +18,20 @@ export default function PlayerCard(props: acceptProps) {
   const navigate = useNavigate();
   const { participant, handleDelete } = props;
   const isFriendRef = useRef(false);
+
   const friendList = useSelector((state: RootState) => state.friends);
   useEffect(() => {
     isFriendRef.current = friendList.friends.some(
       (friend) => friend === participant?.user_id
     );
   }, [friendList, participant]);
+  
   function handleAddFriend() {
     if (!isFriendRef.current) {
       console.log("add friend", participant?.user_id);
     }
   }
+
   function handleNavigateToProfile() {
     console.log("navigate to profile", participant?.user_id);
     navigate(`/profile/${participant?.user_id}`);
@@ -41,6 +44,7 @@ export default function PlayerCard(props: acceptProps) {
     liked_post_count = 0,
     friend_count = 0,
   } = participant || {};
+
   const isCloseAbleRef = useRef(nick_name !== "unknown");
   return (
     <div className="w-full">
