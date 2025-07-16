@@ -35,7 +35,7 @@ export default function Auth() {
     postSignInSupa(data, {
       onError: (error) => {
         console.log("sing in error", error);
-        setRegisterError(error.message);
+        setRegisterError("抓到已經註冊過囉！乖乖走登入通道吧");
       },
       onSuccess: () => {
         console.log("sign in success");
@@ -50,7 +50,7 @@ export default function Auth() {
     postLogInSupa(data, {
       onError: (error) => {
         console.log("post error", error);
-        setLoginError(error.message);
+        setLoginError("是不是想偷溜？去乖乖註冊");
       },
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["user"] });
@@ -65,13 +65,14 @@ export default function Auth() {
   }, [user, navigate,isLoading,error]);
 
   return (
-    <div className="flex justify-center items-center h-screen w-full px-4 gap-8 dark">
+    <div className="flex flex-col  justify-center  items-center h-screen w-full">
+      <div className="md:grid md:grid-cols-2 w-full">
           <img
             src="/monster/monsterDefault.webp"
             alt="monster"
-            className="w-40"
+            className="w-40  m-auto"
           />
-          <Tabs defaultValue="login" className="w-1/3 ">
+          <Tabs defaultValue="login" className="w-full md:w-1/2 ">
             <TabsList className="flex justify-center mb-4 w-full">
               <TabsTrigger value="register">註冊</TabsTrigger>
               <TabsTrigger value="login">登入</TabsTrigger>
@@ -245,7 +246,7 @@ export default function Auth() {
               </form>
             </TabsContent>
           </Tabs>
- 
+        </div>
     </div>
   );
 }
