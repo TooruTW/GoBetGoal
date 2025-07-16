@@ -4,8 +4,11 @@ import Candy from "./Candy";
 import { Link } from "react-router-dom";
 import CreateChallenge from "./CreateChallenge";
 import User from "./User";
+import { useSelector } from "react-redux";
+import { RootState } from "@/state/store";
 
 export default function Navigator() {
+  const account = useSelector((state: RootState) => state.account);
   return (
     <nav>
       <ul className="flex gap-3 items-center">
@@ -14,10 +17,10 @@ export default function Navigator() {
           <LuBellRing className="text-theme-primary" />
         </li>
         <li>
-          <CheatBlanket amount={999} />
+          <CheatBlanket amount={account.cheat_blanket} />
         </li>
         <li>
-          <Candy amount={999999} />
+          <Candy amount={account.candy_count} />
         </li>
         <Link className=" max-lg:hidden " to="trial">
           <li className="text-label transition-all hover:scale-120 ">

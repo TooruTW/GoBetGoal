@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     candy_count: 999,
-    charactor_img_link: "string",
+    charactor_img_link: "",
     cheat_blanket: 999,
     nick_name: "nobody",
     system_preference_color_mode: "dark",

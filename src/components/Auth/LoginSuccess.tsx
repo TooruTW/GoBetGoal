@@ -18,9 +18,6 @@ export default function LoginSuccess() {
       console.log("no userInfo");
       navigate(`/authentication/auth-account/${id}`);
     }
-    if (!isLoading && userInfo) {
-      navigate("/");
-    }
   }, [userInfo, error, navigate, id, isLoading]);
 
   useEffect(() => {
@@ -28,15 +25,14 @@ export default function LoginSuccess() {
       setSeconds((prev) => prev - 1);
     }, 1000);
 
-    const timer = setTimeout(() => {
+    if (seconds === 0) {
       navigate("/");
-    }, 3000);
+    }
 
     return () => {
       clearInterval(interval);
-      clearTimeout(timer);
     };
-  }, [navigate]);
+  }, [navigate, seconds]);
 
   return (
     <div className="w-full h-screen flex justify-center items-center ">
