@@ -18,9 +18,7 @@ export default function ProgressBar(props: acceptProps) {
     rewordRate: 1.5,
   })
 
-  useEffect(()=>{
-    console.log(trial);
-    
+  useEffect(()=>{    
     if(!trial) return
     const trialInfo = trial[0].trial
     infoRef.current = {

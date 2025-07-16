@@ -81,7 +81,6 @@ export default function Participant(props: acceptProps) {
   }, [notice.show]);
 
   const handleDelete = (e: React.MouseEvent, id: string) => {
-    console.log("handleDelete", id);
     e.stopPropagation();
     setSelectedParticipantId(id);
     setNotice((prev) => ({

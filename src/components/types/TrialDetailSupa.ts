@@ -1,6 +1,6 @@
 import { TrialSupa } from "./TrialSupa";
 import { UserInfoSupa } from "./UserInfoSupa";
-import {}
+import { ChallengeStageSupa } from "./ChallengeStageSupa";
 
 
 export interface TrialDetailSupa {
@@ -18,4 +18,5 @@ export interface TrialDetailSupa {
   trial: TrialSupa;
   user_info: UserInfoSupa;
   challenge_stage: ChallengeStageSupa;
+  chance_remain: number;
 }

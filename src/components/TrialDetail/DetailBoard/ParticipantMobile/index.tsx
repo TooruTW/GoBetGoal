@@ -22,7 +22,6 @@ export default function ParticipantMobile(props: acceptProps) {
       trial.map((item) => [item.user_info.user_id, item.user_info])
     );
     const participantListArray = Array.from(participantList);
-    console.log(participantListArray, "participantListArray");
     setParticipantListArray(participantListArray);
     setFlipStates(new Array(participantListArray.length).fill(false));
   }, [trial]);

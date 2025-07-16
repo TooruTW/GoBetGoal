@@ -3,7 +3,6 @@ import Participant from "./Participant";
 import TrialInfo from "./TrialInfo";
 import { useState, useEffect } from "react";
 import ParticipantMobile from "./ParticipantMobile";
-
 import UploadArea from "./UploadArea";
 import UploadCalendar from "./UploadCalender";
 import { useDispatch, useSelector } from "react-redux";
@@ -30,9 +29,10 @@ export default function DetailBoard({ trial }: acceptProps) {
     return () => window.removeEventListener("resize", handleResize);
   }, [dispatch]);
 
+
   useEffect(() => {
     const trialInfo = trial[0].trial
-    switch(trialInfo.trual_status){
+    switch(trialInfo.trial_status){
       case "pending":
         setTrialState("待開始")
         break
@@ -49,7 +49,6 @@ export default function DetailBoard({ trial }: acceptProps) {
         setTrialState("完美通過")
         break
     }
-
   }, [trial]);
   
 
@@ -57,8 +56,8 @@ export default function DetailBoard({ trial }: acceptProps) {
     <div className="flex flex-col gap-6 w-full">
       <BackBtn />
       <TrialInfo trial={trial} />
-      {/* {trialState === "進行中" && <UploadArea trial={trial}/>}
-      {trialState === "進行中" && <UploadCalendar trial={trial}/>} */}
+      {trialState === "進行中" && <UploadArea trial={trial}/>}
+      {/* {trialState === "進行中" && <UploadCalendar trial={trial}/>} */}
       {width < 960 ? <ParticipantMobile trial={trial} /> : <Participant trial={trial} />}
     </div>
   );

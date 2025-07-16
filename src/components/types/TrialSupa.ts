@@ -8,6 +8,6 @@ export interface TrialSupa {
   deposit: number;
   start_at: string;
   title: string;
-  trual_status: string;
+  trial_status: string;
   challenge: ChallengeSupa;
 }
