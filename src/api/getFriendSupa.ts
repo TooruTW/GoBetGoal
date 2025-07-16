@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/supabaseClient";
 
 const getFriendSupa = async (id: string) => {
-  if(id === "") return []
+  if (id === "") return [];
   const { data: fried_relationship, error } = await supabase
     .from("fried_relationship")
     .select("*")
