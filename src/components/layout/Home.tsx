@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 
 import type { RootRoute } from "../types/RootRoute";
 
+import Hero from "../Home/Hero";
+import Fall from "../Home/Fall";
 
 
 const route: RootRoute[] = [
@@ -31,7 +33,11 @@ export default function Home() {
             })}
           </ul>
         </nav>
+        <Hero />
+        <Fall />
+
       </section>
+        
     </div>
   );
 }
