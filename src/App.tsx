@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import Header from "./components/Header";
+import Header from "./components/layout/Header";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { useGetUserInfoSupa, useGetUserSupa } from "./api";
