@@ -2,7 +2,7 @@ import MetallicPaint, { parseLogoImage } from "../reactBit/MetallicPaint";
 import { useState, useEffect } from 'react';
 
 // 請確認 logo 路徑正確（Next.js/CRA 請用 public 資料夾路徑或 import 方式）
-import monsterDefault from './monster/monsterDefault.webp'; // 根據實際路徑調整
+import { monsterDefault } from '@/assets/monster';
 
 const GlowLogo = () => {
   const [imageData, setImageData] = useState<ImageData | null>(null);

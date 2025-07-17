@@ -20,7 +20,7 @@ export default function PlayerInfo({ participant }: PlayerInfoProps) {
     <div className=" md:flex w-full px-6 relative h-[320px] md:h-auto">
         <div className="h-[200px] md:w-1/2 overflow-hidden max-w-330 z-20 ">
             <img
-                src="/avatar/girlPurpleCurly.webp"
+                src="/image/avatar/girlPurpleCurly.webp"
                 alt="avatar"
                 className="w-3/4 "
             />

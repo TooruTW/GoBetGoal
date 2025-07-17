@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Candy from "../Header/Navigator/Candy" ;
+import { monsterDefault } from "@/assets/monster";
 
 type RegisterSuccessProps = {
   nickname: string;
@@ -30,7 +31,7 @@ export default function RegisterSuccess({ nickname, avatar }: RegisterSuccessPro
     <div className="w-full h-screen md:w-auto  md:h-auto dark shadow-2xl rounded-lg p-6 bg-[var(--card)]  flex flex-col items-center justify-center gap-4">
         <div className="flex items-end -gap-10 justify-center">
           <img src={avatar} alt="選擇的頭像" className="w-60 rounded-full mx-auto my-4" />
-          <img src="/monster/monsterDefault.webp" alt="monster" className="w-32 h-36 -ml-24" />
+          <img src={monsterDefault} alt="monster" className="w-32 h-36 -ml-24" />
         </div>
       <div className=" flex flex-col items-center justify-center gap-2">
         <h2 className="text-lg font-bold ">歡迎 {nickname} 進入樂園！</h2>

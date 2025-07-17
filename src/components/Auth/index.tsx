@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useGetUserSupa } from "@/api";
 import RegisterForm from "./RegisterForm";
 import LoginForm from "./LoginForm";
+import { monsterDefault } from "@/assets/monster";
 type FormValues = {
   mail: string;
   password: string;
@@ -29,11 +30,7 @@ export default function Auth() {
   return (
     <div className="flex flex-col  justify-center  items-center h-screen w-full">
       <div className="md:grid md:grid-cols-2 w-full">
-        <img
-          src="/monster/monsterDefault.webp"
-          alt="monster"
-          className="w-40  m-auto"
-        />
+        <img src={monsterDefault} alt="monster" className="w-40  m-auto" />
         <Tabs defaultValue="login" className="w-full md:w-1/2 ">
           <TabsList className="flex justify-center mb-4 w-full">
             <TabsTrigger value="register">註冊</TabsTrigger>

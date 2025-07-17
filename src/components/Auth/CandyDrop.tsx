@@ -1,12 +1,13 @@
 
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
+import { candyBlue, candyGreen, candyPink, candyYellow } from '@/assets/candy'
 
 const IMAGES = [
-  '/candy/CandyBlue.webp',
-  '/candy/CandyGreen.webp',
-  '/candy/CandyPink.webp',
-  '/candy/CandyYellow.webp',
+  candyBlue,
+  candyGreen,
+  candyPink,
+  candyYellow,
 ]
 
 const cols = IMAGES.length      // 4

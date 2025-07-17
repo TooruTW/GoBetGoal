@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetUserInfoSupa } from "@/api";
+import { monsterDefault } from "@/assets/monster";
 
 export default function LoginSuccess() {
   const navigate = useNavigate();
@@ -38,7 +39,7 @@ export default function LoginSuccess() {
     <div className="w-full h-screen flex justify-center items-center ">
       <div className="w-full h-screen md:w-auto  md:h-auto  shadow-2xl rounded-lg p-6 bg-[var(--card)]  flex flex-col items-center justify-center gap-4">
         <img
-          src="/monster/monsterDefault.webp"
+          src={monsterDefault}
           alt="monster"
           className="w-40"
         />
