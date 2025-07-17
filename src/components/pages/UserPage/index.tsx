@@ -1,6 +1,6 @@
-import Achievement from "../User/achievement";
-import UserTitle from "../User/UserTitle";
-import Friend from "../User/Friend";
+import Achievement from "@/components/User/achievement";
+import UserTitle from "@/components/User/UserTitle";
+import Friend from "@/components/User/Friend";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { usePostLogOutSupa, useGetUserSupa } from "@/api";
 import { useEffect } from "react";

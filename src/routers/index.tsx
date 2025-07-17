@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "@/App";
 import ErrorPages from "@/ErrorPage";
-import UserPage from "@/components/layout/UserPage";
+import UserPage from "@/components/pages/UserPage";
 import Home from "@/components/pages/Home";
 import Authentication from "@/components/layout/Authentication";
 import AuthAccount from "@/components/layout/AuthAccount";
