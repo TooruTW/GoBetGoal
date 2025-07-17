@@ -12,7 +12,7 @@ import TrialDetail from "@/components/TrialDetail";
 import TrialErrorPage from "@/components/TrialDetail/TrialErrorPage";
 import TrialsList from "@/components/TrialsList";
 import DevPage from "@/components/pages/DevPage";
-import DevAchievement from "@/components/DevComponent/DevAchievement";
+import DevAchievement from "@/components/pages/DevPage/components/DevAchievement";
 import Auth from "@/components/pages/Authentication/components/index";
 import LoginSuccess from "@/components/pages/Authentication/components/LoginSuccess";
 

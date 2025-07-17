@@ -1,4 +1,4 @@
-import FallingText from "@/components/reactBit/FallingText";
+import FallingText from "@/components/shared/reactBit/FallingText";
 import { monsterDefault } from "@/assets/monster";
 export default function Fall() {
   return (

@@ -1,4 +1,4 @@
-import MetallicPaint, { parseLogoImage } from "@/components/reactBit/MetallicPaint";
+import MetallicPaint, { parseLogoImage } from "@/components/shared/reactBit/MetallicPaint";
 import { useState, useEffect } from 'react';
 
 // 請確認 logo 路徑正確（Next.js/CRA 請用 public 資料夾路徑或 import 方式）

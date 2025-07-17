@@ -1,6 +1,6 @@
 import { useAchievementSupa } from "@/api";
 import { useEffect, useState } from "react";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { usePostAchievementSupa } from "@/api/postAchievementSupa";
 import { useDeleteAchievementSupa } from "@/api/deleteAcievementSupa";
 type Achievement = {

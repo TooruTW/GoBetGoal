@@ -1,7 +1,7 @@
 import TrialCard from "./TrialCard";
 import { useTrialAllSupa } from "@/api";
 import { useEffect } from "react";
-import GlareHover from "../reactBit/GlareaHover";
+import GlareHover from "@/components/shared/reactBit/GlareaHover";
 
 export default function ListContainer() {
 

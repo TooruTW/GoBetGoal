@@ -1,7 +1,7 @@
 import { useAchievementSupa } from "@/api";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import SpotlightCard from '../reactBit/SpotlightCard';
+import SpotlightCard from '@/components/shared/reactBit/SpotlightCard';
 
 type Achievement = {
   id?: number;

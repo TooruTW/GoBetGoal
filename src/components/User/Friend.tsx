@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import ProfileCard from "../reactBit/ProfileCard";
+import ProfileCard from "@/components/shared/reactBit/ProfileCard";
 
 type Friend = {
   id?: number;
