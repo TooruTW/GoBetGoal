@@ -3,8 +3,8 @@ import App from "@/App";
 import ErrorPages from "@/ErrorPage";
 import UserPage from "@/components/pages/UserPage";
 import Home from "@/components/pages/Home";
-import Authentication from "@/components/layout/Authentication";
-import AuthAccount from "@/components/layout/AuthAccount";
+import Authentication from "@/components/pages/Authentication";
+import AuthAccount from "@/components/pages/AuthAccount";
 import Info from "@/components/pages/Info";
 import Shop from "@/components/pages/Shop";
 import Trials from "@/components/layout/Trials";
@@ -13,8 +13,8 @@ import TrialErrorPage from "@/components/TrialDetail/TrialErrorPage";
 import TrialsList from "@/components/TrialsList";
 import DevPage from "@/components/pages/DevPage";
 import DevAchievement from "@/components/DevComponent/DevAchievement";
-import Auth from "@/components/Auth/index";
-import LoginSuccess from "@/components/Auth/LoginSuccess";
+import Auth from "@/components/pages/Authentication/components/index";
+import LoginSuccess from "@/components/pages/Authentication/components/LoginSuccess";
 
 const routers = createBrowserRouter([
   {

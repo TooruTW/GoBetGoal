@@ -1,8 +1,8 @@
 import { useState } from "react";
-import AvatarCarousel from "@/components/Auth/AvatarCarousel";
+import AvatarCarousel from "@/components/pages/Authentication/components/AvatarCarousel";
 import { useForm, SubmitHandler } from "react-hook-form";
-import RegisterSuccess from "../Auth/RegisterSuccess";
-import CandyDrop from "../Auth/CandyDrop";
+import RegisterSuccess from "@/components/pages/Authentication/components/RegisterSuccess";
+import CandyDrop from "@/components/pages/Authentication/components/CandyDrop";
 import { usePostFristEditUserInfo } from "@/api";
 import { useParams } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";

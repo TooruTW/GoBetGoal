@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Candy from "../layout/Header/Navigator/Candy";
+import Candy from "@/components/layout/Header/Navigator/Candy";
 import { monsterDefault } from "@/assets/monster";
 
 type RegisterSuccessProps = {
