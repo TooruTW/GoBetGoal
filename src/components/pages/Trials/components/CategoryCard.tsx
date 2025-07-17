@@ -1,6 +1,6 @@
 import { monsterSport, monsterEat, monsterSleep } from "@/assets/monster";
 
-export default function CatagoryCard() {
+export default function CategoryCard() {
   return (
     <div className="w-full flex justify-center gap-6 text-h2 font-semibold">
       <div className="rounded-md p-4 flex flex-col items-center overflow-hidden w-full h-60 bg-[#D784D2]">

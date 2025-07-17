@@ -37,7 +37,7 @@ const fakeFriends: Friend[] = [
 ];
 
 export default function Friend() {
-  const [Friends, setFriends] = useState<Friend[]>(fakeFriends);
+  const [Friends] = useState<Friend[]>(fakeFriends);
   const cardContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {

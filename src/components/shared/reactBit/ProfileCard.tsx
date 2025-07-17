@@ -58,12 +58,12 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
   showBehindGradient = true,
   className = "",
   enableTilt = true,
-  miniAvatarUrl,
+
   handle = "",
   status = "Online",
-  contactText = "Contact",
+
   showUserInfo = true,
-  onContactClick,
+
 }) => {
   const wrapRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -93,7 +93,11 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
         "--pointer-y": `${percentY}%`,
         "--background-x": `${adjust(percentX, 0, 100, 35, 65)}%`,
         "--background-y": `${adjust(percentY, 0, 100, 35, 65)}%`,
-        "--pointer-from-center": `${clamp(Math.hypot(percentY - 50, percentX - 50) / 50, 0, 1)}`,
+        "--pointer-from-center": `${clamp(
+          Math.hypot(percentY - 50, percentX - 50) / 50,
+          0,
+          1
+        )}`,
         "--pointer-from-top": `${percentY / 100}`,
         "--pointer-from-left": `${percentX / 100}`,
         "--rotate-x": `${round(-(centerX / 5))}deg`,
@@ -243,27 +247,22 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
         "--icon": iconUrl ? `url(${iconUrl})` : "none",
         "--grain": grainUrl ? `url(${grainUrl})` : "none",
         "--behind-gradient": showBehindGradient
-          ? (behindGradient ?? DEFAULT_BEHIND_GRADIENT)
+          ? behindGradient ?? DEFAULT_BEHIND_GRADIENT
           : "none",
         "--inner-gradient": innerGradient ?? DEFAULT_INNER_GRADIENT,
-      }) as React.CSSProperties,
+      } as React.CSSProperties),
     [iconUrl, grainUrl, showBehindGradient, behindGradient, innerGradient]
   );
-
-  const handleContactClick = useCallback(() => {
-    onContactClick?.();
-  }, [onContactClick]);
 
   return (
     <div
       ref={wrapRef}
-      className={`pc-card-wrapper w-full h-full  ${className ? className : ''}`.trim()}
+      className={`pc-card-wrapper w-full h-full  ${
+        className ? className : ""
+      }`.trim()}
       style={cardStyle}
     >
-      <section
-        ref={cardRef}
-        className="pc-card w-full h-full"
-      >
+      <section ref={cardRef} className="pc-card w-full h-full">
         <div className="pc-inside ">
           <div className="pc-shine" />
           <div className="pc-glare" />
@@ -271,7 +270,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
             <img
               className="avatar p-4"
               src={avatarUrl}
-              alt={`${ "User"} avatar`}
+              alt={`${"User"} avatar`}
               loading="lazy"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;

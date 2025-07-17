@@ -1,9 +1,9 @@
-import TitleIcon from "@/components/Icons/TitleIcon";
+import TitleIcon from "@/components/icons/TitleIcon";
 import TitleText from "./TitleText";
 import { Link } from "react-router-dom";
 export default function Title() {
   return (
-    <div >
+    <div>
       <Link className="flex items-center cursor-pointer" to="/">
         <TitleIcon />
         <TitleText className="max-md:hidden">Flag or Bet</TitleText>{" "}

@@ -1,4 +1,4 @@
-import Achievement from "@/components/pages/UserPage/components/achievement";
+import Achievement from "@/components/pages/UserPage/components/Achievement";
 import UserTitle from "@/components/pages/UserPage/components/UserTitle";
 import Friend from "@/components/pages/UserPage/components/Friend";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
