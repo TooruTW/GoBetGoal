@@ -15,7 +15,7 @@ export default function UserPage() {
   const navigate = useNavigate();
   useEffect(() => {
     if (!user) {
-      navigate("/authentication");
+      navigate("/auth");
     }
   }, [user, navigate]);
 

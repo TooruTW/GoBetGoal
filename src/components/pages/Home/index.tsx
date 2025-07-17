@@ -5,15 +5,7 @@ import type { RootRoute } from "@/types/RootRoute";
 import Hero from "./Hero";
 import Fall from "./Fall";
 
-
-const route: RootRoute[] = [
-  "home",
-  "user-page",
-  "trials",
-  "authentication",
-  "info",
-  "shop",
-];
+const route: RootRoute[] = ["home", "user", "trials", "auth", "info", "shop"];
 
 export default function Home() {
   return (
@@ -35,9 +27,7 @@ export default function Home() {
         </nav>
         <Hero />
         <Fall />
-
       </section>
-        
     </div>
   );
 }

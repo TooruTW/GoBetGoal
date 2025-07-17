@@ -47,14 +47,14 @@ export default function TrialCard(porps: acceptProps) {
     e.stopPropagation();
     setIsLiked(!isLiked);
   };
-  
+
   const handleJoin = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     console.log("join");
   };
 
   const handleGetDetail = () => {
-    navigate(`/trials/trial-detail/${trial.id}`);
+    navigate(`/trials/detail/${trial.id}`);
   };
 
   useEffect(() => {
@@ -101,7 +101,11 @@ export default function TrialCard(porps: acceptProps) {
           >
             {isLiked ? <FaHeart /> : <FaRegHeart />}
           </div>
-          <Button variant="trialsJoin" className="w-20" onClick={(e) => handleJoin(e)}>
+          <Button
+            variant="trialsJoin"
+            className="w-20"
+            onClick={(e) => handleJoin(e)}
+          >
             加入
           </Button>
         </div>

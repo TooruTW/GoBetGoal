@@ -42,7 +42,7 @@ export const useAuthSuccess = ({
       if (!userInfo || userInfo.length === 0) {
         navigate(`/auth-account/${userId}`);
       } else {
-        navigate(`/authentication/auth-success/${userId}`);
+        navigate(`/auth/success/${userId}`);
       }
     } catch (error) {
       console.log(error);

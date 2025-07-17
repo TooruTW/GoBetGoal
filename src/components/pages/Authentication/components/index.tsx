@@ -23,7 +23,7 @@ export default function Auth() {
 
   useEffect(() => {
     if (user) {
-      navigate(`/authentication/auth-success/${user.id}`);
+      navigate(`/auth/success/${user.id}`);
     }
   }, [user, navigate, isLoading, error]);
 
