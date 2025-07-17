@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 
 import type { RootRoute } from "@/types/RootRoute";
 
-import Hero from "../Home/Hero";
-import Fall from "../Home/Fall";
+import Hero from "./Hero";
+import Fall from "./Fall";
 
 
 const route: RootRoute[] = [

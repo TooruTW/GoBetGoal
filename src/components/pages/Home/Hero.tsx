@@ -1,5 +1,5 @@
-import GradientText from '../reactBit/GradientText'
-import SplitText from "../reactBit/SplitText";
+import GradientText from '@/components/reactBit/GradientText'
+import SplitText from "@/components/reactBit/SplitText";
 
 
 
