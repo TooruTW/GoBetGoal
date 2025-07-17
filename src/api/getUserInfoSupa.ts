@@ -1,7 +1,7 @@
 import { supabase } from "@/supabaseClient";
 import { useQuery } from "@tanstack/react-query";
 
-const getUserInfoSupa = async (user_id: string) => {
+export const getUserInfoSupa = async (user_id: string) => {
   const { data: user_info, error } = await supabase
     .from("user_info")
     .select("*")
