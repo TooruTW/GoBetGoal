@@ -16,7 +16,7 @@ export default function LoginSuccess() {
     }
     if (!isLoading && !userInfo) {
       console.log("no userInfo");
-      navigate(`/authentication/auth-account/${id}`);
+              navigate(`/auth-account/${id}`);
     }
   }, [userInfo, error, navigate, id, isLoading]);
 

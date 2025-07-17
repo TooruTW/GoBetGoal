@@ -1,9 +1,8 @@
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useState } from "react";
-import { FaEye } from "react-icons/fa";
-import { FaEyeSlash } from "react-icons/fa6";
 import { usePostSignInSupa, usePostLogInSupa } from "@/api";
 import { useAuthSuccess } from "./useAuthSuccess";
+import PasswordInput from "./PasswordInput";
+import EmailInput from "./EmailInput";
 
 type FormValues = {
   mail: string;
@@ -19,7 +18,6 @@ export default function RegisterForm({
   onRegisterError,
   onRegisterSuccess,
 }: RegisterFormProps) {
-  const [show, setShow] = useState(false);
   const { mutate: postSignInSupa } = usePostSignInSupa();
   const { mutate: postLogInSupa } = usePostLogInSupa();
   const { handleAuthSuccess } = useAuthSuccess({
@@ -65,63 +63,31 @@ export default function RegisterForm({
       className="flex-col flex justify-start w-full items-center gap-6 text-white mx-auto"
     >
       {/* Email */}
-      <div className="flex flex-col w-full">
-        <label htmlFor="mail" className="block w-full pb-2">
-          Email
-        </label>
-        <input
-          className="border-b border-[var(--ring)] py-2 text-sm focus:outline-none w-full bg-transparent"
-          {...register("mail", {
-            required: "請輸入正確email",
-            pattern: {
-              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-              message: "請輸入正確email",
-            },
-          })}
-          aria-invalid={errors.mail ? "true" : "false"}
-        />
-        {errors.mail && (
-          <p role="alert" className="text-[var(--destructive)] text-sm">
-            {errors.mail.message}
-          </p>
-        )}
-      </div>
+      <EmailInput
+        register={register("mail", {
+          required: "請輸入正確email",
+          pattern: {
+            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+            message: "請輸入正確email",
+          },
+        })}
+        error={errors.mail}
+      />
 
       {/* 密碼 */}
-      <div className="flex flex-col w-full">
-        <label htmlFor="password" className="block w-full pb-2">
-          密碼
-        </label>
-        <div className="mb-4 flex items-center relative">
-          <input
-            type={show ? "text" : "password"}
-            className="border-b border-[var(--ring)] py-2 text-sm focus:outline-none pr-10 w-full bg-transparent"
-            {...register("password", {
-              required: "密碼為必填",
-              minLength: {
-                value: 6,
-                message: "密碼需至少6碼",
-              },
-              validate: (value) =>
-                /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(value) ||
-                "密碼需包含英文與數字",
-            })}
-            aria-invalid={errors.password ? "true" : "false"}
-            autoComplete="current-password"
-          />
-          <span
-            className="absolute right-2 cursor-pointer"
-            onClick={() => setShow((prev) => !prev)}
-          >
-            {show ? <FaEye size={20} /> : <FaEyeSlash size={20} />}
-          </span>
-        </div>
-        {errors.password && (
-          <p role="alert" className="text-[var(--destructive)] text-sm">
-            {errors.password.message}
-          </p>
-        )}
-      </div>
+      <PasswordInput
+        register={register("password", {
+          required: "密碼為必填",
+          minLength: {
+            value: 6,
+            message: "密碼需至少6碼",
+          },
+          validate: (value) =>
+            /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(value) ||
+            "密碼需包含英文與數字",
+        })}
+        error={errors.password}
+      />
 
       <input
         type="submit"

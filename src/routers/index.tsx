@@ -15,7 +15,6 @@ import DevPage from "@/components/layout/DevPage";
 import DevAchievement from "@/components/DevComponent/DevAchievement";
 import Auth from "@/components/Auth/index";
 import LoginSuccess from "@/components/Auth/LoginSuccess";
-import RegisterSuccess from "@/components/Auth/RegisterSuccess";
 
 const routers = createBrowserRouter([
   {
@@ -34,7 +33,7 @@ const routers = createBrowserRouter([
       {
         path: "trials",
         element: <Trials />,
-        children:[
+        children: [
           {
             path: "trial-detail/:id",
             element: <TrialDetail />,
@@ -43,8 +42,12 @@ const routers = createBrowserRouter([
           {
             index: true,
             element: <TrialsList />,
-          }
-        ]
+          },
+        ],
+      },
+      {
+        path: "auth-account/:id",
+        element: <AuthAccount />,
       },
       {
         path: "authentication",
@@ -53,10 +56,6 @@ const routers = createBrowserRouter([
           {
             index: true,
             element: <Auth />,
-          },
-          {
-            path: "auth-account/:id",
-            element:<AuthAccount />,
           },
           {
             path: "auth-success/:id",
