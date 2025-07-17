@@ -7,7 +7,7 @@ import Authentication from "@/components/pages/Authentication";
 import AuthAccount from "@/components/pages/AuthAccount";
 import Info from "@/components/pages/Info";
 import Shop from "@/components/pages/Shop";
-import Trials from "@/components/layout/Trials";
+import Trials from "@/components/pages/Trials";
 import TrialDetail from "@/components/TrialDetail";
 import TrialErrorPage from "@/components/TrialDetail/TrialErrorPage";
 import TrialsList from "@/components/TrialsList";
