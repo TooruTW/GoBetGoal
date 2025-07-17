@@ -10,7 +10,7 @@ import Shop from "@/components/pages/Shop";
 import Trials from "@/components/pages/Trials";
 import TrialDetail from "@/components/TrialDetail";
 import TrialErrorPage from "@/components/TrialDetail/TrialErrorPage";
-import TrialsList from "@/components/TrialsList";
+import TrialsList from "@/components/pages/Trials/components";
 import DevPage from "@/components/pages/DevPage";
 import DevAchievement from "@/components/pages/DevPage/components/DevAchievement";
 import Auth from "@/components/pages/Authentication/components/index";
