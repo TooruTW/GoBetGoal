@@ -11,7 +11,7 @@ import Trials from "@/components/layout/Trials";
 import TrialDetail from "@/components/TrialDetail";
 import TrialErrorPage from "@/components/TrialDetail/TrialErrorPage";
 import TrialsList from "@/components/TrialsList";
-import DevPage from "@/components/layout/DevPage";
+import DevPage from "@/components/pages/DevPage";
 import DevAchievement from "@/components/DevComponent/DevAchievement";
 import Auth from "@/components/Auth/index";
 import LoginSuccess from "@/components/Auth/LoginSuccess";
