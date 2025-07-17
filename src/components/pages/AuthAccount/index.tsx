@@ -3,7 +3,7 @@ import AvatarCarousel from "@/components/pages/Authentication/components/AvatarC
 import { useForm, SubmitHandler } from "react-hook-form";
 import RegisterSuccess from "@/components/pages/Authentication/components/RegisterSuccess";
 import CandyDrop from "@/components/pages/Authentication/components/CandyDrop";
-import { usePostFristEditUserInfo } from "@/api";
+import { usePostFirstEditUserInfo } from "@/api";
 import { useParams } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 type Avatar = { src: string; price: number };
@@ -38,12 +38,12 @@ export default function AuthAccount() {
     setSelectedAvatar(avatar);
     setValue("avatar", avatar.src, { shouldValidate: true });
   };
-  const { mutate: postFristEditUserInfo } = usePostFristEditUserInfo();
+  const { mutate: postFirstEditUserInfo } = usePostFirstEditUserInfo();
 
   const onRegister: SubmitHandler<FormValues> = async (data) => {
     console.log(data);
     if (!id || !data.nickname || !data.avatar) return;
-    postFristEditUserInfo(
+    postFirstEditUserInfo(
       {
         user_id: id,
         nickname: data.nickname,

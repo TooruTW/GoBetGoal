@@ -2,7 +2,7 @@ import { useAchievementSupa } from "@/api";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { usePostAchievementSupa } from "@/api/postAchievementSupa";
-import { useDeleteAchievementSupa } from "@/api/deleteAcievementSupa";
+import { useDeleteAchievementSupa } from "@/api/deleteAchievementSupa";
 type Achievement = {
   id?: number;
   created_at?: string;

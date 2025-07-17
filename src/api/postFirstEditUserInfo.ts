@@ -7,7 +7,7 @@ type UserInfo = {
   user_id: string;
 };
 
-const postFristEditUserInfo = async (userInfo: UserInfo) => {
+const postFirstEditUserInfo = async (userInfo: UserInfo) => {
   const { data, error } = await supabase
     .from("user_info")
     .insert([
@@ -22,9 +22,9 @@ const postFristEditUserInfo = async (userInfo: UserInfo) => {
   return data;
 };
 
-export function usePostFristEditUserInfo() {
+export function usePostFirstEditUserInfo() {
   const mutation = useMutation({
-    mutationFn: (userInfo: UserInfo) => postFristEditUserInfo(userInfo),
+    mutationFn: (userInfo: UserInfo) => postFirstEditUserInfo(userInfo),
   });
 
   return mutation;
