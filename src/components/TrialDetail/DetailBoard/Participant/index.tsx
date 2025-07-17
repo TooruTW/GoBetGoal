@@ -1,8 +1,8 @@
 import gsap from "gsap";
 import PlayerCard from "./PlayerCard";
 import { useEffect, useRef, useState } from "react";
-import type { TrialDetailSupa } from "@/components/types/TrialDetailSupa";
-import type { UserInfoSupa } from "@/components/types/UserInfoSupa";
+import type { TrialDetailSupa } from "@/types/TrialDetailSupa";
+import type { UserInfoSupa } from "@/types/UserInfoSupa";
 import { IoClose } from "react-icons/io5";
 import { useDeleteParticipantInTrialSupa } from "@/api/deleteParticipantInTrialSupa";
 import { useQueryClient } from "@tanstack/react-query";

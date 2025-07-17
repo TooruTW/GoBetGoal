@@ -1,8 +1,8 @@
 import DayBox from "./DayBox";
-import { TrialDetailSupa } from "@/components/types/TrialDetailSupa";
+import { TrialDetailSupa } from "@/types/TrialDetailSupa";
 import { useState, useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "@/state/store";
+import { RootState } from "@/store";
 
 interface acceptProps {
   trial: TrialDetailSupa[];

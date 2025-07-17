@@ -1,4 +1,4 @@
-import type { UserInfoSupa } from "@/components/types/UserInfoSupa";
+import type { UserInfoSupa } from "@/types/UserInfoSupa";
 import { useSwipeable } from "react-swipeable";
 import { useEffect, useState } from "react";
 

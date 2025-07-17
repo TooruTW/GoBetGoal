@@ -3,7 +3,7 @@ import Header from "./components/Header";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { useGetUserInfoSupa, useGetUserSupa } from "./api";
-import { setAccount } from "./features/user/account";
+import { setAccount } from "./store/slices/accountSlice";
 
 function App() {
   const [userID, setUserID] = useState<string>("");

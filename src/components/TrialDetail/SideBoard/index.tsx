@@ -1,4 +1,4 @@
-import { Trial } from "@/components/types/Trial";
+import { Trial } from "@/types/Trial";
 import { IoClose } from "react-icons/io5";
 import { useEffect, useState, useRef } from "react";
 import { useClickOutside } from "@/components/hooks/useClickOutside";

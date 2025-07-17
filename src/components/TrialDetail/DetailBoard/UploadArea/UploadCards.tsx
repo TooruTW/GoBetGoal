@@ -1,5 +1,5 @@
 import { GoPlus } from "react-icons/go";
-import { TrialDetailSupa } from "@/components/types/TrialDetailSupa";
+import { TrialDetailSupa } from "@/types/TrialDetailSupa";
 import { useEffect, useRef } from "react";
 
 interface acceptProps {

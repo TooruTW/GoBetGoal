@@ -6,7 +6,7 @@ import { usePostLogOutSupa, useGetUserSupa } from "@/api";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setAccount } from "@/features/user/account";
+import { setAccount } from "@/store/slices/accountSlice";
 
 export default function UserPage() {
   const dispatch = useDispatch();

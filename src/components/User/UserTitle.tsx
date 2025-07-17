@@ -1,4 +1,4 @@
-import type { Participant } from "@/components/types/Participant";
+import type { Participant } from "@/types/Participant";
 
 import Aurora from './Aurora';
   

@@ -1,4 +1,4 @@
-import type { TrialDetailSupa } from "@/components/types/TrialDetailSupa";
+import type { TrialDetailSupa } from "@/types/TrialDetailSupa";
 interface acceptProps {
   trial: TrialDetailSupa;
 }
@@ -6,7 +6,6 @@ interface acceptProps {
 export default function TextContent(props: acceptProps) {
   const { trial } = props;
   const thisTrial = trial.trial;
-
 
   return (
     <div className="w-full flex flex-col gap-3">
@@ -23,7 +22,9 @@ export default function TextContent(props: acceptProps) {
         </li>
         <li className="p-2 bg-bg-secondary/50 rounded-md w-full mb-2">
           <p className="text-label">試煉總天數</p>
-          <p>{thisTrial.challenge.stage_count * thisTrial.challenge.frequency}</p>
+          <p>
+            {thisTrial.challenge.stage_count * thisTrial.challenge.frequency}
+          </p>
         </li>
         <li className="p-2 bg-bg-secondary/50 rounded-md w-full mb-2">
           <p className="text-label">人數</p>

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { TrialDetailSupa } from "@/components/types/TrialDetailSupa";
+import { TrialDetailSupa } from "@/types/TrialDetailSupa";
 
 interface acceptProps {
     currentChallenge: TrialDetailSupa | undefined;

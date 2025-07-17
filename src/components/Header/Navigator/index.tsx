@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import CreateChallenge from "./CreateChallenge";
 import User from "./User";
 import { useSelector } from "react-redux";
-import { RootState } from "@/state/store";
+import { RootState } from "@/store";
 
 export default function Navigator() {
   const account = useSelector((state: RootState) => state.account);

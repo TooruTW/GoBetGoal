@@ -2,9 +2,9 @@ import React, { useRef, useEffect } from "react";
 import { IoClose } from "react-icons/io5";
 import ImageLoader from "./ImageLoader";
 import { useNavigate } from "react-router-dom";
-import type { UserInfoSupa } from "@/components/types/UserInfoSupa";
+import type { UserInfoSupa } from "@/types/UserInfoSupa";
 import { useSelector } from "react-redux";
-import type { RootState } from "@/state/store";
+import type { RootState } from "@/store";
 
 interface acceptProps {
   participant?: UserInfoSupa;

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { UserRelation } from "@/components/types/UserRelation";
+import type { UserRelation } from "@/types/UserRelation";
 
 const initialState = {
   friends: [] as string[],

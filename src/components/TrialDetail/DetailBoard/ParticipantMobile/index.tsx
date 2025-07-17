@@ -3,8 +3,8 @@ import ReactFlipCard from "reactjs-flip-card";
 import BackSideCard from "./BackSideCard";
 import gsap from "gsap";
 import { useEffect, useState } from "react";
-import type { TrialDetailSupa } from "@/components/types/TrialDetailSupa";
-import type { UserInfoSupa } from "@/components/types/UserInfoSupa";
+import type { TrialDetailSupa } from "@/types/TrialDetailSupa";
+import type { UserInfoSupa } from "@/types/UserInfoSupa";
 
 interface acceptProps {
   trial: TrialDetailSupa[];

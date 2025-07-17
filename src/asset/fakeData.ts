@@ -1,5 +1,5 @@
-import type { Trial } from "@/components/types/Trial";
-import type { Challenge } from "@/components/types/Challenge";
+import type { Trial } from "@/types/Trial";
+import type { Challenge } from "@/types/Challenge";
 
 const createdAt = new Date(2025, 5, 20);
 const createdAtFormatted = createdAt.toISOString();

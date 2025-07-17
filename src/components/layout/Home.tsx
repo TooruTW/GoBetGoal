@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import type { RootRoute } from "../types/RootRoute";
+import type { RootRoute } from "@/types/RootRoute";
 
 import Hero from "../Home/Hero";
 import Fall from "../Home/Fall";

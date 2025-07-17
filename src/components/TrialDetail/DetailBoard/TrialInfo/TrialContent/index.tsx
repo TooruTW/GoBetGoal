@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import CountDown from "./CountDown";
 import TextContent from "./TextContent";
-import type { TrialDetailSupa } from "@/components/types/TrialDetailSupa";
+import type { TrialDetailSupa } from "@/types/TrialDetailSupa";
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 

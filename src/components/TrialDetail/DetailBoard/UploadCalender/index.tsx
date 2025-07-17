@@ -1,9 +1,9 @@
 import MonthSelector from "./MonthSelector";
 import Calender from "./Calender";
 import { useState,useEffect } from "react";
-import { TrialDetailSupa } from "@/components/types/TrialDetailSupa"; 
+import { TrialDetailSupa } from "@/types/TrialDetailSupa"; 
 import { useSelector } from "react-redux";
-import { RootState } from "@/state/store";
+import { RootState } from "@/store";
 
 interface acceptProps {
   trial: TrialDetailSupa[];

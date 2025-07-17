@@ -1,10 +1,10 @@
-import type { TrialDetailSupa } from "@/components/types/TrialDetailSupa";
+import type { TrialDetailSupa } from "@/types/TrialDetailSupa";
 import UploadCards from "./UploadCards";
 import Review from "./Review";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import dayjs from "dayjs";
 import { useSelector } from "react-redux";
-import { RootState } from "@/state/store";
+import { RootState } from "@/store";
 import { usePatchTrialHistory } from "@/api";
 import { useQueryClient } from "@tanstack/react-query";
 

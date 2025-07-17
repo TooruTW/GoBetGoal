@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { RootState } from "@/state/store";
+import { RootState } from "@/store";
 import { MdAccountCircle } from "react-icons/md";
 
 export default function User() {

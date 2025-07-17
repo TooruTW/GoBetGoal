@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { Trial } from "@/components/types/Trial";
+import type { Trial } from "@/types/Trial";
 
 const initialState: Trial = {
   id: "",
@@ -24,6 +24,7 @@ const initialState: Trial = {
   investment: 0,
   reward: 0,
   bounceRate: 0,
+  history: [],
 };
 
 export const trialsSlice = createSlice({

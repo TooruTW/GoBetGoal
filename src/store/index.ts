@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import trialsReducer from "@/features/trials/currentTrialSlice";
-import screenReducer from "@/features/user/currentScreenSize";
-import accountReducer from "@/features/user/account";
-import friendsReducer from "@/features/user/friends";
+import trialsReducer from "@/store/slices/trialsSlice";
+import screenReducer from "@/store/slices/screenSlice";
+import accountReducer from "@/store/slices/accountSlice";
+import friendsReducer from "@/store/slices/friendsSlice";
 export const store = configureStore({
   reducer: {
     trials: trialsReducer,

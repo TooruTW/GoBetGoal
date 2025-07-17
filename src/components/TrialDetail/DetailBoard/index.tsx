@@ -6,9 +6,9 @@ import ParticipantMobile from "./ParticipantMobile";
 import UploadArea from "./UploadArea";
 import UploadCalendar from "./UploadCalender";
 import { useDispatch, useSelector } from "react-redux";
-import { setScreenSize } from "@/features/user/currentScreenSize";
-import { RootState } from "@/state/store";
-import { TrialDetailSupa } from "@/components/types/TrialDetailSupa";
+import { setScreenSize } from "@/store/slices/screenSlice";
+import { RootState } from "@/store";
+import { TrialDetailSupa } from "@/types/TrialDetailSupa";
 interface acceptProps {
   trial: TrialDetailSupa[];
 }

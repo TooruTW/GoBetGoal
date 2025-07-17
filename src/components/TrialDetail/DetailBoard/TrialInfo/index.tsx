@@ -1,6 +1,6 @@
 import ProgressBar from "./ProgressBar";
 import TrialContent from "./TrialContent";
-import { TrialDetailSupa } from "@/components/types/TrialDetailSupa";
+import { TrialDetailSupa } from "@/types/TrialDetailSupa";
 import Challenges from "./Challenges";
 interface acceptProps {
   trial: TrialDetailSupa[];
