@@ -1,34 +1,30 @@
-import { supabase } from "@/supabaseClient";
-
-const handleUploadImage = async (
-  event: React.ChangeEvent<HTMLInputElement>
-) => {
-  const file = event.target.files?.[0];
-  if (!file) return;
-  const filePath = `${Math.floor(Math.random()*10)}-${file.name}`;
-
-  const { data, error } = await supabase.storage
-    .from("challenge")
-    .upload(filePath, file);
-  if (error) {
-    console.log(error);
-  } else {
-    console.log("✅ 上傳成功:", data);
-    const { data: { publicUrl } } = await supabase
-    .storage
-    .from("challenge")
-    .getPublicUrl(filePath);
-
-  console.log('✅ 圖片 URL:', publicUrl);
-  }
-  
-};
+import { useUploadImageSupa } from "@/api";
 
 export default function UploadImage() {
+  const { mutate: uploadImage, isPending } = useUploadImageSupa();
+
+  const handleUploadImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    uploadImage(
+      { file },
+      {
+        onSuccess: (data) => {
+          console.log("✅ 圖片 URL:", data.publicUrl);
+        },
+        onError: (error) => {
+          console.error("❌ 上傳失敗:", error);
+        },
+      }
+    );
+  };
+
   return (
     <div>
       <h1>Upload Image</h1>
-      <input type="file" onChange={handleUploadImage} />
+      <input type="file" onChange={handleUploadImage} disabled={isPending} />
+      {isPending && <p>上傳中...</p>}
     </div>
   );
 }
