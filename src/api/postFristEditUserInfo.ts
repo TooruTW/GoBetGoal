@@ -9,11 +9,15 @@ type UserInfo = {
 
 const postFristEditUserInfo = async (userInfo: UserInfo) => {
   const { data, error } = await supabase
-  .from('user_info')
-  .insert([
-    { user_id: userInfo.user_id, charactor_img_link: userInfo.avatarUrl,nick_name:userInfo.nickname },
-  ])
-  .select()
+    .from("user_info")
+    .insert([
+      {
+        user_id: userInfo.user_id,
+        charactor_img_link: userInfo.avatarUrl,
+        nick_name: userInfo.nickname,
+      },
+    ])
+    .select();
   if (error) throw error;
   return data;
 };

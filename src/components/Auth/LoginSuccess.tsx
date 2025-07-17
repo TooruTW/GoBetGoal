@@ -16,10 +16,7 @@ export default function LoginSuccess() {
     }
     if (!isLoading && !userInfo) {
       console.log("no userInfo");
-      navigate(`/authentication/auth-account/${id}`);
-    }
-    if (!isLoading && userInfo) {
-      navigate("/");
+              navigate(`/auth-account/${id}`);
     }
   }, [userInfo, error, navigate, id, isLoading]);
 
@@ -28,15 +25,14 @@ export default function LoginSuccess() {
       setSeconds((prev) => prev - 1);
     }, 1000);
 
-    const timer = setTimeout(() => {
+    if (seconds === 0) {
       navigate("/");
-    }, 3000);
+    }
 
     return () => {
       clearInterval(interval);
-      clearTimeout(timer);
     };
-  }, [navigate]);
+  }, [navigate, seconds]);
 
   return (
     <div className="w-full h-screen flex justify-center items-center ">

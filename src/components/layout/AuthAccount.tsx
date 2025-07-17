@@ -5,13 +5,13 @@ import RegisterSuccess from "../Auth/RegisterSuccess";
 import CandyDrop from "../Auth/CandyDrop";
 import { usePostFristEditUserInfo } from "@/api";
 import { useParams } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 type Avatar = { src: string; price: number };
 
 type FormValues = {
   nickname?: string;
   avatar: string;
 };
-
 
 export default function AuthAccount() {
   const [selectedAvatar, setSelectedAvatar] = useState<Avatar | null>(null);
@@ -20,6 +20,7 @@ export default function AuthAccount() {
     nickname: string;
     avatar: string;
   } | null>(null);
+  const queryClient = useQueryClient();
   const {
     register,
     formState: { errors },
@@ -31,7 +32,6 @@ export default function AuthAccount() {
     mode: "onBlur",
   });
   const { id } = useParams();
-  
 
   // 當選擇圖片時，同步設到 form
   const handleAvatarSelect = (avatar: Avatar) => {
@@ -54,6 +54,11 @@ export default function AuthAccount() {
           if (!id || !data.nickname || !data.avatar) return;
 
           console.log("setting success");
+
+          // 觸發 user_info 查詢更新，這樣 Redux 就會跟著更新
+          queryClient.invalidateQueries({ queryKey: ["user_info", id] });
+          console.log("User info updated after edit");
+
           setAccountSuccess(true);
           setRegisterInfo({
             nickname: data.nickname,
@@ -62,7 +67,10 @@ export default function AuthAccount() {
         },
         onError: (error) => {
           console.log("setting error", error.message);
-          setError("nickname", { type: "manual", message: "這個名字太受歡迎啦～再想個獨一無二的暱稱吧" });
+          setError("nickname", {
+            type: "manual",
+            message: "這個名字太受歡迎啦～再想個獨一無二的暱稱吧",
+          });
         },
       }
     );
@@ -75,9 +83,7 @@ export default function AuthAccount() {
           onSubmit={handleSubmit(onRegister)}
           className="flex-col flex justify-center w-full items-center gap-6 text-white mx-auto"
         >
-          <h2 className="text-2xl font-bold mb-4">
-            選擇角色
-          </h2>
+          <h2 className="text-2xl font-bold mb-4">選擇角色</h2>
           {/* 頭像選擇（單選） */}
           <AvatarCarousel
             onSelect={handleAvatarSelect}

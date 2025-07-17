@@ -1,6 +1,6 @@
 import { supabase } from "@/supabaseClient";
 import { useQuery } from "@tanstack/react-query";
- const getUserSupa = async () => {
+const getUserSupa = async () => {
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -9,10 +9,10 @@ import { useQuery } from "@tanstack/react-query";
 };
 
 export function useGetUserSupa() {
-  const { data, error,isLoading } = useQuery({
+  const { data, error, isLoading } = useQuery({
     queryKey: ["user"],
     queryFn: getUserSupa,
   });
 
-  return { data, error,isLoading };
+  return { data, error, isLoading };
 }
