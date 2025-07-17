@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import ProfileCard from '../reactBit/ProfileCard';
+import ProfileCard from "../reactBit/ProfileCard";
 
 type Friend = {
   id?: number;
@@ -19,41 +19,6 @@ const fakeFriends: Friend[] = [
     title: "小明",
     description: "熱愛運動的朋友",
     icon_url: "/image/avatar/boyGymStrong.webp",
-  },
-  {
-    id: 2,
-    order: 2,
-    title: "小美",
-    description: "喜歡閱讀的朋友",
-    icon_url: "/image/avatar/girlPurpleCurly.webp",
-  },
-  {
-    id: 2,
-    order: 2,
-    title: "小美",
-    description: "喜歡閱讀的朋友",
-    icon_url: "/image/avatar/girlPurpleCurly.webp",
-  },
-  {
-    id: 2,
-    order: 2,
-    title: "小美",
-    description: "喜歡閱讀的朋友",
-    icon_url: "/image/avatar/girlPurpleCurly.webp",
-  },
-  {
-    id: 2,
-    order: 2,
-    title: "小美",
-    description: "喜歡閱讀的朋友",
-    icon_url: "/image/avatar/girlPurpleCurly.webp",
-  },
-  {
-    id: 2,
-    order: 2,
-    title: "小美",
-    description: "喜歡閱讀的朋友",
-    icon_url: "/image/avatar/girlPurpleCurly.webp",
   },
   {
     id: 2,
@@ -95,61 +60,54 @@ export default function Friend() {
 
   return (
     <div className="py-20">
-      <h2 className="text-2xl font-bold my-6">
-        新增好友
-      </h2>
+      <h2 className="text-2xl font-bold my-6">新增好友</h2>
       <div
-      ref={cardContainerRef}
-      className="grid gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 h-full w-full px-auto"
-    >
-      {Friends.length > 0 &&
-        Friends.map((Friend) => (
-        <li
-            className="w-full flex flex-col text-center Friend  justify-center items-center"
-            key={Friend.id}
-        >
-            <ProfileCard
-            handle={Friend.title}
-            status="Online"
-            contactText="Contact Me"
-            avatarUrl={Friend.icon_url}
-            showUserInfo={true}
-            enableTilt={true}
-            className="w-[10px]"
-            onContactClick={() => console.log('Contact clicked')}
-            />
-            
-        </li>
-        ))}
+        ref={cardContainerRef}
+        className="grid gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 h-full w-full px-auto"
+      >
+        {Friends.length > 0 &&
+          Friends.map((Friend) => (
+            <li
+              className="w-full flex flex-col text-center Friend  justify-center items-center"
+              key={Friend.id}
+            >
+              <ProfileCard
+                handle={Friend.title}
+                status="Online"
+                contactText="Contact Me"
+                avatarUrl={Friend.icon_url}
+                showUserInfo={true}
+                enableTilt={true}
+                className="w-[10px]"
+                onContactClick={() => console.log("Contact clicked")}
+              />
+            </li>
+          ))}
       </div>
-      <h2 className="text-2xl font-bold my-6">
-        好友列表
-      </h2>
+      <h2 className="text-2xl font-bold my-6">好友列表</h2>
       <div
-      ref={cardContainerRef}
-      className="grid gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 h-full w-full px-auto"
-    >
-      {Friends.length > 0 &&
-        Friends.map((Friend) => (
-        <li
-            className="w-full flex flex-col text-center Friend  justify-center items-center"
-            key={Friend.id}
-        >
-            <ProfileCard
-            handle={Friend.title}
-            status="Online"
-            contactText="Contact Me"
-            avatarUrl={Friend.icon_url}
-            showUserInfo={true}
-            enableTilt={true}
-            className="w-[10px]"
-            onContactClick={() => console.log('Contact clicked')}
-            />
-            
-        </li>
-        ))}
+        ref={cardContainerRef}
+        className="grid gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 h-full w-full px-auto"
+      >
+        {Friends.length > 0 &&
+          Friends.map((Friend) => (
+            <li
+              className="w-full flex flex-col text-center Friend  justify-center items-center"
+              key={Friend.id}
+            >
+              <ProfileCard
+                handle={Friend.title}
+                status="Online"
+                contactText="Contact Me"
+                avatarUrl={Friend.icon_url}
+                showUserInfo={true}
+                enableTilt={true}
+                className="w-[10px]"
+                onContactClick={() => console.log("Contact clicked")}
+              />
+            </li>
+          ))}
       </div>
     </div>
-   
   );
 }
