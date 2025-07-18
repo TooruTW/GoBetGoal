@@ -1,3 +1,4 @@
+import { monsterDefault } from "@/assets/monster";
 import { useForm } from "react-hook-form";
 
 interface FormData {
@@ -36,11 +37,11 @@ export default function Form() {
   };
 
   return (
-    <div className="flex flex-col gap-6 w-full">
+    <div className="flex flex-col gap-6 w-full px-6 py-7 overflow-hidden relative">
       <h2 className="text-h2">客制項目</h2>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col items-center gap-2 w-full"
+        className="flex flex-col items-center gap-9 w-full"
       >
         {/* 試煉名稱 */}
         <label
@@ -130,6 +131,11 @@ export default function Form() {
           {isSubmitting ? "創建中..." : "創建試煉"}
         </button>
       </form>
+      <img
+        src={monsterDefault}
+        alt="bg-decoration"
+        className=" absolute -bottom-40 -left-25 z-0 w-100 opacity-20 rotate-20"
+      />
     </div>
   );
 }

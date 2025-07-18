@@ -50,7 +50,7 @@ export default function TempleteList() {
 
   return (
     <div
-      className=" border-2 border-schema-primary grid gap-2 h-fit"
+      className=" grid gap-2 h-fit"
       style={{ gridTemplateColumns: "repeat(2, 200px)" }}
     >
       {templeteList.map((templete) => (
