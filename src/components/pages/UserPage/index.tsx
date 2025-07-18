@@ -1,5 +1,6 @@
 import Achievement from "@/components/pages/UserPage/components/Achievement";
 import UserTitle from "@/components/pages/UserPage/components/UserTitle";
+import AddFriend from "@/components/pages/UserPage/components/AddFriend";
 import Friend from "@/components/pages/UserPage/components/Friend";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { usePostLogOutSupa, useGetUserSupa } from "@/api";
@@ -56,7 +57,23 @@ export default function UserPage() {
         </TabsContent>
         <TabsContent value="friends">
           {" "}
-          <Friend />
+          <div className="py-10">
+            <div className="flex pb-6 justify-between">
+              
+              <h3 className="text-xl font-bold ">好友邀請</h3>
+              <AddFriend />
+            </div>
+            
+            
+            <Friend />
+          </div>
+          
+          <div className="py-10">
+            <h3 className="text-xl font-bold pb-6">好友列表</h3>
+            <Friend />
+          </div>
+         
+
         </TabsContent>
 
         <TabsContent value="settings">

@@ -23,8 +23,7 @@ export default function PlayerInfo({ participant }: PlayerInfoProps) {
                 src="/image/avatar/girlPurpleCurly.webp"
                 alt="avatar"
                 className="w-3/4 "
-            />
-            
+            />      
             
         </div>
 
