@@ -1,10 +1,33 @@
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import TempleteDetail from "./TempleteDetail";
+import gsap from "gsap";
+import { useClickOutside } from "@/hooks/useClickOutside";
 
 export default function ChallengeInfo() {
   const [isOpen, setIsOpen] = useState(false);
+  const imageRef = useRef<HTMLImageElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    gsap.fromTo(
+      imageRef.current,
+      {
+        yPercent: 0,
+      },
+      {
+        yPercent: -10,
+        duration: 1,
+        ease: "power1.inOut",
+        yoyo: true,
+        repeat: -1,
+      }
+    );
+  }, []);
+
+  useClickOutside(containerRef, () => setIsOpen(false));
 
   const color = "#eba7e4";
   const templeteimgurl = "/challengeimg.png";
@@ -16,6 +39,7 @@ export default function ChallengeInfo() {
       className="rounded-2xl px-6 py-7 relative flex flex-col gap-4"
     >
       <img
+        ref={imageRef}
         src={templeteimgurl}
         alt=""
         className="size-35 absolute -top-15 right-6 rotate-9"
@@ -48,14 +72,28 @@ export default function ChallengeInfo() {
       </ul>
 
       <div className="flex justify-between items-center ">
-        <Button variant="createTrialDetail" onClick={() => setIsOpen(true)}>
+        <Button
+          ref={buttonRef}
+          variant="createTrialDetail"
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsOpen(true);
+          }}
+        >
           <span>看試煉詳情 </span>
           <MdKeyboardArrowRight></MdKeyboardArrowRight>
         </Button>
       </div>
-{      <div className={`fixed top-1/10 h-9/10 overflow-scroll right-0 w-1/2 z-10 transition-transform ${isOpen? "translete-x-0":"translate-x-full"}`}>
-        <TempleteDetail setIsOpen={setIsOpen}></TempleteDetail>
-      </div>}
+      {
+        <div
+          ref={containerRef}
+          className={`fixed top-1/10 h-9/10 overflow-scroll right-0 w-1/2 z-10 transition-transform ${
+            isOpen ? "translete-x-0" : "translate-x-full"
+          }`}
+        >
+          <TempleteDetail setIsOpen={setIsOpen}></TempleteDetail>
+        </div>
+      }
     </div>
   );
 }
