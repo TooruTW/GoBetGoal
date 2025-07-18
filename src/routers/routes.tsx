@@ -24,6 +24,7 @@ import TrialsList from "@/components/pages/Trials/components";
 
 // Create Trial
 import CreateTrial from "@/components/pages/CreateTrial";
+import CreateTrialForm from "@/components/pages/CreateTrial/components/CreateTrialForm";
 
 // Development
 import DevPage from "@/components/pages/DevPage";
@@ -94,6 +95,12 @@ export const routes: RouteObject[] = [
       {
         path: "create-trial",
         element: <CreateTrial />,
+        children: [
+          {
+            path: ":id",
+            element: <CreateTrialForm />,
+          },
+        ],
       },
 
       // Development routes
