@@ -22,7 +22,7 @@ export default function RegisterSuccess({
 
     const timer = setTimeout(() => {
       navigate("/");
-    }, 5000);
+    }, 3000);
 
     return () => {
       clearInterval(interval);
