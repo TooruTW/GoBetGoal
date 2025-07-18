@@ -1,4 +1,5 @@
 import { monsterDefault } from "@/assets/monster";
+import { DatePicker } from "@/components/shared/reactBit/DatePicker";
 import { useForm } from "react-hook-form";
 
 interface FormData {
@@ -13,6 +14,8 @@ export default function Form() {
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
+    setValue,
+    watch,
   } = useForm<FormData>({
     defaultValues: {
       trialName: "",
@@ -20,6 +23,9 @@ export default function Form() {
       trialDeposit: 100000,
     },
   });
+
+  // 監聽 trialStart 的值
+  const trialStartValue = watch("trialStart");
 
   const onSubmit = async (data: FormData) => {
     try {
@@ -77,12 +83,10 @@ export default function Form() {
           htmlFor="trialStart"
         >
           試煉開始
-          <input
-            {...register("trialStart", {
-              required: "請選擇試煉開始日期",
-            })}
-            className="border-2 border-schema-primary rounded-md px-4 py-2.5"
-            type="date"
+          <DatePicker
+            value={trialStartValue}
+            onChange={(date) => setValue("trialStart", date)}
+            placeholder="請選擇日期"
           />
           {errors.trialStart && (
             <span className="text-red-500 text-sm">
@@ -134,7 +138,7 @@ export default function Form() {
       <img
         src={monsterDefault}
         alt="bg-decoration"
-        className=" absolute -bottom-40 -left-25 z-0 w-100 opacity-20 rotate-20"
+        className=" absolute -bottom-40 -left-25 z-0 w-100 opacity-20 rotate-20 pointer-events-none"
       />
     </div>
   );

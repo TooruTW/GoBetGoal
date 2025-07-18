@@ -24,12 +24,14 @@ const buttonVariants = cva(
           "bg-schema-primary text-white shadow-xs hover:bg-schema-primary/90 hover:scale-110 focus-visible:ring-schema-primary/20 dark:focus-visible:ring-schema-primary/40 dark:bg-schema-primary/60 active:scale-105",
         createTrialDetail:
           "py-1 px-4 bg-schema-surface-container-high text-schema-on-surface shadow-xs hover:bg-schema-surface-container-high/90 hover:scale-110 dark:bg-schema-surface-container-high/60 active:scale-105",
+        datePicker: "border-2 border-schema-primary rounded-md",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
         sm: "h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
         lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
         icon: "size-9",
+        datePicker: "rounded-md px-6 has-[>svg]:px-4",
       },
     },
     defaultVariants: {
