@@ -1,7 +1,11 @@
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import TempleteDetail from "./TempleteDetail";
 
 export default function ChallengeInfo() {
+  const [isOpen, setIsOpen] = useState(false);
+
   const color = "#eba7e4";
   const templeteimgurl = "/challengeimg.png";
   return (
@@ -11,7 +15,11 @@ export default function ChallengeInfo() {
       }}
       className="rounded-2xl px-6 py-7 relative flex flex-col gap-4"
     >
-      <img src={templeteimgurl} alt="" className="size-35 absolute -top-1/3 right-6 rotate-9" />
+      <img
+        src={templeteimgurl}
+        alt=""
+        className="size-35 absolute -top-15 right-6 rotate-9"
+      />
       <div>
         <h1 className="text-h1 font-bold">templete title </h1>
         <span className="text-label text-schema-on-surface-variant">
@@ -39,12 +47,15 @@ export default function ChallengeInfo() {
         </li>
       </ul>
 
-      <div className="flex justify-between items-center">
-        <Button variant="createTrialDetail">
-          <span>看試煉詳情 </span>
-          <MdKeyboardArrowRight></MdKeyboardArrowRight>
-        </Button>
-        <div></div>
+      <div className="flex justify-between items-center ">
+        {isOpen ? (
+          <Button variant="createTrialDetail" onClick={() => setIsOpen(false)}>
+            <span>看試煉詳情 </span>
+            <MdKeyboardArrowRight></MdKeyboardArrowRight>
+          </Button>
+        ) : (
+          <TempleteDetail setIsOpen={setIsOpen}></TempleteDetail>
+        )}
       </div>
     </div>
   );
