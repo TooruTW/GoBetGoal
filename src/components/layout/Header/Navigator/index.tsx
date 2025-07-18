@@ -2,7 +2,7 @@ import { LuBellRing } from "react-icons/lu";
 import CheatBlanket from "./CheatBlanket";
 import Candy from "./Candy";
 import { Link } from "react-router-dom";
-import CreateChallenge from "./CreateChallenge";
+import CreateTrialBtn from "./CreateTrialBtn";
 import User from "./User";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
@@ -13,8 +13,11 @@ export default function Navigator() {
     <nav>
       <ul className="flex gap-3 items-center">
         <li>
+          <div className="rounded-full bg-bg-module px-4 py-2.5">ModeSwitcher</div>
+        </li>
+        <li>
           {/* 通知中心 */}
-          <LuBellRing className="text-theme-primary" />
+          <LuBellRing className="text-schema-primary size-6" />
         </li>
         <li>
           <CheatBlanket amount={account.cheat_blanket} />
@@ -31,7 +34,7 @@ export default function Navigator() {
           <li className="text-label transition-all hover:scale-120 ">DA平台</li>
         </Link>
         <li className=" max-lg:hidden ">
-          <CreateChallenge />
+          <CreateTrialBtn />
         </li>
         <li>
           <User />

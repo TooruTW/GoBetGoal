@@ -7,9 +7,9 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   return (
-    <div className="min-h-screen bg-bg-primary">
+    <div className="min-h-screen bg-bg-primary text-schema-on-surface">
       <Header />
-      <main className="pt-16">{children}</main>
+      <main className="pt-20 min-h-screen">{children}</main>
     </div>
   );
 }
