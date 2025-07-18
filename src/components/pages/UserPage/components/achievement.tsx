@@ -16,12 +16,6 @@ interface acceptProps{
   girdCols?: string;
 }
 
-// interface AchievementProps {
-//   gridCols?: number;
-//   gridColsMd?: number;
-//   gridColsLg?: number;
-// }
-
 export default function Achievement(props: acceptProps) {
   const {girdCols} = props;
   const { data, isLoading, error } = useAchievementSupa();
@@ -52,12 +46,6 @@ export default function Achievement(props: acceptProps) {
     );
   }, [cardContainerRef, achievements]);
 
-  // const gridClass = [
-  //   gridCols ? `grid-cols-${gridCols}` : "",
-  //   gridColsMd ? `md:grid-cols-${gridColsMd}` : "",
-  //   gridColsLg ? `lg:grid-cols-${gridColsLg}` : "",
-  //   "grid gap-2 h-full"
-  // ].join(" ").trim();
 
   return (
     <div

@@ -1,53 +1,39 @@
 import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { useGetFriendSupa } from "@/api";
 import gsap from "gsap";
 import ProfileCard from "@/components/shared/reactBit/ProfileCard";
 
 type Friend = {
   id?: number;
   created_at?: string;
-  order: number;
-  title: string;
-  description: string;
-  icon_url: string;
+  request_id: string;
+  address_id: string;
+  state?: string;
+  note?: string;
+  last_update?: string;
 };
 
-// 假資料
-const fakeFriends: Friend[] = [
-  {
-    id: 1,
-    order: 1,
-    title: "小明",
-    description: "熱愛運動的朋友",
-    icon_url: "/image/avatar/boyGymStrong.webp",
-  },
-  {
-    id: 2,
-    order: 2,
-    title: "小美",
-    description: "喜歡閱讀的朋友",
-    icon_url: "/image/avatar/girlPurpleCurly.webp",
-  },
-  {
-    id: 3,
-    order: 3,
-    title: "阿狗",
-    description: "忠實的夥伴",
-    icon_url: "/image/avatar/dog.webp",
-  },
-];
 
 export default function Friend() {
-  const [Friends] = useState<Friend[]>(fakeFriends);
+  const user_id = useSelector((state: RootState) => state.account.user_id);
+  const {data, isLoading, error } = useGetFriendSupa(user_id);
+  console.log("data", data);
+  const [friends, setFriends] = useState<Friend[]>([]);
   const cardContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (!cardContainerRef.current) return;
+    if (isLoading) return;
+    if (error) console.log(error);
+    if (data) setFriends(data);
+  }, [data, isLoading, error]);
+
+  useEffect(() => {
+    if (!cardContainerRef.current?.children.length) return;
     gsap.fromTo(
       cardContainerRef.current.children,
-      {
-        x: 50,
-        opacity: 0,
-      },
+      { x: 50, opacity: 0 },
       {
         x: 0,
         opacity: 1,
@@ -56,58 +42,28 @@ export default function Friend() {
         stagger: 0.1,
       }
     );
-  }, [Friends]);
+  }, [friends]);
 
   return (
-    <div className="py-20">
-      <h2 className="text-2xl font-bold my-6">新增好友</h2>
-      <div
-        ref={cardContainerRef}
-        className="grid gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 h-full w-full px-auto"
-      >
-        {Friends.length > 0 &&
-          Friends.map((Friend) => (
-            <li
-              className="w-full flex flex-col text-center Friend  justify-center items-center"
-              key={Friend.id}
-            >
-              <ProfileCard
-                handle={Friend.title}
-                status="Online"
-                contactText="Contact Me"
-                avatarUrl={Friend.icon_url}
-                showUserInfo={true}
-                enableTilt={true}
-                className="w-[10px]"
-                onContactClick={() => console.log("Contact clicked")}
-              />
-            </li>
-          ))}
-      </div>
-      <h2 className="text-2xl font-bold my-6">好友列表</h2>
-      <div
-        ref={cardContainerRef}
-        className="grid gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 h-full w-full px-auto"
-      >
-        {Friends.length > 0 &&
-          Friends.map((Friend) => (
-            <li
-              className="w-full flex flex-col text-center Friend  justify-center items-center"
-              key={Friend.id}
-            >
-              <ProfileCard
-                handle={Friend.title}
-                status="Online"
-                contactText="Contact Me"
-                avatarUrl={Friend.icon_url}
-                showUserInfo={true}
-                enableTilt={true}
-                className="w-[10px]"
-                onContactClick={() => console.log("Contact clicked")}
-              />
-            </li>
-          ))}
-      </div>
+    <div ref={cardContainerRef} className="grid-cols-4 grid gap-2">
+      {friends.length > 0 &&
+        friends.map((friend) => (
+          <li
+            className="flex flex-col text-center"
+            key={friend.request_id}
+          >
+            <ProfileCard
+              handle={friend.request_id}
+              status="Online"
+              contactText="Contact Me"
+              avatarUrl={friend.request_id}
+              showUserInfo={true}
+              enableTilt={true}
+              className="w-full"
+              onContactClick={() => console.log("Contact clicked")}
+            />
+          </li>
+        ))}
     </div>
   );
 }
