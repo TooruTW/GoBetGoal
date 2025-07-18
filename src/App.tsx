@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import Header from "./components/layout/Header";
+import Layout from "./components/layout/Layout";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { useGetUserInfoSupa, useGetUserSupa } from "./api";
@@ -32,10 +32,9 @@ function App() {
   }, [userID, userInfoSupa, isLoading, error, dispatch]);
 
   return (
-    <div className="text-amber-50 ">
-      <Header />
+    <Layout>
       <Outlet />
-    </div>
+    </Layout>
   );
 }
 

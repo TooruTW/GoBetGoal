@@ -15,7 +15,7 @@ export default function Candy(props: acceptProps) {
     <div>
       <div className="px-4 py-1.5 rounded-full flex items-center gap-1 bg-bg-module">
         <LuCandy />
-        <p  className="font-bold bg-gradient-set-1 bg-clip-text text-transparent font-mono">
+        <p  className="font-bold text-schema-primary font-mono">
         <DynamicNumber amount={amount}/>
         </p>
         <GoPlus className="max-md:hidden"/>

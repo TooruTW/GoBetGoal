@@ -22,6 +22,9 @@ import TrialDetail from "@/components/pages/Trials/components/TrialDetail";
 import TrialErrorPage from "@/components/pages/Trials/components/TrialDetail/TrialErrorPage";
 import TrialsList from "@/components/pages/Trials/components";
 
+// Create Trial
+import CreateTrial from "@/components/pages/CreateTrial";
+
 // Development
 import DevPage from "@/components/pages/DevPage";
 import DevAchievement from "@/components/pages/DevPage/components/DevAchievement";
@@ -85,6 +88,12 @@ export const routes: RouteObject[] = [
             errorElement: <TrialErrorPage />,
           },
         ],
+      },
+
+      // Create Trial routes
+      {
+        path: "create-trial",
+        element: <CreateTrial />,
       },
 
       // Development routes

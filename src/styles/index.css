@@ -25,9 +25,10 @@
 
   --color-schema-primary: #d784b9;
   --color-schema-outline: #9f8c8e;
+  --color-schema-on-primary: #340531;
   --color-schema-surface: #191113;
   --color-schema-surface-variant: #efe8e9;
-  --color-schema-on-surface: #382e2f;
+  --color-schema-on-surface: #efdee0;
   --color-schema-on-surface-variant: #d6c2c4;
   --color-schema-container-height: #312829;
 
