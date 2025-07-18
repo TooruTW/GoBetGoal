@@ -48,15 +48,14 @@ export default function ChallengeInfo() {
       </ul>
 
       <div className="flex justify-between items-center ">
-        {isOpen ? (
-          <Button variant="createTrialDetail" onClick={() => setIsOpen(false)}>
-            <span>看試煉詳情 </span>
-            <MdKeyboardArrowRight></MdKeyboardArrowRight>
-          </Button>
-        ) : (
-          <TempleteDetail setIsOpen={setIsOpen}></TempleteDetail>
-        )}
+        <Button variant="createTrialDetail" onClick={() => setIsOpen(true)}>
+          <span>看試煉詳情 </span>
+          <MdKeyboardArrowRight></MdKeyboardArrowRight>
+        </Button>
       </div>
+{      <div className={`fixed top-1/10 h-9/10 overflow-scroll right-0 w-1/2 z-10 transition-transform ${isOpen? "translete-x-0":"translate-x-full"}`}>
+        <TempleteDetail setIsOpen={setIsOpen}></TempleteDetail>
+      </div>}
     </div>
   );
 }

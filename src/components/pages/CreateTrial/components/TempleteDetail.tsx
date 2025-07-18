@@ -9,7 +9,7 @@ export default function TempleteDetail({
     <div className="w-full bg-schema-surface-container p-6 rounded-lg flex flex-col gap-6 items-center">
       <div className="flex justify-between items-center w-full">
         <h2 className="text-h2">試煉詳情</h2>
-        <IoClose className="size-6" onClick={() => setIsOpen(true)}></IoClose>
+        <IoClose className="size-6" onClick={() => setIsOpen(false)}></IoClose>
       </div>
       <div className="flex flex-col gap-2 w-full border-1 border-schema-outline rounded-lg p-6">
         <h3 className="text-h3">功效</h3>
