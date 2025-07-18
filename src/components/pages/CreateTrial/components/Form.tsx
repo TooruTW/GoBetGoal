@@ -44,7 +44,7 @@ export default function Form() {
 
   return (
     <div className="flex flex-col gap-6 w-full px-6 py-7 relative overflow-hidden rounded-lg">
-      <h2 className="text-h2">客制項目</h2>
+      <h2 className="text-h2 max-lg:hidden">客制項目</h2>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col items-center gap-9 w-full"
@@ -138,7 +138,7 @@ export default function Form() {
       <img
         src={monsterDefault}
         alt="bg-decoration"
-        className=" absolute -bottom-40 -left-25 z-0 w-100 opacity-20 rotate-20 pointer-events-none"
+        className=" absolute -bottom-40 -left-25 z-0 w-100 opacity-20 rotate-20 pointer-events-none max-lg:hidden"
       />
     </div>
   );

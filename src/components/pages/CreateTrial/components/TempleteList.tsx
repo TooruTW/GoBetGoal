@@ -33,7 +33,7 @@ const fateTemplete = [
   },
 ];
 
-export default function TempleteList() {
+export default function TempleteList({ className }: { className?: string }) {
   const [templeteList, setTempleteList] = useState<
     {
       challengeName: string;
@@ -50,8 +50,7 @@ export default function TempleteList() {
 
   return (
     <div
-      className=" grid gap-2 h-fit"
-      style={{ gridTemplateColumns: "repeat(2, 200px)" }}
+      className={` grid gap-2 grid-cols-2 h-fit max-xl:w-full max-w-175 max-xl:grid-cols-3 max-sm:grid-cols-2 ${className}`}
     >
       {templeteList.map((templete) => (
         <TempleteCard key={templete.challengeId} {...templete} />

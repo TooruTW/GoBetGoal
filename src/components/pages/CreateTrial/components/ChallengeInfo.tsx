@@ -42,7 +42,7 @@ export default function ChallengeInfo() {
         ref={imageRef}
         src={templeteimgurl}
         alt=""
-        className="size-35 absolute -top-15 right-6 rotate-9"
+        className="size-35 max-lg:size-30 max-md:size-25 absolute -top-15 max-lg:top-45  right-6 rotate-9"
       />
       <div>
         <h1 className="text-h1 font-bold">templete title </h1>
@@ -51,7 +51,7 @@ export default function ChallengeInfo() {
         </span>
       </div>
 
-      <ul className="flex justify-between">
+      <ul className="grid grid-cols-5 gap-2 max-lg:grid-cols-3">
         <li>
           <p className="text-label">關卡頻率</p> <p className="text-p">1</p>
         </li>
@@ -87,7 +87,7 @@ export default function ChallengeInfo() {
       {
         <div
           ref={containerRef}
-          className={`fixed top-1/10 h-9/10 overflow-scroll right-0 w-1/2 z-10 transition-transform ${
+          className={`fixed top-1/10 h-9/10 overflow-scroll right-0 w-1/2 max-lg:w-full  z-10 transition-transform ${
             isOpen ? "translete-x-0" : "translate-x-full"
           }`}
         >
