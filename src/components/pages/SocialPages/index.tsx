@@ -7,7 +7,7 @@ export default function SocialPages() {
 
   return (
     <div className="w-full min-h-screen bg-schema-surface-container flex justify-center gap-4 border-1 border-schema-outline">
-      <div className="max-w-66 w-full border-1 border-schema-outline">
+      <div className="max-w-66 w-full ">
         <Category />
       </div>
       <div className="max-w-140 w-full border-1 border-schema-outline">{category}</div>

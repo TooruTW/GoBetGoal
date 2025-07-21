@@ -12,8 +12,10 @@ export default function Category() {
           <NavLink
             to={category.url}
             className={({ isActive }) => (isActive ? "bg-schema-surface-container-high" : "")}
+            style={{ borderRadius: "10px" , overflow: "hidden"}}
+            key={category.id}
           >
-            <li className="flex items-center gap-2 justify-center py-2 rounded-md bg-inherit">
+            <li className="flex items-center gap-2 justify-center py-2 bg-inherit">
               <BsPatchCheck />
               <p>{category.name}</p>
             </li>
