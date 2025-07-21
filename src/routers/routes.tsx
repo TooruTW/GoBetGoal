@@ -26,6 +26,9 @@ import TrialsList from "@/components/pages/Trials/components";
 import CreateTrial from "@/components/pages/CreateTrial";
 import CreateTrialForm from "@/components/pages/CreateTrial/components/CreateTrialForm";
 
+// Social Pages
+import SocialPages from "@/components/pages/SocialPages";
+
 // Development
 import DevPage from "@/components/pages/DevPage";
 import DevAchievement from "@/components/pages/DevPage/components/DevAchievement";
@@ -99,6 +102,24 @@ export const routes: RouteObject[] = [
           {
             path: ":id",
             element: <CreateTrialForm />,
+          },
+        ],
+      },
+
+      // Social Pages routes
+      {
+        path: "social-pages",
+        element: <SocialPages />,
+        children: [
+          {
+            path: "category/:category",
+            element: <SocialPages />,
+            children: [
+              {
+                path: "friend/:id",
+                element: <SocialPages />,
+              },
+            ],
           },
         ],
       },

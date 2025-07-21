@@ -22,6 +22,7 @@
   --color-bg-tags: #f4f4f5;
 
   --color-theme-primary: #f35b53;
+  --color-text-primary-foreground: #FAFAFA;
 
   --color-schema-primary: #eba7e4;
   --color-schema-outline: #9f8c8e;
@@ -30,6 +31,7 @@
   --color-schema-surface-variant: #efe8e9;
   --color-schema-on-surface: #efdee0;
   --color-schema-on-surface-variant: #d6c2c4;
+  --color-schema-on-background: #EFDEE0;
   --color-schema-container-height: #312829;
   --color-schema-surface-container: #261D1F;
   --color-schema-surface-container-high: #312829;
