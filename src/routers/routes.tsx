@@ -106,21 +106,22 @@ export const routes: RouteObject[] = [
         ],
       },
 
-
       // Social Pages routes
       {
         path: "social-pages",
         element: <SocialPages />,
-        children: [{
-          path: "category/:category",
-          element: <SocialPages />,
-          children: [
-            {
-              path: "friend/:id",
-              element: <SocialPages />,
-            },
-          ],
-        }]
+        children: [
+          {
+            path: "category/:category",
+            element: <SocialPages />,
+            children: [
+              {
+                path: "friend/:id",
+                element: <SocialPages />,
+              },
+            ],
+          },
+        ],
       },
 
       // Development routes
