@@ -114,6 +114,12 @@ export const routes: RouteObject[] = [
         children: [{
           path: "category/:category",
           element: <SocialPages />,
+          children: [
+            {
+              path: "friend/:id",
+              element: <SocialPages />,
+            },
+          ],
         }]
       },
 
