@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import Ranking from "./components/Ranking";
 import Friends from "./components/Friends";
 import { monsterDefault } from "@/assets/monster";
+import PostFlow from "./components/PostFlow";
 
 const fakelist = [
     {id: "1", imageurl: monsterDefault, name: "Sofia", successCount: 10, likeCount: 10},
@@ -19,7 +20,9 @@ export default function SocialPages() {
       <div className="max-w-66 w-full ">
         <Category />
       </div>
-      <div className="max-w-140 w-full border-1 border-schema-outline">{category}</div>
+      <div className="max-w-140 w-full border-1 border-schema-outline">{category}
+        <PostFlow></PostFlow>
+      </div>
       <div className="max-w-66 w-full flex flex-col gap-4">
         <Ranking user={fakelist}></Ranking>
         <Friends user={fakelist}></Friends>
