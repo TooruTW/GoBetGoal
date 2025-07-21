@@ -30,8 +30,8 @@ export default function Navigator() {
             我的試煉
           </li>
         </Link>
-        <Link className=" max-lg:hidden " to="#">
-          <li className="text-label transition-all hover:scale-120 ">DA平台</li>
+        <Link className=" max-lg:hidden " to="social-pages">
+          <li className="text-label transition-all hover:scale-120 ">交流平台</li>
         </Link>
         <li className=" max-lg:hidden ">
           <CreateTrialBtn />
