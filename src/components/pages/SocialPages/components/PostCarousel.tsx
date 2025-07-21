@@ -10,10 +10,11 @@ import {
 
 interface PostCarouselProps {
   imgUrl: string[];
+  className?: string;
 }
 
 export function PostCarousel(props: PostCarouselProps) {
-  const { imgUrl } = props;
+  const { imgUrl, className } = props;
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
 
@@ -28,7 +29,7 @@ export function PostCarousel(props: PostCarouselProps) {
   }, [api]);
 
   return (
-    <Carousel setApi={setApi} className="relative">
+    <Carousel setApi={setApi} className={`relative ${className}`}>
       <CarouselContent>
         {imgUrl.map((img, index) => (
           <CarouselItem
@@ -54,7 +55,7 @@ export function PostCarousel(props: PostCarouselProps) {
         }}
       />
 
-      <div className="flex gap-2 justify-center absolute bottom-4 left-0 right-0 z-10">
+      <div className="flex gap-2 justify-center absolute bottom-3 left-0 right-0 z-10">
         {imgUrl.map((_, index) => (
           <div
             className={`size-2 rounded-full cursor-pointer ${
