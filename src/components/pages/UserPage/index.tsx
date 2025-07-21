@@ -1,5 +1,6 @@
-import Achievement from "@/components/pages/UserPage/components/Achievement";
+import Achievement from "@/components/pages/UserPage/components/achievement";
 import UserTitle from "@/components/pages/UserPage/components/UserTitle";
+import AccountSet from "@/components/pages/UserPage/components/AccountSet";
 import AddFriend from "@/components/pages/UserPage/components/AddFriend";
 import Friend from "@/components/pages/UserPage/components/Friend";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -59,25 +60,25 @@ export default function UserPage() {
           {" "}
           <div className="py-10">
             <div className="flex pb-6 justify-between">
-              
+
               <h3 className="text-xl font-bold ">好友邀請</h3>
               <AddFriend />
             </div>
-            
-            
+
+
             <Friend />
           </div>
-          
+
           <div className="py-10">
             <h3 className="text-xl font-bold pb-6">好友列表</h3>
             <Friend />
           </div>
-         
+
 
         </TabsContent>
 
         <TabsContent value="settings">
-          Change your account settings here.
+          <AccountSet />
         </TabsContent>
       </Tabs>
       <section className="w-full  flex flex-col justify-center items-center">
