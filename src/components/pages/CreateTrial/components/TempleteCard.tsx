@@ -6,7 +6,7 @@ interface acceptProps {
   isLocked: boolean;
   challengeId: string;
   imageUrl: string;
-  bgColor: string;
+  color: string;
 }
 
 export default function TempleteCard({
@@ -14,13 +14,13 @@ export default function TempleteCard({
   isLocked,
   challengeId,
   imageUrl,
-  bgColor,
+  color,
 }: acceptProps) {
   return (
     <Link to={`/create-trial/${challengeId}`}>
       <div
         className={`w-full min-w-50 aspect-[200/108] p-2 rounded-lg border-2 relative overflow-hidden hover:border-2 hover:border-material-theme-white`}
-        style={{backgroundColor: `#${bgColor}`}}
+        style={{backgroundColor: `#${color}`}}
       >
         <p className="flex justify-between items-center">
           <span>{challengeName}</span>

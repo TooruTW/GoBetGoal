@@ -1,40 +1,9 @@
 import TempleteCard from "./TempleteCard";
 import { useState, useEffect } from "react";
 import { useGetChallenges } from "@/api";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
-
-//fake data
-const fateTemplete = [
-  {
-    challengeName: "templeteName",
-    isLocked: false,
-    challengeId: "1",
-    imageUrl: "/challengeimg.png",
-    bgColor: "D784D2",
-  },
-  {
-    challengeName: "templeteName",
-    isLocked: true,
-    challengeId: "2",
-    imageUrl: "/challengeimg.png",
-    bgColor: "FE6BE6",
-  },
-  {
-    challengeName: "templeteName",
-    isLocked: false,
-    challengeId: "3",
-    imageUrl: "/challengeimg.png",
-    bgColor: "D784D2",
-  },
-  {
-    challengeName: "templeteName",
-    isLocked: true,
-    challengeId: "4",
-    imageUrl: "/challengeimg.png",
-    bgColor: "FE6BE6",
-  },
-];
+import { setChallengeTemplate } from "@/store/slices/challengeTemplate";
 
 export default function TempleteList({ className }: { className?: string }) {
   const { data, isLoading } = useGetChallenges();
@@ -47,14 +16,16 @@ export default function TempleteList({ className }: { className?: string }) {
       isLocked: boolean;
       challengeId: string;
       imageUrl: string;
-      bgColor: string;
+      color: string;
     }[]
   >([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (isLoading || !purchasedChallenges.length) return;
     console.log(data);
 
+    dispatch(setChallengeTemplate(data))
     setTempleteList(
       data?.map((templete) => {
         return {
@@ -62,13 +33,11 @@ export default function TempleteList({ className }: { className?: string }) {
           isLocked: purchasedChallenges.includes(templete.id),
           challengeId: templete.id.toString(),
           imageUrl:`/image${templete.img}`,
-          bgColor: templete.color,
+          color: templete.color,
         };
       }) || []
     );
-
-    // setTempleteList(data);
-  }, [data, isLoading, purchasedChallenges]);
+  }, [data, isLoading, purchasedChallenges,dispatch]);
 
   return (
     <div

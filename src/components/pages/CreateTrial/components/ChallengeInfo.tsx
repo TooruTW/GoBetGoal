@@ -4,12 +4,21 @@ import { useState, useEffect, useRef } from "react";
 import TempleteDetail from "./TempleteDetail";
 import gsap from "gsap";
 import { useClickOutside } from "@/hooks/useClickOutside";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { ChallengeSupa } from "@/types/ChallengeSupa";
+import { useParams } from "react-router-dom";
 
 export default function ChallengeInfo() {
   const [isOpen, setIsOpen] = useState(false);
   const imageRef = useRef<HTMLImageElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const [challenge, setChallenge] = useState<ChallengeSupa | null>(null);
+  const { id = "2" } = useParams();
+  const challengeTemplate = useSelector(
+    (state: RootState) => state.challengeTemplate.challenge
+  );
 
   useEffect(() => {
     gsap.fromTo(
@@ -27,40 +36,50 @@ export default function ChallengeInfo() {
     );
   }, []);
 
+  useEffect(() => {
+    if (challengeTemplate.length > 0) {
+      console.log("redux", challengeTemplate[Number(id) - 1]);
+      setChallenge(challengeTemplate[Number(id) - 1]);
+    }
+  }, [challengeTemplate, id]);
+
   useClickOutside(containerRef, () => setIsOpen(false));
 
-  const color = "#eba7e4";
-  const templeteimgurl = "/challengeimg.png";
   return (
     <div
       style={{
-        background: `linear-gradient(to bottom, ${color}, transparent)`,
+        background: `linear-gradient(to bottom, ${challenge?.color}, transparent)`,
       }}
       className="rounded-2xl px-6 py-7 relative flex flex-col gap-4"
     >
       <img
         ref={imageRef}
-        src={templeteimgurl}
+        src={`/image${challenge?.img}`}
         alt=""
         className="size-35 max-lg:size-30 max-md:size-25 absolute -top-15 max-lg:top-45  right-6 rotate-9"
       />
       <div>
-        <h1 className="text-h1 font-bold">templete title </h1>
+        <h1 className="text-h1 font-bold">{challenge?.title} </h1>
         <span className="text-label text-schema-on-surface-variant">
-          templete description
+          {challenge?.description}
         </span>
       </div>
 
       <ul className="grid grid-cols-5 gap-2 max-lg:grid-cols-3">
         <li>
-          <p className="text-label">關卡頻率</p> <p className="text-p">1</p>
+          <p className="text-label">關卡頻率</p>{" "}
+          <p className="text-p">{challenge?.frequency}</p>
         </li>
         <li>
-          <p className="text-label">關卡數量</p> <p className="text-p">28</p>
+          <p className="text-label">關卡數量</p>{" "}
+          <p className="text-p">{challenge?.stage_count}</p>
         </li>
         <li>
           <p className="text-label">試煉總時長 （天）</p>
-          <p className="text-p"> 28 </p>
+          <p className="text-p">
+            {" "}
+            {(challenge?.stage_count || 0) * (challenge?.frequency || 0)}{" "}
+          </p>
         </li>
         <li>
           <p className="text-label">人數上限</p> <p className="text-p">6</p>
@@ -91,7 +110,12 @@ export default function ChallengeInfo() {
             isOpen ? "translete-x-0" : "translate-x-full"
           }`}
         >
-          <TempleteDetail setIsOpen={setIsOpen}></TempleteDetail>
+          {challenge && (
+            <TempleteDetail
+              setIsOpen={setIsOpen}
+              challenge={challenge}
+            ></TempleteDetail>
+          )}
         </div>
       }
     </div>

@@ -2,7 +2,9 @@ import { supabase } from "@/supabaseClient";
 import { useQuery } from "@tanstack/react-query";
 
 const getChallenges = async () => {
-  const { data, error } = await supabase.from("challenge").select("*");
+  const { data, error } = await supabase
+    .from("challenge")
+    .select("*,challenge_stage(*)");
   if (error) {
     console.log("error", error);
   }
