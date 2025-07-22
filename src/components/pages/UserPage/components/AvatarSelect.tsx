@@ -84,7 +84,7 @@ export default function AvatarCarousel({
               />
               {avatar.price > 0 && (
                 <>
-                  <div className="absolute top-2 right-2 bg-gray-300 text-black text-xs font-bold px-2 py-1 rounded-full shadow">
+                  <div className="absolute top-2 right-2 bg-gray-500/30 backdrop-blur-lg  text-xs font-bold px-2 py-1 rounded-full shadow-lg">
                     🍬 {avatar.price}
                   </div>
                   <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
