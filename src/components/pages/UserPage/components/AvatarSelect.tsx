@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FaLock } from "react-icons/fa";
-import GlareHover from "@/components/shared/reactBit/GlareHover";
+// import GlareHover from "@/components/shared/reactBit/GlareHover";
 import ConfirmModal from "./ConfirmModal";
 
 type Avatar = {
@@ -69,13 +69,13 @@ export default function AvatarCarousel({
     <div className="overflow-visible">
       <ul className="overflow-visible gap-3 grid grid-cols-3 md:grid-cols-6">
         {avatarImages.map((avatar, idx) => (
-          <li key={idx} className="overflow-hidden rounded-2xl">
-            <GlareHover
+          <li key={idx} className="overflow-hidden rounded-2xl" onClick={() => handleClick(avatar)}>
+            <div
               className={`basis-1/6 p-2 transition-transform relative
                 ${avatar.price !== 0 ? "opacity-60" : "hover:cursor-pointer hover:shadow-lg"}
                 ${selectedAvatar?.src === avatar.src ? "ring ring-[var(--color-gradient-set-1-1)] scale-105" : ""}
               `}
-              onClick={() => handleClick(avatar)}
+
             >
               <img
                 src={avatar.src}
@@ -92,7 +92,7 @@ export default function AvatarCarousel({
                   </div>
                 </>
               )}
-            </GlareHover>
+            </div>
           </li>
         ))}
       </ul>

@@ -263,6 +263,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
       style={cardStyle}
     >
       <section ref={cardRef} className="pc-card w-full h-full">
+     
         <div className="pc-inside ">
           <div className="pc-shine" />
           <div className="pc-glare" />

@@ -6,6 +6,8 @@ import gsap from "gsap";
 import ProfileCard from "@/components/shared/reactBit/ProfileCard";
 import { Button } from "@/components/ui/button";
 import { monsterDefault } from "@/assets/monster";
+import { IoClose } from "react-icons/io5";
+import ConfirmModal from "./ConfirmModal"; // 路徑依實際情況調整
 
 type Friend = {
   id?: number;
@@ -16,14 +18,19 @@ type Friend = {
   note?: string;
   last_update?: string;
 };
+interface acceptProps {
+  handleDelete?: (
+    event: React.MouseEvent<SVGElement, MouseEvent>,
+    id: string
+  ) => void;
+}
 
-
-export default function Friend() {
+export default function Friend(props: acceptProps) {
   const user_id = useSelector((state: RootState) => state.account.user_id);
   const { data, isLoading, error } = useGetFriendSupa(user_id);
-  console.log("data", data);
   const [friends, setFriends] = useState<Friend[]>([]);
   const cardContainerRef = useRef<HTMLDivElement | null>(null);
+  const [selectedToDelete, setSelectedToDelete] = useState<Friend | null>(null);
 
   useEffect(() => {
     if (isLoading) return;
@@ -46,6 +53,12 @@ export default function Friend() {
     );
   }, [friends]);
 
+  // 刪除好友的前端邏輯
+  const handleDeleteFriend = (friendId: string) => {
+    setFriends((prev) => prev.filter((f) => f.request_id !== friendId));
+    setSelectedToDelete(null);
+  };
+
   return (
     <section className="min-h-80">
       {friends.length > 0 ? (
@@ -55,9 +68,16 @@ export default function Friend() {
         >
           {friends.map((friend) => (
             <li
-              className="flex flex-col text-center"
+              className="group flex flex-col text-center relative"
               key={friend.request_id}
             >
+              <IoClose
+                id={friend.request_id}
+                onClick={() => setSelectedToDelete(friend)}
+                className={
+                  "absolute top-0 right-0 text-3xl m-4 opacity-0 scale-0 group-hover:opacity-100 group-hover:scale-100 transition z-50 cursor-pointer"
+                }
+              />
               <ProfileCard
                 handle={friend.request_id}
                 status="Online"
@@ -78,7 +98,16 @@ export default function Friend() {
           <Button>去交朋友</Button>
         </div>
       )}
+
+      {/* 彈窗 */}
+      {selectedToDelete && (
+        <ConfirmModal
+          title="確認刪除好友"
+          content={`確定要刪除這位好友嗎？`}
+          onCancel={() => setSelectedToDelete(null)}
+          onConfirm={() => handleDeleteFriend(selectedToDelete.request_id)}
+        />
+      )}
     </section>
   );
-
 }
