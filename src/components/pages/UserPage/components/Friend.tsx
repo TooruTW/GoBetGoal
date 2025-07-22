@@ -90,7 +90,7 @@ export default function Friend(props: acceptProps) {
       {friends.length > 0 ? (
         <ul
           ref={cardContainerRef}
-          className="grid grid-cols-4 gap-2 min-h-60"
+          className="grid grid-cols-2 md:grid-cols-4 gap-2 min-h-60"
         >
           {friends.map((friend) => (
             <li
