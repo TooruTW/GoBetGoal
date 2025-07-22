@@ -12,3 +12,5 @@ export { usePostFirstEditUserInfo } from "./postFirstEditUserInfo";
 export { useGetFriendSupa } from "./getFriendSupa";
 export { usePatchTrialHistory } from "./patchTrialHistory";
 export { useUploadImageSupa } from "./uploadImageSupa";
+export { usePatchChangePassword } from "./patchChangePassword";
+
