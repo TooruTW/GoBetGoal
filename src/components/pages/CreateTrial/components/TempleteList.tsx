@@ -1,5 +1,8 @@
 import TempleteCard from "./TempleteCard";
 import { useState, useEffect } from "react";
+import { useGetChallenges } from "@/api";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 //fake data
 const fateTemplete = [
@@ -34,6 +37,10 @@ const fateTemplete = [
 ];
 
 export default function TempleteList({ className }: { className?: string }) {
+  const { data, isLoading } = useGetChallenges();
+  const purchasedChallenges = useSelector(
+    (state: RootState) => state.account.purchase_challenge
+  );
   const [templeteList, setTempleteList] = useState<
     {
       challengeName: string;
@@ -45,8 +52,23 @@ export default function TempleteList({ className }: { className?: string }) {
   >([]);
 
   useEffect(() => {
-    setTempleteList(fateTemplete);
-  }, []);
+    if (isLoading || !purchasedChallenges.length) return;
+    console.log(data);
+
+    setTempleteList(
+      data?.map((templete) => {
+        return {
+          challengeName: templete.title,
+          isLocked: purchasedChallenges.includes(templete.id),
+          challengeId: templete.id.toString(),
+          imageUrl:`/image${templete.img}`,
+          bgColor: templete.color,
+        };
+      }) || []
+    );
+
+    // setTempleteList(data);
+  }, [data, isLoading, purchasedChallenges]);
 
   return (
     <div

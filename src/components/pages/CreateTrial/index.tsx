@@ -14,7 +14,7 @@ export default function CreateTrial() {
         <Title></Title>
         <div className="w-full flex justify-between gap-6 max-xl:items-center max-xl:flex-col ">
 
-          <div className="w-full max-w-175 flex flex-col gap-2">
+          <div className="w-2/5 flex flex-col gap-2 max-xl:w-full max-w-175">
             <div
               className="flex items-center gap-2 justify-between py-4 cursor-pointer xl:hidden xl:pointer-events-none"
               onClick={() => setIsListOpen(!isListOpen)}
@@ -35,7 +35,7 @@ export default function CreateTrial() {
             ></TempleteList>
           </div>
 
-          <div className="w-full max-w-175 flex flex-col gap-2">
+          <div className="w-3/5 flex flex-col gap-2 max-xl:w-full max-w-175">
             <div
               className="flex items-center gap-2 justify-between py-4 cursor-pointer xl:hidden xl:pointer-events-none"
               onClick={() => setIsFormOpen(!isFormOpen)}
