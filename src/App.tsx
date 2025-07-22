@@ -28,6 +28,8 @@ function App() {
     if (userID !== "" && !isLoading && !error && userInfoSupa) {
       console.log("Updating Redux account:", userInfoSupa[0]);
       dispatch(setAccount(userInfoSupa[0]));
+    }else{
+      dispatch(setAccount(null));
     }
   }, [userID, userInfoSupa, isLoading, error, dispatch]);
 

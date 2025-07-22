@@ -15,10 +15,8 @@ type Friend = {
   last_update?: string;
 };
 
-
 export default function Friend() {
-  const user_id = useSelector((state: RootState) => state.account.user_id);
-  const {data, isLoading, error } = useGetFriendSupa(user_id);
+  const { data, isLoading, error } = useGetFriendSupa();
   console.log("data", data);
   const [friends, setFriends] = useState<Friend[]>([]);
   const cardContainerRef = useRef<HTMLDivElement | null>(null);
@@ -48,10 +46,7 @@ export default function Friend() {
     <div ref={cardContainerRef} className="grid-cols-4 grid gap-2">
       {friends.length > 0 &&
         friends.map((friend) => (
-          <li
-            className="flex flex-col text-center"
-            key={friend.request_id}
-          >
+          <li className="flex flex-col text-center" key={friend.request_id}>
             <ProfileCard
               handle={friend.request_id}
               status="Online"

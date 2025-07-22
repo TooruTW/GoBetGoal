@@ -32,6 +32,10 @@ import SocialPages from "@/components/pages/SocialPages";
 // Development
 import DevPage from "@/components/pages/DevPage";
 import DevAchievement from "@/components/pages/DevPage/components/DevAchievement";
+import DevList from "@/components/pages/DevPage/components/DevList";
+import DevEditNameOrPassword from "@/components/pages/DevPage/components/DevEditNameOrPassword";
+import DevAddFriend from "@/components/pages/DevPage/components/DevAddFriend";
+import DevDeleteFriend from "@/components/pages/DevPage/components/DevDeleteFriend";
 
 export const routes: RouteObject[] = [
   {
@@ -132,6 +136,22 @@ export const routes: RouteObject[] = [
           {
             path: "achievement",
             element: <DevAchievement />,
+          },
+          {
+            index: true,
+            element: <DevList />,
+          },
+          {
+            path: "edit-name-or-password",
+            element: <DevEditNameOrPassword />,
+          },
+          {
+            path: "add-friend",
+            element: <DevAddFriend />,
+          },
+          {
+            path: "delete-friend",
+            element: <DevDeleteFriend />,
           },
         ],
       },
