@@ -14,7 +14,7 @@ const deleteFriendSupa = async (
   if (error) throw error;
 };
 
-export function useDeleteParticipantInTrialSupa() {
+export function useDeleteFriendSupa() {
   const mutation = useMutation({
     mutationFn: (parm: { id: string}) =>
       deleteFriendSupa(parm.id),

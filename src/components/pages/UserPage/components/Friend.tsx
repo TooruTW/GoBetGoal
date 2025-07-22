@@ -8,6 +8,9 @@ import { Button } from "@/components/ui/button";
 import { monsterDefault } from "@/assets/monster";
 import { IoClose } from "react-icons/io5";
 import ConfirmModal from "./ConfirmModal"; // 路徑依實際情況調整
+import { useDeleteFriendSupa } from "@/api/deleteFriendSupa";
+import { useQueryClient } from "@tanstack/react-query";
+
 
 type Friend = {
   id?: number;
@@ -29,8 +32,11 @@ export default function Friend(props: acceptProps) {
   const user_id = useSelector((state: RootState) => state.account.user_id);
   const { data, isLoading, error } = useGetFriendSupa(user_id);
   const [friends, setFriends] = useState<Friend[]>([]);
-  const cardContainerRef = useRef<HTMLDivElement | null>(null);
+  const cardContainerRef = useRef<HTMLUListElement | null>(null);
   const [selectedToDelete, setSelectedToDelete] = useState<Friend | null>(null);
+  const queryClient = useQueryClient();
+
+  const { mutate: deleteFriendSupa } = useDeleteFriendSupa();
 
   useEffect(() => {
     if (isLoading) return;
@@ -55,8 +61,28 @@ export default function Friend(props: acceptProps) {
 
   // 刪除好友的前端邏輯
   const handleDeleteFriend = (friendId: string) => {
-    setFriends((prev) => prev.filter((f) => f.request_id !== friendId));
-    setSelectedToDelete(null);
+    deleteFriendSupa(
+      { id: friendId },
+      {
+        onSuccess: () => {
+          console.log("delete success");
+          setFriends((prev) => prev.filter((f) => f.request_id !== friendId));
+          setSelectedToDelete(null);
+          queryClient.invalidateQueries({
+            queryKey: ["friend", user_id],
+          });
+          alert("刪除好友成功");
+        },
+        onError: (error: unknown) => {
+          if (error instanceof Error) {
+            console.error("刪除好友失敗：", error.message);
+          } else {
+            console.error("刪除好友失敗：", error);
+          }
+          setSelectedToDelete(null);
+        },
+      }
+    );
   };
 
   return (
