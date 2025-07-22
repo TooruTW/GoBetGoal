@@ -5,6 +5,8 @@ import { RootState } from "@/store";
 import { Button } from "@/components/ui/button";
 import { useGetFriendSupa, usePatchFriendRequest } from "@/api";
 import { useQueryClient } from "@tanstack/react-query";
+import { IoCloseSharp } from "react-icons/io5";
+import { useDeleteFriend } from "@/api";
 
 export default function DevAddFriend() {
   const { mutate: postFriendsRequest } = usePostFriendsRequest();
@@ -14,6 +16,7 @@ export default function DevAddFriend() {
   const { data, isLoading } = useGetFriendSupa(userID);
   const { mutate: patchFriendRequest } = usePatchFriendRequest();
   const queryClient = useQueryClient();
+  const { mutate: deleteFriend } = useDeleteFriend();
 
   useEffect(() => {
     if (isLoading) {
@@ -65,15 +68,33 @@ export default function DevAddFriend() {
       <div className="flex flex-col gap-4 w-full">
         <h1>DevAccountFriends</h1>
         <h2>my id: {userID}</h2>
-        <ul className="grid grid-cols-3 gap-4">
+        <ul className="grid grid-cols-4 gap-4">
           {data?.map((friend) => (
-            <li key={friend.id}>
-              <div className="border-1 border-schema-outline rounded-lg p-2 flex flex-col gap-2 items-center w-full">
+            <li key={friend.id} className="h-170">
+              <div className="border-1 border-schema-outline rounded-lg p-2 w-full relative group h-full flex flex-col gap-2">
+                <IoCloseSharp
+                  className="size-10 absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                  onClick={() =>
+                    deleteFriend(
+                      {
+                        id1: friend.request_id,
+                        id2: friend.address_id,
+                      },
+                      {
+                        onSuccess: () => {
+                          queryClient.invalidateQueries({
+                            queryKey: ["friend", userID],
+                          });
+                        },
+                      }
+                    )
+                  }
+                />
                 <p>{friend.state}</p>
                 {friend.address_id !== userID && (
                   <>
                     <p>{friend.address_id}</p>
-                    <h2>{friend.address_user.nick_name}</h2>
+                    <h2 className="text-center text-h2">{friend.address_user.nick_name}</h2>
                     <img
                       className="w-full rounded-full"
                       src={friend.address_user.charactor_img_link}
@@ -87,7 +108,7 @@ export default function DevAddFriend() {
                 {friend.request_id !== userID && (
                   <>
                     <p>{friend.request_id}</p>
-                    <h2>{friend.request_user.nick_name}</h2>
+                    <h2 className="text-center text-h2">{friend.request_user.nick_name}</h2>
                     <img
                       className="w-full rounded-full"
                       src={friend.request_user.charactor_img_link}

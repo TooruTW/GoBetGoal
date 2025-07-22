@@ -16,3 +16,4 @@ export { usePatchChangePassword } from "./patchChangePassword";
 export { usePatchChangeUserInfo } from "./patchChangeUserInfo";
 export { usePostFriendsRequest } from "./postFriendsRequest";
 export { usePatchFriendRequest } from "./patchFriendRequest";
+export { useDeleteFriend } from "./deleteFriend";
