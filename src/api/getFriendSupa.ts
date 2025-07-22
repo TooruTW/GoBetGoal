@@ -12,7 +12,8 @@ const getFriendSupa = async (id: string) => {
       address_user:user_info!fried_relationship_address_id_fkey(*)
     `
     )
-    .or(`request_id.eq.${id},address_id.eq.${id}`);
+    .or(`request_id.eq.${id},address_id.eq.${id}`).neq('state',"rejected");
+
   if (error) throw error;
   return fried_relationship;
 };

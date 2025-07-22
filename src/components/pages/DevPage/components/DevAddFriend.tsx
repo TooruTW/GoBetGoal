@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { Button } from "@/components/ui/button";
-import { useGetFriendSupa } from "@/api";
+import { useGetFriendSupa, usePatchFriendRequest } from "@/api";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function DevAddFriend() {
   const { mutate: postFriendsRequest } = usePostFriendsRequest();
@@ -11,6 +12,8 @@ export default function DevAddFriend() {
   const [note, setNote] = useState<string>("");
   const userID = useSelector((state: RootState) => state.account.user_id);
   const { data, isLoading } = useGetFriendSupa(userID);
+  const { mutate: patchFriendRequest } = usePatchFriendRequest();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (isLoading) {
@@ -92,8 +95,48 @@ export default function DevAddFriend() {
                     />
                     {friend.state === "pending" && (
                       <div className="flex w-full justify-between">
-                        <Button className="w-1/2">接受</Button>
-                        <Button className="w-1/2">拒絕</Button>
+                        <Button
+                          className="w-1/2"
+                          onClick={() =>
+                            patchFriendRequest(
+                              {
+                                request_id: friend.request_id,
+                                address_id: friend.address_id,
+                                isAccept: true,
+                              },
+                              {
+                                onSuccess: () => {
+                                  queryClient.invalidateQueries({
+                                    queryKey: ["friend", userID],
+                                  });
+                                },
+                              }
+                            )
+                          }
+                        >
+                          接受
+                        </Button>
+                        <Button
+                          className="w-1/2"
+                          onClick={() =>
+                            patchFriendRequest(
+                              {
+                                request_id: friend.request_id,
+                                address_id: friend.address_id,
+                                isAccept: false,
+                              },
+                              {
+                                onSuccess: () => {
+                                  queryClient.invalidateQueries({
+                                    queryKey: ["friend", userID],
+                                  });
+                                },
+                              }
+                            )
+                          }
+                        >
+                          拒絕
+                        </Button>
                       </div>
                     )}
                   </>
