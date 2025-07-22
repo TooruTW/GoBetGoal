@@ -9,6 +9,12 @@ export default function DevList() {
         <Link to="achievement">
         <li  className="border-1 border-schema-outline rounded-lg p-4 text-center">成就</li>
         </Link>
+        <Link to="add-friend">
+        <li  className="border-1 border-schema-outline rounded-lg p-4 text-center">新增好友</li>
+        </Link>
+        <Link to="delete-friend">
+        <li  className="border-1 border-schema-outline rounded-lg p-4 text-center">刪除好友</li>
+        </Link>
     </ul>
   </div>;
 }

@@ -6,7 +6,7 @@ const initialState = {
   cheat_blanket: 999,
   nick_name: "nobody",
   system_preference_color_mode: "dark",
-  user_id: "string",
+  user_id: "",
 };
 
 export const accountSlice = createSlice({
@@ -21,7 +21,7 @@ export const accountSlice = createSlice({
         state.cheat_blanket = 999;
         state.nick_name = "nobody";
         state.system_preference_color_mode = "dark";
-        state.user_id = "string";
+        state.user_id = "";
         return;
       }
       state.candy_count = action.payload.candy_count;

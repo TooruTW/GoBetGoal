@@ -14,4 +14,4 @@ export { usePatchTrialHistory } from "./patchTrialHistory";
 export { useUploadImageSupa } from "./uploadImageSupa";
 export { usePatchChangePassword } from "./patchChangePassword";
 export { usePatchChangeUserInfo } from "./patchChangeUserInfo";
-
+export { usePostFriendsRequest } from "./postFriendsRequest";

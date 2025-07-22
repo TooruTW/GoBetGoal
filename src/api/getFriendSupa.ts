@@ -5,7 +5,13 @@ const getFriendSupa = async (id: string) => {
   if (id === "") return [];
   const { data: fried_relationship, error } = await supabase
     .from("fried_relationship")
-    .select("*")
+    .select(
+      `
+      *,
+      request_user:user_info!fried_relationship_request_id_fkey(*),
+      address_user:user_info!fried_relationship_address_id_fkey(*)
+    `
+    )
     .or(`request_id.eq.${id},address_id.eq.${id}`);
   if (error) throw error;
   return fried_relationship;
@@ -16,6 +22,10 @@ export function useGetFriendSupa(id: string) {
     queryKey: ["friend", id],
     queryFn: () => getFriendSupa(id),
   });
+  if (error) {
+    console.log("error", error);
+  }
+  console.log(data);
 
   return { data, isLoading, error };
 }
