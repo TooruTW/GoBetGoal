@@ -95,28 +95,22 @@ export default function Friend({ showState = "accepted" }: FriendProps) {
                   showUserInfo={true}
                   enableTilt={true}
                   // 根據狀態傳遞不同的處理函數
-                  // onContactClick={
-                  //   friend.state === "pending"
-                  //     ? () => handleAcceptFriend(friend)
-                  //     : () => console.log("Contact clicked")
-                  // }
-
-                  // 傳遞好友狀態，讓 ProfileCard 知道如何渲染
-                  friendState={friend.state}
-                  onAcceptFriend={(friendItem) => {
+                  onContactClick={() =>
                     patchFriendRequest(
                       {
-                        request_id: friendItem.request_id,
-                        address_id: friendItem.address_id,
+                        request_id: friend.request_id,
+                        address_id: friend.address_id,
                         isAccept: true,
                       },
                       {
                         onSuccess: () => {
-                          queryClient.invalidateQueries({ queryKey: ["friend", userID] });
+                          queryClient.invalidateQueries({
+                            queryKey: ["friend", userID],
+                          });
                         },
                       }
-                    );
-                  }}
+                    )
+                  }
                 />
 
 
