@@ -10,8 +10,10 @@ type Avatar = {
 
 type AvatarCarouselProps = {
   onSelect: (avatar: Avatar) => void;
-  onBuy?: (avatar: Avatar) => void; // Optional，如果你想購買後執行什麼動作
+  onBuy?: (avatar: Avatar) => void;
   selectedAvatar: Avatar | null;
+  displayMode?: 'lock' | 'price' | 'none';
+  info?: string; // 資料庫目前儲存的頭像src
 };
 
 const avatarImages: Avatar[] = [
@@ -54,6 +56,8 @@ export default function AvatarCarousel({
   onSelect,
   onBuy,
   selectedAvatar,
+  displayMode = 'price',
+  info,
 }: AvatarCarouselProps) {
   const [selectedToBuy, setSelectedToBuy] = useState<Avatar | null>(null);
 
@@ -61,7 +65,7 @@ export default function AvatarCarousel({
     if (avatar.price === 0) {
       onSelect(avatar);
     } else {
-      setSelectedToBuy(avatar); // 顯示 Modal
+      setSelectedToBuy(avatar);
     }
   };
 
@@ -69,35 +73,37 @@ export default function AvatarCarousel({
     <div className="overflow-visible">
       <ul className="overflow-visible gap-3 grid grid-cols-3 md:grid-cols-6">
         {avatarImages.map((avatar, idx) => (
-          <li key={idx} className="overflow-hidden rounded-2xl" onClick={() => handleClick(avatar)}>
+          <li
+            key={idx}
+            className={`basis-1/6 p-2 transition-transform relative rounded-2xl
+              ${avatar.price !== 0 && displayMode === 'lock' ? "opacity-60" : "hover:cursor-pointer hover:shadow-lg"}
+              ${info === avatar.src ? " border border-gray-300 scale-105" : ""}
+              ${selectedAvatar?.src === avatar.src ? " border-2 border-white scale-105" : ""}
+            `}
+            onClick={() => handleClick(avatar)}
+          >
             <div
-              className={`basis-1/6 p-2 transition-transform relative
-                ${avatar.price !== 0 ? "opacity-60" : "hover:cursor-pointer hover:shadow-lg"}
-                ${selectedAvatar?.src === avatar.src ? "ring ring-[var(--color-gradient-set-1-1)] scale-105" : ""}
-              `}
-
+              className={`basis-1/6 p-2 transition-transform relative rounded-2xl`}
             >
               <img
                 src={avatar.src}
                 alt={`avatar-${idx}`}
                 className="w-full object-cover rounded-xl"
               />
-              {avatar.price > 0 && (
-                <>
-                  <div className="absolute top-2 right-2 bg-gray-500/30 backdrop-blur-lg  text-xs font-bold px-2 py-1 rounded-full shadow-lg">
-                    🍬 {avatar.price}
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <FaLock className="text-xl text-gray-700 mb-2" />
-                  </div>
-                </>
+              {avatar.price > 0 && displayMode === 'price' && (
+                <div className="absolute top-2 right-2 bg-gray-500/30 backdrop-blur-lg  text-xs font-bold px-2 py-1 rounded-full shadow-lg">
+                  🍬 {avatar.price}
+                </div>
+              )}
+              {avatar.price > 0 && displayMode === 'lock' && (
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <FaLock className="text-xl text-gray-700 mb-2" />
+                </div>
               )}
             </div>
           </li>
         ))}
       </ul>
-
-      {/* Modal 彈窗 */}
       {selectedToBuy && (
         <ConfirmModal
           title="確認購買"

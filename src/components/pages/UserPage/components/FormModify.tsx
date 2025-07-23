@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useGetUserSupa, useGetUserInfoSupa, usePostFirstEditUserInfo } from "@/api";
+import { usePostFirstEditUserInfo } from "@/api";
 import PasswordInput from "@/components/pages/Authentication/components/PasswordInput";
 import AvatarSelect from "./AvatarSelect";
 import { Button } from "@/components/ui/button";
@@ -12,21 +12,30 @@ interface FormValues {
 }
 
 interface FormModifyProps {
+  user: any;
+  info: any;
+  userLoading: boolean;
+  userError: any;
+  selectedAvatar: string;
+  setSelectedAvatar: (src: string) => void;
   onRegisterError: (error: string) => void;
   onRegisterSuccess: (data: FormValues) => void;
 }
 
 export default function FormModify({
+  user,
+  info,
+  userLoading,
+  userError,
+  selectedAvatar,
+  setSelectedAvatar,
   onRegisterError,
   onRegisterSuccess,
 }: FormModifyProps) {
-  const { data: user } = useGetUserSupa();
-  const { data: userInfo, isLoading, error } = useGetUserInfoSupa(user?.id, !!user?.id);
   const { mutate: postEditUserInfo, isPending } = usePostFirstEditUserInfo();
 
   const [editMode, setEditMode] = useState(false);
-  const [avatarModal, setAvatarModal] = useState(false);
-  const info = userInfo?.[0];
+  // 移除AvatarSelect彈窗相關程式碼
 
   const {
     register,
@@ -51,8 +60,8 @@ export default function FormModify({
   // 監聽頭像變更
   const charactor_img_link = watch("charactor_img_link");
 
-  if (isLoading) return <div>載入中...</div>;
-  if (error) return <div>發生錯誤</div>;
+  if (userLoading) return <div>載入中...</div>;
+  if (userError) return <div>發生錯誤</div>;
   if (!info) return <div>查無資料</div>;
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
@@ -61,7 +70,7 @@ export default function FormModify({
       {
         user_id: user.id,
         nickname: data.nick_name,
-        avatarUrl: data.charactor_img_link,
+        avatarUrl: selectedAvatar,
       },
       {
         onSuccess: () => {
@@ -129,31 +138,7 @@ export default function FormModify({
             )}
             {errors.nick_name && <span className="text-red-400 text-xs">{errors.nick_name.message}</span>}
           </div>
-          {/* 頭像 */}
-          <div>
-            頭像
-            <img
-              src={charactor_img_link || info.charactor_img_link}
-              alt="avatar"
-              className="w-20 h-20 inline-block align-middle mr-2"
-              onClick={() => editMode && setAvatarModal(true)}
-              style={{ cursor: editMode ? "pointer" : "default" }}
-            />
-            {editMode && avatarModal && (
-              <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
-                <div className="bg-white p-4 rounded-xl">
-                  <AvatarSelect
-                    onSelect={(avatar) => {
-                      setValue("charactor_img_link", avatar.src, { shouldValidate: true });
-                      setAvatarModal(false);
-                    }}
-                    selectedAvatar={{ src: charactor_img_link || info.charactor_img_link, price: 0 }}
-                  />
-                  <button className="mt-4 btn" onClick={() => setAvatarModal(false)}>關閉</button>
-                </div>
-              </div>
-            )}
-          </div>
+
         </div>
 
         <div className="grid grid-cols-2 w-full ">
