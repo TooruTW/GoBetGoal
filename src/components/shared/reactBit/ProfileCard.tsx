@@ -16,6 +16,12 @@ interface ProfileCardProps {
   contactText?: string;
   showUserInfo?: boolean;
   onContactClick?: () => void;
+  onRejectClick?: () => void;
+  friendState?: string;
+  // 新增：好友請求相關的props
+  requestId?: string;
+  addressId?: string;
+  onAcceptFriend?: (params: { request_id: string; address_id: string; isAccept: boolean }) => void;
 }
 
 interface FriendUser {
@@ -72,15 +78,27 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
   showBehindGradient = true,
   className = "",
   enableTilt = true,
-
   handle = "",
   status = "Online",
-
   showUserInfo = true,
-
+  friendState,
+  requestId,
+  addressId,
+  onAcceptFriend,
 }) => {
   const wrapRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
+
+  // 處理接受好友邀請
+  const handleAcceptFriend = useCallback(() => {
+    if (requestId && addressId && onAcceptFriend) {
+      onAcceptFriend({
+        request_id: requestId,
+        address_id: addressId,
+        isAccept: true,
+      });
+    }
+  }, [requestId, addressId, onAcceptFriend]);
 
   const animationHandlers = useMemo(() => {
     if (!enableTilt) return null;
@@ -257,27 +275,25 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
 
   const cardStyle = useMemo(
     () =>
-      ({
-        "--icon": iconUrl ? `url(${iconUrl})` : "none",
-        "--grain": grainUrl ? `url(${grainUrl})` : "none",
-        "--behind-gradient": showBehindGradient
-          ? behindGradient ?? DEFAULT_BEHIND_GRADIENT
-          : "none",
-        "--inner-gradient": innerGradient ?? DEFAULT_INNER_GRADIENT,
-      } as React.CSSProperties),
+    ({
+      "--icon": iconUrl ? `url(${iconUrl})` : "none",
+      "--grain": grainUrl ? `url(${grainUrl})` : "none",
+      "--behind-gradient": showBehindGradient
+        ? behindGradient ?? DEFAULT_BEHIND_GRADIENT
+        : "none",
+      "--inner-gradient": innerGradient ?? DEFAULT_INNER_GRADIENT,
+    } as React.CSSProperties),
     [iconUrl, grainUrl, showBehindGradient, behindGradient, innerGradient]
   );
 
   return (
     <div
       ref={wrapRef}
-      className={`pc-card-wrapper w-full h-full  ${
-        className ? className : ""
-      }`.trim()}
+      className={`pc-card-wrapper w-full h-full  ${className ? className : ""
+        }`.trim()}
       style={cardStyle}
     >
       <section ref={cardRef} className="pc-card w-full h-full">
-     
         <div className="pc-inside ">
           <div className="pc-shine" />
           <div className="pc-glare" />
@@ -295,35 +311,24 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
             {showUserInfo && (
               <div className="pc-user-info">
                 <div className="pc-user-details">
-                  {/* <div className="pc-mini-avatar">
-                    <img
-                      src={miniAvatarUrl || avatarUrl}
-                      alt={`${"User"} mini avatar`}
-                      loading="lazy"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.style.opacity = "1";
-                        target.src = avatarUrl;
-                      }}
-                    />
-                  </div> */}
                   <div className="pc-user-text">
                     <div className="pc-handle">{handle}</div>
                     <div className="pc-status">{status}</div>
                   </div>
                 </div>
-                {/* <button
-                  className="pc-contact-btn"
-                  onClick={handleContactClick}
-                  style={{ pointerEvents: "auto" }}
-                  type="button"
-                  aria-label={`Contact ${"user"}`}
-                >
-                  {contactText}
-                </button> */}
+                {friendState === "pending" && (
+                  <button
+                    className="pc-contact-btn"
+                    onClick={handleAcceptFriend}
+                    style={{ pointerEvents: "auto" }}
+                    type="button"
+                    aria-label={`Accept friend request from ${handle || "user"}`}
+                  >
+                    接受
+                  </button>
+                )}
               </div>
             )}
-            
           </div>
         </div>
       </section>
