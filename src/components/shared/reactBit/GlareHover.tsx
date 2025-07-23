@@ -53,7 +53,7 @@ const GlareHover: React.FC<GlareHoverProps> = ({
 
     el.style.transition = "none";
     el.style.backgroundPosition = "-100% -100%, 0 0";
-    el.offsetHeight;
+    void el.offsetHeight;
     el.style.transition = `${transitionDuration}ms ease`;
     el.style.backgroundPosition = "100% 100%, 0 0";
   };

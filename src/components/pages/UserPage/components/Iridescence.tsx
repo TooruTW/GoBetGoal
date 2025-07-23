@@ -68,7 +68,7 @@ export default function Iridescence({
     const gl = renderer.gl;
     gl.clearColor(1, 1, 1, 1);
 
-    let program: Program;
+    let program: Program; // eslint-disable-line
 
     function resize() {
       const scale = 1;
@@ -98,7 +98,9 @@ export default function Iridescence({
             gl.canvas.width / gl.canvas.height
           ),
         },
-        uMouse: { value: new Float32Array([mousePos.current.x, mousePos.current.y]) },
+        uMouse: {
+          value: new Float32Array([mousePos.current.x, mousePos.current.y]),
+        },
         uAmplitude: { value: amplitude },
         uSpeed: { value: speed },
       },
@@ -138,11 +140,5 @@ export default function Iridescence({
     };
   }, [color, speed, amplitude, mouseReact]);
 
-  return (
-    <div
-      ref={ctnDom}
-      className="w-full h-full"
-      {...rest}
-    />
-  );
+  return <div ref={ctnDom} className="w-full h-full" {...rest} />;
 }

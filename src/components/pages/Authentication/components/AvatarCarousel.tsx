@@ -35,7 +35,6 @@ const avatarImages = [
   { src: "/image/avatar/girlBlueBall.webp", price: 0 },
   { src: "/image/avatar/girlBlueBird.webp", price: 0 },
   { src: "/image/avatar/girlBlueRing.webp", price: 20000 },
-
   { src: "/image/avatar/girlJacketBandage.webp", price: 0 },
   { src: "/image/avatar/girlJacketFace.webp", price: 0 },
   { src: "/image/avatar/girlJacketInflated.webp", price: 10000 },
@@ -45,7 +44,6 @@ const avatarImages = [
   { src: "/image/avatar/girlPurpleHeadphone.webp", price: 20000 },
   { src: "/image/avatar/girlPurplePonytail.webp", price: 0 },
   { src: "/image/avatar/girlSkirtBubble.webp", price: 0 },
-  
   { src: "/image/avatar/girlSkirtInnocence.webp", price: 10000 },
   { src: "/image/avatar/girlSkirtPrincess.webp", price: 0 },
   { src: "/image/avatar/bear.webp", price: 0 },
@@ -54,7 +52,7 @@ const avatarImages = [
 export default function AvatarCarousel({ onSelect, selectedAvatar }: AvatarCarouselProps) {
   return (
     <div className=" overflow-visible">
-     <Carousel className="overflow-visible">
+    <Carousel className="overflow-visible">
         <CarouselContent className="overflow-visible p-12">
           {avatarImages.map((avatar, idx) => (
             <CarouselItem
@@ -65,7 +63,7 @@ export default function AvatarCarousel({ onSelect, selectedAvatar }: AvatarCarou
               `}
             >
 
-               <img
+              <img
                 src={avatar.src}
                 alt={`avatar-${idx}`}
                 className="w-full object-cover rounded-xl cursor-pointer"
