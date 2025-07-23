@@ -49,7 +49,7 @@ export default function PlayerCard(props: acceptProps) {
   return (
     <div className="w-full">
       {isCloseAbleRef.current ? (
-        <div className="group flex flex-col items-center justify-between gap-4 w-full bg-card-bg rounded-md py-6 ">
+        <div className="group flex flex-col items-center justify-between gap-4 w-full bg-schema-surface-container rounded-md py-6 ">
           <IoClose
             id={user_id}
             onClick={(event) => handleDelete?.(event, user_id)}
@@ -92,7 +92,7 @@ export default function PlayerCard(props: acceptProps) {
           </div>
         </div>
       ) : (
-        <div className="group flex flex-col items-center justify-center gap-4 w-full h-full bg-card-bg rounded-md py-6 ">
+        <div className="group flex flex-col items-center justify-center gap-4 w-full h-full bg-schema-surface-container rounded-md py-6 ">
           <div className="h-65 w-full ">
             <ImageLoader imgUrl={charactor_img_link} />
           </div>
