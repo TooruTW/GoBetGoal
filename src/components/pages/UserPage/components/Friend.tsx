@@ -35,7 +35,14 @@ export default function Friend({ showState = "accepted" }: FriendProps) {
   const { mutate: deleteFriend } = useDeleteFriend();
   const userID = useSelector((state: RootState) => state.account.user_id);
   const { data, isLoading } = useGetFriendSupa(userID);
-  const filteredData = data?.filter((friend: FriendItem) => friend.state === showState) ?? [];
+  const filteredData = data?.filter((friend: FriendItem) => {
+    if (showState === "pending") {
+      return friend.state === "pending" && friend.address_id === userID;
+    } else if (showState === "accepted") {
+      return friend.state === "accepted";
+    }
+    return false;
+  }) ?? [];
 
   useEffect(() => {
     if (isLoading) {
@@ -49,58 +56,12 @@ export default function Friend({ showState = "accepted" }: FriendProps) {
     console.log(data);
   }, [data, isLoading, userID]);
 
-  // 處理接受好友請求的函數
-  const handleAcceptFriend = (friend: FriendItem) => {
-    patchFriendRequest(
-      {
-        request_id: friend.request_id,
-        address_id: friend.address_id,
-        isAccept: true,
-      },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: ["friend", userID],
-          });
-        },
-      }
-    );
-  };
 
-  // 處理拒絕好友請求的函數
-  const handleRejectFriend = (friend: FriendItem) => {
-    patchFriendRequest(
-      {
-        request_id: friend.request_id,
-        address_id: friend.address_id,
-        isAccept: false,
-      },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: ["friend", userID],
-          });
-        },
-      }
-    );
-  };
+
+
 
   // 處理刪除好友的函數
-  const handleDeleteFriend = (friend: FriendItem) => {
-    deleteFriend(
-      {
-        id1: friend.request_id,
-        id2: friend.address_id,
-      },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: ["friend", userID],
-          });
-        },
-      }
-    );
-  };
+
 
   return (
     <div className="flex flex-col gap-4 w-full justify-center items-center">
@@ -134,25 +95,48 @@ export default function Friend({ showState = "accepted" }: FriendProps) {
                   showUserInfo={true}
                   enableTilt={true}
                   // 根據狀態傳遞不同的處理函數
-                  onContactClick={
-                    friend.state === "pending"
-                      ? () => handleAcceptFriend(friend)
-                      : () => console.log("Contact clicked")
-                  }
-                  // 如果是 pending 狀態，傳遞拒絕函數
-                  onRejectClick={
-                    friend.state === "pending"
-                      ? () => handleRejectFriend(friend)
-                      : undefined
-                  }
+                  // onContactClick={
+                  //   friend.state === "pending"
+                  //     ? () => handleAcceptFriend(friend)
+                  //     : () => console.log("Contact clicked")
+                  // }
+
                   // 傳遞好友狀態，讓 ProfileCard 知道如何渲染
                   friendState={friend.state}
+                  onAcceptFriend={(friendItem) => {
+                    patchFriendRequest(
+                      {
+                        request_id: friendItem.request_id,
+                        address_id: friendItem.address_id,
+                        isAccept: true,
+                      },
+                      {
+                        onSuccess: () => {
+                          queryClient.invalidateQueries({ queryKey: ["friend", userID] });
+                        },
+                      }
+                    );
+                  }}
                 />
 
 
                 <IoCloseSharp
                   className="size-8 absolute top-4 right-4 opacity-0 text-gray-500 group-hover:opacity-100 z-50 transition-opacity duration-200 cursor-pointer hover:text-white"
-                  onClick={() => handleDeleteFriend(friend)}
+                  onClick={() =>
+                    deleteFriend(
+                      {
+                        id1: friend.request_id,
+                        id2: friend.address_id,
+                      },
+                      {
+                        onSuccess: () => {
+                          queryClient.invalidateQueries({
+                            queryKey: ["friend", userID],
+                          });
+                        },
+                      }
+                    )
+                  }
                 />
 
 
