@@ -54,39 +54,6 @@ export default function Friend({ showState = "accepted" }: FriendProps) {
 
   return (
     <div className="flex flex-col gap-4 w-full justify-center items-center">
-      <div className="flex flex-col gap-4 w-1/2">
-        <h1>新增好友</h1>
-        <input
-          type="text"
-          placeholder="輸入好友ID"
-          className="border-1 border-schema-outline rounded-lg p-2"
-          onBlur={(e) => setFriendID(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="輸入好友備註"
-          className="border-1 border-schema-outline rounded-lg p-2"
-          onBlur={(e) => setNote(e.target.value)}
-        />
-        <Button
-          onClick={() =>
-            postFriendsRequest(
-              {
-                request_id: userID,
-                address_id: friendID,
-                note: note,
-              },
-              {
-                onSuccess: () => {
-                  console.log("新增好友成功");
-                },
-              }
-            )
-          }
-        >
-          新增好友
-        </Button>
-      </div>
       <div className="flex flex-col gap-4 w-full">
         <ul className="grid grid-cols-4 gap-4">
           {filteredData?.map((friend: FriendItem) => (
@@ -102,8 +69,8 @@ export default function Friend({ showState = "accepted" }: FriendProps) {
                 }
                 status={
                   friend.state === "pending"
-                    ? "等待回應"
-                    : `試煉數: ${friend.address_user.total_trial_count ?? friend.request_user.total_trial_count ?? 0}`
+                    ? friend.note
+                    : `${friend.address_user.total_trial_count ?? friend.request_user.total_trial_count ?? 0}試煉 0貼文 `
                 }
                 contactText="Contact Me"
                 avatarUrl={
