@@ -106,7 +106,7 @@ export default function Friend({ showState = "accepted" }: FriendProps) {
     <div className="flex flex-col gap-4 w-full justify-center items-center">
       <div className="flex flex-col gap-4 w-full">
         {filteredData.length > 0 ? (
-          <ul className="grid grid-cols-4 gap-4">
+          <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {filteredData?.map((friend: FriendItem) => (
               <li key={friend.id} className="relative group">
                 <ProfileCard

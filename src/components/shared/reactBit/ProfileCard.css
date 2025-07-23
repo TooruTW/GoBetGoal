@@ -120,7 +120,7 @@
   transform: translate3d(0, 0, 1px);
   overflow: hidden;
   z-index: 3;
-  
+
   background: transparent;
   background-size: cover;
   background-position: center;
@@ -319,7 +319,7 @@
   top: -12px;
   white-space: nowrap;
   font-size: 16px;
-  margin: 0 ;
+  margin: 0;
   width: min-content;
   background-image: linear-gradient(to bottom, #fff, #4a4ac0);
   background-size: 1em 1.5em;
@@ -350,7 +350,7 @@
 
 @media (max-width: 768px) {
   .pc-card {
-    height: 70svh;
+    height: auto;
     max-height: 450px;
   }
 
@@ -398,7 +398,7 @@
 
 @media (max-width: 480px) {
   .pc-card {
-    height: 60svh;
+    height: auto;
     max-height: 380px;
   }
 
