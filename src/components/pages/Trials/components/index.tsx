@@ -18,7 +18,7 @@ export default function TrialsList() {
       <h2 className="text-h2 w-fit font-bold border-b-2 border-schema-outline pb-6">
         試煉廣場
       </h2>
-              <CategoryCard />
+      <CategoryCard />
       <ListContainer />
     </div>
   );
