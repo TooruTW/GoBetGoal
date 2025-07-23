@@ -4,16 +4,23 @@ import Candy from "./Candy";
 import { Link } from "react-router-dom";
 import CreateTrialBtn from "./CreateTrialBtn";
 import User from "./User";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
+import { setDarkMode } from "@/store/slices/accountSlice";
 
 export default function Navigator() {
   const account = useSelector((state: RootState) => state.account);
+  const dispatch = useDispatch();
+
+  const handleSwitchMode = () => {
+    dispatch(setDarkMode(account.system_preference_color_mode === "dark" ? "light" : "dark"));
+  }
+  
   return (
     <nav>
       <ul className="flex gap-3 items-center">
         <li>
-          <div className="rounded-full bg-bg-module px-4 py-2.5">ModeSwitcher</div>
+          <div className="rounded-full bg-bg-module px-4 py-2.5" onClick={handleSwitchMode}>{account.system_preference_color_mode}</div>
         </li>
         <li>
           {/* 通知中心 */}

@@ -12,7 +12,7 @@
   --color-unActivated-bg: #fcfcf7;
   --color-unActivated-text: #212529;
 
-  --color-bg-primary: #18181b;
+  --color-background: var(--background);
   --color-bg-secondary: #1a1f2c;
   --color-bg-module: #373739;
   --color-bg-notice: #282a2c;
@@ -295,7 +295,7 @@
   --surfaceContainerLow: #22191B;
   --surfaceContainer: #261D1F;
   --surfaceContainerHigh: #312829;
-  surfaceContainerHighest: #3C3234
+  --surfaceContainerHighest: #3C3234
 }
 
 @layer base {
