@@ -9,7 +9,7 @@ export default function CreateTrial() {
   const [isFormOpen, setIsFormOpen] = useState(true);
 
   return (
-    <div className="w-full py-20 flex flex-col justify-center items-center overflow-r-hidden relative border-1 border-red-500 min-h-screen">
+    <div className="w-full py-20 flex flex-col justify-center items-center overflow-r-hidden relative min-h-screen">
       <div className="w-full max-w-282 px-4 flex gap-6">
         <div className="w-2/5">
           <Title></Title>
