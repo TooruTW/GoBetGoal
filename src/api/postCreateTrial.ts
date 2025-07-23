@@ -1,16 +1,8 @@
 import { supabase } from "@/supabaseClient";
 import { useMutation } from "@tanstack/react-query";
+import { createTrial } from "@/types/CreateTrial";
 
-interface actionType {
-  created_at: string;
-  start_at: string;
-  end_at: number;
-  challenge_id: number;
-  title: string;
-  create_by: string;
-}
-
-const postCreateTrial = async (createData: actionType) => {
+const postCreateTrial = async (createData: createTrial) => {
   const { data, error } = await supabase
     .from("trial")
     .insert([{ ...createData }])
