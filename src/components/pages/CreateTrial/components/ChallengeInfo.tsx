@@ -38,8 +38,8 @@ export default function ChallengeInfo() {
 
   useEffect(() => {
     if (challengeTemplate.length > 0) {
-      console.log("redux", challengeTemplate[Number(id) - 1]);
-      setChallenge(challengeTemplate[Number(id) - 1]);
+      console.log("redux", challengeTemplate.find((item) => item.id === Number(id)));
+      setChallenge(challengeTemplate.find((item) => item.id === Number(id)) || null);
     }
   }, [challengeTemplate, id]);
 
@@ -107,7 +107,7 @@ export default function ChallengeInfo() {
         <div
           ref={containerRef}
           className={`fixed top-1/10 h-9/10 overflow-scroll right-0 w-1/2 max-lg:w-full  z-10 transition-transform ${
-            isOpen ? "translete-x-0" : "translate-x-full"
+            isOpen ? "translete-x-0 opacity-100" : "translate-x-full opacity-0"
           }`}
         >
           {challenge && (

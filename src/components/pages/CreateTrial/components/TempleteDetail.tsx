@@ -1,5 +1,8 @@
 import { IoClose } from "react-icons/io5";
 import { ChallengeSupa } from "@/types/ChallengeSupa";
+import { MdOutlineKeyboardDoubleArrowDown } from "react-icons/md";
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
 
 export default function TempleteDetail({
   setIsOpen,
@@ -8,7 +11,34 @@ export default function TempleteDetail({
   setIsOpen: (isOpen: boolean) => void;
   challenge: ChallengeSupa;
 }) {
-  console.log(challenge);
+  const arrowRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [isAtBottom, setIsAtBottom] = useState(false);
+
+  useEffect(() => {
+    console.log(challenge);
+    gsap.to(arrowRef.current, {
+      yPercent: -50,
+      duration: 1,
+      ease: "power2.inOut",
+      repeat: -1,
+      yoyo: true,
+    });
+  }, [challenge]);
+
+  useEffect(() => {
+    const scrollContainer = scrollContainerRef.current;
+    if (!scrollContainer) return;
+
+    const handleScroll = () => {
+      const { scrollTop, scrollHeight, clientHeight } = scrollContainer;
+      const isBottom = scrollTop + clientHeight >= scrollHeight - 5; // 5px 的容錯範圍
+      setIsAtBottom(isBottom);
+    };
+
+    scrollContainer.addEventListener("scroll", handleScroll);
+    return () => scrollContainer.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <div className="w-full bg-schema-surface-container p-6 rounded-lg flex flex-col gap-6 items-center">
@@ -61,9 +91,12 @@ export default function TempleteDetail({
           })}
         </div>
       </div>
-      <div className="w-full flex flex-col gap-2">
-        <h3 className="text-h3">關卡</h3>
-        <div className="flex flex-col gap-4">
+      <div className="w-full flex flex-col gap-2 relative ">
+        <h3 className="text-h3 py-2">關卡</h3>
+        <div
+          ref={scrollContainerRef}
+          className="flex flex-col gap-4 py-10 max-h-80 overflow-y-scroll"
+        >
           {challenge?.challenge_stage?.map((item, index) => {
             return (
               <div key={`stage${index}`} className="flex w-full gap-2 h-fit">
@@ -87,6 +120,14 @@ export default function TempleteDetail({
             );
           })}
         </div>
+        {!isAtBottom && (
+          <div
+            ref={arrowRef}
+            className="absolute bottom-2 right-1/2 -translate-x-1/2 size-10 opacity-30 pointer-events-none"
+          >
+            <MdOutlineKeyboardDoubleArrowDown className="size-full"></MdOutlineKeyboardDoubleArrowDown>
+          </div>
+        )}
       </div>
       <div className="flex flex-col gap-2 w-full border-1 border-schema-outline rounded-lg p-6">
         <h3 className="text-h3">守則</h3>
