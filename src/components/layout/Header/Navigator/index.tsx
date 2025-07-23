@@ -20,7 +20,7 @@ export default function Navigator() {
     <nav>
       <ul className="flex gap-3 items-center">
         <li>
-          <div className="rounded-full bg-bg-module px-4 py-2.5" onClick={handleSwitchMode}>{account.system_preference_color_mode}</div>
+          <div className="rounded-full bg-schema-surface-container-highest px-4 py-2.5" onClick={handleSwitchMode}>{account.system_preference_color_mode}</div>
         </li>
         <li>
           {/* 通知中心 */}

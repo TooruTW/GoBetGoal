@@ -7,21 +7,7 @@
   --color-gradient-set-1-1: #fca976;
   --color-gradient-set-1-2: #eb4375;
 
-
-  --color-unActivated-bg: #fcfcf7;
-  --color-unActivated-text: #212529;
-
-  --color-bg-module: #373739;
-  --color-bg-notice: #282a2c;
-  --color-btn-notice: #f4f4f580;
-
-  --color-bg-root: #1b1c1d;
-  --color-bg-tags: #f4f4f5;
-
-  --color-theme-primary: #f35b53;
   --color-text-primary-foreground: #fafafa;
-
-
 
   --color-material-theme-white: #ffffff;
 
@@ -29,7 +15,6 @@
   --color-text-secondary: #d1d5db;
   --color-text-muted: #71717a;
 
-  --color-border-primary: #ef444450;
 
   /* 霓虹特效系統 */
   --neon-red: #ea384c;
@@ -115,6 +100,11 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
+
+  --color-schema-inverse-surface: var(--inverseSurface);
+  --color-schema-inverse-on-surface: var(--inverseOnSurface);
+
+
   --color-schema-primary: var(--primary);
   --color-schema-outline: var(--outline);
   --color-schema-on-primary: var(--onPrimary);
@@ -125,6 +115,7 @@
   --color-schema-on-background: var(--onBackground);
   --color-schema-container-height: var(--surfaceContainerHigh);
   --color-schema-surface-container: var(--surfaceContainer);
+  --color-schema-surface-container-low: var(--surfaceContainerLow);
   --color-schema-surface-container-high: var(--surfaceContainerHigh);
   --color-schema-surface-container-highest: var(--surfaceContainerHighest);
 }
@@ -210,6 +201,7 @@
   --surfaceContainerLowest: #ffffff;
   --surfaceContainerLow: #fff0f1;
   --surfaceContainer: #fbeaeb;
+  --surfaceContainerLow: #fff7f8;
 
   --surfaceContainerHigh: #f5e4e6;
   --surfaceContainerHighest: #efdee0;
@@ -295,6 +287,8 @@
   --surfaceContainerLowest: #140c0d;
   --surfaceContainerLow: #22191b;
   --surfaceContainer: #261d1f;
+  --surfaceContainerLow: #22191b;
+
   --surfaceContainerHigh: #312829;
   --surfaceContainerHighest: #3c3234;
 }

@@ -61,7 +61,7 @@ export default function ProgressBar(props: acceptProps) {
           {infoRef.current.candyPerfect > 1000 ? `${infoRef.current.candyPerfect / 1000}K` : infoRef.current.candyPerfect}
         </span>
       </p>
-      <div className="w-full rounded-full relative h-4 bg-bg-module">
+      <div className="w-full rounded-full relative h-4 bg-schema-surface-container-highest">
         <p className=" absolute z-10 top-1/2 left-1/2 -translate-1/2 text-label text-white">
           合作進度 <span>{infoRef.current.passedChallengesCount} / {infoRef.current.challengeCount}</span>
         </p>

@@ -65,7 +65,7 @@ export default function DayBox(props: acceptProps) {
         className={`${
           isThisMonth
             ? isThisDate
-              ? "text-theme-primary font-bold"
+              ? "text-schema-on-surface font-bold"
               : "text-schema-on-surface-variant"
             : "text-schema-on-surface"
         } 
