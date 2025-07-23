@@ -7,6 +7,7 @@ const initialState = {
   nick_name: "nobody",
   system_preference_color_mode: "dark",
   user_id: "",
+  purchase_challenge:[1,2,3]
 };
 
 export const accountSlice = createSlice({
@@ -22,6 +23,7 @@ export const accountSlice = createSlice({
         state.nick_name = "nobody";
         state.system_preference_color_mode = "dark";
         state.user_id = "";
+        state.purchase_challenge=[]
         return;
       }
       state.candy_count = action.payload.candy_count;
@@ -31,6 +33,7 @@ export const accountSlice = createSlice({
       state.system_preference_color_mode =
         action.payload.system_preference_color_mode;
       state.user_id = action.payload.user_id;
+      state.purchase_challenge = action.payload.purchase_challenge;
     },
   },
 });

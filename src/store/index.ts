@@ -3,12 +3,14 @@ import trialsReducer from "@/store/slices/trialsSlice";
 import screenReducer from "@/store/slices/screenSlice";
 import accountReducer from "@/store/slices/accountSlice";
 import friendsReducer from "@/store/slices/friendsSlice";
+import challengeTemplateReducer from "@/store/slices/challengeTemplate";
 export const store = configureStore({
   reducer: {
     trials: trialsReducer,
     screen: screenReducer,
     account: accountReducer,
     friends: friendsReducer,
+    challengeTemplate: challengeTemplateReducer,
   },
 });
 
