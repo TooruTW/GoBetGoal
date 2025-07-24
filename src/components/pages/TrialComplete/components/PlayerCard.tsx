@@ -27,7 +27,7 @@ export default function PlayerCard() {
           <img
             src={monsterDefault}
             alt="playerImage"
-            className="w-full scale-150"
+            className="w-full scale-150 max-w-15"
           />
         </li>
         <li className="col-span-2 text-h4 flex items-center justify-center translate-y-1/5">

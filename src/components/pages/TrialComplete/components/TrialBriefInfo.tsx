@@ -1,6 +1,6 @@
 export default function TrialBriefInfo() {
   return (
-    <div className="bg-schema-surface-container p-3 rounded-md flex flex-col gap-4 w-1/3">
+    <div className="bg-schema-surface-container p-3 rounded-md flex flex-col gap-4 w-1/3 max-xl:w-full relative z-10">
       <div className="flex justify-between items-center ">
         <ul className="flex gap-2 text-p font-bold text-schema-on-surface">
           <li className=" rounded-full bg-schema-surface-container-highest px-2.5 py-0.5">
