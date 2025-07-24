@@ -1,6 +1,6 @@
 export default function TrialBriefInfo() {
   return (
-    <div className="bg-schema-surface-container p-3 rounded-md flex flex-col gap-4">
+    <div className="bg-schema-surface-container p-3 rounded-md flex flex-col gap-4 w-full">
       <div className="flex justify-between items-center ">
         <ul className="flex gap-2 text-p font-bold text-schema-on-surface">
           <li className=" rounded-full bg-schema-surface-container-highest px-2.5 py-0.5">
@@ -27,19 +27,19 @@ export default function TrialBriefInfo() {
         </p>
       </div>
       <ul className="flex justify-between gap-3 text-label">
-        <li className="bg-schema-surface-container-high rounded-md px-2 py-1 w-full min-w-22">
+        <li className="bg-schema-surface-container-high rounded-md px-2 py-1 w-full">
           <p className="text-nowrap">關卡頻率</p>
           <p className="text-p font-bold">每日</p>
         </li>
-        <li className="bg-schema-surface-container-high rounded-md px-2 py-1 w-full min-w-22">
+        <li className="bg-schema-surface-container-high rounded-md px-2 py-1 w-full">
           <p className="text-nowrap">關卡數</p>
           <p className="text-p font-bold">28</p>
         </li>
-        <li className="bg-schema-surface-container-high rounded-md px-2 py-1 w-full min-w-22">
+        <li className="bg-schema-surface-container-high rounded-md px-2 py-1 w-full">
           <p className="text-nowrap">試煉總天數</p>
           <p className="text-p font-bold">28</p>
         </li>
-        <li className="bg-schema-surface-container-high rounded-md px-2 py-1 w-full min-w-22">
+        <li className="bg-schema-surface-container-high rounded-md px-2 py-1 w-full">
           <p className="text-nowrap">人數</p>
           <p className="text-p font-bold">6</p>
         </li>
