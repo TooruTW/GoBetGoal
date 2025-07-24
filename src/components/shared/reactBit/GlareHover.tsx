@@ -18,7 +18,7 @@ interface GlareHoverProps {
 }
 
 const GlareHover: React.FC<GlareHoverProps> = ({
-  background = "#000",
+  background,
   borderRadius = "10px",
   borderColor = "#333",
   children,
@@ -84,15 +84,22 @@ const GlareHover: React.FC<GlareHoverProps> = ({
     pointerEvents: "none",
   };
 
+  // 如果沒有提供 background prop，則使用 CSS 變數來支援 dark/light mode
+  const containerStyle: React.CSSProperties = {
+    borderRadius,
+    borderColor,
+    ...style,
+  };
+
+  // 只有在明確提供 background prop 時才設定背景色
+  if (background) {
+    containerStyle.background = background;
+  }
+
   return (
     <div
       className={`relative grid place-items-center overflow-hidden border cursor-pointer ${className}`}
-      style={{
-        background,
-        borderRadius,
-        borderColor,
-        ...style,
-      }}
+      style={containerStyle}
       onMouseEnter={animateIn}
       onMouseLeave={animateOut}
     >

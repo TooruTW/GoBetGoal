@@ -19,7 +19,7 @@ export default function TempleteCard({
   return (
     <Link to={`/create-trial/${challengeId}`}>
       <div
-        className={`w-full min-w-50 aspect-[200/108] p-2 rounded-lg border-2 relative overflow-hidden hover:border-2 hover:border-material-theme-white`}
+        className={`w-full min-w-40 h-27 p-2 rounded-lg border-2 relative overflow-hidden hover:border-2 hover:border-material-theme-white`}
         style={{backgroundColor: `#${color}`}}
       >
         <p className="flex justify-between items-center">

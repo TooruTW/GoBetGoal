@@ -10,11 +10,11 @@ export default function CreateTrial() {
 
   return (
     <div className="w-full py-20 flex flex-col justify-center items-center overflow-r-hidden relative min-h-screen">
-      <div className="w-full max-w-282 px-4 flex gap-6">
-        <div className="w-2/5">
+      <div className="w-full max-w-282 px-4 flex gap-6 max-xl:flex-col max-xl:items-center">
+        <div className="w-2/5 max-xl:w-full max-w-175">
           <Title></Title>
 
-          <div className="flex flex-col gap-2 max-xl:w-full max-w-175">
+          <div className="flex flex-col gap-2 max-xl:w-full ">
             <div
               className="flex items-center gap-2 justify-between py-4 cursor-pointer xl:hidden xl:pointer-events-none"
               onClick={() => setIsListOpen(!isListOpen)}

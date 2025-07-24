@@ -15,7 +15,6 @@
   --color-text-secondary: #d1d5db;
   --color-text-muted: #71717a;
 
-
   /* 霓虹特效系統 */
   --neon-red: #ea384c;
   --neon-white: #ffffff;
@@ -100,10 +99,8 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-
   --color-schema-inverse-surface: var(--inverseSurface);
   --color-schema-inverse-on-surface: var(--inverseOnSurface);
-
 
   --color-schema-primary: var(--primary);
   --color-schema-outline: var(--outline);
@@ -118,6 +115,9 @@
   --color-schema-surface-container-low: var(--surfaceContainerLow);
   --color-schema-surface-container-high: var(--surfaceContainerHigh);
   --color-schema-surface-container-highest: var(--surfaceContainerHighest);
+
+  /* 新增 surface-container 顏色映射 */
+  --color-surface-container: var(--surfaceContainer);
 }
 
 :root {
@@ -154,7 +154,7 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 
-  --primary: #8e4958;
+  --primary: #eb4375;
   --surfaceTint: #8e4958;
   --onPrimary: #ffffff;
   --primaryContainer: #ffd9de;
@@ -240,7 +240,7 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
 
-  --primary: #ffb1c0;
+  --primary: #eba7e4;
   --surfaceTint: #ffb1c0;
   --onPrimary: #551d2b;
   --primaryContainer: #713341;
