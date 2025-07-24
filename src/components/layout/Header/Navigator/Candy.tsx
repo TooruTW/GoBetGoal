@@ -13,7 +13,7 @@ export default function Candy(props: acceptProps) {
 
   return (
     <div>
-      <div className="px-4 py-1.5 rounded-full flex items-center gap-1 bg-bg-module">
+      <div className="px-4 py-1.5 rounded-full flex items-center gap-1 bg-schema-surface-container-highest">
         <LuCandy />
         <p  className="font-bold text-schema-primary font-mono">
         <DynamicNumber amount={amount}/>

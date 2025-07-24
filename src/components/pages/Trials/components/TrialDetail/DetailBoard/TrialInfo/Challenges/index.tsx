@@ -23,7 +23,7 @@ export default function Challenges(props: acceptProps) {
       {uniqueStages.map((stage, index) => (
         <div
           key={stage.id}
-          className="bg-card-bg rounded-sm py-2 px-4 text-nowrap snap-center"
+          className="bg-schema-surface-container rounded-sm py-2 px-4 text-nowrap snap-center"
         >
           <p className="text-label font-normal">
             關卡{index + 1}/{uniqueStages.length}

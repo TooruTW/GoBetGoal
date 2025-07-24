@@ -15,7 +15,7 @@ export default function ListContainer() {
   return (
     <div className="w-full grid grid-cols-2 gap-6">
       {data?.map((trial) => (
-        <GlareHover key={trial.id}>
+        <GlareHover key={trial.id} className="bg-surface-container">
           <TrialCard trial={trial} />
         </GlareHover>
       ))}

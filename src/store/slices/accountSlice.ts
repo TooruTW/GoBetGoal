@@ -35,8 +35,11 @@ export const accountSlice = createSlice({
       state.user_id = action.payload.user_id;
       state.purchase_challenge = action.payload.purchase_challenge;
     },
+    setDarkMode: (state, action) => {
+      state.system_preference_color_mode = action.payload;
+    },
   },
 });
 
-export const { setAccount } = accountSlice.actions;
+export const { setAccount, setDarkMode } = accountSlice.actions;
 export default accountSlice.reducer;

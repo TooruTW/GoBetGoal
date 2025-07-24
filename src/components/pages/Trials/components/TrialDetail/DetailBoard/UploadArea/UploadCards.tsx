@@ -31,7 +31,7 @@ export default function UploadCard(props: acceptProps) {
       {uploadImgList.map((item, index) => (
         <div key={index} className="flex flex-col gap-2 w-1/3">
           <div
-            className="aspect-square bg-bg-module rounded-md flex items-center justify-center relative"
+            className="aspect-square bg-schema-surface-container rounded-md flex items-center justify-center relative border-1 border-schema-outline"
             style={{
               backgroundImage: `url(${item.url})`,
               backgroundSize: "cover",
@@ -43,9 +43,9 @@ export default function UploadCard(props: acceptProps) {
             }}
           >
             {!item.isPassed && !item.isReady && (
-              <GoPlus className="text-text-primary text-4xl" />
+              <GoPlus className="text-schema-on-surface text-4xl" />
             )}
-            <p className="absolute bottom-4 left-4 text-text-primary text-label p-2 rounded-md bg-bg-module">
+            <p className="absolute bottom-4 left-4 text-schema-on-surface text-label p-2 rounded-md bg-schema-surface-container">
               {currentChallenge.challenge_stage.description[index]}
             </p>
           </div>
@@ -55,7 +55,7 @@ export default function UploadCard(props: acceptProps) {
             }}
             onBlur={(e) => onBlur(e.target.value, index)}
             type="text"
-            className="w-full rounded-md bg-bg-module p-2 text-text-primary text-label"
+            className="w-full rounded-md bg-schema-surface-container p-2 text-schema-on-surface text-label"
             placeholder="請輸入圖片網址"
           />
           {/* <UploadImage /> */}

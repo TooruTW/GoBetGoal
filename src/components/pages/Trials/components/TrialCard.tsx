@@ -68,7 +68,7 @@ export default function TrialCard(porps: acceptProps) {
   return (
     <div
       ref={cardRef}
-      className="border-2 relative border-schema-outline rounded-md p-3 min-w-102.5 w-full flex flex-col gap-4 hover:cursor-pointer overflow-hidden"
+      className=" relative rounded-md p-3 min-w-102.5 w-full flex flex-col gap-4 hover:cursor-pointer overflow-hidden "
       onClick={handleGetDetail}
     >
       <div className="flex justify-between items-center">
@@ -77,7 +77,7 @@ export default function TrialCard(porps: acceptProps) {
             {trial_participant.map((participant, index) => (
               <img
                 key={index}
-                className="rounded-full w-11 aspect-square bg-gray-200 border-2 border-schema-outline object-cover object-top-left"
+                className="rounded-full w-11 aspect-square bg-schema-on-surface object-cover object-top-left"
                 src={participant.user_info.charactor_img_link}
                 alt=""
               />
@@ -88,7 +88,7 @@ export default function TrialCard(porps: acceptProps) {
           {challenge.catagory.map((catagory, index) => (
             <span
               key={index}
-              className=" rounded-full px-2.5 py-1 font-bold text-p bg-schema-on-surface"
+              className=" rounded-full px-2.5 py-1 font-bold text-p text-schema-on-surface bg-schema-surface-container-highest"
             >
               {catagory}
             </span>
@@ -103,7 +103,7 @@ export default function TrialCard(porps: acceptProps) {
           </div>
           <Button
             variant="trialsJoin"
-            className="w-20"
+            className="w-20 "
             onClick={(e) => handleJoin(e)}
           >
             加入
@@ -114,7 +114,7 @@ export default function TrialCard(porps: acceptProps) {
         <div className="flex flex-col gap-1">
           <h3 className="text-h3 font-semibold">{title}</h3>
           <h4 className="text-h4 font-semibold">{challenge.title}</h4>
-          <p className="text-p ">{challenge.description}</p>
+          <p className="text-p ">{challenge.description.length > 35 ? challenge.description.slice(0, 35) + " ..." : challenge.description}</p>
         </div>
         <div className="flex justify-between gap-3">
           <div className="rounded-md px-2 py-1 font-bold text-p bg-schema-container-height w-full">
