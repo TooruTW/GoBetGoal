@@ -54,6 +54,7 @@
   --text-h4: 18px;
   --text-calender-day-mobile: 20px;
   --text-p: 16px;
+  --text-p-small: 14px;
   --text-label: 12px;
   --text-title: 30px;
 }
@@ -115,6 +116,8 @@
   --color-schema-surface-container-low: var(--surfaceContainerLow);
   --color-schema-surface-container-high: var(--surfaceContainerHigh);
   --color-schema-surface-container-highest: var(--surfaceContainerHighest);
+
+  --color-schema-secondary-container: var(--secondaryContainer);
 
   /* 新增 surface-container 顏色映射 */
   --color-surface-container: var(--surfaceContainer);
@@ -202,7 +205,6 @@
   --surfaceContainerLow: #fff0f1;
   --surfaceContainer: #fbeaeb;
   --surfaceContainerLow: #fff7f8;
-
   --surfaceContainerHigh: #f5e4e6;
   --surfaceContainerHighest: #efdee0;
 }

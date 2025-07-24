@@ -57,7 +57,7 @@ export default function DetailBoard({ trial }: acceptProps) {
       <BackBtn />
       <TrialInfo trial={trial} />
       {trialState === "進行中" && <UploadArea trial={trial}/>}
-      {trialState === "進行中" && <UploadCalendar trial={trial}/>}
+      <UploadCalendar trial={trial}/>
       {width < 960 ? <ParticipantMobile trial={trial} /> : <Participant trial={trial} />}
     </div>
   );
