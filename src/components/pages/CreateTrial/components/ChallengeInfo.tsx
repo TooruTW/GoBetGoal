@@ -48,7 +48,7 @@ export default function ChallengeInfo() {
   return (
     <div
       style={{
-        background: `linear-gradient(to bottom, ${challenge?.color}, transparent)`,
+        background: `linear-gradient(to bottom, #${challenge?.color}, transparent)`,
       }}
       className="rounded-2xl px-6 py-7 relative flex flex-col gap-4"
     >
@@ -56,7 +56,7 @@ export default function ChallengeInfo() {
         ref={imageRef}
         src={`/image${challenge?.img}`}
         alt=""
-        className="size-35 max-lg:size-30 max-md:size-25 absolute -top-15 max-lg:top-45  right-6 rotate-9"
+        className="size-35 max-lg:size-30 max-md:size-25 absolute -top-15   right-8 rotate-9"
       />
       <div>
         <h1 className="text-h1 font-bold">{challenge?.title} </h1>
@@ -66,26 +66,26 @@ export default function ChallengeInfo() {
       </div>
 
       <ul className="grid grid-cols-5 gap-2 max-lg:grid-cols-3">
-        <li>
-          <p className="text-label">關卡頻率</p>{" "}
+        <li className="flex flex-col items-center">
+          <p className="text-label text-schema-on-surface-variant">關卡頻率</p>{" "}
           <p className="text-p">{challenge?.frequency}</p>
         </li>
-        <li>
-          <p className="text-label">關卡數量</p>{" "}
+        <li className="flex flex-col items-center">
+          <p className="text-label text-schema-on-surface-variant">關卡數量</p>{" "}
           <p className="text-p">{challenge?.stage_count}</p>
         </li>
-        <li>
-          <p className="text-label">試煉總時長 （天）</p>
+        <li className="flex flex-col items-center">
+          <p className="text-label text-schema-on-surface-variant">試煉總時長 （天）</p>
           <p className="text-p">
             {" "}
             {(challenge?.stage_count || 0) * (challenge?.frequency || 0)}{" "}
           </p>
         </li>
-        <li>
-          <p className="text-label">人數上限</p> <p className="text-p">6</p>
+        <li className="flex flex-col items-center">
+          <p className="text-label text-schema-on-surface-variant">人數上限</p> <p className="text-p">6</p>
         </li>
-        <li>
-          <p className="text-label">審查方式</p>{" "}
+        <li className="flex flex-col items-center">
+          <p className="text-label text-schema-on-surface-variant">審查方式</p>{" "}
           <p className="text-p">AI 審查</p>
         </li>
       </ul>
@@ -99,16 +99,15 @@ export default function ChallengeInfo() {
             setIsOpen(true);
           }}
         >
-          <span>看試煉詳情 </span>
+          <span>看試煉詳情</span>
           <MdKeyboardArrowRight></MdKeyboardArrowRight>
         </Button>
       </div>
       {
         <div
           ref={containerRef}
-          className={`fixed top-1/10 h-9/10 overflow-scroll right-0 w-1/2 max-lg:w-full  z-10 transition-transform ${
-            isOpen ? "translete-x-0 opacity-100" : "translate-x-full opacity-0"
-          }`}
+          className={`fixed top-1/10 h-9/10 overflow-scroll right-0 w-1/2 max-lg:w-full  z-10 transition-transform ${isOpen ? "translete-x-0 opacity-100" : "translate-x-full opacity-0"
+            }`}
         >
           {challenge && (
             <TempleteDetail

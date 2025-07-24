@@ -45,7 +45,7 @@ export default function CreateTrial() {
               <span className="size-9 rounded-full border-1 border-schema-outline flex justify-center items-center">
                 2
               </span>
-              <h4 className="text-h4">填寫客制內容</h4>
+              <h4 className="text-h4">填寫客製內容</h4>
             </div>
 
             <IoIosArrowDown

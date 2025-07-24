@@ -140,13 +140,14 @@ export default function Form() {
             type="number"
             min={100000}
             max={1000000}
+            step={100000}
           />
           {errors.trialDeposit && (
             <span className="text-red-500 text-sm">
               {errors.trialDeposit.message}
             </span>
           )}
-          <span className="text-label">
+          <span className="text-label text-schema-on-surface-variant">
             合作完成80％即返還押金。若找齊隊友，贏得試煉最多可以拿回200％押金糖果呦！
           </span>
         </label>

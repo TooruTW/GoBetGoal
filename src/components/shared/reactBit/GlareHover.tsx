@@ -20,7 +20,7 @@ interface GlareHoverProps {
 const GlareHover: React.FC<GlareHoverProps> = ({
   background,
   borderRadius = "10px",
-  borderColor = "#333",
+  borderColor = "",
   children,
   glareColor = "#ffffff",
   glareOpacity = 0.5,
@@ -98,7 +98,7 @@ const GlareHover: React.FC<GlareHoverProps> = ({
 
   return (
     <div
-      className={`relative grid place-items-center overflow-hidden border cursor-pointer ${className}`}
+      className={`relative grid place-items-center overflow-hidden  cursor-pointer ${className}`}
       style={containerStyle}
       onMouseEnter={animateIn}
       onMouseLeave={animateOut}

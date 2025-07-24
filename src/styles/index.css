@@ -50,7 +50,7 @@
 
   --text-h1: 40px;
   --text-h2: 32px;
-  --text-h3: 24px;
+  --text-h3: 20px;
   --text-h4: 18px;
   --text-calender-day-mobile: 20px;
   --text-p: 16px;
@@ -171,18 +171,18 @@
   --onError: #ffffff;
   --errorContainer: #ffdad6;
   --onErrorContainer: #93000a;
-  --background: #fff8f7;
+  --background: rgb(255, 255, 255);
   --onBackground: #22191b;
   --surface: #fff8f7;
-  --onSurface: #22191b;
+  --onSurface: rgb(29, 29, 31);
   --surfaceVariant: #f3dde0;
-  --onSurfaceVariant: #524345;
+  --onSurfaceVariant: rgba(45, 45, 45, 0.56);
   --outline: #847375;
   --outlineVariant: #d6c2c4;
   --shadow: #000000;
   --scrim: #000000;
-  --inverseSurface: #382e2f;
-  --inverseOnSurface: #feedee;
+  --inverseSurface: rgb(51, 51, 54);
+  --inverseOnSurface: rgb(214, 214, 215);
   --inversePrimary: #ffb1c0;
   --primaryFixed: #ffd9de;
   --onPrimaryFixed: #3a0717;
@@ -200,11 +200,11 @@
   --surfaceBright: #fff8f7;
   --surfaceContainerLowest: #ffffff;
   --surfaceContainerLow: #fff0f1;
-  --surfaceContainer: #fbeaeb;
+  --surfaceContainer: rgb(245, 245, 247);
   --surfaceContainerLow: #fff7f8;
 
-  --surfaceContainerHigh: #f5e4e6;
-  --surfaceContainerHighest: #efdee0;
+  --surfaceContainerHigh: rgb(232, 232, 237);
+  --surfaceContainerHighest: rgb(222, 222, 227);
 }
 
 .dark {
@@ -286,17 +286,18 @@
   --surfaceBright: #413738;
   --surfaceContainerLowest: #140c0d;
   --surfaceContainerLow: #22191b;
-  --surfaceContainer: #261d1f;
+  --surfaceContainer: rgb(31, 29, 29);
   --surfaceContainerLow: #22191b;
 
   --surfaceContainerHigh: #312829;
-  --surfaceContainerHighest: #3c3234;
+  --surfaceContainerHighest: rgba(66, 66, 69, 0.7);
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -304,6 +305,7 @@
 
 /* 霓虹特效類別 */
 @layer components {
+
   /* 基礎霓虹效果 */
   .neon-red {
     color: var(--neon-red);
@@ -372,22 +374,23 @@
 
   /* 漸層效果 */
   .bg-gradient-set-1 {
-    background: linear-gradient(
-      135deg,
-      var(--color-gradient-set-1-1) 0%,
-      var(--color-gradient-set-1-2) 100%
-    );
+    background: linear-gradient(135deg,
+        var(--color-gradient-set-1-1) 0%,
+        var(--color-gradient-set-1-2) 100%);
   }
 
   .error {
     color: red;
   }
+
   .parallelogram-border {
     display: inline-block;
     padding: 2px;
     background: #09090b;
-    transform: skew(-30deg); /* 改這個會影響角度 */
-    border: 1px solid #ef4445; /* 邊框顏色 */
+    transform: skew(-30deg);
+    /* 改這個會影響角度 */
+    border: 1px solid #ef4445;
+    /* 邊框顏色 */
   }
 
   .parallelogram-border .content {
@@ -408,6 +411,7 @@
   0% {
     text-shadow: var(--neon-shadow-red);
   }
+
   100% {
     text-shadow: 0 0 5px var(--neon-red), 0 0 10px var(--neon-red),
       0 0 15px var(--neon-red), 0 0 20px var(--neon-red),
@@ -417,6 +421,7 @@
 }
 
 @keyframes neon-flicker {
+
   0%,
   18%,
   22%,
@@ -426,6 +431,7 @@
   100% {
     text-shadow: var(--neon-shadow-red);
   }
+
   20%,
   24%,
   55% {
@@ -438,10 +444,12 @@
     text-shadow: 0 0 5px var(--neon-red), 0 0 10px var(--neon-red),
       0 0 15px var(--neon-red);
   }
+
   50% {
     text-shadow: 0 0 10px var(--neon-red), 0 0 20px var(--neon-red),
       0 0 30px var(--neon-red), 0 0 40px var(--neon-red);
   }
+
   100% {
     text-shadow: 0 0 5px var(--neon-red), 0 0 10px var(--neon-red),
       0 0 15px var(--neon-red);
@@ -449,7 +457,8 @@
 }
 
 input:-webkit-autofill {
-  -webkit-text-fill-color: #fff !important; /* 改成你想要的顏色，例如黑色 */
+  -webkit-text-fill-color: #fff !important;
+  /* 改成你想要的顏色，例如黑色 */
   transition: background-color 9999s ease-in-out 0s !important;
   background-color: transparent !important;
   box-shadow: 0 0 0 1000px transparent inset !important;

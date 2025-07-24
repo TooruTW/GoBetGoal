@@ -77,7 +77,7 @@ export default function TrialCard(porps: acceptProps) {
             {trial_participant.map((participant, index) => (
               <img
                 key={index}
-                className="rounded-full w-11 aspect-square bg-schema-on-surface object-cover object-top-left"
+                className="rounded-full w-11 aspect-square bg-white object-cover object-top-left"
                 src={participant.user_info.charactor_img_link}
                 alt=""
               />
@@ -118,19 +118,19 @@ export default function TrialCard(porps: acceptProps) {
         </div>
         <div className="flex justify-between gap-3">
           <div className="rounded-md px-2 py-1 font-bold text-p bg-schema-container-height w-full">
-            <p className="text-label">預計賺取</p>
+            <p className="text-label text-schema-on-surface-variant">預計賺取</p>
             <p className="leading-6">{(deposit * 1.5).toLocaleString()}</p>
           </div>
           <div className="rounded-md px-2 py-1 font-bold text-p bg-schema-container-height w-full">
-            <p className="text-label">開始時間</p>
+            <p className="text-label text-schema-on-surface-variant">開始時間</p>
             <p className="leading-6">{startAt}</p>
           </div>
           <div className="rounded-md px-2 py-1 font-bold text-p bg-schema-container-height w-full">
-            <p className="text-label">關卡數</p>
+            <p className="text-label text-schema-on-surface-variant">關卡數</p>
             <p className="leading-6">{challenge.challenge_stage.length}</p>
           </div>
           <div className="rounded-md px-2 py-1 font-bold text-p bg-schema-container-height w-full">
-            <p className="text-label">檢查頻率</p>
+            <p className="text-label text-schema-on-surface-variant">檢查頻率</p>
             <p className="leading-6"> {challenge.frequency} 天</p>
           </div>
         </div>
