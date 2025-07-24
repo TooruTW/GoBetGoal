@@ -1,14 +1,16 @@
 import { Outlet } from "react-router-dom";
 import Layout from "./components/layout/Layout";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useGetUserInfoSupa, useGetUserSupa } from "./api";
 import { setAccount } from "./store/slices/accountSlice";
+import { RootState } from "./store";
 
 function App() {
   const [userID, setUserID] = useState<string>("");
   const dispatch = useDispatch();
   const { data: user } = useGetUserSupa();
+  const isDarkMode = useSelector((state: RootState) => state.account.system_preference_color_mode);
 
   useEffect(() => {
     if (user?.id) {
@@ -34,7 +36,7 @@ function App() {
   }, [userID, userInfoSupa, isLoading, error, dispatch]);
 
   return (
-    <Layout>
+    <Layout className={isDarkMode === "dark" ? "dark" : ""}>
       <Outlet />
     </Layout>
   );

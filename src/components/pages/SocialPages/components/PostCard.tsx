@@ -52,7 +52,7 @@ export default function PostCard(props: PostCardProps) {
           imgUrl={imgUrl}
           className="absolute top-0 left-0 w-full h-full"
         />
-        <div ref={postCardRef} className={`flex flex-col justify-end absolute bottom-0 left-0 w-full text-text-primary-foreground py-6 bg-linear-to-b  px-2 ${isShow ? "to-black/50 from-transparent gap-4 " : "to-black/30 from-transparent "}`} onClick={()=>setIsShow(!isShow)}>
+        <div ref={postCardRef} className={`flex flex-col justify-end absolute bottom-0 left-0 w-full text-schema-on-surface py-6 bg-linear-to-b  px-2 ${isShow ? "to-black/50 from-transparent gap-4 " : "to-black/30 from-transparent "}`} onClick={()=>setIsShow(!isShow)}>
           <div className="flex items-center w-full justify-between gap-2">
             <div className="flex items-center gap-2 pointer-events-auto">
               <Link

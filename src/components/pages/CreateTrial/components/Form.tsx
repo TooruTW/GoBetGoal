@@ -1,6 +1,11 @@
 import { monsterDefault } from "@/assets/monster";
 import { DatePicker } from "@/components/shared/reactBit/DatePicker";
 import { useForm } from "react-hook-form";
+import { createTrial } from "@/types/CreateTrial";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { usePostCreateTrial } from "@/api";
+import { useParams } from "react-router-dom";
 
 interface FormData {
   trialName: string;
@@ -24,6 +29,10 @@ export default function Form() {
     },
   });
 
+  const userID = useSelector((state: RootState) => state.account.user_id);
+  const { mutate: postCreateTrial } = usePostCreateTrial();
+  const { id } = useParams();
+
   // 監聽 trialStart 的值
   const trialStartValue = watch("trialStart");
 
@@ -33,12 +42,27 @@ export default function Form() {
       // 這裡可以加入 API 呼叫邏輯
       // await createTrial(data);
 
+      const newData: createTrial = {
+        start_at: data.trialStart,
+        deposit: data.trialDeposit,
+        challenge_id: Number(id),
+        title: data.trialName,
+        create_by: userID,
+      };
+
+      postCreateTrial(newData, {
+        onSuccess: () => {
+          alert("試煉創建成功！");
+        },
+        onError: () => {
+          alert("創建試煉失敗，請重試");
+        },
+      });
+
       // 提交成功後重置表單
       reset();
-      alert("試煉創建成功！");
     } catch (error) {
       console.error("創建試煉失敗:", error);
-      alert("創建試煉失敗，請重試");
     }
   };
 

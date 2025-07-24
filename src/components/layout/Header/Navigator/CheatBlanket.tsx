@@ -9,7 +9,7 @@ interface acceptProps {
 export default function CheatBlanket(props: acceptProps) {
   const { amount = 0 } = props;
   return (
-    <div className="px-4 py-1.5 rounded-full flex items-center gap-1 bg-bg-module ">
+    <div className="px-4 py-1.5 rounded-full flex items-center gap-1 bg-schema-surface-container-highest ">
       <LuTicket />
       <p className="font-bold font-mono text-schema-primary">
         <DynamicNumber amount={amount} />

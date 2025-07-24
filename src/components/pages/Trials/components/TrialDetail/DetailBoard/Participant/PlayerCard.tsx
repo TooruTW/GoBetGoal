@@ -49,7 +49,7 @@ export default function PlayerCard(props: acceptProps) {
   return (
     <div className="w-full">
       {isCloseAbleRef.current ? (
-        <div className="group flex flex-col items-center justify-between gap-4 w-full bg-card-bg rounded-md py-6 ">
+        <div className="group flex flex-col items-center justify-between gap-4 w-full bg-schema-surface-container rounded-md py-6 ">
           <IoClose
             id={user_id}
             onClick={(event) => handleDelete?.(event, user_id)}
@@ -77,7 +77,7 @@ export default function PlayerCard(props: acceptProps) {
           <div className="flex flex-col items-center gap-4 w-full">
             <button
               onClick={handleAddFriend}
-              className={`rounded-md bg-bg-tags text-black py-2 w-8/10 ${
+              className={`rounded-md bg-schema-inverse-surface text-schema-inverse-on-surface py-2 w-8/10 ${
                 isFriendRef.current && "opacity-50"
               }`}
             >
@@ -85,14 +85,14 @@ export default function PlayerCard(props: acceptProps) {
             </button>
             <button
               onClick={handleNavigateToProfile}
-              className={`rounded-md bg-bg-tags text-black py-2 w-8/10`}
+              className={`rounded-md bg-schema-inverse-surface text-schema-inverse-on-surface py-2 w-8/10`}
             >
               查看個人頁面
             </button>
           </div>
         </div>
       ) : (
-        <div className="group flex flex-col items-center justify-center gap-4 w-full h-full bg-card-bg rounded-md py-6 ">
+        <div className="group flex flex-col items-center justify-center gap-4 w-full h-full bg-schema-surface-container rounded-md py-6 ">
           <div className="h-65 w-full ">
             <ImageLoader imgUrl={charactor_img_link} />
           </div>

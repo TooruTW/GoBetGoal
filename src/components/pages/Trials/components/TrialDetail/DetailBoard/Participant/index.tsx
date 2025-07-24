@@ -152,14 +152,14 @@ export default function Participant(props: acceptProps) {
       {notice.show && (
         <div
           ref={noticeRef}
-          className="fixed z-50 bg-bg-notice rounded-md gap-2  p-4 flex flex-col"
+          className="fixed z-50 bg-schema-surface-container rounded-md gap-2  p-4 flex flex-col"
           style={{ left: notice.x, top: notice.y }}
         >
           <IoClose onClick={() => handleDeleteConfirm(false)} />
           <span>確定要踢出 {notice.name} 嗎？</span>
           <button
             onClick={() => handleDeleteConfirm(true)}
-            className="bg-btn-notice rounded-md py-2 px-4 w-fit"
+            className="bg-schema-surface-container rounded-md py-2 px-4 w-fit"
           >
             確定
           </button>
