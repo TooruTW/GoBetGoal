@@ -6,7 +6,7 @@ import { RootState } from "@/store";
 export default function MyTrialInfo() {
   const userImg = useSelector((state: RootState) => state.account.charactor_img_link);
   return (
-    <div className="flex justify-between gap-4 w-full max-h-80 h-full border-b-4 border-schema-outline">
+    <div className="flex justify-between w-full max-h-80 h-full border-b-4 border-schema-outline px-5 items-center">
       <TrialBriefInfo />
       <div
         className="w-80 h-80 "
