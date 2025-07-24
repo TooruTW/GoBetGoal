@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import { useGetUserSupa, useGetUserInfoSupa } from "@/api";
 import AvatarSelect from "./AvatarSelect";
 import FormModify from "./FormModify";

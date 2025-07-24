@@ -1,139 +1,156 @@
-import { useEffect, useRef, useState } from "react";
+// 外層組件 (Friend.tsx)
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
-import { useGetFriendSupa } from "@/api";
-import gsap from "gsap";
+import { useGetFriendSupa, usePatchFriendRequest, useDeleteFriend } from "@/api";
+import { useQueryClient } from "@tanstack/react-query";
+import { IoCloseSharp } from "react-icons/io5";
 import ProfileCard from "@/components/shared/reactBit/ProfileCard";
 import { Button } from "@/components/ui/button";
 import { monsterDefault } from "@/assets/monster";
-import { IoClose } from "react-icons/io5";
-import ConfirmModal from "./ConfirmModal"; // 路徑依實際情況調整
-import { useDeleteFriendSupa } from "@/api/deleteFriendSupa";
-import { useQueryClient } from "@tanstack/react-query";
 
-
-type Friend = {
-  id?: number;
-  created_at?: string;
-  request_id: string;
-  address_id: string;
-  state?: string;
-  note?: string;
-  last_update?: string;
-};
-interface acceptProps {
-  handleDelete?: (
-    event: React.MouseEvent<SVGElement, MouseEvent>,
-    id: string
-  ) => void;
+interface FriendUser {
+  nick_name: string;
+  charactor_img_link: string;
+  total_trial_count?: number;
 }
 
-export default function Friend(props: acceptProps) {
-  const user_id = useSelector((state: RootState) => state.account.user_id);
-  const { data, isLoading, error } = useGetFriendSupa(user_id);
-  const [friends, setFriends] = useState<Friend[]>([]);
-  const cardContainerRef = useRef<HTMLUListElement | null>(null);
-  const [selectedToDelete, setSelectedToDelete] = useState<Friend | null>(null);
+interface FriendItem {
+  id: string;
+  address_id: string;
+  request_id: string;
+  state: string;
+  note?: string;
+  address_user: FriendUser;
+  request_user: FriendUser;
+}
+
+interface FriendProps {
+  showState?: "accepted" | "pending";
+}
+
+export default function Friend({ showState = "accepted" }: FriendProps) {
+  const { mutate: patchFriendRequest } = usePatchFriendRequest();
   const queryClient = useQueryClient();
-
-  const { mutate: deleteFriendSupa } = useDeleteFriendSupa();
+  const { mutate: deleteFriend } = useDeleteFriend();
+  const userID = useSelector((state: RootState) => state.account.user_id);
+  const { data, isLoading } = useGetFriendSupa(userID);
+  const filteredData = data?.filter((friend: FriendItem) => {
+    if (showState === "pending") {
+      return friend.state === "pending" && friend.address_id === userID;
+    } else if (showState === "accepted") {
+      return friend.state === "accepted";
+    }
+    return false;
+  }) ?? [];
 
   useEffect(() => {
-    if (isLoading) return;
-    if (error) console.log(error);
-    if (data) setFriends(data);
-  }, [data, isLoading, error]);
+    if (isLoading) {
+      console.log("isLoading");
+      return;
+    }
+    if (userID === "") {
+      console.log("userID is empty");
+      return;
+    }
+    console.log(data);
+  }, [data, isLoading, userID]);
 
-  useEffect(() => {
-    if (!cardContainerRef.current?.children.length) return;
-    gsap.fromTo(
-      cardContainerRef.current.children,
-      { x: 50, opacity: 0 },
-      {
-        x: 0,
-        opacity: 1,
-        duration: 0.5,
-        ease: "back",
-        stagger: 0.1,
-      }
-    );
-  }, [friends]);
 
-  // 刪除好友的前端邏輯
-  const handleDeleteFriend = (friendId: string) => {
-    deleteFriendSupa(
-      { id: friendId },
-      {
-        onSuccess: () => {
-          console.log("delete success");
-          setFriends((prev) => prev.filter((f) => f.request_id !== friendId));
-          setSelectedToDelete(null);
-          queryClient.invalidateQueries({
-            queryKey: ["friend", user_id],
-          });
-          alert("刪除好友成功");
-        },
-        onError: (error: unknown) => {
-          if (error instanceof Error) {
-            console.error("刪除好友失敗：", error.message);
-          } else {
-            console.error("刪除好友失敗：", error);
-          }
-          setSelectedToDelete(null);
-        },
-      }
-    );
-  };
+
+
+
+  // 處理刪除好友的函數
+
 
   return (
-    <section className="min-h-80">
-      {friends.length > 0 ? (
-        <ul
-          ref={cardContainerRef}
-          className="grid grid-cols-2 md:grid-cols-4 gap-2 min-h-60"
-        >
-          {friends.map((friend) => (
-            <li
-              className="group flex flex-col text-center relative"
-              key={friend.request_id}
-            >
-              <IoClose
-                id={friend.request_id}
-                onClick={() => setSelectedToDelete(friend)}
-                className={
-                  "absolute top-0 right-0 text-3xl m-4 opacity-0 scale-0 group-hover:opacity-100 group-hover:scale-100 transition z-50 cursor-pointer"
-                }
-              />
-              <ProfileCard
-                handle={friend.request_id}
-                status="Online"
-                contactText="Contact Me"
-                avatarUrl={friend.request_id}
-                showUserInfo={true}
-                enableTilt={true}
-                className="w-full"
-                onContactClick={() => console.log("Contact clicked")}
-              />
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <div className="flex flex-col items-center justify-center h-full w-full">
-          <img src={monsterDefault} alt="no-friend" className="w-40" />
-          <p className="text-h4 mb-4">哈哈你沒有朋友</p>
-          <Button>去交朋友</Button>
-        </div>
-      )}
+    <div className="flex flex-col gap-4 w-full justify-center items-center">
+      <div className="flex flex-col gap-4 w-full">
+        {filteredData.length > 0 ? (
+          <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {filteredData?.map((friend: FriendItem) => (
+              <li key={friend.id} className="relative group">
+                <ProfileCard
+                  className="rounded-lg p-2 w-full relative h-full flex flex-col gap-2"
+                  handle={
+                    friend.address_id !== userID
+                      ? friend.address_user.nick_name
+                      : friend.request_id !== userID
+                        ? friend.request_user.nick_name
+                        : ""
+                  }
+                  status={
+                    friend.state === "pending"
+                      ? friend.note
+                      : `${friend.address_user.total_trial_count ?? friend.request_user.total_trial_count ?? 0}試煉 0貼文 `
+                  }
+                  contactText={friend.state === "pending" ? "接受" : "Contact Me"}
+                  avatarUrl={
+                    friend.address_id !== userID
+                      ? friend.address_user.charactor_img_link
+                      : friend.request_id !== userID
+                        ? friend.request_user.charactor_img_link
+                        : ""
+                  }
+                  showUserInfo={true}
+                  enableTilt={true}
+                  // 根據狀態傳遞不同的處理函數
+                  onContactClick={() =>
+                    patchFriendRequest(
+                      {
+                        request_id: friend.request_id,
+                        address_id: friend.address_id,
+                        isAccept: true,
+                      },
+                      {
+                        onSuccess: () => {
+                          queryClient.invalidateQueries({
+                            queryKey: ["friend", userID],
+                          });
+                        },
+                      }
+                    )
+                  }
+                />
 
-      {/* 彈窗 */}
-      {selectedToDelete && (
-        <ConfirmModal
-          title="確認刪除好友"
-          content={`確定要刪除這位好友嗎？`}
-          onCancel={() => setSelectedToDelete(null)}
-          onConfirm={() => handleDeleteFriend(selectedToDelete.request_id)}
-        />
-      )}
-    </section>
+
+                <IoCloseSharp
+                  className="size-8 absolute top-4 right-4 opacity-0 text-gray-500 group-hover:opacity-100 z-50 transition-opacity duration-200 cursor-pointer hover:text-white"
+                  onClick={() =>
+                    deleteFriend(
+                      {
+                        id1: friend.request_id,
+                        id2: friend.address_id,
+                      },
+                      {
+                        onSuccess: () => {
+                          queryClient.invalidateQueries({
+                            queryKey: ["friend", userID],
+                          });
+                        },
+                      }
+                    )
+                  }
+                />
+
+
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div className="flex flex-col items-center justify-center h-full w-full">
+            <img src={monsterDefault} alt="no-friend" className="w-40" />
+            <p className="text-h4 mb-4">
+              {showState === "pending"
+                ? "哈哈沒有朋友邀請你"
+                : "哈哈你沒有朋友"}
+            </p>
+            <Button>去交朋友</Button>
+          </div>)
+        }
+
+
+      </div>
+    </div>
   );
 }

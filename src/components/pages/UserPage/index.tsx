@@ -63,11 +63,11 @@ export default function UserPage() {
               <h3 className="text-xl font-bold ">好友邀請</h3>
               <AddFriend />
             </div>
-            <Friend />
+            <Friend showState="pending" />
           </div>
           <div className="py-10">
             <h3 className="text-xl font-bold pb-6">好友列表</h3>
-            <Friend />
+            <Friend showState="accepted" />
           </div>
         </TabsContent>
 
