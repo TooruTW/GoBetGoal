@@ -7,9 +7,9 @@ export default function UserCertification() {
   );
 
   return (
-    <div className="w-full flex gap-4 items-center justify-end">
+    <div className="w-2/3 flex items-center">
       <div
-        className="w-60 h-80"
+        className="w-1/2 h-80"
         style={{
           backgroundImage: `url(${userImg})`,
           backgroundSize: "125%",
@@ -18,7 +18,7 @@ export default function UserCertification() {
         }}
       ></div>
 
-      <div className="flex flex-col gap-4 items-center w-fit">
+      <div className="flex flex-col gap-4 items-center w-1/2">
         <h3 className="text-h3 w-40 flex justify-between">
           <span>獎</span>
           <span>壯</span>
