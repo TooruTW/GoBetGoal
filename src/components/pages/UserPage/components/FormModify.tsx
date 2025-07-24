@@ -1,175 +1,95 @@
+import { usePatchChangePassword, usePatchChangeUserInfo } from "@/api";
 import { useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { usePostFirstEditUserInfo } from "@/api";
-import PasswordInput from "@/components/pages/Authentication/components/PasswordInput";
-import AvatarSelect from "./AvatarSelect";
-import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+import Modal from "@/components/ui/modal";
+import { monsterCongrats, monsterDefault } from "@/assets/monster";
 
-interface FormValues {
-  nick_name: string;
-  password: string;
-  charactor_img_link: string;
-}
+export default function FormModify() {
+  const navigate = useNavigate();
+  const { mutate: patchChangePassword } = usePatchChangePassword();
+  const { mutate: patchChangeUserInfo } = usePatchChangeUserInfo();
+  const [newPassword, setNewPassword] = useState<string | null>(null);
+  const [newName, setNewName] = useState<string | null>(null);
+  const [showModal, setShowModal] = useState(false);
+  const queryClient = useQueryClient();
 
-interface FormModifyProps {
-  user: any;
-  info: any;
-  userLoading: boolean;
-  userError: any;
-  selectedAvatar: string;
-  setSelectedAvatar: (src: string) => void;
-  onRegisterError: (error: string) => void;
-  onRegisterSuccess: (data: FormValues) => void;
-}
+  const userID = useSelector((state: RootState) => state.account.user_id);
+  const nickName = useSelector((state: RootState) => state.account.nick_name);
 
-export default function FormModify({
-  user,
-  info,
-  userLoading,
-  userError,
-  selectedAvatar,
-  setSelectedAvatar,
-  onRegisterError,
-  onRegisterSuccess,
-}: FormModifyProps) {
-  const { mutate: postEditUserInfo, isPending } = usePostFirstEditUserInfo();
+  const handleUpdate = () => {
+    if (newName) {
+      patchChangeUserInfo(
+        { target: "nick_name", value: newName, userID },
+        {
+          onSuccess: () => {
+            setNewName(null);
+            queryClient.invalidateQueries({
+              queryKey: ["user_info", userID],
+            });
+            setShowModal(true); // 顯示成功Modal
+          },
+        }
+      );
+    }
 
-  const [editMode, setEditMode] = useState(false);
-  // 移除AvatarSelect彈窗相關程式碼
-
-  const {
-    register,
-    setValue,
-    formState: { errors },
-    handleSubmit,
-    watch,
-  } = useForm<FormValues>({
-    mode: "onBlur",
-    defaultValues: {
-      nick_name: info?.nick_name || "",
-      password: "",
-      charactor_img_link: info?.charactor_img_link || "",
-    },
-    values: {
-      nick_name: info?.nick_name || "",
-      password: "",
-      charactor_img_link: info?.charactor_img_link || "",
-    },
-  });
-
-  // 監聽頭像變更
-  const charactor_img_link = watch("charactor_img_link");
-
-  if (userLoading) return <div>載入中...</div>;
-  if (userError) return <div>發生錯誤</div>;
-  if (!info) return <div>查無資料</div>;
-
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    if (!user?.id) return;
-    postEditUserInfo(
-      {
-        user_id: user.id,
-        nickname: data.nick_name,
-        avatarUrl: selectedAvatar,
-      },
-      {
+    if (newPassword) {
+      patchChangePassword(newPassword, {
         onSuccess: () => {
-          setEditMode(false);
-          onRegisterSuccess(data);
+          setNewPassword(null);
+          queryClient.invalidateQueries({ queryKey: ["user"] });
+          setShowModal(true); // 顯示成功Modal
         },
-        onError: (err: any) => {
-          onRegisterError(err?.message || "更新失敗");
-        },
-      }
-    );
+      });
+    }
   };
 
   return (
-    <>
-      <div className="flex items-center justify-between my-4">
-        <h2 className="font-bold text-2xl">
-          帳號設置
-        </h2>
-        <div className="flex gap-4">
-          {editMode ? (
-            <>
-              <Button
-                type="submit"
-                className="btn btn-primary"
-                disabled={isPending}
-              >
-                儲存
-              </Button>
-              <Button
-                type="button"
-                className="btn btn-secondary"
-                onClick={() => setEditMode(false)}
-              >
-                取消
-              </Button>
-            </>
-          ) : (
-            <Button
-              type="button"
-              className="btn btn-primary"
-              onClick={() => setEditMode(true)}
-            >
-              修改
-            </Button>
-          )}
+    <div className="w-full px-3 flex flex-col gap-4 items-center max-w-110 py-10">
+      <div className="w-full flex flex-col gap-4">
+        <div className="w-full flex gap-4 items-center">
+          <h2 className="text-nowrap">暱稱</h2>
+          <input
+            type="text"
+            className="w-full border-1 border-schema-outline rounded-lg p-2"
+            placeholder={nickName}
+            onBlur={(e) => setNewName(e.target.value)}
+          />
         </div>
+
+        <div className="w-full flex gap-4 items-center">
+          <h2 className="text-nowrap">密碼</h2>
+          <input
+            type="text"
+            className="w-full border-1 border-schema-outline rounded-lg p-2"
+            placeholder="******"
+            onBlur={(e) => setNewPassword(e.target.value)}
+          />
+        </div>
+
+        <button
+          className="w-full bg-schema-primary text-white rounded-lg p-2"
+          onClick={handleUpdate}
+        >
+          修改
+        </button>
+
+        {/* ✅ Modal 顯示控制 */}
+        {showModal && (
+          <Modal
+            imageSrc={monsterCongrats}
+            title="修改成功"
+            subtitle=""
+            buttonText=""
+            onButtonClick={() => navigate("/")}
+            autoCloseSeconds={2}
+            onAutoClose={() => setShowModal(false)}
+            lottieUrl="https://lottie.host/e88635d3-3d4b-442c-879d-778b172e66b5/b9R2xlDGCf.lottie"
+          />
+        )}
       </div>
-
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex-col flex justify-start w-full max-w-80 items-start gap-6 text-white"
-      >
-
-        <div className="flex flex-col gap-2 w-full">
-          <div className="grid grid-cols-2 items-center">
-            <p>暱稱</p>
-            {editMode ? (
-              <input
-                {...register("nick_name", { required: "暱稱為必填" })}
-                className="input input-bordered  border-b border-[var(--ring)] py-2  focus:outline-none pr-10 w-full bg-transparent"
-              />
-            ) : (
-              info.nick_name
-            )}
-            {errors.nick_name && <span className="text-red-400 text-xs">{errors.nick_name.message}</span>}
-          </div>
-
-        </div>
-
-        <div className="grid grid-cols-2 w-full ">
-          <p>Email</p>
-          {user?.email}
-        </div>
-
-        {/* 密碼 */}
-        <div className="grid grid-cols-2 w-full ">
-          <p> 密碼</p>
-          {editMode ? (
-            <PasswordInput
-              register={register("password", {
-                required: "密碼為必填",
-                minLength: {
-                  value: 6,
-                  message: "密碼需至少6碼",
-                },
-                validate: (value) =>
-                  /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(value) ||
-                  "密碼需包含英文與數字",
-              })}
-              error={errors.password}
-            />
-          ) : (
-            <span>********</span>
-          )}
-        </div>
-
-
-      </form>
-    </>
+    </div>
   );
 }
