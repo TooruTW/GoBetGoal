@@ -28,6 +28,8 @@ import CreateTrialForm from "@/components/pages/CreateTrial/components/CreateTri
 
 // Trial Complete
 import TrialComplete from "@/components/pages/TrialComplete";
+import ClosingTrial from "@/components/pages/TrialComplete/components/ClosingTrial";
+import SharePage from "@/components/pages/TrialComplete/components/SharePage";
 
 // Social Pages
 import SocialPages from "@/components/pages/SocialPages";
@@ -117,6 +119,16 @@ export const routes: RouteObject[] = [
       {
         path: "trial-complete",
         element: <TrialComplete />,
+        children: [
+          {
+            index: true,
+            element: <ClosingTrial />,
+          },
+          {
+            path: "share-page",
+            element: <SharePage />,
+          },
+        ],
       },
 
       // Social Pages routes
