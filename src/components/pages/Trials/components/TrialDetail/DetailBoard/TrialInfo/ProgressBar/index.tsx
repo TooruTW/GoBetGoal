@@ -18,8 +18,8 @@ export default function ProgressBar(props: acceptProps) {
     rewordRate: 1.5,
   })
 
-  useEffect(()=>{    
-    if(!trial) return
+  useEffect(() => {
+    if (!trial) return
     const trialInfo = trial[0].trial
     infoRef.current = {
       ...infoRef.current,
@@ -31,7 +31,7 @@ export default function ProgressBar(props: acceptProps) {
       stagePerfect: trial.length,
       completeRate: (trial.filter(item => item.status === "pass").length / trial.length) * 100,
     }
-  },[trial])
+  }, [trial])
 
   const [rate, setRate] = useState(infoRef.current.completeRate);
 
@@ -48,7 +48,7 @@ export default function ProgressBar(props: acceptProps) {
   }, [infoRef.current.completeRate]);
 
   return (
-    <div className="w-full max-w-3/5">
+    <div className="w-full mb:max-w-3/5">
       <p className=" relative flex justify-between">
         <span>糖果總數</span>
         <span

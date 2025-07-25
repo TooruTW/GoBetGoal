@@ -25,7 +25,7 @@ export default function PlayerCard(props: acceptProps) {
       (friend) => friend === participant?.user_id
     );
   }, [friendList, participant]);
-  
+
   function handleAddFriend() {
     if (!isFriendRef.current) {
       console.log("add friend", participant?.user_id);
@@ -49,13 +49,12 @@ export default function PlayerCard(props: acceptProps) {
   return (
     <div className="w-full">
       {isCloseAbleRef.current ? (
-        <div className="group flex flex-col items-center justify-between gap-4 w-full bg-schema-surface-container rounded-md py-6 ">
+        <div className="group flex flex-col items-center justify-between gap-4 w-full bg-schema-surface-container/20 rounded-md py-6 ">
           <IoClose
             id={user_id}
             onClick={(event) => handleDelete?.(event, user_id)}
-            className={`self-end text-3xl mx-6 opacity-0 scale-0  group-hover:opacity-100 transition ${
-              isCloseAbleRef.current && "group-hover:scale-100"
-            }`}
+            className={`self-end text-3xl mx-6 opacity-0 scale-0  group-hover:opacity-100 transition ${isCloseAbleRef.current && "group-hover:scale-100"
+              }`}
           />
           <div className="h-65 w-full ">
             <ImageLoader imgUrl={charactor_img_link} />
@@ -77,9 +76,8 @@ export default function PlayerCard(props: acceptProps) {
           <div className="flex flex-col items-center gap-4 w-full">
             <button
               onClick={handleAddFriend}
-              className={`rounded-md bg-schema-inverse-surface text-schema-inverse-on-surface py-2 w-8/10 ${
-                isFriendRef.current && "opacity-50"
-              }`}
+              className={`rounded-md bg-schema-inverse-surface text-schema-inverse-on-surface py-2 w-8/10 ${isFriendRef.current && "opacity-50"
+                }`}
             >
               {isFriendRef.current ? "已成為好友" : "加好友"}
             </button>
@@ -92,7 +90,7 @@ export default function PlayerCard(props: acceptProps) {
           </div>
         </div>
       ) : (
-        <div className="group flex flex-col items-center justify-center gap-4 w-full h-full bg-schema-surface-container rounded-md py-6 ">
+        <div className="group flex flex-col items-center justify-center gap-4 w-full h-full bg-schema-surface-container/20 rounded-md py-6 ">
           <div className="h-65 w-full ">
             <ImageLoader imgUrl={charactor_img_link} />
           </div>

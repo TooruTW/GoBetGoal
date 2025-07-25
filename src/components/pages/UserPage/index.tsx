@@ -31,7 +31,7 @@ export default function UserPage() {
   };
 
   return (
-    <div className="w-full min-h-screen dark">
+    <div className="w-full min-h-screen">
       <UserTitle />
       <Tabs
         defaultValue="account"

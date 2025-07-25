@@ -14,7 +14,7 @@ export default function CreateTrial() {
         <div className="w-2/5 max-xl:w-full max-w-175">
           <Title></Title>
 
-          <div className="flex flex-col gap-2 max-xl:w-full ">
+          <div className="flex flex-col gap-2 max-xl:w-full overflow-y-hidden scroll-auto overscroll-y-auto">
             <div
               className="flex items-center gap-2 justify-between py-4 cursor-pointer xl:hidden xl:pointer-events-none"
               onClick={() => setIsListOpen(!isListOpen)}
@@ -45,7 +45,7 @@ export default function CreateTrial() {
               <span className="size-9 rounded-full border-1 border-schema-outline flex justify-center items-center">
                 2
               </span>
-              <h4 className="text-h4">填寫客制內容</h4>
+              <h4 className="text-h4">填寫客製內容</h4>
             </div>
 
             <IoIosArrowDown

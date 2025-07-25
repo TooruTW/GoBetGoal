@@ -4,6 +4,7 @@ import type { RootRoute } from "@/types/RootRoute";
 
 import Hero from "./Hero";
 import Fall from "./Fall";
+import Logo from "./Logo"
 
 const route: RootRoute[] = ["home", "user", "trials", "auth", "info", "shop"];
 
@@ -25,6 +26,7 @@ export default function Home() {
             })}
           </ul>
         </nav>
+        <Logo />
         <Hero />
         <Fall />
       </section>

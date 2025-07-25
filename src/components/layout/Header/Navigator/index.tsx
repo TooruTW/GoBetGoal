@@ -1,6 +1,7 @@
 import { LuBellRing } from "react-icons/lu";
 import CheatBlanket from "./CheatBlanket";
 import Candy from "./Candy";
+import ModeToggle from "./ModeToggle";
 import { Link } from "react-router-dom";
 import CreateTrialBtn from "./CreateTrialBtn";
 import User from "./User";
@@ -11,16 +12,17 @@ import { setDarkMode } from "@/store/slices/accountSlice";
 export default function Navigator() {
   const account = useSelector((state: RootState) => state.account);
   const dispatch = useDispatch();
+  const isNight = account.system_preference_color_mode === "dark";
 
   const handleSwitchMode = () => {
-    dispatch(setDarkMode(account.system_preference_color_mode === "dark" ? "light" : "dark"));
-  }
-  
+    dispatch(setDarkMode(isNight ? "light" : "dark"));
+  };
+
   return (
     <nav>
-      <ul className="flex gap-3 items-center">
+      <ul className="flex gap-3 items-center text-sm">
         <li>
-          <div className="rounded-full bg-schema-surface-container-highest px-4 py-2.5" onClick={handleSwitchMode}>{account.system_preference_color_mode}</div>
+          <ModeToggle onClick={handleSwitchMode} isNight={isNight} />
         </li>
         <li>
           {/* 通知中心 */}

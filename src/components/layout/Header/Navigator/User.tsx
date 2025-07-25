@@ -6,7 +6,7 @@ export default function User() {
   const account = useSelector((state: RootState) => state.account);
   return (
     <div
-      className="w-10 aspect-square rounded-full overflow-hidden"
+      className="w-9 aspect-square rounded-full overflow-hidden"
       style={{
         backgroundImage: `url(${account.charactor_img_link})`,
         backgroundSize: "150%",
