@@ -14,7 +14,7 @@ export default function CreateTrial() {
         <div className="w-2/5 max-xl:w-full max-w-175">
           <Title></Title>
 
-          <div className="flex flex-col gap-2 max-xl:w-full ">
+          <div className="flex flex-col gap-2 max-xl:w-full overflow-y-hidden scroll-auto overscroll-y-auto">
             <div
               className="flex items-center gap-2 justify-between py-4 cursor-pointer xl:hidden xl:pointer-events-none"
               onClick={() => setIsListOpen(!isListOpen)}

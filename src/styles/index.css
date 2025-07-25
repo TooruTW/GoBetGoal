@@ -55,7 +55,8 @@
   --text-calender-day-mobile: 20px;
   --text-p: 16px;
   --text-label: 12px;
-  --text-title: 30px;
+  --text-small: 14px;
+  --text-title: 24px;
 }
 
 @custom-variant dark (&:is(.dark *));
