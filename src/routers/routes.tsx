@@ -26,6 +26,9 @@ import TrialsList from "@/components/pages/Trials/components";
 import CreateTrial from "@/components/pages/CreateTrial";
 import CreateTrialForm from "@/components/pages/CreateTrial/components/CreateTrialForm";
 
+// Trial Complete
+import TrialComplete from "@/components/pages/TrialComplete";
+
 // Social Pages
 import SocialPages from "@/components/pages/SocialPages";
 
@@ -108,6 +111,12 @@ export const routes: RouteObject[] = [
             element: <CreateTrialForm />,
           },
         ],
+      },
+
+      // Trial complete routes
+      {
+        path: "trial-complete",
+        element: <TrialComplete />,
       },
 
       // Social Pages routes

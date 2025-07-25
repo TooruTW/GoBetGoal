@@ -1,4 +1,4 @@
-import Aurora from './Aurora';
+import Aurora from "@/components/shared/reactBit/Aurora";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/store";
 
@@ -16,23 +16,21 @@ export default function UserTitle() {
   return (
     <div className="md:flex w-full md:px-6 relative h-[320px] md:h-auto">
       <div className="h-[200px] md:w-1/2 overflow-hidden max-w-330 z-20 ">
-        <img
-          src={charactor_img_link}
-          alt="avatar"
-          className="w-3/5 mx-auto"
-        />
+        <img src={charactor_img_link} alt="avatar" className="w-3/5 mx-auto" />
       </div>
       <div className="md:w-1/2 flex-col my-6 z-20 px-3 md:px-10">
         <p className="font-bold text-2xl">{nick_name}</p>
         <div className="flex justify-between">
           <div className="flex-col justify-center text-center">
-            <p className="font-sm opacity-50">成功試煉數</p> <p>{total_trial_count}</p>
+            <p className="font-sm opacity-50">成功試煉數</p>{" "}
+            <p>{total_trial_count}</p>
           </div>
           <div className="flex-col justify-center text-center">
             <p className="font-sm opacity-50">朋友數</p> <p>{friend_count}</p>
           </div>
           <div className="flex-col justify-center text-center">
-            <p className="font-sm opacity-50">貼文讚數</p> <p>{liked_post_count}</p>
+            <p className="font-sm opacity-50">貼文讚數</p>{" "}
+            <p>{liked_post_count}</p>
           </div>
         </div>
       </div>
