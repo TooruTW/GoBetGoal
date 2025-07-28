@@ -116,7 +116,7 @@ export const routes: RouteObject[] = [
 
       // Trial complete routes
       {
-        path: "trial-complete",
+        path: "trial-complete/:id",
         element: <TrialComplete />,
 
       
