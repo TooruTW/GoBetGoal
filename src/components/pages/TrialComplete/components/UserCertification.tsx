@@ -1,11 +1,20 @@
-import { useSelector } from "react-redux";
-import { RootState } from "@/store";
+
 import Aurora from "@/components/shared/reactBit/Aurora";
 
-export default function UserCertification() {
-  const userImg = useSelector(
-    (state: RootState) => state.account.charactor_img_link
-  );
+interface acceptProps {
+  userInfo:{
+    charactor_img_link:string;
+    nick_name:string;
+  },
+  trialName:string;
+  trialReward:number;
+  trialCompleteRate: string;
+  cheatCount:number;
+}
+
+export default function UserCertification(props:acceptProps) {
+  const {userInfo,trialName,trialReward,trialCompleteRate,cheatCount} = props;
+
 
   return (
     <div className="w-2/3 flex items-center max-xl:justify-center max-xl:w-full max-xl:relative">
@@ -20,7 +29,7 @@ export default function UserCertification() {
       <div
         className="w-1/2 h-80 max-xl:w-1/3 z-10"
         style={{
-          backgroundImage: `url(${userImg})`,
+          backgroundImage: `url(${userInfo.charactor_img_link})`,
           backgroundSize: "125%",
           backgroundPosition: "top",
           backgroundRepeat: "no-repeat",
@@ -33,15 +42,14 @@ export default function UserCertification() {
           <span>壯</span>
         </h3>
         <p className="flex gap-5">
-          <span>綠茶婊多多</span>
-
+          <span>{userInfo.nick_name}</span>
           <span>
-            <span>君 參與</span> 28天哈佛減肥法
+            <span>君 參與</span> {trialName}
           </span>
         </p>
         <p>表現優異</p>
         <p>
-          獲得 <span className="italic">10000</span> 糖果以茲勉勵
+          獲得 <span className="italic">{trialReward}</span> 糖果以茲勉勵
         </p>
         <p>
           {new Date().toLocaleDateString("zh-TW", {
@@ -53,11 +61,11 @@ export default function UserCertification() {
         <div className="flex items-center justify-center w-ful gap-2 text-center">
           <div>
             <p>完成率</p>
-            <p>28/28</p>
+            <p>{trialCompleteRate}</p>
           </div>
           <div>
             <p>快樂遮羞布使用量</p>
-            <p>5</p>
+            <p>{cheatCount}</p>
           </div>
         </div>
       </div>

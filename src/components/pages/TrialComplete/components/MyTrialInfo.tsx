@@ -1,5 +1,6 @@
 import TrialBriefInfo from "./TrialBriefInfo";
 import UserCertification from "./UserCertification";
+import { monsterDefault } from "@/assets/monster";
 
 export default function MyTrialInfo() {
   return (
@@ -15,7 +16,16 @@ export default function MyTrialInfo() {
         trialTotalDays={28}
         trialPeople={1}
       />
-      <UserCertification />
+      <UserCertification
+        userInfo={{
+          charactor_img_link: monsterDefault,
+          nick_name: "妖獸園長",
+        }}
+        trialName="無情燃脂"
+        trialReward={10000}
+        trialCompleteRate="28 / 28"
+        cheatCount={7}
+      />
     </div>
   );
 }
