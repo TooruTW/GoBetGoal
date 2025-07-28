@@ -32,7 +32,7 @@ export default function SharePage(props: AcceptanceProps) {
     []
   );
 
-  const handleDownload = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleDownload = (e: React.MouseEvent<Element>) => {
     e.stopPropagation();
     if (certificateRef.current) {
       // 保存原始樣式
@@ -73,12 +73,15 @@ export default function SharePage(props: AcceptanceProps) {
               <span style={{ border: "none" }}>壯</span>
             </h3>
             <p className="flex gap-5" style={{ border: "none" }}>
-              <span style={{ border: "none" }}>{userName}</span>
-
-              <span style={{ border: "none" }}>
-                <span style={{ border: "none" }}>君 參與</span> {trialName}
+              <span className="text-nowrap" style={{ border: "none" }}>
+                {userName}
               </span>
+              <span style={{ border: "none" }}>君 參與</span>
             </p>
+            <p className="text-nowrap" style={{ border: "none" }}>
+              {trialName}
+            </p>
+
             <p style={{ border: "none" }}>表現優異</p>
             <p style={{ border: "none" }}>
               獲得{" "}
@@ -115,7 +118,7 @@ export default function SharePage(props: AcceptanceProps) {
       </div>
       <ul className="flex gap-15 justify-center items-center w-full ">
         <li className="size-15 bg-schema-primary text-schema-on-primary rounded-full flex justify-center items-center">
-          <LuDownload className="size-2/3" onClick={handleDownload} />
+          <LuDownload className="size-2/3" onClick={(e) => handleDownload(e)} />
         </li>
         <li className="size-15 bg-schema-primary text-schema-on-primary rounded-full flex justify-center items-center">
           <FaFacebook className="size-full" />

@@ -5,7 +5,8 @@ const getTrialSupa = async (id: string) => {
   const { data, error } = await supabase
     .from("trial_participant_stage_history")
     .select("*,user_info(*),trial(*,challenge(*)),challenge_stage(*)")
-    .eq("trial_id", id);
+    .eq("trial_id", id)
+    .order("stage_index")
 
   if (error) throw error;
   return data;
