@@ -1,7 +1,7 @@
 
 import Aurora from "@/components/shared/reactBit/Aurora";
 
-interface acceptProps {
+export interface CertificationProps {
   userInfo:{
     charactor_img_link:string;
     nick_name:string;
@@ -12,7 +12,7 @@ interface acceptProps {
   cheatCount:number;
 }
 
-export default function UserCertification(props:acceptProps) {
+export default function UserCertification(props:CertificationProps) {
   const {userInfo,trialName,trialReward,trialCompleteRate,cheatCount} = props;
 
 

@@ -1,6 +1,6 @@
 import { useState,useEffect } from "react";
 
-interface acceptProps {
+export interface BriefInfoProps {
   category:string[];
   result: "pass" | "perfect" | "fail";
   trialName:string;
@@ -12,9 +12,12 @@ interface acceptProps {
   trialPeople:number;
 }
 
-export default function TrialBriefInfo(props:acceptProps) {
+export default function TrialBriefInfo(props:BriefInfoProps) {
   const {category,result,trialName,challengeName,challengeCount,trialDescription,trialFrequency,trialTotalDays,trialPeople} = props;
   const [resultText,setResultText] = useState<string>("");
+
+
+
   useEffect(()=>{
     switch(result){
       case "pass":
