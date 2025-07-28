@@ -32,7 +32,8 @@ export default function SharePage(props: AcceptanceProps) {
     []
   );
 
-  const handleDownload = () => {
+  const handleDownload = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     if (certificateRef.current) {
       // 保存原始樣式
       const originalStyle = certificateRef.current.style.cssText;
@@ -54,7 +55,7 @@ export default function SharePage(props: AcceptanceProps) {
   };
 
   return (
-    <div className="flex flex-col gap-8 items-center justify-center w-full h-screen max-w-200">
+    <div className="flex flex-col gap-8 items-center justify-center w-full max-w-200 rounded-t-4xl">
       <h4 className="text-h4 font-semibold text-schema-on-surface-variant self-start">
         現在把成果分享給平台上其他迷途者吧
       </h4>
