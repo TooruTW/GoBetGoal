@@ -15,7 +15,7 @@ export default function UserTitle() {
 
   return (
     <div className="md:flex w-full md:px-6 relative h-[320px] md:h-auto">
-      <div className="h-[200px] md:w-1/2 overflow-hidden max-w-330 z-20 ">
+      <div className="h-[200px] md:w-1/2 overflow-hidden max-w-330 z-20 relative">
         <img src={charactor_img_link} alt="avatar" className="w-3/5 mx-auto" />
       </div>
       <div className="md:w-1/2 flex-col my-6 z-20 px-3 md:px-10">
@@ -37,8 +37,8 @@ export default function UserTitle() {
       <div className="opacity-50 absolute z-0 top-0 left-0 w-full h-full pointer-events-none">
         <Aurora
           colorStops={["#EBA7E4", "#FF94B4", "#EAC3EB"]}
-          blend={0.5}
-          amplitude={1.0}
+          blend={1}
+          amplitude={0.2}
           speed={1}
         />
       </div>
