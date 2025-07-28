@@ -39,6 +39,7 @@ import DevList from "@/components/pages/DevPage/components/DevList";
 import DevEditNameOrPassword from "@/components/pages/DevPage/components/DevEditNameOrPassword";
 import DevAddFriend from "@/components/pages/DevPage/components/DevAddFriend";
 import DevDeleteFriend from "@/components/pages/DevPage/components/DevDeleteFriend";
+import DevComponent from "@/components/pages/DevPage/components/DevComponent";
 
 export const routes: RouteObject[] = [
   {
@@ -115,8 +116,10 @@ export const routes: RouteObject[] = [
 
       // Trial complete routes
       {
-        path: "trial-complete",
+        path: "trial-complete/:id",
         element: <TrialComplete />,
+
+      
       },
 
       // Social Pages routes
@@ -161,6 +164,10 @@ export const routes: RouteObject[] = [
           {
             path: "delete-friend",
             element: <DevDeleteFriend />,
+          },
+          {
+            path: "component-testing",
+            element: <DevComponent />,
           },
         ],
       },

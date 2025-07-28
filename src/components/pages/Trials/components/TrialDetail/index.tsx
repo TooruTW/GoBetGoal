@@ -2,12 +2,34 @@ import DetailBoard from "./DetailBoard";
 // import SideBoard from "./SideBoard";
 import { useParams } from "react-router-dom";
 import { useTrialSupa } from "@/api/getTrialSupa";
+import { useEffect } from "react";
+import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
+
 export default function TrialDetail() {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const { data, isLoading, error } = useTrialSupa(id?.toString() || "");
 
-  const {data, isLoading, error} = useTrialSupa(id?.toString() || "");
+  useEffect(() => {
+    if (data) {
+      const endDate = dayjs(data[data.length-1].end_at);
+      const now = dayjs();
+      const diffDays = endDate.diff(now, "day");
+
+      if(diffDays < 0){
+        console.log("trial is over");
+        navigate(`/trial-complete/${id}`);
+      }
+
+    }
+  }, [data,id,navigate]);
+
+
   if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;  
+  if (error) return <div>Error: {error.message}</div>;
+
+
 
   return (
     <div className="flex py-20 w-full max-w-330 relative px-4 overflow-hidden">
