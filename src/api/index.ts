@@ -10,6 +10,7 @@ export { usePostLogOutSupa } from "./postLogOutSupa";
 export { useGetUserInfoSupa, getUserInfoSupa } from "./getUserInfoSupa";
 export { usePostFirstEditUserInfo } from "./postFirstEditUserInfo";
 export { useGetFriendSupa } from "./getFriendSupa";
+export { useGetUserAchievementSupa } from "./getUserAchievementSupa";
 export { usePatchTrialHistory } from "./patchTrialHistory";
 export { useUploadImageSupa } from "./uploadImageSupa";
 export { usePatchChangePassword } from "./patchChangePassword";
