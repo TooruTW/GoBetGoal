@@ -63,7 +63,9 @@ export default function SharePage(props: AcceptanceProps) {
       {/* 顯示用的證書（可變尺寸） */}
       <div ref={certificateRef} className="p-8" style={{ border: "none" }}>
         <div className="flex items-center justify-center w-200 border-2 border-schema-outline bg-schema-surface-container aspect-20/9">
-          <img src={userImage} alt="user-avatar" className="w-1/2" />
+          {userImage && (
+            <img src={userImage} alt="user-avatar" className="w-1/2" />
+          )}
           <div className="flex flex-col gap-4 items-center w-2/3 z-10">
             <h3
               className="text-h3 w-40 flex justify-between"

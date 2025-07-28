@@ -81,19 +81,11 @@ export default function TrialComplete() {
   }, [data, isLoading]);
 
   useEffect(() => {
-    console.log(participants, "participants");
-    console.log(images, "images");
-  }, [participants, images]);
-
-  useEffect(() => {
     if (isLoading || !data || !userID) return;
-    console.log(data, "cheaking");
 
     const filteredData = data.filter((item) => item.participant_id === userID);
 
-    console.log(filteredData, "filteredData");
-
-    const imageArray = filteredData.map((data) => [data.upload_image]);
+    const imageArray = filteredData.map((data) => data.upload_image || []);
     setImages(imageArray);
 
     const category = filteredData[0].trial.challenge.category;

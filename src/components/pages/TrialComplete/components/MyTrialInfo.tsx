@@ -2,7 +2,6 @@ import TrialBriefInfo from "./TrialBriefInfo";
 import UserCertification from "./UserCertification";
 import { BriefInfoProps } from "./TrialBriefInfo";
 import { CertificationProps } from "./UserCertification";
-import { useEffect } from "react";
 
 interface TrialCompleteProps {
   trialBrief?: BriefInfoProps;
@@ -11,13 +10,6 @@ interface TrialCompleteProps {
 
 export default function MyTrialInfo(props: TrialCompleteProps) {
   const { trialBrief, certification } = props;
-
-  useEffect(()=>{
-    if (!trialBrief || !certification) return;
-    console.log(trialBrief, "trialBrief");
-    console.log(certification, "certification");
-  },[trialBrief,certification]);
-
   if (!trialBrief || !certification) return <h1>Loading...</h1>;
 
 
