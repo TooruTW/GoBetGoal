@@ -1,47 +1,73 @@
-export default function TrialBriefInfo() {
+import { useState,useEffect } from "react";
+
+interface acceptProps {
+  category:string[];
+  result: "pass" | "perfect" | "fail";
+  trialName:string;
+  challengeName:string;
+  challengeCount:number;
+  trialDescription:string;
+  trialFrequency:string;
+  trialTotalDays:number;
+  trialPeople:number;
+}
+
+export default function TrialBriefInfo(props:acceptProps) {
+  const {category,result,trialName,challengeName,challengeCount,trialDescription,trialFrequency,trialTotalDays,trialPeople} = props;
+  const [resultText,setResultText] = useState<string>("");
+  useEffect(()=>{
+    switch(result){
+      case "pass":
+        setResultText("隊伍試煉成功");
+        break;
+      case "perfect":
+        setResultText("隊伍試煉完美通過");
+        break;
+      case "fail":
+        setResultText("隊伍試煉失敗");
+        break;
+    }
+  },[result]);
+  
   return (
     <div className="bg-schema-surface-container p-3 rounded-md flex flex-col gap-4 w-1/3 max-xl:w-full relative z-10">
       <div className="flex justify-between items-center ">
         <ul className="flex gap-2 text-p font-bold text-schema-on-surface">
-          <li className=" rounded-full bg-schema-surface-container-highest px-2.5 py-0.5">
-            運動
-          </li>
-          <li className=" rounded-full bg-schema-surface-container-highest px-2.5 py-0.5">
-            飲食
-          </li>
-          <li className=" rounded-full bg-schema-surface-container-highest px-2.5 py-0.5">
-            作息
-          </li>
+          {category.map((item,index)=>(
+            <li key={index} className=" rounded-full bg-schema-surface-container-highest px-2.5 py-0.5">
+              {item}
+            </li>
+          ))}
         </ul>
         <div className="bg-schema-secondary-container px-2.5 py-0.5 rounded-full">
-          隊伍試煉成功
+          {resultText}
         </div>
       </div>
       <div>
         <h3 className="text-h3 font-bold text-schema-on-surface">
-          28天哈佛減肥法
+          {trialName}
         </h3>
-
-        <p>
-          適合能忍耐重複食物，逐步瘦身者，採用低卡、低碳、減糖及油為原則，瘦身成效高
+        <p className="text-p font-bold text-schema-on-surface">{challengeName}</p>
+        <p className="text-label text-schema-on-surface">
+          {trialDescription}
         </p>
       </div>
       <ul className="flex justify-between gap-3 text-label">
         <li className="bg-schema-surface-container-high rounded-md px-2 py-1 w-full">
           <p className="text-nowrap">關卡頻率</p>
-          <p className="text-p font-bold">每日</p>
+          <p className="text-p font-bold">每 {trialFrequency} 日</p>
         </li>
         <li className="bg-schema-surface-container-high rounded-md px-2 py-1 w-full">
           <p className="text-nowrap">關卡數</p>
-          <p className="text-p font-bold">28</p>
+          <p className="text-p font-bold">{challengeCount}</p>
         </li>
         <li className="bg-schema-surface-container-high rounded-md px-2 py-1 w-full">
           <p className="text-nowrap">試煉總天數</p>
-          <p className="text-p font-bold">28</p>
+          <p className="text-p font-bold">{trialTotalDays}</p>
         </li>
         <li className="bg-schema-surface-container-high rounded-md px-2 py-1 w-full">
           <p className="text-nowrap">人數</p>
-          <p className="text-p font-bold">6</p>
+          <p className="text-p font-bold">{trialPeople}</p>
         </li>
       </ul>
     </div>
