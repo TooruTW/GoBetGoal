@@ -1,3 +1,7 @@
+import DOMToImage from "./TestingComponent/DOMToImage";
+
 export default function DevComponent() {
-  return <div>DevComponent</div>;
+  return <div>
+    <DOMToImage />
+  </div>;
 }

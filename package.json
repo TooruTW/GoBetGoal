@@ -27,6 +27,7 @@
     "dayjs": "^1.11.13",
     "dom-to-image-more": "^3.6.0",
     "embla-carousel-react": "^8.6.0",
+    "file-saver": "^2.0.5",
     "gsap": "^3.13.0",
     "lottie-web": "^5.13.0",
     "lucide-react": "^0.518.0",
@@ -47,6 +48,7 @@
   "devDependencies": {
     "@eslint/js": "^9.19.0",
     "@tanstack/eslint-plugin-query": "^5.81.2",
+    "@types/file-saver": "^2.0.7",
     "@types/matter-js": "^0.19.8",
     "@types/node": "^24.0.3",
     "@types/react": "^19.0.8",
