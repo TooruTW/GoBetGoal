@@ -1,12 +1,9 @@
 import { Link } from "react-router-dom";
 
-import type { RootRoute } from "@/types/RootRoute";
-
 import Hero from "./Hero";
 import Fall from "./Fall";
-import Logo from "./Logo"
+import Logo from "./Logo";
 
-const route: RootRoute[] = ["home", "user", "trials", "auth", "info", "shop"];
 
 export default function Home() {
   return (
@@ -15,15 +12,24 @@ export default function Home() {
         <h1 className="text-9xl text-amber-50 font-title">Flag or bet</h1>
         <nav>
           <ul className="flex justify-center gap-4">
-            {route.map((item, index) => {
-              return (
-                <Link key={`${index}-${item}`} to={item}>
-                  <li key={index} className="px-4 py-3 border-2">
-                    {item}
-                  </li>
-                </Link>
-              );
-            })}
+            <Link to="/">
+              <li className="px-4 py-3 border-2">Home</li>
+            </Link>
+            <Link to="/user">
+              <li className="px-4 py-3 border-2">User</li>
+            </Link>
+            <Link to="/trials">
+              <li className="px-4 py-3 border-2">Trials</li>
+            </Link>
+            <Link to="/auth">
+              <li className="px-4 py-3 border-2">Auth</li>
+            </Link>
+            <Link to="/info">
+              <li className="px-4 py-3 border-2">Info</li>
+            </Link>
+            <Link to="/shop">
+              <li className="px-4 py-3 border-2">Shop</li>
+            </Link>
           </ul>
         </nav>
         <Logo />
