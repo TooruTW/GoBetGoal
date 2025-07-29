@@ -11,7 +11,7 @@ type trialParticipant = {
   };
 };
 type challenge = {
-  catagory: string[];
+  category: string[];
   description: string;
   frequency: string;
   title: string;
@@ -85,12 +85,12 @@ export default function TrialCard(porps: acceptProps) {
           </div>
         </div>
         <div className="flex gap-1">
-          {challenge.catagory.map((catagory, index) => (
+          {challenge.category.map((category, index) => (
             <span
               key={index}
               className=" rounded-full px-2 py-1 font-bold text-sm text-schema-on-surface bg-schema-surface-container-highest"
             >
-              {catagory}
+              {category}
             </span>
           ))}
         </div>
