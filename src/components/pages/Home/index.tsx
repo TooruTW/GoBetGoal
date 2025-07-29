@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 import Hero from "./Hero";
 import Fall from "./Fall";
-import Logo from "./Logo";
+// import Logo from "./Logo";
 
 
 export default function Home() {
@@ -32,7 +32,7 @@ export default function Home() {
             </Link>
           </ul>
         </nav>
-        <Logo />
+        {/* <Logo /> */}
         <Hero />
         <Fall />
       </section>

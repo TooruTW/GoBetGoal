@@ -40,7 +40,9 @@ export default function Navigator() {
           </li>
         </Link>
         <Link className=" max-lg:hidden " to="social-pages">
-          <li className="text-label transition-all hover:scale-120 ">交流平台</li>
+          <li className="text-label transition-all hover:scale-120 ">
+            交流平台
+          </li>
         </Link>
         <li className=" max-lg:hidden ">
           <CreateTrialBtn />
