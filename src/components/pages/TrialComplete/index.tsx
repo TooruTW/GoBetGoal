@@ -71,13 +71,16 @@ export default function TrialComplete() {
       }
     });
 
+    const formedDataArr: ParticipantsProps[] = [];
     participantMap.forEach((value) => {
       const formedData = {
         ...value,
         completeRate: `${value.completeRate} / ${data[0].trial.challenge.stage_count}`,
       };
-      setParticipants((prev) => [...prev, formedData]);
+      formedDataArr.push(formedData);
     });
+
+    setParticipants(formedDataArr);
   }, [data, isLoading]);
 
   useEffect(() => {
