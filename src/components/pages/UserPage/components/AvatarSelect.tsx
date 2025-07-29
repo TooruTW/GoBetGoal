@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaLock } from "react-icons/fa";
 // import GlareHover from "@/components/shared/reactBit/GlareHover";
-import ConfirmModal from "./ConfirmModal";
+import ConfirmModal from "../../../ui/ConfirmModal";
 
 type Avatar = {
   src: string;
@@ -12,7 +12,7 @@ type AvatarCarouselProps = {
   onSelect: (avatar: Avatar) => void;
   onBuy?: (avatar: Avatar) => void;
   selectedAvatar: Avatar | null;
-  displayMode?: 'lock' | 'price' | 'none';
+  displayMode?: "lock" | "price" | "none";
   info?: string; // 資料庫目前儲存的頭像src
 };
 
@@ -56,7 +56,7 @@ export default function AvatarCarousel({
   onSelect,
   onBuy,
   selectedAvatar,
-  displayMode = 'price',
+  displayMode = "price",
   info,
 }: AvatarCarouselProps) {
   const [selectedToBuy, setSelectedToBuy] = useState<Avatar | null>(null);
@@ -76,9 +76,17 @@ export default function AvatarCarousel({
           <li
             key={idx}
             className={`basis-1/6 p-2 transition-transform relative rounded-2xl
-              ${avatar.price !== 0 && displayMode === 'lock' ? "opacity-60" : "hover:cursor-pointer hover:shadow-lg"}
+              ${
+                avatar.price !== 0 && displayMode === "lock"
+                  ? "opacity-60"
+                  : "hover:cursor-pointer hover:shadow-lg"
+              }
               ${info === avatar.src ? " border border-gray-300 scale-105" : ""}
-              ${selectedAvatar?.src === avatar.src ? " border-2 border-white scale-105" : ""}
+              ${
+                selectedAvatar?.src === avatar.src
+                  ? " border-2 border-white scale-105"
+                  : ""
+              }
             `}
             onClick={() => handleClick(avatar)}
           >
@@ -90,12 +98,12 @@ export default function AvatarCarousel({
                 alt={`avatar-${idx}`}
                 className="w-full object-cover rounded-xl"
               />
-              {avatar.price > 0 && displayMode === 'price' && (
-                <div className="absolute top-2 right-2 bg-gray-500/30 backdrop-blur-lg  text-xs font-bold px-2 py-1 rounded-full shadow-lg">
+              {avatar.price > 0 && displayMode === "price" && (
+                <div className="absolute -top-2 left-2 bg-gray-500/30 backdrop-blur-lg  text-xs font-bold px-2 py-1 rounded-full shadow-lg">
                   🍬 {avatar.price}
                 </div>
               )}
-              {avatar.price > 0 && displayMode === 'lock' && (
+              {avatar.price > 0 && displayMode === "lock" && (
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                   <FaLock className="text-xl text-gray-700 mb-2" />
                 </div>
@@ -109,10 +117,8 @@ export default function AvatarCarousel({
           title="確認購買"
           content={`確定要花 ${selectedToBuy.price} 顆糖果購買這個角色嗎？`}
           onCancel={() => setSelectedToBuy(null)}
-          onConfirm={() => {
-            onBuy?.(selectedToBuy);
-            setSelectedToBuy(null);
-          }}
+          onBuy={onBuy}
+          selectedToBuy={selectedToBuy}
         />
       )}
     </div>
