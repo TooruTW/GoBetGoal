@@ -1,7 +1,9 @@
-import DOMToImage from "./TestingComponent/DOMToImage";
+import DevAchievement from "./TestingComponent/DevAchievement";
 
 export default function DevComponent() {
-  return <div>
-    <DOMToImage />
-  </div>;
+  return (
+    <div>
+      <DevAchievement />
+    </div>
+  );
 }
