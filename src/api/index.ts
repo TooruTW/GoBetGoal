@@ -19,3 +19,4 @@ export { usePatchFriendRequest } from "./patchFriendRequest";
 export { useDeleteFriend } from "./deleteFriend";
 export { useGetChallenges } from "./getChallenges";
 export { usePostCreateTrial } from "./postCreateTrial";
+export { useUserAchievementSupa } from "./getUserAchievementSupa";
