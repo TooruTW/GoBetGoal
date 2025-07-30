@@ -8,7 +8,7 @@ import { useClickOutside } from "@/hooks/useClickOutside";
 import { useTrialSupa } from "@/api/index";
 
 import { Button } from "@/components/ui/button";
-import OthersTrailInfo from "./components/OthersTrailInfo";
+import OthersTrialInfo from "./components/OthersTrialInfo";
 import MyTrialInfo from "./components/MyTrialInfo";
 import SharePage from "./components/SharePage";
 
@@ -205,11 +205,12 @@ export default function TrialComplete() {
           <MyTrialInfo trialBrief={trialBrief} certification={certification} />
         )}
         {participants && participants.length > 0 && images.length > 0 && (
-          <OthersTrailInfo participants={participants} images={images} onClick={(id)=>setSelectedUserID(id)}/>
+          <OthersTrialInfo participants={participants} images={images} onClick={(id)=>setSelectedUserID(id)}/>
         )}
         <Button
-          className="w-full rounded-md text-p font-bold text-schema-on-primary"
+          className="w-full rounded-md text-p font-bold text-schema-on-primary disabled:opacity-0"
           onClick={handleShowSharePage}
+          disabled={selectedUserID !== userID || !userID}
         >
           結算結果並分享到大平台
         </Button>
