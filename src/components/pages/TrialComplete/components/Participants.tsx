@@ -1,5 +1,4 @@
 import PlayerCard from "./PlayerCard";
-import { useEffect } from "react";
 
 export interface ParticipantsProps {
   id: string;
@@ -11,12 +10,11 @@ export interface ParticipantsProps {
 
 export default function Participants({
   participants,
+  onClick
 }: {
   participants: ParticipantsProps[];
+  onClick: (id:string)=>void;
 }) {
-  useEffect(() => {
-    console.log(participants);
-  }, [participants]);
 
   return (
     <div className="flex flex-col gap-4 items-center w-2/5 min-w-100 translate-x-4 max-xl:w-full max-xl:translate-x-0 max-xl:px-4">
@@ -27,6 +25,7 @@ export default function Participants({
           nick_name={participant.nick_name}
           completeRate={participant.completeRate}
           cheatCount={participant.cheatCount}
+          onClick={()=>onClick(participant.id)}
         />
       ))}
     </div>

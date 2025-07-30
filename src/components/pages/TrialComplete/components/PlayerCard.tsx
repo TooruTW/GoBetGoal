@@ -4,12 +4,13 @@ interface acceptProps {
   nick_name: string;
   completeRate: string;
   cheatCount: number;
+  onClick?: () => void;
 }
 
 export default function PlayerCard(props:acceptProps) {
-  const {charactor_img_link,nick_name,completeRate,cheatCount} = props;
+  const {charactor_img_link,nick_name,completeRate,cheatCount,onClick} = props;
   return (
-    <div className="relative h-20 flex items-end">
+    <div className="relative h-20 flex items-end" onClick={onClick}>
       <div className="w-full h-12 bg-schema-surface-container border-2 border-schema-primary absolute bottom-0 left-0 z-0 -skew-x-[30deg]"></div>
       <div
         className="absolute bottom-3 -left-2.5 w-13 aspect-square bg-schema-primary"

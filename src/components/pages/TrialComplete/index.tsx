@@ -1,18 +1,20 @@
-import { Button } from "@/components/ui/button";
-import MyTrialInfo from "./components/MyTrialInfo";
-import OthersTrailInfo from "./components/OthersTrailInfo";
 import { useEffect, useRef, useState } from "react";
-import SharePage from "./components/SharePage";
 import { useParams } from "react-router-dom";
-import { useTrialSupa } from "@/api/getTrialSupa";
-import gsap from "gsap";
-import { useClickOutside } from "@/hooks/useClickOutside";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
-import { BriefInfoProps } from "./components/TrialBriefInfo";
+import gsap from "gsap";
+
+import { useClickOutside } from "@/hooks/useClickOutside";
+import { useTrialSupa } from "@/api/index";
+
+import { Button } from "@/components/ui/button";
+import OthersTrailInfo from "./components/OthersTrailInfo";
+import MyTrialInfo from "./components/MyTrialInfo";
+import SharePage from "./components/SharePage";
+
 import { CertificationProps } from "./components/UserCertification";
 import { ParticipantsProps } from "./components/Participants";
-import { el } from "date-fns/locale";
+import { BriefInfoProps } from "./components/TrialBriefInfo";
 
 export default function TrialComplete() {
   const { id } = useParams();
@@ -27,26 +29,26 @@ export default function TrialComplete() {
   const [certification, setCertification] = useState<CertificationProps | null>(
     null
   );
-  const [participants, setParticipants] = useState<ParticipantsProps[]>([]);
+  const [participants, setParticipants] = useState<ParticipantsProps[]|null>(null);
   const [images, setImages] = useState<string[][]>([]);
   
   const [selectedUserID, setSelectedUserID] = useState<string>("");
 
   const userID = useSelector((state: RootState) => state.account.user_id);
 
-  useEffect(()=>{
-    if(isLoading || !data) return;
+  // select id to show result
+  useEffect(()=>{    
+    if(isLoading  || !participants ) return;
+    
     if(userID){
       setSelectedUserID(userID)
     }else{
-      const userID = data[0].participant_id;      
+      const userID = participants[0].id;            
       setSelectedUserID(userID)
     }
-  },[userID,isLoading,data])
+  },[userID,isLoading,participants])
 
-
-
-  // 計算獎勵倍率
+  // calculate reward rate
   useEffect(() => {
     if (isLoading || !data) return;
     const totalHistory = data.length;
@@ -74,7 +76,7 @@ export default function TrialComplete() {
           charactor_img_link: history.user_info.charactor_img_link,
           nick_name: history.user_info.nick_name,
           completeRate: `${
-            history.status === "pass" || history.status === "cheat" ? "1" : "0"
+            history.status === "pass" || history.status === "cheat" ? 1 : 0
           }`,
           cheatCount: history.status === "cheat" ? 1 : 0,
         });
@@ -82,7 +84,7 @@ export default function TrialComplete() {
         const participant = participantMap.get(history.participant_id);
         if (participant) {
           participant.completeRate = `${
-            parseInt(participant.completeRate) + 1
+            parseInt(participant.completeRate) + (history.status === "pass" || history.status === "cheat" ? 1 : 0)
           }`;
           participant.cheatCount =
             participant.cheatCount + (history.status === "cheat" ? 1 : 0);
@@ -99,9 +101,18 @@ export default function TrialComplete() {
       formedDataArr.push(formedData);
     });
 
+    formedDataArr.sort((a,b)=>{
+      const aCompleteRate = parseInt(a.completeRate.split(" / ")[0]);
+      const bCompleteRate = parseInt(b.completeRate.split(" / ")[0]);
+      
+      return bCompleteRate - aCompleteRate
+    })
+    
+
     setParticipants(formedDataArr);
   }, [data, isLoading]);
 
+  // set trial brief info
   useEffect(() => {
     if (isLoading || !data || !selectedUserID) return;
 
@@ -154,7 +165,7 @@ export default function TrialComplete() {
       trialCompleteRate: trialCompleteRate,
       cheatCount: cheatCount,
     });
-  }, [data, isLoading, userID, rewardRate]);
+  }, [data, isLoading, rewardRate ,selectedUserID]);
 
   useClickOutside(sharePageRef, () => {
     setIsShow(false);
@@ -164,6 +175,7 @@ export default function TrialComplete() {
     setIsShow(true);
   };
 
+  // share page animation
   useEffect(() => {
     if (!sharePageRef.current) return;
     if (isShow) {
@@ -192,8 +204,8 @@ export default function TrialComplete() {
         {trialBrief && certification && (
           <MyTrialInfo trialBrief={trialBrief} certification={certification} />
         )}
-        {participants.length > 0 && images.length > 0 && (
-          <OthersTrailInfo participants={participants} images={images} />
+        {participants && participants.length > 0 && images.length > 0 && (
+          <OthersTrailInfo participants={participants} images={images} onClick={(id)=>setSelectedUserID(id)}/>
         )}
         <Button
           className="w-full rounded-md text-p font-bold text-schema-on-primary"
