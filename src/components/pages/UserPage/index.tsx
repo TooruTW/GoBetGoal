@@ -48,13 +48,16 @@ export default function UserPage() {
           <section className="w-full md:w-1/2">
             <h3 className="text-xl font-bold">年度總覽</h3>
           </section>
-          <section className="w-full h-[400px] overflow-hidden md:w-1/2 ">
+          <section className="w-full  overflow-hidden md:w-1/2 ">
             <h3 className="text-xl font-bold">成就</h3>
-            <Achievement girdCols={`grid-cols-3 lg:grid-cols-4`} />
+            <Achievement
+              gridCols="grid-cols-3 lg:grid-cols-4"
+              showType="user"
+            />
           </section>
         </TabsContent>
         <TabsContent value="achievements">
-          <Achievement girdCols={`grid-cols-3 md:grid-cols-4 lg:grid-cols-6`} />
+          <Achievement gridCols={`grid-cols-3 md:grid-cols-4 lg:grid-cols-6`} />
         </TabsContent>
         <TabsContent value="friends">
           {" "}
