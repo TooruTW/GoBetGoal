@@ -1,3 +1,6 @@
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
 interface acceptProps {
   charactor_img_link: string;
@@ -6,12 +9,59 @@ interface acceptProps {
   cheatCount: number;
   onClick?: () => void;
   rank: number;
+  className?: string;
 }
 
-export default function PlayerCard(props:acceptProps) {
-  const {charactor_img_link,nick_name,completeRate,cheatCount,onClick,rank} = props;
+export default function PlayerCard(props: acceptProps) {
+  const {
+    charactor_img_link,
+    nick_name,
+    completeRate,
+    cheatCount,
+    onClick,
+    rank,
+    className,
+  } = props;
+
+  const ref = useRef<HTMLDivElement>(null);
+  const avatarRef = useRef<HTMLImageElement>(null);
+  const handleMouseEnter = () => {
+    gsap.to(ref.current, {
+      scale: 1.05,
+      duration: 0.25,
+      ease: "power2.inOut",
+    });
+    gsap.to(avatarRef.current, {
+      scale: 1.5,
+      xPercent: 25,
+      duration: 0.25,
+      ease: "power2.inOut",
+    });
+  };
+
+  const handleMouseLeave = () => {
+    gsap.to(ref.current, {
+      scale: 1,
+      duration: 0.25,
+      ease: "power2.inOut",
+    });
+
+    gsap.to(avatarRef.current, {
+      scale: 1,
+      duration: 0.25,
+      xPercent: 0,
+      ease: "power2.inOut",
+    });
+  };
+
   return (
-    <div className="relative h-20 flex items-end cursor-pointer hover:scale-105 transition-all duration-300 hover:z-10 z-0 group" onClick={onClick}>
+    <div
+      ref={ref}
+      className={`relative h-20 flex items-end cursor-pointer z-0 group ${className}`}
+      onClick={onClick}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <div className="w-full h-12 bg-schema-surface-container border-2 border-schema-primary absolute bottom-0 left-0 z-0 -skew-x-[30deg]"></div>
       <div
         className="absolute bottom-3 -left-2.5 w-13 aspect-square bg-schema-primary"
@@ -36,7 +86,8 @@ export default function PlayerCard(props:acceptProps) {
           <img
             src={charactor_img_link}
             alt="playerImage"
-            className="w-full scale-120 max-w-15 group-hover:translate-x-2.5 group-hover:scale-150 transition-all duration-300"
+            className="w-full scale-120 max-w-15"
+            ref={avatarRef}
           />
         </li>
         <li className="col-span-2 text-h4 flex items-center justify-center translate-y-1/5">

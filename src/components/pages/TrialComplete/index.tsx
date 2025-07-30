@@ -22,31 +22,30 @@ export default function TrialComplete() {
   const sharePageRef = useRef<HTMLDivElement>(null);
   const [isShow, setIsShow] = useState(false);
 
-  
   const userInfo = useSelector((state: RootState) => state.account);
   const [rewardRate, setRewardRate] = useState(1.5);
   const [trialBrief, setTrialBrief] = useState<BriefInfoProps | null>(null);
-  const [certification, setCertification] = useState<ResultProps | null>(
+  const [certification, setCertification] = useState<ResultProps | null>(null);
+  const [participants, setParticipants] = useState<ParticipantsProps[] | null>(
     null
   );
-  const [participants, setParticipants] = useState<ParticipantsProps[]|null>(null);
   const [images, setImages] = useState<string[][]>([]);
-  
+
   const [selectedUserID, setSelectedUserID] = useState<string>("");
 
   const userID = useSelector((state: RootState) => state.account.user_id);
 
   // select id to show result
-  useEffect(()=>{    
-    if(isLoading  || !participants ) return;
-    
-    if(userID){
-      setSelectedUserID(userID)
-    }else{
-      const userID = participants[0].id;            
-      setSelectedUserID(userID)
+  useEffect(() => {
+    if (isLoading || !participants) return;
+
+    if (userID) {
+      setSelectedUserID(userID);
+    } else {
+      const userID = participants[0].id;
+      setSelectedUserID(userID);
     }
-  },[userID,isLoading,participants])
+  }, [userID, isLoading, participants]);
 
   // calculate reward rate
   useEffect(() => {
@@ -84,7 +83,8 @@ export default function TrialComplete() {
         const participant = participantMap.get(history.participant_id);
         if (participant) {
           participant.completeRate = `${
-            parseInt(participant.completeRate) + (history.status === "pass" || history.status === "cheat" ? 1 : 0)
+            parseInt(participant.completeRate) +
+            (history.status === "pass" || history.status === "cheat" ? 1 : 0)
           }`;
           participant.cheatCount =
             participant.cheatCount + (history.status === "cheat" ? 1 : 0);
@@ -101,13 +101,12 @@ export default function TrialComplete() {
       formedDataArr.push(formedData);
     });
 
-    formedDataArr.sort((a,b)=>{
+    formedDataArr.sort((a, b) => {
       const aCompleteRate = parseInt(a.completeRate.split(" / ")[0]);
       const bCompleteRate = parseInt(b.completeRate.split(" / ")[0]);
-      
-      return bCompleteRate - aCompleteRate
-    })
-    
+
+      return bCompleteRate - aCompleteRate;
+    });
 
     setParticipants(formedDataArr);
   }, [data, isLoading]);
@@ -116,8 +115,10 @@ export default function TrialComplete() {
   useEffect(() => {
     if (isLoading || !data || !selectedUserID) return;
 
-    const filteredData = data.filter((item) => item.participant_id === selectedUserID);
-    
+    const filteredData = data.filter(
+      (item) => item.participant_id === selectedUserID
+    );
+
     const imageArray = filteredData.map((data) => data.upload_image || []);
     setImages(imageArray);
 
@@ -165,7 +166,7 @@ export default function TrialComplete() {
       trialCompleteRate: trialCompleteRate,
       cheatCount: cheatCount,
     });
-  }, [data, isLoading, rewardRate ,selectedUserID]);
+  }, [data, isLoading, rewardRate, selectedUserID]);
 
   useClickOutside(sharePageRef, () => {
     setIsShow(false);
@@ -199,13 +200,17 @@ export default function TrialComplete() {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div className="flex flex-col gap-6 items-center w-full">
+    <div className="flex flex-col gap-6 items-center w-full overflow-hidden">
       <div className="flex flex-col gap-20 items-center max-w-400 w-full py-10 max-xl:gap-2 relative z-0">
         {trialBrief && certification && (
           <MyTrialInfo trialBrief={trialBrief} certification={certification} />
         )}
         {participants && participants.length > 0 && images.length > 0 && (
-          <OthersTrialInfo participants={participants} images={images} onClick={(id)=>setSelectedUserID(id)}/>
+          <OthersTrialInfo
+            participants={participants}
+            images={images}
+            onClick={(id) => setSelectedUserID(id)}
+          />
         )}
         <Button
           className="w-full rounded-md text-p font-bold text-schema-on-primary cursor-pointer disabled:opacity-0 disabled:cursor-none"

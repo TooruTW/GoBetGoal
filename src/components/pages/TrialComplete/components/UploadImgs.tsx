@@ -16,7 +16,6 @@ export default function UploadImgs({ images }: { images: string[][] }) {
   };
 
   useEffect(() => {
-    console.log(isReady, "isReady");
     if(!uploadImgsRef.current) return;
     const isImageExist = uploadImgsRef.current?.children.length > 0
     if(!isImageExist) return;
