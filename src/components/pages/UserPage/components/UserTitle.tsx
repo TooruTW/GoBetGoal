@@ -2,6 +2,7 @@ import Aurora from "@/components/shared/reactBit/Aurora";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/store";
 
+
 export default function UserTitle() {
   const account = useSelector((state: RootState) => state.account);
   const {
@@ -15,10 +16,10 @@ export default function UserTitle() {
 
   return (
     <div className="md:flex w-full md:px-6 relative h-[320px] md:h-auto">
-      <div className="h-[200px] md:w-1/2 overflow-hidden max-w-330 z-20 relative">
+      <div className="h-[200px] md:w-1/2 overflow-hidden max-w-330 z-10 relative">
         <img src={charactor_img_link} alt="avatar" className="w-3/5 mx-auto" />
       </div>
-      <div className="md:w-1/2 flex-col my-6 z-20 px-3 md:px-10">
+      <div className="md:w-1/2 flex-col my-6 z-10 px-3 md:px-10">
         <p className="font-bold text-2xl">{nick_name}</p>
         <div className="flex justify-between">
           <div className="flex-col justify-center text-center">
