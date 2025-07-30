@@ -12,9 +12,9 @@ import OthersTrialInfo from "./components/OthersTrialInfo";
 import MyTrialInfo from "./components/MyTrialInfo";
 import SharePage from "./components/SharePage";
 
-import { CertificationProps } from "./components/UserCertification";
 import { ParticipantsProps } from "./components/Participants";
 import { BriefInfoProps } from "./components/TrialBriefInfo";
+import { ResultProps } from "./components/MyTrialInfo";
 
 export default function TrialComplete() {
   const { id } = useParams();
@@ -26,7 +26,7 @@ export default function TrialComplete() {
   const userInfo = useSelector((state: RootState) => state.account);
   const [rewardRate, setRewardRate] = useState(1.5);
   const [trialBrief, setTrialBrief] = useState<BriefInfoProps | null>(null);
-  const [certification, setCertification] = useState<CertificationProps | null>(
+  const [certification, setCertification] = useState<ResultProps | null>(
     null
   );
   const [participants, setParticipants] = useState<ParticipantsProps[]|null>(null);
@@ -159,8 +159,8 @@ export default function TrialComplete() {
     const trialCompleteRate = `${passCount + cheatCount} / ${challengeCount}`;
 
     setCertification({
-      userInfo: userInfo,
-      trialName: trialName,
+      charactor_img_link: userInfo.charactor_img_link,
+      nick_name: userInfo.nick_name,
       trialReward: trialReward,
       trialCompleteRate: trialCompleteRate,
       cheatCount: cheatCount,

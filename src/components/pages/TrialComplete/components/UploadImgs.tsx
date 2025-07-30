@@ -17,7 +17,10 @@ export default function UploadImgs({ images }: { images: string[][] }) {
 
   useEffect(() => {
     console.log(isReady, "isReady");
-    if (uploadImgsRef.current?.children) {
+    if(!uploadImgsRef.current) return;
+    const isImageExist = uploadImgsRef.current?.children.length > 0
+    if(!isImageExist) return;
+    
       gsap.fromTo(
         uploadImgsRef.current.children,
         {
@@ -32,8 +35,8 @@ export default function UploadImgs({ images }: { images: string[][] }) {
           stagger: 0.05,
         }
       );
-    }
-  }, [isReady]);
+    
+  }, [isReady,images]);
 
   useEffect(()=>{
     if(!hoverIndex) return;
