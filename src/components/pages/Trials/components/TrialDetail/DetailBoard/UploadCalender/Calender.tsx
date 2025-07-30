@@ -35,14 +35,8 @@ export default function Calender(props: acceptProps) {
           challenge: item.challenge_stage.description,
           imageUrl: item.upload_image || item.challenge_stage.sample_image,
         };
-        if (item.upload_image) {
-          console.log("has upload image", newItem.date);
-          console.log(newItem, "newItem update");
-        }
         return newItem;
       });
-
-      console.log(newList.length, "newList");
 
       newList.forEach((item) => {
         if (item.isThisMonth) {
@@ -59,10 +53,7 @@ export default function Calender(props: acceptProps) {
   );
 
   useEffect(() => {
-    if (!trial) return;
-
-    console.log(trial, "trial");
-    
+    if (!trial) return;    
     const lastDate = new Date(year, month + 1, 0).getDate();
     const firstDay = new Date(year, month, 1).getDay();
     const lastDay = new Date(year, month + 1, 0).getDay();

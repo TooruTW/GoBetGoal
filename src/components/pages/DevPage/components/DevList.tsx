@@ -15,6 +15,10 @@ export default function DevList() {
         <Link to="delete-friend">
         <li  className="border-1 border-schema-outline rounded-lg p-4 text-center">刪除好友</li>
         </Link>
+        <Link to="component-testing">
+        <li  className="border-1 border-schema-outline rounded-lg p-4 text-center">元件測試</li>
+        </Link>
+        
     </ul>
   </div>;
 }

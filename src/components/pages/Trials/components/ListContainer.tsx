@@ -9,7 +9,6 @@ export default function ListContainer() {
   useEffect(() => {
     if (isLoading) return;
     if (error) console.log(error);
-    console.log(data);
   }, [data, isLoading, error]);
 
   return (

@@ -1,20 +1,25 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/supabaseClient";
 
-const getUserAchievementSupa = async (user: string) => {
-  const { data, error } = await supabase
-    .from("achievements")
-    .select("*").order("order", { ascending: true })
-    .eq("user", user);
+
+const getUserAchievementSupa = async (userId: string) => {
+    
+    const { data, error, count } = await supabase
+    .from('user_achievement')
+    .select("*")
+    .eq('user_id', userId)
 
   if (error) throw error;
+  if (count === 0) return [];
   return data;
 };
 
-export function useGetUserAchievementSupa(user: string) {
+export function useUserAchievementSupa(userId: string) {
   const { data, isLoading, error } = useQuery({
-    queryKey: ["achievement", user],
-    queryFn: () => getUserAchievementSupa(user),
+    queryKey: ["achievement", userId],
+    queryFn: () => getUserAchievementSupa(userId),
+    enabled: !!userId,
+
   });
 
   return { data, isLoading, error };
