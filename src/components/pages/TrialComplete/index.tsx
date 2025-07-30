@@ -12,13 +12,15 @@ import { RootState } from "@/store";
 import { BriefInfoProps } from "./components/TrialBriefInfo";
 import { CertificationProps } from "./components/UserCertification";
 import { ParticipantsProps } from "./components/Participants";
+import { el } from "date-fns/locale";
 
 export default function TrialComplete() {
   const { id } = useParams();
   const { data, isLoading, error } = useTrialSupa(id?.toString() || "");
   const sharePageRef = useRef<HTMLDivElement>(null);
   const [isShow, setIsShow] = useState(false);
-  const userID = useSelector((state: RootState) => state.account.user_id);
+
+  
   const userInfo = useSelector((state: RootState) => state.account);
   const [rewardRate, setRewardRate] = useState(1.5);
   const [trialBrief, setTrialBrief] = useState<BriefInfoProps | null>(null);
@@ -27,7 +29,24 @@ export default function TrialComplete() {
   );
   const [participants, setParticipants] = useState<ParticipantsProps[]>([]);
   const [images, setImages] = useState<string[][]>([]);
+  
+  const [selectedUserID, setSelectedUserID] = useState<string>("");
 
+  const userID = useSelector((state: RootState) => state.account.user_id);
+
+  useEffect(()=>{
+    if(isLoading || !data) return;
+    if(userID){
+      setSelectedUserID(userID)
+    }else{
+      const userID = data[0].participant_id;      
+      setSelectedUserID(userID)
+    }
+  },[userID,isLoading,data])
+
+
+
+  // 計算獎勵倍率
   useEffect(() => {
     if (isLoading || !data) return;
     const totalHistory = data.length;
@@ -84,10 +103,10 @@ export default function TrialComplete() {
   }, [data, isLoading]);
 
   useEffect(() => {
-    if (isLoading || !data || !userID) return;
+    if (isLoading || !data || !selectedUserID) return;
 
-    const filteredData = data.filter((item) => item.participant_id === userID);
-
+    const filteredData = data.filter((item) => item.participant_id === selectedUserID);
+    
     const imageArray = filteredData.map((data) => data.upload_image || []);
     setImages(imageArray);
 
