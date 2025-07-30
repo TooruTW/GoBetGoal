@@ -208,7 +208,7 @@ export default function TrialComplete() {
           <OthersTrialInfo participants={participants} images={images} onClick={(id)=>setSelectedUserID(id)}/>
         )}
         <Button
-          className="w-full rounded-md text-p font-bold text-schema-on-primary disabled:opacity-0"
+          className="w-full rounded-md text-p font-bold text-schema-on-primary cursor-pointer disabled:opacity-0 disabled:cursor-none"
           onClick={handleShowSharePage}
           disabled={selectedUserID !== userID || !userID}
         >

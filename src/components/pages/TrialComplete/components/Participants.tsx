@@ -26,6 +26,7 @@ export default function Participants({
           completeRate={participant.completeRate}
           cheatCount={participant.cheatCount}
           onClick={()=>onClick(participant.id)}
+          rank={index + 1}
         />
       ))}
     </div>
