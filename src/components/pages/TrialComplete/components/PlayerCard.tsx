@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
@@ -25,8 +25,19 @@ export default function PlayerCard(props: acceptProps) {
 
   const ref = useRef<HTMLDivElement>(null);
   const { contextSafe } = useGSAP({ scope: ref });
+  const isHoverableRef = useRef(false);
+
+  useEffect(() => {
+    const allowHover = setTimeout(() => {
+      isHoverableRef.current = true;
+    }, 3000);
+    return () => {
+      clearTimeout(allowHover);
+    };
+  }, []);
 
   const handleMouseEnter = contextSafe(() => {
+    if (!isHoverableRef.current) return;
     gsap.to(ref.current, {
       scale: 1.05,
       duration: 0.25,
@@ -42,6 +53,7 @@ export default function PlayerCard(props: acceptProps) {
   });
 
   const handleMouseLeave = contextSafe(() => {
+    if (!isHoverableRef.current) return;
     gsap.to(ref.current, {
       scale: 1,
       duration: 0.25,
