@@ -51,8 +51,8 @@ export default function MyTrialInfo(props: TrialCompleteProps) {
   if (!trialBrief || !certification) return <h1>Loading...</h1>;
 
   return (
-    <div className="flex relative justify-center gap-10 items-center w-screen  border-b-4 border-schema-outline px-5 max-xl:flex-col-reverse max-xl:gap-2 max-xl:max-h-none overflow-y-hidden">
-      <div className="flex gap-10 w-full items-center justify-center h-60">
+    <div className="flex relative justify-center gap-10 items-center w-screen  border-b-4 border-schema-outline px-5 overflow-y-hidden max-xl:pb-4">
+      <div className="flex gap-10 w-full items-center justify-center h-full max-h-60 max-xl:flex-col-reverse max-xl:gap-0 max-xl:max-h-none ">
         <TrialBriefInfo
           category={trialBrief.category}
           result={trialBrief.result}
@@ -65,11 +65,12 @@ export default function MyTrialInfo(props: TrialCompleteProps) {
           trialPeople={trialBrief.trialPeople}
         />
 
+    
         <img
           ref={avatarRef}
           src={certification.charactor_img_link}
           alt="user"
-          className="w-full max-w-1/3 object-cover max-xl:w-1/3 z-10 self-start"
+          className="w-full aspect-[2/1] max-w-1/3 object-cover z-10 self-start max-h-60 object-top max-xl:self-center max-xl:max-w-1/2 max-md:max-w-none"
         />
 
         <div
@@ -85,6 +86,8 @@ export default function MyTrialInfo(props: TrialCompleteProps) {
             <span className="text-h2">{certification.cheatCount}</span>
           </h3>
         </div>
+
+
       </div>
 
       <div className="absolute top-0 left-0 w-screen h-full z-0 rotate-180">

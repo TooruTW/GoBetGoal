@@ -41,22 +41,22 @@ export default function UploadImgs({ images }: { images: string[][] }) {
   );
   useGSAP(
     () => {
-        gsap.to(`.day-box`, {
-          y: 0,
-          zIndex: 0,
-          duration: 0.5,
-          filter: "brightness(0.75)",
-          ease: "power2.inOut",
-        });
-        if (!hoverIndex) return;
-        gsap.to(`.day-${hoverIndex}`, {
-          y: -25,
-          zIndex: 50,
-          duration: 0.5,
-          filter: "brightness(1.2)",
-          ease: "power2.inOut",
-        });
-      },
+      gsap.to(`.day-box`, {
+        y: 0,
+        zIndex: 0,
+        duration: 0.5,
+        filter: "brightness(0.75)",
+        ease: "power2.inOut",
+      });
+      if (!hoverIndex) return;
+      gsap.to(`.day-${hoverIndex}`, {
+        y: -25,
+        zIndex: 50,
+        duration: 0.5,
+        filter: "brightness(1.2)",
+        ease: "power2.inOut",
+      });
+    },
     { dependencies: [hoverIndex] }
   );
 
@@ -70,7 +70,7 @@ export default function UploadImgs({ images }: { images: string[][] }) {
 
   return (
     <div
-      className={`grid grid-cols-4 gap-2 w-1/2 max-xl:w-full max-xl:flex max-xl:overflow-x-scroll max-xl:h-30 ${
+      className={`grid grid-cols-4 gap-2 w-1/2 max-xl:w-full max-xl:flex max-xl:overflow-x-scroll max-xl:h-30 max-lg:snap-x max-xl:pt-6 ${
         isReady ? "opacity-100" : "opacity-0"
       }`}
       ref={uploadImgsRef}
@@ -81,7 +81,7 @@ export default function UploadImgs({ images }: { images: string[][] }) {
             <img
               onLoad={handleLoad}
               key={`${day}-${index}`}
-              className={`aspect-square w-full object-cover rounded-md day-box day-${day} relative z-0 brightness-75`}
+              className={`aspect-square w-full max-lg:w-2/5 object-cover max-lg:snap-center rounded-md day-box day-${day} relative z-0 brightness-75`}
               src={img}
               alt={`${day}`}
               onMouseEnter={handleMouseEnter}

@@ -103,7 +103,7 @@ export default function PlayerCard(props: acceptProps) {
             className="w-full scale-120 max-w-15 avatar"
           />
         </li>
-        <li className="col-span-2 text-h4 flex items-center justify-center translate-y-1/5">
+        <li className="col-span-2 text-h4 flex items-center justify-center translate-y-1/5 text-nowrap">
           {nick_name}
         </li>
         <li className="col-span-2 flex flex-col items-center justify-center translate-y-1/5">
