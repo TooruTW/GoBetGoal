@@ -33,7 +33,7 @@ export default function TrialBriefInfo(props:BriefInfoProps) {
   },[result]);
   
   return (
-    <div className="bg-schema-surface-container p-3 rounded-md flex flex-col gap-4 w-1/3 max-xl:w-full relative z-10">
+    <div className="bg-schema-surface-container p-3 rounded-md flex flex-col gap-4 w-full max-w-1/3 max-xl:w-full max-xl:max-w-none relative z-20">
       <div className="flex justify-between items-center ">
         <ul className="flex gap-2 text-p font-bold text-schema-on-surface">
           {category.map((item,index)=>(

@@ -3,10 +3,11 @@ import { useEffect, useRef, useState } from "react";
 import type { TrialDetailSupa } from "@/types/TrialDetailSupa";
 interface acceptProps {
   trial: TrialDetailSupa[];
+  className?: string;
 }
 
 export default function ProgressBar(props: acceptProps) {
-  const { trial } = props;
+  const { trial, className } = props;
   const infoRef = useRef({
     challengeCount: 0,
     passedChallengesCount: 0,
@@ -48,7 +49,7 @@ export default function ProgressBar(props: acceptProps) {
   }, [infoRef.current.completeRate]);
 
   return (
-    <div className="w-full mb:max-w-3/5">
+    <div className={className}>
       <p className=" relative flex justify-between">
         <span>糖果總數</span>
         <span

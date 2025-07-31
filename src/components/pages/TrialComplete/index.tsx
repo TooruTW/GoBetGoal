@@ -1,33 +1,54 @@
-import { Button } from "@/components/ui/button";
-import MyTrialInfo from "./components/MyTrialInfo";
-import OthersTrailInfo from "./components/OthersTrailInfo";
 import { useEffect, useRef, useState } from "react";
-import SharePage from "./components/SharePage";
 import { useParams } from "react-router-dom";
-import { useTrialSupa } from "@/api/getTrialSupa";
-import gsap from "gsap";
-import { useClickOutside } from "@/hooks/useClickOutside";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
-import { BriefInfoProps } from "./components/TrialBriefInfo";
-import { CertificationProps } from "./components/UserCertification";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+
+import { useClickOutside } from "@/hooks/useClickOutside";
+import { useTrialSupa } from "@/api/index";
+
+import { Button } from "@/components/ui/button";
+import OthersTrialInfo from "./components/OthersTrialInfo";
+import MyTrialInfo from "./components/MyTrialInfo";
+import SharePage from "./components/SharePage";
+
 import { ParticipantsProps } from "./components/Participants";
+import { BriefInfoProps } from "./components/TrialBriefInfo";
+import { ResultProps } from "./components/MyTrialInfo";
 
 export default function TrialComplete() {
   const { id } = useParams();
   const { data, isLoading, error } = useTrialSupa(id?.toString() || "");
+
   const sharePageRef = useRef<HTMLDivElement>(null);
-  const [isShow, setIsShow] = useState(false);
-  const userID = useSelector((state: RootState) => state.account.user_id);
+
   const userInfo = useSelector((state: RootState) => state.account);
   const [rewardRate, setRewardRate] = useState(1.5);
   const [trialBrief, setTrialBrief] = useState<BriefInfoProps | null>(null);
-  const [certification, setCertification] = useState<CertificationProps | null>(
+  const [certification, setCertification] = useState<ResultProps | null>(null);
+  const [participants, setParticipants] = useState<ParticipantsProps[] | null>(
     null
   );
-  const [participants, setParticipants] = useState<ParticipantsProps[]>([]);
   const [images, setImages] = useState<string[][]>([]);
 
+  const [selectedUserID, setSelectedUserID] = useState<string>("");
+
+  const userID = useSelector((state: RootState) => state.account.user_id);
+
+  // select id to show result
+  useEffect(() => {
+    if (isLoading || !participants) return;
+
+    if (userID) {
+      setSelectedUserID(userID);
+    } else {
+      const userID = participants[0].id;
+      setSelectedUserID(userID);
+    }
+  }, [userID, isLoading, participants]);
+
+  // calculate reward rate
   useEffect(() => {
     if (isLoading || !data) return;
     const totalHistory = data.length;
@@ -55,7 +76,7 @@ export default function TrialComplete() {
           charactor_img_link: history.user_info.charactor_img_link,
           nick_name: history.user_info.nick_name,
           completeRate: `${
-            history.status === "pass" || history.status === "cheat" ? "1" : "0"
+            history.status === "pass" || history.status === "cheat" ? 1 : 0
           }`,
           cheatCount: history.status === "cheat" ? 1 : 0,
         });
@@ -63,7 +84,8 @@ export default function TrialComplete() {
         const participant = participantMap.get(history.participant_id);
         if (participant) {
           participant.completeRate = `${
-            parseInt(participant.completeRate) + 1
+            parseInt(participant.completeRate) +
+            (history.status === "pass" || history.status === "cheat" ? 1 : 0)
           }`;
           participant.cheatCount =
             participant.cheatCount + (history.status === "cheat" ? 1 : 0);
@@ -71,19 +93,32 @@ export default function TrialComplete() {
       }
     });
 
+    const formedDataArr: ParticipantsProps[] = [];
     participantMap.forEach((value) => {
       const formedData = {
         ...value,
         completeRate: `${value.completeRate} / ${data[0].trial.challenge.stage_count}`,
       };
-      setParticipants((prev) => [...prev, formedData]);
+      formedDataArr.push(formedData);
     });
+
+    formedDataArr.sort((a, b) => {
+      const aCompleteRate = parseInt(a.completeRate.split(" / ")[0]);
+      const bCompleteRate = parseInt(b.completeRate.split(" / ")[0]);
+
+      return bCompleteRate - aCompleteRate;
+    });
+
+    setParticipants(formedDataArr);
   }, [data, isLoading]);
 
+  // set trial brief info
   useEffect(() => {
-    if (isLoading || !data || !userID) return;
+    if (isLoading || !data || !selectedUserID) return;
 
-    const filteredData = data.filter((item) => item.participant_id === userID);
+    const filteredData = data.filter(
+      (item) => item.participant_id === selectedUserID
+    );
 
     const imageArray = filteredData.map((data) => data.upload_image || []);
     setImages(imageArray);
@@ -126,56 +161,79 @@ export default function TrialComplete() {
     const trialCompleteRate = `${passCount + cheatCount} / ${challengeCount}`;
 
     setCertification({
-      userInfo: userInfo,
-      trialName: trialName,
+      charactor_img_link: userInfo.charactor_img_link,
+      nick_name: userInfo.nick_name,
       trialReward: trialReward,
       trialCompleteRate: trialCompleteRate,
       cheatCount: cheatCount,
     });
-  }, [data, isLoading, userID, rewardRate]);
+  }, [data, isLoading, rewardRate, selectedUserID]);
 
-  useClickOutside(sharePageRef, () => {
-    setIsShow(false);
-  });
-  const handleShowSharePage = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-    setIsShow(true);
-  };
-
-  useEffect(() => {
+  // share page animation
+  const { contextSafe } = useGSAP({ scope: sharePageRef });
+  // 先隱藏元素
+  useGSAP(() => {
+    // 設定初始狀態
     if (!sharePageRef.current) return;
-    if (isShow) {
-      gsap.to(sharePageRef.current, {
-        opacity: 1,
-        duration: 1,
-        yPercent: -100,
-        ease: "power2.inOut",
-      });
-    } else {
-      gsap.to(sharePageRef.current, {
-        opacity: 0,
-        duration: 1,
-        yPercent: 100,
-        ease: "power2.inOut",
-      });
+    gsap.set(sharePageRef.current, {
+      opacity: 0,
+      yPercent: 100,
+    });
+  }, {
+    dependencies: [sharePageRef.current],
+  });
+  const handleShowSharePage = contextSafe(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation();
+      gsap.fromTo(
+        sharePageRef.current,
+        {
+          opacity: 0,
+          duration: 1,
+          yPercent: 100,
+          ease: "power2.inOut",
+        },
+        {
+          opacity: 1,
+          duration: 1,
+          yPercent: 0,
+          ease: "power2.inOut",
+        }
+      );
     }
-  }, [isShow]);
+  );
+  const handleHideSharePage = contextSafe(() => {
+    gsap.to(sharePageRef.current, {
+      opacity: 0,
+      duration: 1,
+      yPercent: 100,
+      ease: "power2.inOut",
+    });
+  });
+  useClickOutside(sharePageRef, () => {
+    handleHideSharePage();
+  });
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div className="flex flex-col gap-6 items-center w-full">
+    <div className="flex flex-col gap-6 items-center w-full overflow-hidden">
       <div className="flex flex-col gap-20 items-center max-w-400 w-full py-10 max-xl:gap-2 relative z-0">
         {trialBrief && certification && (
           <MyTrialInfo trialBrief={trialBrief} certification={certification} />
         )}
-        {participants.length > 0 && images.length > 0 && (
-          <OthersTrailInfo participants={participants} images={images} />
+        {participants && participants.length > 0 && images.length > 0 && (
+          <OthersTrialInfo
+            participants={participants}
+            images={images}
+            onClick={(id) => setSelectedUserID(id)}
+          />
         )}
         <Button
-          className="w-full rounded-md text-p font-bold text-schema-on-primary"
-          onClick={handleShowSharePage}
+          className="w-full rounded-md text-p font-bold text-schema-on-primary cursor-pointer disabled:opacity-0 disabled:cursor-none"
+          onClick={(e) => handleShowSharePage(e)}
+          disabled={selectedUserID !== userID || !userID}
         >
           結算結果並分享到大平台
         </Button>
@@ -183,7 +241,7 @@ export default function TrialComplete() {
 
       <div
         ref={sharePageRef}
-        className="w-full fixed bottom-0 z-10 bg-schema-surface-container flex justify-center items-center translate-y-full rounded-t-4xl border-2 border-t-schema-outline border-l-schema-outline border-r-schema-outline py-20"
+        className="w-full fixed bottom-0 max-h-5/4 z-10 bg-schema-surface-container flex justify-center items-center rounded-t-4xl border-2 border-t-schema-outline border-l-schema-outline border-r-schema-outline py-20"
       >
         <SharePage
           userImage={userInfo.charactor_img_link}
