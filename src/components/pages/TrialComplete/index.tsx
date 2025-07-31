@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 
 import { useClickOutside } from "@/hooks/useClickOutside";
 import { useTrialSupa } from "@/api/index";
@@ -19,8 +20,8 @@ import { ResultProps } from "./components/MyTrialInfo";
 export default function TrialComplete() {
   const { id } = useParams();
   const { data, isLoading, error } = useTrialSupa(id?.toString() || "");
+
   const sharePageRef = useRef<HTMLDivElement>(null);
-  const [isShow, setIsShow] = useState(false);
 
   const userInfo = useSelector((state: RootState) => state.account);
   const [rewardRate, setRewardRate] = useState(1.5);
@@ -168,33 +169,50 @@ export default function TrialComplete() {
     });
   }, [data, isLoading, rewardRate, selectedUserID]);
 
-  useClickOutside(sharePageRef, () => {
-    setIsShow(false);
-  });
-  const handleShowSharePage = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-    setIsShow(true);
-  };
-
   // share page animation
-  useEffect(() => {
+  const { contextSafe } = useGSAP({ scope: sharePageRef });
+  // 先隱藏元素
+  useGSAP(() => {
+    // 設定初始狀態
     if (!sharePageRef.current) return;
-    if (isShow) {
-      gsap.to(sharePageRef.current, {
-        opacity: 1,
-        duration: 1,
-        yPercent: -100,
-        ease: "power2.inOut",
-      });
-    } else {
-      gsap.to(sharePageRef.current, {
-        opacity: 0,
-        duration: 1,
-        yPercent: 100,
-        ease: "power2.inOut",
-      });
+    gsap.set(sharePageRef.current, {
+      opacity: 0,
+      yPercent: 100,
+    });
+  }, {
+    dependencies: [sharePageRef.current],
+  });
+  const handleShowSharePage = contextSafe(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation();
+      gsap.fromTo(
+        sharePageRef.current,
+        {
+          opacity: 0,
+          duration: 1,
+          yPercent: 100,
+          ease: "power2.inOut",
+        },
+        {
+          opacity: 1,
+          duration: 1,
+          yPercent: 0,
+          ease: "power2.inOut",
+        }
+      );
     }
-  }, [isShow]);
+  );
+  const handleHideSharePage = contextSafe(() => {
+    gsap.to(sharePageRef.current, {
+      opacity: 0,
+      duration: 1,
+      yPercent: 100,
+      ease: "power2.inOut",
+    });
+  });
+  useClickOutside(sharePageRef, () => {
+    handleHideSharePage();
+  });
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
@@ -214,7 +232,7 @@ export default function TrialComplete() {
         )}
         <Button
           className="w-full rounded-md text-p font-bold text-schema-on-primary cursor-pointer disabled:opacity-0 disabled:cursor-none"
-          onClick={handleShowSharePage}
+          onClick={(e) => handleShowSharePage(e)}
           disabled={selectedUserID !== userID || !userID}
         >
           結算結果並分享到大平台
@@ -223,7 +241,7 @@ export default function TrialComplete() {
 
       <div
         ref={sharePageRef}
-        className="w-full fixed bottom-0 z-10 bg-schema-surface-container flex justify-center items-center translate-y-full rounded-t-4xl border-2 border-t-schema-outline border-l-schema-outline border-r-schema-outline py-20"
+        className="w-full fixed bottom-0 max-h-5/4 z-10 bg-schema-surface-container flex justify-center items-center rounded-t-4xl border-2 border-t-schema-outline border-l-schema-outline border-r-schema-outline py-20"
       >
         <SharePage
           userImage={userInfo.charactor_img_link}

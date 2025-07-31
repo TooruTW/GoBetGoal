@@ -1,5 +1,6 @@
 import gsap from "gsap";
-import { useRef, useEffect, useState, MouseEvent } from "react";
+import { useGSAP } from "@gsap/react";
+import { useRef, useState, MouseEvent } from "react";
 
 export default function UploadImgs({ images }: { images: string[][] }) {
   const uploadImgsRef = useRef<HTMLDivElement>(null);
@@ -15,11 +16,12 @@ export default function UploadImgs({ images }: { images: string[][] }) {
     }
   };
 
-  useEffect(() => {
-    if(!uploadImgsRef.current) return;
-    const isImageExist = uploadImgsRef.current?.children.length > 0
-    if(!isImageExist) return;
-    
+  useGSAP(
+    () => {
+      if (!uploadImgsRef.current) return;
+      const isImageExist = uploadImgsRef.current?.children.length > 0;
+      if (!isImageExist) return;
+
       gsap.fromTo(
         uploadImgsRef.current.children,
         {
@@ -34,32 +36,29 @@ export default function UploadImgs({ images }: { images: string[][] }) {
           stagger: 0.05,
         }
       );
-    
-  }, [isReady,images]);
-
-  useEffect(()=>{
-    if(!hoverIndex) return;
-    if(!uploadImgsRef.current) return;
-
-    gsap.to(`.day-${hoverIndex}`,{
-      y:-25,
-      zIndex:50,
-      duration:0.5,
-      filter:"brightness(1.2)",
-      ease:"power2.inOut",
-    })
- 
-    return()=>{
-      gsap.to(`.day-${hoverIndex}`,{
-        y:0,
-        zIndex:0,
-        duration:0.5,
-        filter:"brightness(0.75)",
-        ease:"power2.inOut",
-      })
-    }
-  
-  },[hoverIndex])
+    },
+    { dependencies: [isReady, images] }
+  );
+  useGSAP(
+    () => {
+        gsap.to(`.day-box`, {
+          y: 0,
+          zIndex: 0,
+          duration: 0.5,
+          filter: "brightness(0.75)",
+          ease: "power2.inOut",
+        });
+        if (!hoverIndex) return;
+        gsap.to(`.day-${hoverIndex}`, {
+          y: -25,
+          zIndex: 50,
+          duration: 0.5,
+          filter: "brightness(1.2)",
+          ease: "power2.inOut",
+        });
+      },
+    { dependencies: [hoverIndex] }
+  );
 
   const handleMouseEnter = (e: MouseEvent<HTMLImageElement>) => {
     const target = e.target as HTMLImageElement;
@@ -82,7 +81,7 @@ export default function UploadImgs({ images }: { images: string[][] }) {
             <img
               onLoad={handleLoad}
               key={`${day}-${index}`}
-              className={`aspect-square w-full object-cover rounded-md day-${day} relative z-0 brightness-75`}
+              className={`aspect-square w-full object-cover rounded-md day-box day-${day} relative z-0 brightness-75`}
               src={img}
               alt={`${day}`}
               onMouseEnter={handleMouseEnter}

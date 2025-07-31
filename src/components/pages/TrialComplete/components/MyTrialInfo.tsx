@@ -1,8 +1,9 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import TrialBriefInfo from "./TrialBriefInfo";
 import { BriefInfoProps } from "./TrialBriefInfo";
 import Aurora from "@/components/shared/reactBit/Aurora";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 
 export interface ResultProps {
   charactor_img_link: string;
@@ -21,25 +22,31 @@ export default function MyTrialInfo(props: TrialCompleteProps) {
   const { trialBrief, certification } = props;
   const resultRef = useRef<HTMLDivElement>(null);
   const avatarRef = useRef<HTMLImageElement>(null);
-  useEffect(() => {
-    if (!resultRef.current) return;
-    gsap.fromTo(
-      [avatarRef.current, resultRef.current],
-      {
-        opacity: 0,
-        yPercent: 100,
-        rotateY: 0,
-      },
-      {
-        opacity: 1,
-        yPercent: 0,
-        rotateY: 720,
-        duration: 1.5,
-        stagger: 0.5,
-        ease: "power2.inOut",
-      }
-    );
-  }, [certification]);
+
+  useGSAP(
+    () => {
+      gsap.fromTo(
+        [avatarRef.current, resultRef.current],
+        {
+          opacity: 0,
+          yPercent: 100,
+          rotateY: 0,
+        },
+        {
+          opacity: 1,
+          yPercent: 0,
+          rotateY: 720,
+          duration: 1.5,
+          stagger: 0.5,
+          ease: "power2.inOut",
+        }
+      );
+    },
+    {
+      dependencies: [certification],
+      scope: resultRef,
+    }
+  );
 
   if (!trialBrief || !certification) return <h1>Loading...</h1>;
 

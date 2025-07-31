@@ -24,35 +24,37 @@ export default function PlayerCard(props: acceptProps) {
   } = props;
 
   const ref = useRef<HTMLDivElement>(null);
-  const avatarRef = useRef<HTMLImageElement>(null);
-  const handleMouseEnter = () => {
+  const { contextSafe } = useGSAP({ scope: ref });
+
+  const handleMouseEnter = contextSafe(() => {
     gsap.to(ref.current, {
       scale: 1.05,
       duration: 0.25,
       ease: "power2.inOut",
     });
-    gsap.to(avatarRef.current, {
+
+    gsap.to(".avatar", {
       scale: 1.5,
       xPercent: 25,
       duration: 0.25,
       ease: "power2.inOut",
     });
-  };
+  });
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = contextSafe(() => {
     gsap.to(ref.current, {
       scale: 1,
       duration: 0.25,
       ease: "power2.inOut",
     });
 
-    gsap.to(avatarRef.current, {
+    gsap.to(".avatar", {
       scale: 1,
       duration: 0.25,
       xPercent: 0,
       ease: "power2.inOut",
     });
-  };
+  });
 
   return (
     <div
@@ -86,8 +88,7 @@ export default function PlayerCard(props: acceptProps) {
           <img
             src={charactor_img_link}
             alt="playerImage"
-            className="w-full scale-120 max-w-15"
-            ref={avatarRef}
+            className="w-full scale-120 max-w-15 avatar"
           />
         </li>
         <li className="col-span-2 text-h4 flex items-center justify-center translate-y-1/5">

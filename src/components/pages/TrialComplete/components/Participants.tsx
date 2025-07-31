@@ -35,10 +35,7 @@ export default function Participants({
         ease: "power2.inOut",
       }
     );
-  
   });
-
-
 
   return (
     <div
@@ -55,7 +52,6 @@ export default function Participants({
           onClick={() => onClick(participant.id)}
           rank={index + 1}
           className="player-card"
-
         />
       ))}
     </div>
