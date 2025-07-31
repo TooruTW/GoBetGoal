@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setAccount } from "@/store/slices/accountSlice";
+import LogOut from "./components/LogOut";
 
 export default function UserPage() {
   const dispatch = useDispatch();
@@ -79,12 +80,11 @@ export default function UserPage() {
         </TabsContent>
       </Tabs>
       <section className="w-full  flex flex-col justify-center items-center">
-        <button
+        <LogOut
+          variant="dark"
           onClick={handleLogout}
-          className=" text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors"
-        >
-          登出
-        </button>
+          className="bg-slate-800"
+        />
       </section>
     </div>
   );
