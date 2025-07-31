@@ -62,7 +62,6 @@ export default function Friend({ showState = "accepted" }: FriendProps) {
     console.log(data);
   }, [data, isLoading, userID]);
 
-  // 處理刪除好友的函數
 
   return (
     <div className="flex flex-col gap-4 w-full justify-center items-center">

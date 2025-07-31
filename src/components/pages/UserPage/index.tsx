@@ -1,5 +1,6 @@
 import Achievement from "@/components/pages/UserPage/components/Achievement";
 import UserTitle from "@/components/pages/UserPage/components/UserTitle";
+import Overview from "./components/Overview/index";
 import AccountSet from "@/components/pages/UserPage/components/AccountSet";
 import AddFriend from "@/components/pages/UserPage/components/AddFriend";
 import Friend from "@/components/pages/UserPage/components/Friend";
@@ -45,17 +46,8 @@ export default function UserPage() {
 
           <TabsTrigger value="settings">帳號設置</TabsTrigger>
         </TabsList>
-        <TabsContent value="account" className="md:flex">
-          <section className="w-full md:w-1/2">
-            <h3 className="text-xl font-bold">年度總覽</h3>
-          </section>
-          <section className="w-full  overflow-hidden md:w-1/2 ">
-            <h3 className="text-xl font-bold">成就</h3>
-            <Achievement
-              gridCols="grid-cols-3 lg:grid-cols-4"
-              showType="user"
-            />
-          </section>
+        <TabsContent value="account" className=" my-4">
+          <Overview />
         </TabsContent>
         <TabsContent value="achievements">
           <Achievement gridCols={`grid-cols-3 md:grid-cols-4 lg:grid-cols-6`} />
@@ -79,7 +71,7 @@ export default function UserPage() {
           <AccountSet />
         </TabsContent>
       </Tabs>
-      <section className="w-full  flex flex-col justify-center items-center">
+      <section className="w-full  flex flex-col justify-center items-center  my-4">
         <LogOut
           variant="dark"
           onClick={handleLogout}
