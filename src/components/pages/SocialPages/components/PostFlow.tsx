@@ -2,16 +2,28 @@ import PostCard from "./PostCard";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { usePostAllSupa } from "@/api";
+import { Post } from "./PostCard";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 export default function PostFlow() {
   const switchRef = useRef<HTMLDivElement>(null);
   const [isRecommend, setIsRecommend] = useState(true);
-  const { data: postList, isLoading, error } = usePostAllSupa();
+  const [postList, setPostList] = useState<Post[] | null>(null);
+  const { data, isLoading, error } = usePostAllSupa();
+  const userId = useSelector((state: RootState) => state.account.user_id);
 
   useEffect(() => {
-    if (isLoading || error || !postList) return;
-    console.log(postList);
-  }, [postList, isLoading, error]);
+    if (isLoading || error || !data) return;
+    if (isRecommend) {
+      setPostList(data);
+    } else {
+      const likePosts = data.filter((post) => {
+        return post.post_like.some((like: { like_by: string }) => like.like_by === userId);
+      });
+      setPostList(likePosts);
+    }
+  }, [data, isLoading, error, isRecommend, userId]);
 
   useEffect(() => {
     if (isRecommend) {
@@ -28,6 +40,8 @@ export default function PostFlow() {
       });
     }
   }, [isRecommend]);
+
+
 
   return (
     <div className="flex flex-col gap-4">

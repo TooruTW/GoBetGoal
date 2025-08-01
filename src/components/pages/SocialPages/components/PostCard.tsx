@@ -9,7 +9,7 @@ import { RootState } from "@/store";
 import { usePostLikeSupa } from "@/api";
 import { useDeletePostLikeSupa } from "@/api";
 
-type PostCardProps = {
+export type Post = {
   id: string;
   content: string;
   create_at: string;
@@ -28,7 +28,7 @@ type PostCardProps = {
   post_like: { like_by: string }[];
 };
 
-export default function PostCard(props: PostCardProps) {
+export default function PostCard(props: Post) {
   const {
     id,
     content,
@@ -55,8 +55,10 @@ export default function PostCard(props: PostCardProps) {
   const handleLike = () => {
     if (isLiked) {
       deletePostLike();
+      setIsLiked(false);
     } else {
       postLike();
+      setIsLiked(true);
     }
   };
 
