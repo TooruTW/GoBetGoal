@@ -11,6 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@gsap/react": "^2.1.2",
     "@lottiefiles/dotlottie-react": "^0.14.3",
     "@radix-ui/react-hover-card": "^1.1.14",
     "@radix-ui/react-popover": "^1.1.14",

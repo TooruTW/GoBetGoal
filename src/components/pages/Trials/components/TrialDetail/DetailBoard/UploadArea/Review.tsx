@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { TrialDetailSupa } from "@/types/TrialDetailSupa";
 
-interface acceptProps {
+type acceptProps = {
     currentChallenge: TrialDetailSupa | undefined;
     onClick: () => void;
     isReadyToUpload: boolean;

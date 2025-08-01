@@ -1,6 +1,6 @@
 import { ChallengeStageSupa } from "./ChallengeStageSupa";
 
-export interface ChallengeSupa {
+export type ChallengeSupa = {
   id: number;
   title: string;
   description: string;

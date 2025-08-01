@@ -6,7 +6,7 @@ import type { UserInfoSupa } from "@/types/UserInfoSupa";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/store";
 
-interface acceptProps {
+type acceptProps = {
   participant?: UserInfoSupa;
   handleDelete?: (
     event: React.MouseEvent<SVGElement, MouseEvent>,

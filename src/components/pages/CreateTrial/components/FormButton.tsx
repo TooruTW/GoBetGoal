@@ -1,8 +1,8 @@
-interface FormButtonProps {
+type FormButtonProps = {
   isSubmitting: boolean;
   children: React.ReactNode;
   className?: string;
-}
+};
 
 export default function FormButton({
   isSubmitting,

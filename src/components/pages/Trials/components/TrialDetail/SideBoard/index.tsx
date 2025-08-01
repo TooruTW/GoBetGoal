@@ -1,13 +1,9 @@
-import { Trial } from "@/types/Trial";
 import { IoClose } from "react-icons/io5";
 import { useEffect, useState, useRef } from "react";
 import { useClickOutside } from "@/hooks/useClickOutside";
-interface acceptProps {
-  trial: Trial;
-}
 
-export default function SideBoard(props: acceptProps) {
-  const { history } = props.trial;
+
+export default function SideBoard() {
   const [isActive, setIsActive] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -59,21 +55,19 @@ export default function SideBoard(props: acceptProps) {
       )}
       {isActive && (
         <ul className="flex flex-col gap-2">
-          {history.map((item, index, array) => (
-            <li key={item.id}>
-              {!isSameDay(item.createdAt, array[index - 1]?.createdAt) && (
+          
+            <li>
                 <p className="text-label text-center mt-4 mb-2">
-                  {formatDate(item.createdAt).date}
+                  date
                 </p>
-              )}
               <p className="flex items-center justify-between gap-4">
-                <span className="text-p break-keep">{item.message}</span>
+                <span className="text-p break-keep">message</span>
                 <span className="text-label ">
-                  {formatDate(item.createdAt).time}
+                  time
                 </span>
               </p>
             </li>
-          ))}
+    
         </ul>
       )}
     </div>

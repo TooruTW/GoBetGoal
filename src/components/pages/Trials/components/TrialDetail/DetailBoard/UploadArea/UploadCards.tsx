@@ -2,7 +2,7 @@ import { GoPlus } from "react-icons/go";
 import { TrialDetailSupa } from "@/types/TrialDetailSupa";
 import { useEffect, useRef } from "react";
 
-interface acceptProps {
+type acceptProps = {
   uploadImgList: {
     orderNumber: number;
     isPassed: boolean;

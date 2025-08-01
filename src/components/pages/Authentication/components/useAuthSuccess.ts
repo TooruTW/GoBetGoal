@@ -3,10 +3,10 @@ import { useQueryClient } from "@tanstack/react-query";
 import { getUserInfoSupa } from "@/api";
 import { User, Session } from "@supabase/supabase-js";
 
-interface UseAuthSuccessProps {
+type UseAuthSuccessProps = {
   onError: (error: string) => void;
   errorMessage?: string;
-}
+};
 
 export const useAuthSuccess = ({
   onError,

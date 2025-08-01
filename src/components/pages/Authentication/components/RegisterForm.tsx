@@ -9,7 +9,7 @@ type FormValues = {
   password: string;
 };
 
-interface RegisterFormProps {
+type RegisterFormProps = {
   onRegisterError: (error: string) => void;
   onRegisterSuccess: (data: FormValues) => void;
 }

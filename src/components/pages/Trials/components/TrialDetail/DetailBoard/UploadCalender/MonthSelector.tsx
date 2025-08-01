@@ -14,7 +14,7 @@ const monthArr = [
   "November",
   "December",
 ];
-interface acceptProps {
+type acceptProps = {
   month: number;
   year: number;
   editCalender: (key: "month" | "year", value: number) => void;

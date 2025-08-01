@@ -1,4 +1,4 @@
-export interface ChallengeStageSupa {
+export type ChallengeStageSupa = {
   id: string;
   challenge_id: number;
   stage_index: number;
