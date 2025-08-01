@@ -3,9 +3,6 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { usePostAllSupa } from "@/api";
 
-
-
-
 export default function PostFlow() {
   const switchRef = useRef<HTMLDivElement>(null);
   const [isRecommend, setIsRecommend] = useState(true);
@@ -52,9 +49,14 @@ export default function PostFlow() {
           className="w-1/2 h-0.5 flex justify-center items-center absolute bottom-0 left-0 bg-schema-on-background"
         ></div>
       </div>
-      <div>
-        {postList &&
-          postList.map((post) => <PostCard {...post} key={post.id} />)}
+      <div className="flex flex-col gap-4">
+        {postList ? (
+          postList.map((post) => <PostCard {...post} key={post.id} />)
+        ) : (
+          <div className="flex justify-center items-center h-screen">
+            <h1 className="text-h1">Loading...</h1>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -39,7 +39,7 @@ export default function PostCard(props: PostCardProps) {
   }, [isShow]);
 
   return (
-    <div className="aspect-[140/212] border-1 border-schema-outline w-full">
+    <div className="aspect-[140/212] w-full bg-schema-surface-container">
       <div className="relative w-full h-full">
         <PostCarousel
           imgUrl={image_url}

@@ -69,7 +69,7 @@ export default function MyTrialInfo(props: TrialCompleteProps) {
           ref={avatarRef}
           src={certification.charactor_img_link}
           alt="user"
-          className="w-full aspect-[2/1] max-w-1/3 object-cover z-10 self-start max-h-60 object-top max-xl:self-center max-xl:max-w-1/2 max-md:max-w-none"
+          className="w-full max-lg:aspect-[2/1] max-w-1/3 object-cover z-10 self-start max-h-60 object-top max-xl:self-center max-xl:max-w-1/2 max-md:max-w-none"
         />
 
         <div
