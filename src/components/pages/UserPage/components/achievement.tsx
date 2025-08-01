@@ -109,7 +109,7 @@ export default function Achievement(props: AcceptProps) {
     <div>
       {/* 可選：顯示當前模式和數量 */}
       {showType === "user" && (
-        <div className="mb-4 text-sm text-gray-600">
+        <div className="text-sm text-schema-on-surface-variant">
           已獲得成就：{displayAchievements.length} / {allAchievement.length}個
         </div>
       )}

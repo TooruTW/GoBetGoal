@@ -25,19 +25,19 @@ export default function TempleteList({ className }: { className?: string }) {
     if (isLoading || !purchasedChallenges.length) return;
     console.log(data);
 
-    dispatch(setChallengeTemplate(data))
+    dispatch(setChallengeTemplate(data));
     setTempleteList(
       data?.map((templete) => {
         return {
           challengeName: templete.title,
           isLocked: purchasedChallenges.includes(templete.id),
           challengeId: templete.id.toString(),
-          imageUrl:`/image${templete.img}`,
+          imageUrl: `/image${templete.img}`,
           color: templete.color,
         };
       }) || []
     );
-  }, [data, isLoading, purchasedChallenges,dispatch]);
+  }, [data, isLoading, purchasedChallenges, dispatch]);
 
   return (
     <div
