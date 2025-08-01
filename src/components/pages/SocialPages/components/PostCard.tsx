@@ -4,8 +4,13 @@ import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa6";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { usePostLikeSupa } from "@/api";
+import { useDeletePostLikeSupa } from "@/api";
 
 type PostCardProps = {
+  id: string;
   content: string;
   create_at: string;
   history: number | null;
@@ -20,15 +25,40 @@ type PostCardProps = {
     nick_name: string;
     charactor_img_link: string;
   };
+  post_like: { like_by: string }[];
 };
 
 export default function PostCard(props: PostCardProps) {
-  const { content, image_url, publish_by, trial_id, trial, user_info } = props;
+  const {
+    id,
+    content,
+    image_url,
+    publish_by,
+    trial_id,
+    trial,
+    user_info,
+    post_like,
+  } = props;
+  const userId = useSelector((state: RootState) => state.account.user_id);
 
   const [isShow, setIsShow] = useState(false);
 
   const [isLiked, setIsLiked] = useState(false);
   const postCardRef = useRef<HTMLDivElement>(null);
+
+  const { mutate: postLike } = usePostLikeSupa({ postId: id, userId });
+  const { mutate: deletePostLike } = useDeletePostLikeSupa({
+    postId: id,
+    userId,
+  });
+
+  const handleLike = () => {
+    if (isLiked) {
+      deletePostLike();
+    } else {
+      postLike();
+    }
+  };
 
   useEffect(() => {
     gsap.to(postCardRef.current, {
@@ -37,6 +67,10 @@ export default function PostCard(props: PostCardProps) {
       ease: "power2.inOut",
     });
   }, [isShow]);
+
+  useEffect(() => {
+    setIsLiked(post_like.some((like) => like.like_by === userId));
+  }, [post_like, userId]);
 
   return (
     <div className="aspect-[140/212] w-full bg-schema-surface-container">
@@ -82,7 +116,7 @@ export default function PostCard(props: PostCardProps) {
                   className="size-6 cursor-pointer"
                   onClick={(e) => {
                     e.stopPropagation();
-                    setIsLiked(!isLiked);
+                    handleLike();
                   }}
                 />
               ) : (
@@ -90,7 +124,7 @@ export default function PostCard(props: PostCardProps) {
                   className="size-6 cursor-pointer"
                   onClick={(e) => {
                     e.stopPropagation();
-                    setIsLiked(!isLiked);
+                    handleLike();
                   }}
                 />
               )}
