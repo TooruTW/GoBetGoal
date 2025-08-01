@@ -5,9 +5,9 @@ import type { TrialDetailSupa } from "@/types/TrialDetailSupa";
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 
-interface acceptProps {
+type acceptProps = {
   trial: TrialDetailSupa[];
-}
+};
 dayjs.extend(isBetween);
 
 

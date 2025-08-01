@@ -2,9 +2,10 @@ import ProgressBar from "./ProgressBar";
 import TrialContent from "./TrialContent";
 import { TrialDetailSupa } from "@/types/TrialDetailSupa";
 import Challenges from "./Challenges";
-interface acceptProps {
+
+type acceptProps = {
   trial: TrialDetailSupa[];
-}
+};
 
 export default function TrialInfo(props: acceptProps) {
   const { trial } = props;

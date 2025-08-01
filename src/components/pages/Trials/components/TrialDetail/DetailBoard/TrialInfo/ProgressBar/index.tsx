@@ -1,7 +1,8 @@
 import gsap from "gsap";
 import { useEffect, useRef, useState } from "react";
 import type { TrialDetailSupa } from "@/types/TrialDetailSupa";
-interface acceptProps {
+
+type acceptProps = {
   trial: TrialDetailSupa[];
   className?: string;
 }

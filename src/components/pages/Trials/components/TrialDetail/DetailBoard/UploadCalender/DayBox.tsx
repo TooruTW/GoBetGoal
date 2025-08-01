@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import PopupCard from "./PopupCard";
 
-interface acceptProps {
+type acceptProps = {
   date: number;
   isThisMonth: boolean;
   imgUrl: string[];
