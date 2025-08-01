@@ -1,0 +1,24 @@
+import { useMutation } from "@tanstack/react-query";
+import { supabase } from "@/supabaseClient";
+
+type LogInData = {
+  mail: string;
+  password: string;
+};
+
+const postLogInSupa = async (logInData: LogInData) => {
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email: logInData.mail,
+    password: logInData.password,
+  });
+  if (error) throw error;
+  return data;
+};
+
+export function usePostLogInSupa() {
+  const mutation = useMutation({
+    mutationFn: (logInData: LogInData) => postLogInSupa(logInData),
+  });
+
+  return mutation;
+}

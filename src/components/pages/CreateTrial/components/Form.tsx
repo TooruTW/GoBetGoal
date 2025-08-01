@@ -1,0 +1,170 @@
+import { monsterDefault } from "@/assets/monster";
+import { DatePicker } from "@/components/shared/reactBit/DatePicker";
+import { useForm } from "react-hook-form";
+import { createTrial } from "@/types/CreateTrial";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { usePostCreateTrial } from "@/api";
+import { useParams } from "react-router-dom";
+
+interface FormData {
+  trialName: string;
+  trialStart: string;
+  trialDeposit: number;
+}
+
+export default function Form() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+    setValue,
+    watch,
+  } = useForm<FormData>({
+    defaultValues: {
+      trialName: "",
+      trialStart: "",
+      trialDeposit: 100000,
+    },
+  });
+
+  const userID = useSelector((state: RootState) => state.account.user_id);
+  const { mutate: postCreateTrial } = usePostCreateTrial();
+  const { id } = useParams();
+
+  // 監聽 trialStart 的值
+  const trialStartValue = watch("trialStart");
+
+  const onSubmit = async (data: FormData) => {
+    try {
+      console.log("表單資料:", data);
+      // 這裡可以加入 API 呼叫邏輯
+      // await createTrial(data);
+
+      const newData: createTrial = {
+        start_at: data.trialStart,
+        deposit: data.trialDeposit,
+        challenge_id: Number(id),
+        title: data.trialName,
+        create_by: userID,
+      };
+
+      postCreateTrial(newData, {
+        onSuccess: () => {
+          alert("試煉創建成功！");
+        },
+        onError: () => {
+          alert("創建試煉失敗，請重試");
+        },
+      });
+
+      // 提交成功後重置表單
+      reset();
+    } catch (error) {
+      console.error("創建試煉失敗:", error);
+    }
+  };
+
+  return (
+    <div className="flex flex-col gap-6 w-full px-6 py-7 relative overflow-hidden rounded-lg">
+      <h2 className="text-h2 max-lg:hidden">客制項目</h2>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col items-center gap-9 w-full"
+      >
+        {/* 試煉名稱 */}
+        <label
+          className="w-full max-w-140 flex flex-col gap-2"
+          htmlFor="trialName"
+        >
+          試煉名稱
+          <input
+            {...register("trialName", {
+              required: "試煉名稱為必填項目",
+              minLength: {
+                value: 2,
+                message: "試煉名稱至少需要2個字元",
+              },
+              maxLength: {
+                value: 50,
+                message: "試煉名稱不能超過50個字元",
+              },
+            })}
+            type="text"
+            className="border-2 border-schema-primary rounded-md px-4 py-2.5"
+            placeholder="夏天到了還沒瘦？"
+          />
+          {errors.trialName && (
+            <span className="text-red-500 text-sm">
+              {errors.trialName.message}
+            </span>
+          )}
+        </label>
+        {/* 試煉開始日期 */}
+        <label
+          className="w-full max-w-140 flex flex-col gap-2"
+          htmlFor="trialStart"
+        >
+          試煉開始
+          <DatePicker
+            value={trialStartValue}
+            onChange={(date) => setValue("trialStart", date)}
+            placeholder="請選擇日期"
+          />
+          {errors.trialStart && (
+            <span className="text-red-500 text-sm">
+              {errors.trialStart.message}
+            </span>
+          )}
+        </label>
+        {/* 投入糖果押金數量 */}
+        <label
+          className="w-full max-w-140 flex flex-col gap-2"
+          htmlFor="trialDeposit"
+        >
+          投入糖果押金數量
+          <input
+            {...register("trialDeposit", {
+              required: "請輸入押金數量",
+              min: {
+                value: 100000,
+                message: "押金最少需要 100,000 糖果",
+              },
+              max: {
+                value: 1000000,
+                message: "押金最多 1,000,000 糖果",
+              },
+            })}
+            className="border-2 border-schema-primary rounded-md px-4 py-2.5"
+            type="number"
+            min={100000}
+            max={1000000}
+            step={100000}
+          />
+          {errors.trialDeposit && (
+            <span className="text-red-500 text-sm">
+              {errors.trialDeposit.message}
+            </span>
+          )}
+          <span className="text-label text-schema-on-surface-variant">
+            合作完成80％即返還押金。若找齊隊友，贏得試煉最多可以拿回200％押金糖果呦！
+          </span>
+        </label>
+        {/* 創建試煉按鈕 */}
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="text-schema-on-primary mt-6 w-full rounded-md bg-schema-primary opacity-60 hover:opacity-100 py-3 shadow-sm hover:shadow-md transition-shadow duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {isSubmitting ? "創建中..." : "創建試煉"}
+        </button>
+      </form>
+      <img
+        src={monsterDefault}
+        alt="bg-decoration"
+        className=" absolute -bottom-40 -left-25 z-0 w-100 opacity-20 rotate-20 pointer-events-none max-lg:hidden"
+      />
+    </div>
+  );
+}
