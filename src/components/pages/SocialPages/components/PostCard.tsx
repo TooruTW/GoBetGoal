@@ -6,31 +6,24 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 
 type PostCardProps = {
-  post: {
-    postId: string;
-    userId: string;
-    userName: string;
-    userImg: string;
-    trialName: string;
-    challengeId: string;
-    challengeName: string;
-    imgUrl: string[];
-    description: string;
+  content: string;
+  create_at: string;
+  history: number | null;
+  image_url: string[];
+  publish_by: string;
+  trial_id: string;
+  trial: {
+    title: string;
+    challenge: { title: string };
+  };
+  user_info: {
+    nick_name: string;
+    charactor_img_link: string;
   };
 };
 
 export default function PostCard(props: PostCardProps) {
-  const { post } = props;
-  const {
-    userId,
-    userName,
-    userImg,
-    trialName,
-    challengeId,
-    challengeName,
-    imgUrl,
-    description,
-  } = post;
+  const { content, image_url, publish_by, trial_id, trial, user_info } = props;
 
   const [isShow, setIsShow] = useState(false);
 
@@ -49,8 +42,8 @@ export default function PostCard(props: PostCardProps) {
     <div className="aspect-[140/212] border-1 border-schema-outline w-full">
       <div className="relative w-full h-full">
         <PostCarousel
-          imgUrl={imgUrl}
-          className="absolute top-0 left-0 w-full h-full"
+          imgUrl={image_url}
+          className="absolute top-0 left-0 w-full h-full flex items-center justify-center"
         />
         <div
           ref={postCardRef}
@@ -64,21 +57,21 @@ export default function PostCard(props: PostCardProps) {
           <div className="flex items-center w-full justify-between gap-2">
             <div className="flex items-center gap-2 pointer-events-auto">
               <Link
-                to={`/user/${userId}`}
+                to={`/user/${publish_by}`}
                 className="w-10 h-10 rounded-full bg-white"
               >
                 <img
-                  src={userImg}
+                  src={user_info.charactor_img_link}
                   alt="avatar"
                   className="w-10 h-10 rounded-full object-cover object-top"
                 />
               </Link>
               <div>
-                <p>{userName}</p>
+                <p>{user_info.nick_name}</p>
                 <p className="flex gap-2">
-                  <span>{trialName}</span>
-                  <Link to={`/create-trial/${challengeId}`}>
-                    <span># {challengeName}</span>
+                  <span>{trial.title}</span>
+                  <Link to={`/create-trial/${trial_id}`}>
+                    <span># {trial.challenge.title}</span>
                   </Link>
                 </p>
               </div>
@@ -104,7 +97,7 @@ export default function PostCard(props: PostCardProps) {
             </div>
           </div>
           <p className="text-text-primary-foreground px-4">
-            {isShow ? description : description.slice(0, 20) + "..."}
+            {isShow ? content : content.slice(0, 20) + "..."}
           </p>
         </div>
       </div>

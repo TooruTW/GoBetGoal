@@ -30,16 +30,18 @@ export function PostCarousel(props: PostCarouselProps) {
 
   return (
     <Carousel setApi={setApi} className={`relative ${className}`}>
+
       <CarouselContent>
         {imgUrl.map((img, index) => (
           <CarouselItem
             key={index}
-            className="flex justify-center items-center"
+            className="flex justify-center items-center w-full "
           >
-            <img src={img} alt="post" className="w-full h-auto" />
+            <img src={img} alt="post" className="w-full h-auto object-cover" />
           </CarouselItem>
         ))}
       </CarouselContent>
+
       <CarouselPrevious
         variant="ghost"
         className="left-0 h-full w-1/3 bg-transparent border-none shadow-none hover:bg-gradient-to-l hover:from-transparent hover:via-transparent hover:to-black/5 flex justify-start text-transparent hover:text-transparent transition-all duration-500"
