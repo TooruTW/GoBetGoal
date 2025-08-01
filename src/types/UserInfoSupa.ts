@@ -1,4 +1,4 @@
-export interface UserInfoSupa {
+export type UserInfoSupa = {
     candy_count: number;
     charactor_img_link: string;
     cheat_blanket: number;
