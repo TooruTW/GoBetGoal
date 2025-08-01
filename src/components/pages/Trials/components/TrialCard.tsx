@@ -19,7 +19,7 @@ type challenge = {
     description: string;
   }[];
 };
-interface acceptProps {
+type acceptProps = {
   trial: {
     id: string;
     challenge_id: number;

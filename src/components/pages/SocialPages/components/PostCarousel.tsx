@@ -8,10 +8,10 @@ import {
   CarouselNext,
 } from "@/components/ui/carousel";
 
-interface PostCarouselProps {
+type PostCarouselProps = {
   imgUrl: string[];
   className?: string;
-}
+};
 
 export function PostCarousel(props: PostCarouselProps) {
   const { imgUrl, className } = props;

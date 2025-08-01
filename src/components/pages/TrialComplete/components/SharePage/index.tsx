@@ -5,12 +5,12 @@ import { useMemo, useRef } from "react";
 import domtoimage from "dom-to-image-more";
 import { saveAs } from "file-saver";
 
-interface AcceptanceProps {
+type AcceptanceProps = {
   userImage: string;
   userName: string;
   trialName: string;
   trialReward: string;
-}
+};
 
 export default function SharePage(props: AcceptanceProps) {
   const { userImage, userName, trialName, trialReward } = props;
