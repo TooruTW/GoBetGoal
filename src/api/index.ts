@@ -20,3 +20,5 @@ export { useDeleteFriend } from "./deleteFriend";
 export { useGetChallenges } from "./getChallenges";
 export { usePostCreateTrial } from "./postCreateTrial";
 export { useUserAchievementSupa } from "./getUserAchievementSupa";
+export { useGetUserHistoryTrialSupa } from "./getUserHistoryTrialSupa";
+export { useGetUserTrialSupa } from "./getUserTrialSupa";

@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/supabaseClient";
 
+
 const getUserAchievementSupa = async (userId: string) => {
     
     const { data, error, count } = await supabase
@@ -18,6 +19,7 @@ export function useUserAchievementSupa(userId: string) {
     queryKey: ["achievement", userId],
     queryFn: () => getUserAchievementSupa(userId),
     enabled: !!userId,
+
   });
 
   return { data, isLoading, error };
