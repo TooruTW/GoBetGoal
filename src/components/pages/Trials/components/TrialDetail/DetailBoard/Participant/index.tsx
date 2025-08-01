@@ -6,9 +6,10 @@ import type { UserInfoSupa } from "@/types/UserInfoSupa";
 import { IoClose } from "react-icons/io5";
 import { useDeleteParticipantInTrialSupa } from "@/api/deleteParticipantInTrialSupa";
 import { useQueryClient } from "@tanstack/react-query";
-interface acceptProps {
+
+type acceptProps = {
   trial: TrialDetailSupa[];
-}
+};
 
 export default function Participant(props: acceptProps) {
   const { trial } = props;
@@ -61,7 +62,7 @@ export default function Participant(props: acceptProps) {
         delay: 0.5,
       }
     );
-  }, [cardContainerRef,participantListArray]);
+  }, [cardContainerRef, participantListArray]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -133,7 +134,10 @@ export default function Participant(props: acceptProps) {
   };
 
   return (
-    <div ref={cardContainerRef} className="flex justify-between gap-4 min-h-160">
+    <div
+      ref={cardContainerRef}
+      className="flex justify-between gap-4 min-h-160"
+    >
       {participantListArray.map((item) => {
         return (
           <PlayerCard

@@ -1,8 +1,8 @@
 import type { TrialDetailSupa } from "@/types/TrialDetailSupa";
 
-interface acceptProps {
+type acceptProps = {
   trial: TrialDetailSupa[];
-}
+};
 
 export default function Challenges(props: acceptProps) {
   const { trial } = props;

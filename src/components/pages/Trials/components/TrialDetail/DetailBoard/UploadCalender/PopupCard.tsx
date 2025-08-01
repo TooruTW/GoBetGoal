@@ -8,7 +8,8 @@ import {
   CarouselPrevious,
   type CarouselApi,
 } from "@/components/ui/carousel";
-interface acceptProps {
+
+type acceptProps = {
   imgUrl: string[];
   onClose: () => void;
 }

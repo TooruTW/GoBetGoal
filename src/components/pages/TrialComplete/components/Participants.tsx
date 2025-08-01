@@ -3,13 +3,13 @@ import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
-export interface ParticipantsProps {
+export type ParticipantsProps = {
   id: string;
   charactor_img_link: string;
   nick_name: string;
   completeRate: string;
   cheatCount: number;
-}
+};
 
 export default function Participants({
   participants,

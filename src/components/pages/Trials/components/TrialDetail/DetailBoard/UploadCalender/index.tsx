@@ -5,7 +5,7 @@ import { TrialDetailSupa } from "@/types/TrialDetailSupa";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 
-interface acceptProps {
+type acceptProps = {
   trial: TrialDetailSupa[];
 }
 

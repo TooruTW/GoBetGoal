@@ -6,9 +6,9 @@ import { useEffect, useState } from "react";
 import type { TrialDetailSupa } from "@/types/TrialDetailSupa";
 import type { UserInfoSupa } from "@/types/UserInfoSupa";
 
-interface acceptProps {
+type acceptProps = {
   trial: TrialDetailSupa[];
-}
+};
 
 export default function ParticipantMobile(props: acceptProps) {
   const { trial } = props;

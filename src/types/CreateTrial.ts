@@ -1,4 +1,4 @@
-export interface createTrial {
+export type createTrial = {
     start_at: string;
     deposit: number;
     challenge_id: number;

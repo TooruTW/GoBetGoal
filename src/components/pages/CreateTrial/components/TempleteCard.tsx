@@ -1,13 +1,13 @@
 import { GoLock } from "react-icons/go";
 import { Link } from "react-router-dom";
 
-interface acceptProps {
+type acceptProps = {
   challengeName: string;
   isLocked: boolean;
   challengeId: string;
   imageUrl: string;
   color: string;
-}
+};
 
 export default function TempleteCard({
   challengeName,
