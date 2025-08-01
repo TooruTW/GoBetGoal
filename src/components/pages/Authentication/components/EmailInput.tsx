@@ -1,6 +1,6 @@
 import { UseFormRegisterReturn, FieldError } from "react-hook-form";
 
-interface EmailInputProps {
+type EmailInputProps = {
   register: UseFormRegisterReturn;
   error?: FieldError;
   label?: string;

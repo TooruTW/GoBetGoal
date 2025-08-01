@@ -7,11 +7,11 @@ import { RootState } from "@/store";
 import { usePostCreateTrial } from "@/api";
 import { useParams } from "react-router-dom";
 
-interface FormData {
+type FormData = {
   trialName: string;
   trialStart: string;
   trialDeposit: number;
-}
+};
 
 export default function Form() {
   const {
