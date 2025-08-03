@@ -45,7 +45,7 @@ export default function PostFlow() {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex gap-2 w-full relative">
+      <div className="flex gap-2 w-full h-15 max-w-140 fixed top-14 left-1/2 -translate-x-1/2 z-10 bg-schema-surface-container">
         <div
           className="w-1/2 flex justify-center items-center py-2"
           onClick={() => setIsRecommend(true)}
@@ -63,6 +63,7 @@ export default function PostFlow() {
           className="w-1/2 h-0.5 flex justify-center items-center absolute bottom-0 left-0 bg-schema-on-background"
         ></div>
       </div>
+
       <div className="flex flex-col gap-4">
         {postList ? (
           postList.map((post) => <PostCard {...post} key={post.id} />)

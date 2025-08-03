@@ -33,7 +33,7 @@ export default function SocialPages() {
   const { category } = useParams();
 
   return (
-    <div className="w-full min-h-screen bg-schema-background flex justify-center gap-4 max-xl:flex-col max-xl:items-center">
+    <div className="w-full min-h-screen bg-schema-background flex justify-center gap-4 max-xl:flex-col max-xl:items-center relative">
       <div className="max-w-66 w-full max-xl:max-w-140">
         <Category />
       </div>
