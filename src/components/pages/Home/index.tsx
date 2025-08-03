@@ -33,11 +33,12 @@ export default function Home() {
             </Link>
           </ul>
         </nav>
-        <Character />
+
         {/* <Logo /> */}
         {/* <Hero /> */}
         {/* <Fall /> */}
       </section>
+      <Character />
     </div>
   );
 }
