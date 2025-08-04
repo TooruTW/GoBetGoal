@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
 import Character from "./Character";
+// import Bagel from "./Bagel";
 
 // import Hero from "./Hero";
 // import Fall from "./Fall";
 // import Logo from "./Logo";
 
 export default function Home() {
-  console.log(Character);
   return (
     <div className="w-full min-h-screen">
       <section className="w-full min-h-screen flex justify-center items-center flex-col">
@@ -38,6 +38,7 @@ export default function Home() {
         {/* <Hero /> */}
         {/* <Fall /> */}
       </section>
+
       <Character />
     </div>
   );
