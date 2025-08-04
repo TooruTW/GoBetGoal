@@ -18,4 +18,6 @@ export default function ListContainer() {
           <TrialCard trial={trial} />
         </GlareHover>
       ))}
-    
+    </div>
+  );
+}
