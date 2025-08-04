@@ -4,7 +4,8 @@ import { useState } from "react";
 import Candy from "@/components/layout/Header/Navigator/Candy";
 import { RootState } from "@/store";
 import { useSelector } from "react-redux";
-import NoCandy from "./NoCandy";
+import { useNavigate, useLocation } from "react-router-dom";
+// import NoCandy from "./NoCandy";
 
 type Avatar = {
   src: string;
@@ -29,6 +30,9 @@ export default function ConfirmModal({
   const [showCandy, setShowCandy] = useState(false);
   const [showBuyCandy, setShowBuyCandy] = useState(false);
   const account = useSelector((state: RootState) => state.account);
+  // Navigate
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const handleConfirm = () => {
     console.log("Confirm clicked with selectedToBuy:", selectedToBuy);
@@ -41,7 +45,10 @@ export default function ConfirmModal({
       onBuy?.(selectedToBuy);
       onCancel(); // 關閉 modal（從父層）
     } else {
-      setShowBuyCandy(true);
+      // Navigate
+      navigate("/shop", {
+        state: { from: location.pathname }, // 儲存當前頁路徑
+      });
     }
   };
 
