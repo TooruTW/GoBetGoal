@@ -103,26 +103,34 @@
 
   --color-schema-inverse-surface: var(--inverseSurface);
   --color-schema-inverse-on-surface: var(--inverseOnSurface);
+  
+  --color-schema-outline: var(--outline);
 
   --color-schema-primary: var(--primary);
-  --color-schema-outline: var(--outline);
   --color-schema-on-primary: var(--onPrimary);
   --color-schema-primary-container: var(--PrimaryContainer);
   --color-schema-on-primary-container: var(--onPrimaryContainer);
-  --color-schema-on-secondary: var(--onSecondary);
+  
   --color-schema-surface: var(--surface);
   --color-schema-surface-variant: var(--surfaceVariant);
   --color-schema-on-surface: var(--onSurface);
   --color-schema-on-surface-variant: var(--onSurfaceVariant);
   --color-schema-on-background: var(--onBackground);
-  --color-schema-container-height: var(--surfaceContainerHigh);
+  
   --color-schema-surface-container: var(--surfaceContainer);
   --color-schema-surface-container-low: var(--surfaceContainerLow);
   --color-schema-surface-container-high: var(--surfaceContainerHigh);
   --color-schema-surface-container-highest: var(--surfaceContainerHighest);
 
+  --color-schema-secondary: var(--secondary);
+  --color-schema-on-secondary: var(--onSecondary);
   --color-schema-secondary-container: var(--secondaryContainer);
   --color-schema-on-secondary-container: var(--onSecondaryContainer);
+
+  --color-schema-tertiary: var(--tertiary);
+  --color-schema-on-tertiary: var(--onTertiary);
+  --color-schema-tertiary-container: var(--tertiaryContainer);
+  --color-schema-on-tertiary-container: var(--onTertiaryContainer);
 
   /* 新增 surface-container 顏色映射 */
   --color-surface-container: var(--surfaceContainer);
@@ -167,14 +175,17 @@
   --onPrimary: #ffffff;
   --primaryContainer: #ffd9de;
   --onPrimaryContainer: #713341;
-  --secondary: #3e6837;
+  
+  --secondary: #bef0b2;
   --onSecondary: #ffffff;
   --secondaryContainer: #41FF14;
   --onSecondaryContainer: #265022;
-  --tertiary: #735c0c;
+
+  --tertiary: #ffe08b;
   --onTertiary: #ffffff;
   --tertiaryContainer: #ffe08b;
   --onTertiaryContainer: #584400;
+
   --error: #ba1a1a;
   --onError: #ffffff;
   --errorContainer: #ffdad6;
@@ -200,6 +211,10 @@
   --onSecondaryFixed: #002202;
   --secondaryFixedDim: #a3d397;
   --onSecondaryFixedVariant: #265022;
+  --tertiary: #e3c46d;
+  --onTertiary: #3d2f00;
+  --tertiaryContainer: #ffe08b;
+  --onTertiaryContainer: #584400;
   --tertiaryFixed: #ffe08b;
   --onTertiaryFixed: #241a00;
   --tertiaryFixedDim: #e3c46d;
@@ -253,14 +268,14 @@
   --onPrimary: #551d2b;
   --primaryContainer: #713341;
   --onPrimaryContainer: #ffd9de;
-  --secondary: #a3d397;
+  --secondary: #41FF14;
   --onSecondary: #0e380d;
   --secondaryContainer: #41FF14;
   --onSecondaryContainer: #265022;
   --tertiary: #e3c46d;
   --onTertiary: #3d2f00;
-  --tertiaryContainer: #584400;
-  --onTertiaryContainer: #ffe08b;
+  --tertiaryContainer: #ffe08b;
+  --onTertiaryContainer: #584400;
   --error: #ffb4ab;
   --onError: #690005;
   --errorContainer: #93000a;

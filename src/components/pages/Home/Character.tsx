@@ -23,7 +23,7 @@ const videoList = [
   },
   {
     src: "/image/avatar/boyCatHatTail.webp",
-    video: "/animation/avatar/boyCatHatTail.webm",
+    video: "/animation/avatar/boyCatHatTail4.webm",
   },
   {
     src: "/image/avatar/boyGymBlack.webp",
@@ -140,7 +140,7 @@ export default function VideoGallery() {
   return (
     <div className="flex flex-col items-center gap-4 h-screen justify-center border">
       {/* 影片播放區 */}
-      <div className="h-60  w-auto rounded-xl shadow-lg overflow-hidden object-cover">
+      <div className="h-80  w-auto rounded-xl shadow-lg overflow-hidden object-cover">
         <video
           key={currentVideo} // 每次變更重新載入
           autoPlay
