@@ -11,10 +11,11 @@ import {
 type PostCarouselProps = {
   imgUrl: string[];
   className?: string;
+  onClick?: () => void;
 };
 
 export function PostCarousel(props: PostCarouselProps) {
-  const { imgUrl, className } = props;
+  const { imgUrl, className, onClick } = props;
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
 
@@ -29,7 +30,7 @@ export function PostCarousel(props: PostCarouselProps) {
   }, [api]);
 
   return (
-    <Carousel setApi={setApi} className={`relative ${className}`}>
+    <Carousel setApi={setApi} className={`relative ${className}`} onClick={onClick}>
 
       <CarouselContent>
         {imgUrl.map((img, index) => (

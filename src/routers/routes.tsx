@@ -31,6 +31,7 @@ import TrialComplete from "@/components/pages/TrialComplete";
 
 // Social Pages
 import SocialPages from "@/components/pages/SocialPages";
+import PopoutCard from "@/components/pages/SocialPages/components/PopoutCard";
 
 // Development
 import DevPage from "@/components/pages/DevPage";
@@ -118,8 +119,6 @@ export const routes: RouteObject[] = [
       {
         path: "trial-complete/:id",
         element: <TrialComplete />,
-
-      
       },
 
       // Social Pages routes
@@ -130,12 +129,14 @@ export const routes: RouteObject[] = [
           {
             path: "category/:category",
             element: <SocialPages />,
-            children: [
-              {
-                path: "friend/:id",
-                element: <SocialPages />,
-              },
-            ],
+          },
+          {
+            path: "friend/:id",
+            element: <SocialPages />,
+          },
+          {
+            path: "post/:id",
+            element: <PopoutCard />,
           },
         ],
       },

@@ -1,5 +1,5 @@
 import { PostCarousel } from "./PostCarousel";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa6";
 import { useEffect, useRef, useState } from "react";
@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { usePostLikeSupa } from "@/api";
 import { useDeletePostLikeSupa } from "@/api";
+import { useGSAP } from "@gsap/react";
 
 export type Post = {
   id: string;
@@ -46,12 +47,37 @@ export default function PostCard(props: Post) {
   const [isLiked, setIsLiked] = useState(false);
   const postCardRef = useRef<HTMLDivElement>(null);
 
+  const [clickCount, setClickCount] = useState(0);
+
   const { mutate: postLike } = usePostLikeSupa({ postId: id, userId });
   const { mutate: deletePostLike } = useDeletePostLikeSupa({
     postId: id,
     userId,
   });
+  const navigate = useNavigate();
 
+  // handle double click
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setClickCount(0);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [clickCount]);
+
+  // handle navigate to post
+  useEffect(() => {
+    if (clickCount === 2) {
+      navigate(`post/${id}`);
+    }
+  }, [clickCount, id, navigate]);
+
+  // handle click
+  const handleClick = () => {
+    setClickCount(clickCount + 1);
+  };
+
+  // handle like
   const handleLike = () => {
     if (isLiked) {
       deletePostLike();
@@ -62,13 +88,18 @@ export default function PostCard(props: Post) {
     }
   };
 
-  useEffect(() => {
-    gsap.to(postCardRef.current, {
-      height: isShow ? "50%" : "1/5",
-      duration: 0.25,
-      ease: "power2.inOut",
-    });
-  }, [isShow]);
+  useGSAP(
+    () => {
+      gsap.to(postCardRef.current, {
+        height: isShow ? "50%" : "1/5",
+        duration: 0.25,
+        ease: "power2.inOut",
+      });
+    },
+    {
+      dependencies: [isShow],
+    }
+  );
 
   useEffect(() => {
     setIsLiked(post_like.some((like) => like.like_by === userId));
@@ -78,12 +109,13 @@ export default function PostCard(props: Post) {
     <div className="aspect-[140/212] w-full bg-schema-surface-container">
       <div className="relative w-full h-full">
         <PostCarousel
+          onClick={handleClick}
           imgUrl={image_url}
           className="absolute top-0 left-0 w-full h-full flex items-center justify-center"
         />
         <div
           ref={postCardRef}
-          className={`flex flex-col justify-end absolute bottom-0 left-0 w-full text-schema-on-surface py-6 bg-linear-to-b  px-2 ${
+          className={`flex flex-col justify-end absolute bottom-0 left-0 w-full text-schema-on-surface py-6 bg-linear-to-b  px-2 cursor-pointer ${
             isShow
               ? "to-black/50 from-transparent gap-4 "
               : "to-black/30 from-transparent "
@@ -133,7 +165,11 @@ export default function PostCard(props: Post) {
             </div>
           </div>
           <p className="text-text-primary-foreground px-4">
-            {isShow ? content : content.slice(0, 20) + "..."}
+            {content.length > 20
+              ? isShow
+                ? content
+                : content.slice(0, 20) + "..."
+              : content}
           </p>
         </div>
       </div>

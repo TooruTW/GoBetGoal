@@ -21,7 +21,7 @@ export { useGetChallenges } from "./getChallenges";
 export { usePostCreateTrial } from "./postCreateTrial";
 export { useUserAchievementSupa } from "./getUserAchievementSupa";
 export { usePostAllSupa } from "./getPostAllSupa";
-
+export { usePostSupa } from "./getPostSupa";
 export { useGetLikePosts } from "./getLikePosts";
 export { usePostLikeSupa } from "./postPostLikeSupa";
 export { useDeletePostLikeSupa } from "./deletePostLikeSupa";
