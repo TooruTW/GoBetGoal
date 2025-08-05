@@ -91,16 +91,23 @@ export default function PostCard(props: Post) {
     setIsLiked(post_like.some((like) => like.like_by === userId));
   }, [post_like, userId]);
 
-  const handleShare = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleShare = (e: React.MouseEvent<SVGElement, MouseEvent>) => {
     e.stopPropagation();
     navigator.clipboard.writeText(`${window.location.origin}/social-pages/post/${id}`);
     setNoteContent("連結已複製");
   };
 
+  useEffect(()=>{
+    const timer = setTimeout(()=>{
+      setNoteContent("");
+    },3000)
+    return ()=>clearTimeout(timer)
+  },[noteContent])
+
   return (
     <div className="aspect-[140/212] w-full bg-schema-surface-container">
       {noteContent && (
-        <Notificatioin>
+        <Notificatioin time={2000}>
           <p>{noteContent}</p>
         </Notificatioin>
       )}
@@ -143,8 +150,11 @@ export default function PostCard(props: Post) {
             </div>
             <div className="flex items-center gap-4 pointer-events-auto">
               <LuSendHorizontal
-                className="size-6 cursor-pointer"
-                onClick={handleShare}
+                className="size-6 cursor-pointer active:scale-90"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleShare(e);
+                }}
               />
 
               {isLiked ? (

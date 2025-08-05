@@ -4,9 +4,10 @@ import gsap from "gsap";
 
 type NotificatioinProps = {
   children: React.ReactNode;
+  time?: number;
 };
 
-export default function Notificatioin({ children }: NotificatioinProps) {
+export default function Notificatioin({ children, time = 3000 }: NotificatioinProps) {
   const [isOpen, setIsOpen] = useState(true);
 
   const noteCardRef = useRef<HTMLDivElement>(null);
@@ -39,10 +40,10 @@ export default function Notificatioin({ children }: NotificatioinProps) {
       if (isOpen && noteCardRef.current) {
         timeUpAnumation();
       }
-    }, 5000);
+    }, time);
 
     return () => clearTimeout(timer);
-  }, [timeUpAnumation, isOpen]);
+  }, [timeUpAnumation, isOpen, time]);
 
   if (!isOpen) return null;
 
