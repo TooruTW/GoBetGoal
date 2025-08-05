@@ -1,5 +1,5 @@
 import { PostCarousel } from "./PostCarousel";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa6";
 import { useEffect, useRef, useState } from "react";
@@ -30,6 +30,7 @@ export default function PostCard(props: Post) {
 
   const [isLiked, setIsLiked] = useState(false);
   const postCardRef = useRef<HTMLDivElement>(null);
+  const heartRef = useRef<HTMLDivElement>(null);
 
   const [clickCount, setClickCount] = useState(0);
 
@@ -40,7 +41,6 @@ export default function PostCard(props: Post) {
     postId: id,
     userId,
   });
-  const navigate = useNavigate();
 
   // handle double click
   useEffect(() => {
@@ -54,9 +54,11 @@ export default function PostCard(props: Post) {
   // handle navigate to post
   useEffect(() => {
     if (clickCount === 2) {
-      navigate(`post/${id}`);
+      if (isLiked) return;
+      postLike();
+      setIsLiked(true);
     }
-  }, [clickCount, id, navigate]);
+  }, [clickCount, id, postLike, setIsLiked, isLiked]);
 
   // handle click
   const handleClick = () => {
@@ -73,6 +75,16 @@ export default function PostCard(props: Post) {
       setIsLiked(true);
     }
   };
+
+  useGSAP(() => {
+    if(!isLiked) return;
+    gsap.from(heartRef.current, {
+      scale: 2,
+      duration: 0.5,
+      color: "red",
+      ease: "power2.inOut", 
+    });
+  }, [isLiked]);
 
   useGSAP(
     () => {
@@ -93,16 +105,18 @@ export default function PostCard(props: Post) {
 
   const handleShare = (e: React.MouseEvent<SVGElement, MouseEvent>) => {
     e.stopPropagation();
-    navigator.clipboard.writeText(`${window.location.origin}/social-pages/post/${id}`);
+    navigator.clipboard.writeText(
+      `${window.location.origin}/social-pages/post/${id}`
+    );
     setNoteContent("連結已複製");
   };
 
-  useEffect(()=>{
-    const timer = setTimeout(()=>{
+  useEffect(() => {
+    const timer = setTimeout(() => {
       setNoteContent("");
-    },3000)
-    return ()=>clearTimeout(timer)
-  },[noteContent])
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [noteContent]);
 
   return (
     <div className="aspect-[140/212] w-full bg-schema-surface-container">
@@ -158,21 +172,25 @@ export default function PostCard(props: Post) {
               />
 
               {isLiked ? (
-                <FaHeart
-                  className="size-6 cursor-pointer"
+                <div ref={heartRef}  className="size-6">
+                  <FaHeart
+                    className="size-full cursor-pointer"
                   onClick={(e) => {
                     e.stopPropagation();
                     handleLike();
-                  }}
-                />
+                    }}
+                  />
+                </div>
               ) : (
-                <FaRegHeart
-                  className="size-6 cursor-pointer"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleLike();
-                  }}
-                />
+                <div className="size-6">
+                  <FaRegHeart
+                    className="size-full cursor-pointer"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleLike();
+                    }}
+                  />
+                </div>
               )}
             </div>
           </div>
