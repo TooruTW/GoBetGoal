@@ -1,47 +1,40 @@
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { bagel1, bagel2, bagel3, bagel4 } from "@/assets/candy";
 
-import { useEffect, useRef } from 'react'
-import gsap from 'gsap'
-import { candyBlue, candyGreen, candyPink, candyYellow } from '@/assets/candy'
+const IMAGES = [bagel1, bagel2, bagel3, bagel4];
 
-const IMAGES = [
-  candyBlue,
-  candyGreen,
-  candyPink,
-  candyYellow,
-]
-
-const cols = IMAGES.length      // 4
-const rows = 4                  // 5 × 4 = 20
-const box = 100            // 圖片寬高 (px)
+const cols = IMAGES.length; // 4
+const rows = 4; // 5 × 4 = 20
+const box = 100; // 圖片寬高 (px)
 // const gap = 20                  // 每列上下間距
 
+const CandyDrop = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
 
-const CandyDrop= () => {
-  const containerRef = useRef<HTMLDivElement>(null)
-
-  const items = Array.from({ length: rows * cols }, (_, i) => IMAGES[i % cols])
+  const items = Array.from({ length: rows * cols }, (_, i) => IMAGES[i % cols]);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const nodes = gsap.utils.toArray<HTMLImageElement>('.falling')
+      const nodes = gsap.utils.toArray<HTMLImageElement>(".falling");
 
       nodes.forEach((el, idx) => {
         gsap.fromTo(
           el,
-          { y: -400, opacity: 0 },                   
+          { y: -400, opacity: 0 },
           {
             y: 0,
             opacity: 1,
-            ease: 'bounce.out',                      // 模擬落地彈跳
+            ease: "bounce.out", // 模擬落地彈跳
             duration: 1,
-            delay: idx * 0.1,                       // 依序掉落
+            delay: idx * 0.1, // 依序掉落
           }
-        )
-      })
-    }, containerRef)
+        );
+      });
+    }, containerRef);
 
-    return () => ctx.revert()                        // 清理動畫
-  }, [])
+    return () => ctx.revert(); // 清理動畫
+  }, []);
 
   return (
     <div
@@ -50,7 +43,7 @@ const CandyDrop= () => {
       style={{
         width: 800, // 固定寬度
         height: 320, // 固定高度
-        margin: '0 auto',
+        margin: "0 auto",
       }}
     >
       {items.map((src, idx) => {
@@ -69,10 +62,10 @@ const CandyDrop= () => {
             style={{
               width: box,
               height: box,
-              position: 'absolute',
+              position: "absolute",
               left: Math.max(0, Math.min(left, 800 - box)),
               bottom: Math.max(0, Math.min(bottom, 0)),
-              userSelect: 'none',
+              userSelect: "none",
               transform: `rotate(${rotate}deg)`,
             }}
             alt={`box-${idx}`}
@@ -81,6 +74,6 @@ const CandyDrop= () => {
       })}
     </div>
   );
-}
+};
 
-export default CandyDrop
+export default CandyDrop;

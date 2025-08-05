@@ -10,6 +10,8 @@ import UserPage from "@/components/pages/UserPage";
 import Info from "@/components/pages/Info";
 import Shop from "@/components/pages/Shop";
 
+
+
 // Authentication
 import Authentication from "@/components/pages/Authentication";
 import AuthAccount from "@/components/pages/AuthAccount";

@@ -1,24 +1,20 @@
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect, useRef } from "react";
-import TempleteDetail from "./TempleteDetail";
+import TemplateDetail from "./TemplateDetail";
 import gsap from "gsap";
 import { useClickOutside } from "@/hooks/useClickOutside";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store";
 import { ChallengeSupa } from "@/types/ChallengeSupa";
-import { useParams } from "react-router-dom";
 
-export default function ChallengeInfo() {
+interface ChallengeInfoProps {
+  challenge: ChallengeSupa | null;
+}
+
+export default function ChallengeInfo({ challenge }: ChallengeInfoProps) {
   const [isOpen, setIsOpen] = useState(false);
   const imageRef = useRef<HTMLImageElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const [challenge, setChallenge] = useState<ChallengeSupa | null>(null);
-  const { id = "2" } = useParams();
-  const challengeTemplate = useSelector(
-    (state: RootState) => state.challengeTemplate.challenge
-  );
 
   useEffect(() => {
     gsap.fromTo(
@@ -35,13 +31,6 @@ export default function ChallengeInfo() {
       }
     );
   }, []);
-
-  useEffect(() => {
-    if (challengeTemplate.length > 0) {
-      console.log("redux", challengeTemplate.find((item) => item.id === Number(id)));
-      setChallenge(challengeTemplate.find((item) => item.id === Number(id)) || null);
-    }
-  }, [challengeTemplate, id]);
 
   useClickOutside(containerRef, () => setIsOpen(false));
 
@@ -75,14 +64,17 @@ export default function ChallengeInfo() {
           <p className="text-p">{challenge?.stage_count}</p>
         </li>
         <li className="flex flex-col items-center">
-          <p className="text-label text-schema-on-surface-variant">試煉總時長 （天）</p>
+          <p className="text-label text-schema-on-surface-variant">
+            試煉總時長 （天）
+          </p>
           <p className="text-p">
             {" "}
             {(challenge?.stage_count || 0) * (challenge?.frequency || 0)}{" "}
           </p>
         </li>
         <li className="flex flex-col items-center">
-          <p className="text-label text-schema-on-surface-variant">人數上限</p> <p className="text-p">6</p>
+          <p className="text-label text-schema-on-surface-variant">人數上限</p>{" "}
+          <p className="text-p">6</p>
         </li>
         <li className="flex flex-col items-center">
           <p className="text-label text-schema-on-surface-variant">審查方式</p>{" "}
@@ -106,14 +98,15 @@ export default function ChallengeInfo() {
       {
         <div
           ref={containerRef}
-          className={`fixed top-1/10 h-9/10 overflow-scroll right-0 w-1/2 max-lg:w-full  z-10 transition-transform ${isOpen ? "translete-x-0 opacity-100" : "translate-x-full opacity-0"
-            }`}
+          className={`fixed top-1/10 h-9/10 overflow-scroll right-0 w-1/2 max-lg:w-full  z-10 transition-transform ${
+            isOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
+          }`}
         >
           {challenge && (
-            <TempleteDetail
+            <TemplateDetail
               setIsOpen={setIsOpen}
               challenge={challenge}
-            ></TempleteDetail>
+            ></TemplateDetail>
           )}
         </div>
       }

@@ -1,4 +1,4 @@
-import TempleteList from "./components/TempleteList";
+import TemplateList from "./components/TemplateList";
 import Title from "./components/Title";
 import CreateTrialForm from "./components/CreateTrialForm";
 import { IoIosArrowDown } from "react-icons/io";
@@ -30,9 +30,9 @@ export default function CreateTrial() {
                 className={`${isListOpen ? "rotate-180" : ""}`}
               ></IoIosArrowDown>
             </div>
-            <TempleteList
+            <TemplateList
               className={`${isListOpen ? "h-fit" : "max-xl:hidden"}`}
-            ></TempleteList>
+            ></TemplateList>
           </div>
         </div>
 
