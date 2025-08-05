@@ -13,7 +13,7 @@ export const socialPlateFormCategory: SocialPlateFormCategory[] = [
     {
         id: "hot",
         name: "即時熱門看板",
-        url: "/social-pages/category/hot",
+        url: "/social-pages/category/likeCount",
     },
     {
         id: "sport",

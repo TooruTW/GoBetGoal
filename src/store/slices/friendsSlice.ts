@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { UserRelation } from "@/types/UserRelation";
+import { UserInfoSupa } from "@/types/UserInfoSupa";
 
 const initialState = {
-  friends: [] as string[],
+  friends: [] as UserInfoSupa[],
 };
 
 export const friendsSlice = createSlice({
@@ -10,13 +11,15 @@ export const friendsSlice = createSlice({
   initialState,
   reducers: {
     setFriends: (state, action) => {
-      const friendList = new Set();
+      const friendMap = new Map();
+      
       action.payload.forEach((item: UserRelation) => {
-        friendList.add(item.address_id);
-        friendList.add(item.request_id);
+        friendMap.set(item.address_id,item.address_user);
+        friendMap.set(item.request_id,item.request_user);
       });
-      if (friendList.size > 0) {
-        state.friends = Array.from(friendList) as string[];
+
+      if(friendMap.size > 0){
+        state.friends = Array.from(friendMap.values());
       }
     },
   },

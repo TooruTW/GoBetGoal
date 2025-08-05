@@ -1,71 +1,96 @@
 import PostCard from "./PostCard";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { usePostAllSupa } from "@/api";
+import { Post } from "@/types/Post";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
-const fakeImgUrl = [
-  "/image/challengeSample/sample-1.jpg",
-  "/image/challengeSample/sample-2.jpg",
-  "/image/challengeSample/sample-3.jpg",
-];
+type PostFlowProps = {
+  sortBy?: "likeCount" | "sport" | "sleep" | "diet" | "all";
+};
 
-const fakepostList = [
-  {
-    postId: "1",
-    userId: "1",
-    userName: "Abura",
-    userImg: "image/avatar/dog.webp",
-    trialName: "暑假結束了死小孩還不會去讀書",
-    challengeId: "1",
-    challengeName: "哈肥28天減佛法",
-    imgUrl: fakeImgUrl,
-    description:
-      "我的名字叫吉良吉影，33歲。住在杜王町東北部的別墅區一帶，未婚。我在龜友連鎖店服務。每天都要加班到晚上8點才能回家。我不抽煙，酒僅止於淺嚐。晚上11點睡，每天要睡足8個小時。睡前，我一定喝一杯溫牛奶，然後做20分鐘的柔軟操，上了床，馬上熟睡。一覺到天亮，決不把疲勞和壓力留到第二天。醫生都說我很正常。",
-  },
-
-  {
-    postId: "2",
-    userId: "2",
-    userName: "Achaka",
-    userImg: "image/avatar/bear.webp",
-    trialName: "來去菜市場看黑人吃水果",
-    challengeId: "2",
-    challengeName: "哈肥28天減佛法",
-    imgUrl: fakeImgUrl,
-    description: "おれは人間をやめるぞ! ジョジョ──ッ!!",
-  },
-];
-
-export default function PostFlow() {
+export default function PostFlow({ sortBy = "all" }: PostFlowProps) {
   const switchRef = useRef<HTMLDivElement>(null);
   const [isRecommend, setIsRecommend] = useState(true);
+  const [postList, setPostList] = useState<Post[] | null>(null);
+  const { data, isLoading, error } = usePostAllSupa();
+  const userId = useSelector((state: RootState) => state.account.user_id);
 
   useEffect(() => {
-    if (isRecommend) {
-      gsap.to(switchRef.current, {
-        xPercent: 0,
-        duration: 0.5,
-        ease: "power2.inOut",
-      });
-    } else {
-      gsap.to(switchRef.current, {
-        xPercent: 100,
-        duration: 0.5,
-        ease: "power2.inOut",
-      });
+    if (isLoading || error || !data) return;
+  }, [data, isLoading, error, isRecommend, userId]);
+
+  useEffect(() => {
+    let newList = [];
+    if (isLoading || !data) return;
+    switch (sortBy) {
+      case "all":
+        newList = [...data];
+        newList.sort((a, b) => new Date(b.create_at).getTime() - new Date(a.create_at).getTime());
+        break;
+      case "sport":
+        newList = [...data].filter((post) =>
+          post.trial.challenge.category.includes("運動")
+        );
+        break;
+      case "sleep":
+        newList = [...data].filter((post) =>
+          post.trial.challenge.category.includes("作息")
+        );
+        break;
+      case "diet":
+        newList = [...data].filter((post) =>
+          post.trial.challenge.category.includes("飲食")
+        );
+        break;
+      case "likeCount":
+        newList = [...data];
+        newList.sort((a, b) => b.post_like.length - a.post_like.length);
+        break;
     }
-  }, [isRecommend]);
+    if (!isRecommend) {
+      const likePosts = newList.filter((post) => {
+        return post.post_like.some(
+          (like: { like_by: string }) => like.like_by === userId
+        );
+      });
+      newList = likePosts;
+    }
+    setPostList(newList);
+  }, [data, isLoading, sortBy, isRecommend, userId]);
+
+  useGSAP(
+    () => {
+      if (isRecommend) {
+        gsap.to(switchRef.current, {
+          xPercent: 0,
+          duration: 0.5,
+          ease: "power2.inOut",
+        });
+      } else {
+        gsap.to(switchRef.current, {
+          xPercent: 100,
+          duration: 0.5,
+          ease: "power2.inOut",
+        });
+      }
+    },
+    { dependencies: [isRecommend] }
+  );
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex gap-2 w-full relative">
+      <div className="flex gap-2 w-full h-16 max-w-140 fixed top-13 left-1/2 -translate-x-1/2 z-10 bg-schema-surface-container">
         <div
-          className="w-1/2 flex justify-center items-center py-2"
+          className="w-1/2 flex justify-center items-center py-2 hover:cursor-pointer"
           onClick={() => setIsRecommend(true)}
         >
           為您推薦
         </div>
         <div
-          className="w-1/2 flex justify-center items-center py-2"
+          className="w-1/2 flex justify-center items-center py-2 hover:cursor-pointer"
           onClick={() => setIsRecommend(false)}
         >
           我的追蹤
@@ -75,10 +100,15 @@ export default function PostFlow() {
           className="w-1/2 h-0.5 flex justify-center items-center absolute bottom-0 left-0 bg-schema-on-background"
         ></div>
       </div>
-      <div>
-        {fakepostList.map((post) => (
-          <PostCard post={post} key={post.postId} />
-        ))}
+
+      <div className="flex flex-col gap-4">
+        {postList ? (
+          postList.map((post) => <PostCard {...post} key={post.id} />)
+        ) : (
+          <div className="flex justify-center items-center h-screen">
+            <h1 className="text-h1">Loading...</h1>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -14,7 +14,7 @@ type PostCarouselProps = {
   onClick?: () => void;
 };
 
-export function PostCarousel(props: PostCarouselProps) {
+export function PostCarouselPopOut(props: PostCarouselProps) {
   const { imgUrl, className, onClick } = props;
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
@@ -30,35 +30,36 @@ export function PostCarousel(props: PostCarouselProps) {
   }, [api]);
 
   return (
-    <Carousel setApi={setApi} className={`relative ${className}`} onClick={onClick}>
-
-      <CarouselContent>
+    <Carousel
+      setApi={setApi}
+      className={`relative h-full ${className} flex items-center justify-center`}
+      onClick={onClick}
+    >
+      <CarouselContent className="flex items-center">
         {imgUrl.map((img, index) => (
           <CarouselItem
             key={index}
-            className="flex justify-center items-center w-full "
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
+              height: "100%",
+            }}
           >
-            <img src={img} alt="post" className="w-full h-auto object-cover" />
+            <img
+              src={img}
+              alt="post"
+              className="object-contain w-full max-h-150"
+            />
           </CarouselItem>
         ))}
       </CarouselContent>
 
-      <CarouselPrevious
-        variant="ghost"
-        className="left-0 h-full w-1/3 bg-transparent border-none shadow-none hover:bg-gradient-to-l hover:from-transparent hover:via-transparent hover:to-black/5 flex justify-start text-transparent hover:text-transparent transition-all duration-500"
-        style={{
-          clipPath: "ellipse(100% 50% at -50% 50%)",
-        }}
-      />
-      <CarouselNext
-        variant="ghost"
-        className="right-0 h-full w-1/3 bg-transparent border-none shadow-none hover:bg-gradient-to-r hover:from-transparent hover:via-transparent hover:to-black/5 flex justify-end text-transparent hover:text-transparent transition-all duration-500"
-        style={{
-          clipPath: "ellipse(100% 50% at 150% 50%)",
-        }}
-      />
+      <CarouselPrevious variant="ghost" className="w-2/10 h-full "/>
+      <CarouselNext variant="ghost" className="w-2/10 h-full "/>
 
-      <div className="flex gap-2 justify-center absolute bottom-3 left-0 right-0 z-10">
+      <div className="flex gap-2 justify-center fixed bottom-3 left-0 right-0 z-10">
         {imgUrl.map((_, index) => (
           <div
             className={`size-2 rounded-full cursor-pointer ${
@@ -69,6 +70,7 @@ export function PostCarousel(props: PostCarouselProps) {
           />
         ))}
       </div>
+
     </Carousel>
   );
 }
