@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+import Achievement from "@/components/pages/UserPage/components/TempAchievement";
+>>>>>>> dev
 import TrialHistoryCardList from "@/components/pages/UserPage/components/Overview/TrialHistoryCardList";
 import Achievement from "../Achievement";
 
