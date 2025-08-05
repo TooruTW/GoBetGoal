@@ -1,6 +1,7 @@
 import PostCard from "./PostCard";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { usePostAllSupa } from "@/api";
 import { Post } from "@/types/Post";
 import { useSelector } from "react-redux";
@@ -19,41 +20,44 @@ export default function PostFlow() {
       setPostList(data);
     } else {
       const likePosts = data.filter((post) => {
-        return post.post_like.some((like: { like_by: string }) => like.like_by === userId);
+        return post.post_like.some(
+          (like: { like_by: string }) => like.like_by === userId
+        );
       });
       setPostList(likePosts);
     }
   }, [data, isLoading, error, isRecommend, userId]);
 
-  useEffect(() => {
-    if (isRecommend) {
-      gsap.to(switchRef.current, {
-        xPercent: 0,
-        duration: 0.5,
-        ease: "power2.inOut",
-      });
-    } else {
-      gsap.to(switchRef.current, {
-        xPercent: 100,
-        duration: 0.5,
-        ease: "power2.inOut",
-      });
-    }
-  }, [isRecommend]);
-
-
+  useGSAP(
+    () => {
+      if (isRecommend) {
+        gsap.to(switchRef.current, {
+          xPercent: 0,
+          duration: 0.5,
+          ease: "power2.inOut",
+        });
+      } else {
+        gsap.to(switchRef.current, {
+          xPercent: 100,
+          duration: 0.5,
+          ease: "power2.inOut",
+        });
+      }
+    },
+    { dependencies: [isRecommend] }
+  );
 
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-2 w-full h-15 max-w-140 fixed top-14 left-1/2 -translate-x-1/2 z-10 bg-schema-surface-container">
         <div
-          className="w-1/2 flex justify-center items-center py-2"
+          className="w-1/2 flex justify-center items-center py-2 hover:cursor-pointer"
           onClick={() => setIsRecommend(true)}
         >
           為您推薦
         </div>
         <div
-          className="w-1/2 flex justify-center items-center py-2"
+          className="w-1/2 flex justify-center items-center py-2 hover:cursor-pointer"
           onClick={() => setIsRecommend(false)}
         >
           我的追蹤

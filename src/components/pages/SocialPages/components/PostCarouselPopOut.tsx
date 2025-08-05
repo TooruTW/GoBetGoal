@@ -32,10 +32,10 @@ export function PostCarouselPopOut(props: PostCarouselProps) {
   return (
     <Carousel
       setApi={setApi}
-      className={`relative h-full ${className}`}
+      className={`relative h-full ${className} flex items-center justify-center`}
       onClick={onClick}
     >
-      <CarouselContent>
+      <CarouselContent className="flex items-center">
         {imgUrl.map((img, index) => (
           <CarouselItem
             key={index}
@@ -70,6 +70,7 @@ export function PostCarouselPopOut(props: PostCarouselProps) {
           />
         ))}
       </div>
+
     </Carousel>
   );
 }
