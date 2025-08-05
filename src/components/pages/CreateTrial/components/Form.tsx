@@ -6,6 +6,9 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { usePostCreateTrial } from "@/api";
 import { useParams } from "react-router-dom";
+import { useState } from "react";
+import ConfirmModal from "@/components/ui/ConfirmModal";
+import { ChallengeSupa } from "@/types/ChallengeSupa";
 
 type FormData = {
   trialName: string;
@@ -13,7 +16,11 @@ type FormData = {
   trialDeposit: number;
 };
 
-export default function Form() {
+interface FormProps {
+  challenge: ChallengeSupa | null;
+}
+
+export default function Form({ challenge }: FormProps) {
   const {
     register,
     handleSubmit,
@@ -28,19 +35,33 @@ export default function Form() {
       trialDeposit: 100000,
     },
   });
-
+  const [showConfirm, setShowConfirm] = useState(false);
   const userID = useSelector((state: RootState) => state.account.user_id);
   const { mutate: postCreateTrial } = usePostCreateTrial();
   const { id } = useParams();
+
+  console.log(challenge?.price);
+
+  const Confirm = () => {
+    // 只有當 challenge.price > 0 時才顯示確認對話框
+    if (challenge && challenge.price > 0) {
+      console.log("顯示確認對話框");
+      setShowConfirm(true);
+    }
+  };
 
   // 監聽 trialStart 的值
   const trialStartValue = watch("trialStart");
 
   const onSubmit = async (data: FormData) => {
+    // 如果 challenge.price > 0，先觸發確認對話框，阻止表單提交
+    if (challenge && challenge.price > 0 && !showConfirm) {
+      Confirm();
+      return;
+    }
+
     try {
       console.log("表單資料:", data);
-      // 這裡可以加入 API 呼叫邏輯
-      // await createTrial(data);
 
       const newData: createTrial = {
         start_at: data.trialStart,
@@ -53,9 +74,11 @@ export default function Form() {
       postCreateTrial(newData, {
         onSuccess: () => {
           alert("試煉創建成功！");
+          setShowConfirm(false);
         },
         onError: () => {
           alert("創建試煉失敗，請重試");
+          setShowConfirm(false);
         },
       });
 
@@ -64,6 +87,14 @@ export default function Form() {
     } catch (error) {
       console.error("創建試煉失敗:", error);
     }
+  };
+
+  // 處理確認對話框的確認按鈕
+  const handleConfirmSubmit = () => {
+    // 關閉確認對話框並提交表單
+    setShowConfirm(false);
+    // 重新觸發表單提交
+    handleSubmit(onSubmit)();
   };
 
   return (
@@ -92,6 +123,7 @@ export default function Form() {
               },
             })}
             type="text"
+            onClick={Confirm}
             className="border-2 border-schema-primary rounded-md px-4 py-2.5"
             placeholder="夏天到了還沒瘦？"
           />
@@ -111,6 +143,7 @@ export default function Form() {
             value={trialStartValue}
             onChange={(date) => setValue("trialStart", date)}
             placeholder="請選擇日期"
+            onClick={Confirm}
           />
           {errors.trialStart && (
             <span className="text-red-500 text-sm">
@@ -141,6 +174,7 @@ export default function Form() {
             min={100000}
             max={1000000}
             step={100000}
+            onClick={Confirm}
           />
           {errors.trialDeposit && (
             <span className="text-red-500 text-sm">
@@ -155,6 +189,7 @@ export default function Form() {
         <button
           type="submit"
           disabled={isSubmitting}
+          onClick={Confirm}
           className="text-schema-on-primary mt-6 w-full rounded-md bg-schema-primary opacity-60 hover:opacity-100 py-3 shadow-sm hover:shadow-md transition-shadow duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isSubmitting ? "創建中..." : "創建試煉"}
@@ -165,6 +200,15 @@ export default function Form() {
         alt="bg-decoration"
         className=" absolute -bottom-40 -left-25 z-0 w-100 opacity-20 rotate-20 pointer-events-none max-lg:hidden"
       />
+
+      {showConfirm && (
+        <ConfirmModal
+          title="確認購買"
+          content={`確定要花 ${challenge?.price} 顆糖果購買模板？`}
+          onCancel={() => setShowConfirm(false)}
+          onConfirm={handleConfirmSubmit}
+        />
+      )}
     </div>
   );
 }

@@ -28,7 +28,6 @@ export default function ConfirmModal({
   selectedToBuy,
 }: AcceptedProps) {
   const [showCandy, setShowCandy] = useState(false);
-  const [showBuyCandy, setShowBuyCandy] = useState(false);
   const account = useSelector((state: RootState) => state.account);
   // Navigate
   const navigate = useNavigate();
@@ -53,8 +52,14 @@ export default function ConfirmModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-schema-surface-container-high rounded-xl py-6 px-10 text-center shadow-lg relative z-50 flex-col flex gap-3">
+    <div
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+      onClick={onCancel}
+    >
+      <div
+        className="bg-schema-surface-container-high rounded-xl py-6 px-10 text-center shadow-lg relative z-50 flex-col flex gap-3"
+        onClick={(e) => e.stopPropagation()}
+      >
         <h2 className="text-lg font-bold ">{title}</h2>
         <p className="text-sm">{content}</p>
         <img src={selectedToBuy} alt="" />
@@ -73,7 +78,6 @@ export default function ConfirmModal({
           onAnimationComplete={() => setShowCandy(false)}
         />
       )}
-      {showBuyCandy && <NoCandy onClose={() => setShowBuyCandy(false)} />}
     </div>
   );
 }

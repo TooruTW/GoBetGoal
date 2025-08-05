@@ -1,11 +1,12 @@
 import GlareHover from "@/components/shared/reactBit/GlareHover";
 import type { MonsterImage } from "@/assets/monster";
 import CandyDrop from "@/components/pages/Authentication/components/CandyDrop";
-import { useState, useEffect } from "react";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import { monsterSleep, monsterRun, monsterCongrats } from "@/assets/monster";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
+import Candy from "@/components/layout/Header/Navigator/Candy";
 
 type Plan = {
   src: MonsterImage;
@@ -93,12 +94,7 @@ export default function Shop() {
                 className={`p-2 md:p-4 flex flex-col  items-center gap-2 h-auto border hover:perspective-dramatic rounded-4xl bg-schema-surface-container-high/75 hover:bg-schema-primary active:bg-schema-primary shadow-lg -translate-y-${item.translate} hover:-translate-y-2 transition-transform hover:scale-105 active:scale-95`}
               >
                 <h2 className="font-title md:text-xl">🍬 &nbsp; {item.show}</h2>
-                {show && (
-                  <CandyDrop
-                    trigger={show}
-                    onAnimationComplete={() => setShow(false)}
-                  />
-                )}
+                {show && <CandyDrop />}
 
                 {/* <div className="h-full w-full absolute z-0 flex items-center justify-center -translate-y-8 scale-75 opacity-80">
                   <CandyDrop />
@@ -119,10 +115,19 @@ export default function Shop() {
         </ul>
       </div>
       {showSuccess && (
-        <div className="fixed w-full h-full top-0 left-0 flex items-center justify-center bg-black/50 z-50">
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-schema-surface-container-high p-6 rounded-lg shadow-lg z-30">
+        <div className="fixed w-full h-full top-0 left-0 flex items-end justify-end bg-black/50 z-50">
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-schema-surface-container-high p-6 rounded-lg shadow-lg z-30 flex flex-col items-center gap-4">
             <h3 className="text-h3 font-bold mb-4">成功儲值！</h3>
             <p className="">現在你就是貝果富翁啦，盡情揮霍吧</p>
+            <video autoPlay loop className="h-30">
+              <source
+                src="/animation/monster/monsterCongrats.webm"
+                type="video/webm"
+              />
+              您的瀏覽器不支援 video 播放。
+            </video>
+
+            <Candy amount={1000000} />
             <div className="flex justify-center gap-4">
               <Button
                 className="mt-4"
@@ -135,6 +140,8 @@ export default function Shop() {
               </Button>
             </div>
           </div>
+
+          <CandyDrop />
         </div>
       )}
     </div>
