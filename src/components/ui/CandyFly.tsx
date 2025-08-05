@@ -27,11 +27,6 @@ const CandyFly = ({ trigger, onAnimationComplete }: CandyDropProps) => {
 
     if (!trigger) return; // 只有 trigger = true 才執行
 
-    const items = Array.from(
-      { length: rows * cols },
-      (_, i) => IMAGES[i % cols]
-    );
-
     const ctx = gsap.context(() => {
       const nodes = gsap.utils.toArray<HTMLImageElement>(".falling");
 

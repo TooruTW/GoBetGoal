@@ -8,4 +8,6 @@ export type UserInfoSupa = {
     liked_posts_count: number;
     friend_count: number;
     user_id: string;
+    purchase_challenge: string[];
+    purchase_avatar: string[];
 }

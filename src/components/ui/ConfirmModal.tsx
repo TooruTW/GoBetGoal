@@ -50,7 +50,7 @@ export default function ConfirmModal({
       <div className="bg-schema-surface-container-high rounded-xl py-6 px-10 text-center shadow-lg relative z-50 flex-col flex gap-3">
         <h2 className="text-lg font-bold ">{title}</h2>
         <p className="text-sm">{content}</p>
-        <img src={selectedToBuy} alt="" />
+        <img src={selectedToBuy?.src} alt="" />
         <Candy amount={account.candy_count} />
         <div className="flex justify-center gap-4 ">
           <Button variant="outline" onClick={onCancel}>

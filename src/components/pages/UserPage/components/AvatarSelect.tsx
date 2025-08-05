@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { FaLock } from "react-icons/fa";
-// import GlareHover from "@/components/shared/reactBit/GlareHover";
-import ConfirmModal from "../../../ui/ConfirmModal";
+import ConfirmModal from "@/components/ui/ConfirmModal";
 
 type Avatar = {
   src: string;

@@ -1,11 +1,10 @@
 import GlareHover from "@/components/shared/reactBit/GlareHover";
 import type { MonsterImage } from "@/assets/monster";
 import CandyDrop from "../pages/Authentication/components/CandyDrop";
-import { useState } from "react";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
 import { monsterSleep, monsterRun, monsterCongrats } from "@/assets/monster";
 import { IoClose } from "react-icons/io5";
-import { useEffect } from "react";
 
 type Plan = {
   src: MonsterImage;
