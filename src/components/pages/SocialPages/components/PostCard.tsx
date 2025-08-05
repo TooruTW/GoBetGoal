@@ -9,25 +9,9 @@ import { RootState } from "@/store";
 import { usePostLikeSupa } from "@/api";
 import { useDeletePostLikeSupa } from "@/api";
 import { useGSAP } from "@gsap/react";
-
-export type Post = {
-  id: string;
-  content: string;
-  create_at: string;
-  history: number | null;
-  image_url: string[];
-  publish_by: string;
-  trial_id: string;
-  trial: {
-    title: string;
-    challenge: { title: string };
-  };
-  user_info: {
-    nick_name: string;
-    charactor_img_link: string;
-  };
-  post_like: { like_by: string }[];
-};
+import { LuSendHorizontal } from "react-icons/lu";
+import Notificatioin from "./Notificatioin";
+import { Post } from "@/types/Post";
 
 export default function PostCard(props: Post) {
   const {
@@ -48,6 +32,8 @@ export default function PostCard(props: Post) {
   const postCardRef = useRef<HTMLDivElement>(null);
 
   const [clickCount, setClickCount] = useState(0);
+
+  const [noteContent, setNoteContent] = useState("");
 
   const { mutate: postLike } = usePostLikeSupa({ postId: id, userId });
   const { mutate: deletePostLike } = useDeletePostLikeSupa({
@@ -105,8 +91,19 @@ export default function PostCard(props: Post) {
     setIsLiked(post_like.some((like) => like.like_by === userId));
   }, [post_like, userId]);
 
+  const handleShare = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    navigator.clipboard.writeText(`${window.location.origin}/social-pages/post/${id}`);
+    setNoteContent("連結已複製");
+  };
+
   return (
     <div className="aspect-[140/212] w-full bg-schema-surface-container">
+      {noteContent && (
+        <Notificatioin>
+          <p>{noteContent}</p>
+        </Notificatioin>
+      )}
       <div className="relative w-full h-full">
         <PostCarousel
           onClick={handleClick}
@@ -144,7 +141,12 @@ export default function PostCard(props: Post) {
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-2 pointer-events-auto">
+            <div className="flex items-center gap-4 pointer-events-auto">
+              <LuSendHorizontal
+                className="size-6 cursor-pointer"
+                onClick={handleShare}
+              />
+
               {isLiked ? (
                 <FaHeart
                   className="size-6 cursor-pointer"

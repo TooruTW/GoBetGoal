@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 
 import { PostCarouselPopOut } from "./PostCarouselPopOut";
 import { usePostSupa } from "@/api";
+import { Button } from "@/components/ui/button";
 
 export default function PopoutCard() {
   const { id } = useParams();
@@ -21,20 +22,40 @@ export default function PopoutCard() {
     }
   }, [data]);
 
-  if (isLoading) return <div>Loading...</div>;
+  // 在 popout 開啟時禁用背景滾動
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+
+    // 在組件卸載時恢復滾動
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, []);
+
+  if (isLoading || !data) return <div>Loading...</div>;
 
   return (
-    <div className="fixed w-full h-screen pt-15 bottom-0 left-0 flex justify-center items-center bg-schema-surface-container-high/50 backdrop-blur-sm z-20">
+    <div className="fixed w-full h-full min-h-screen pt-15 bottom-0 left-0 flex justify-center items-center bg-schema-surface-container-high/50 backdrop-blur-sm z-20 overflow-hidden">
       <div
         ref={ref}
-        className="w-full h-4/5 flex flex-col justify-between items-center px-16 bg-schema-surface-container"
+        className="w-full h-4/5 flex flex-col justify-between items-center px-16 bg-schema-surface-container border-t-2 border-b-2 py-10 border-outline overflow-y-auto"
       >
         <div className="w-full h-full">
           <PostCarouselPopOut imgUrl={data?.[0]?.image_url || []} />
         </div>
-        <div className="w-full text-2xl font-bold">
-          <p>{data?.[0]?.trial.title}</p>
-          <p>{data?.[0]?.content}</p>
+
+        <div className="w-full">
+          <div className="flex items-center gap-2">
+            <div className="size-12 rounded-full overflow-hidden">
+              <img src={data[0].user_info.charactor_img_link} alt="avatar" />
+            </div>
+            <p>{data[0].user_info.nick_name}</p>
+            <Button variant="postAddFriend">加好友</Button>
+          </div>
+          <div className="flex flex-col gap-2 pl-12">
+            <p className="text-2xl font-bold">{data[0].trial.title}</p>
+            <p>{data[0].content}</p>
+          </div>
         </div>
       </div>
     </div>

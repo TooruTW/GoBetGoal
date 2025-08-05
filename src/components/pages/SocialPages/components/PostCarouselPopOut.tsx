@@ -50,14 +50,14 @@ export function PostCarouselPopOut(props: PostCarouselProps) {
             <img
               src={img}
               alt="post"
-              className="object-contain w-full max-h-180"
+              className="object-contain w-full max-h-150"
             />
           </CarouselItem>
         ))}
       </CarouselContent>
 
-      <CarouselPrevious variant="ghost" />
-      <CarouselNext variant="ghost" />
+      <CarouselPrevious variant="ghost" className="w-2/10 h-full "/>
+      <CarouselNext variant="ghost" className="w-2/10 h-full "/>
 
       <div className="flex gap-2 justify-center fixed bottom-3 left-0 right-0 z-10">
         {imgUrl.map((_, index) => (

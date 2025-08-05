@@ -2,7 +2,7 @@ import PostCard from "./PostCard";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { usePostAllSupa } from "@/api";
-import { Post } from "./PostCard";
+import { Post } from "@/types/Post";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 
