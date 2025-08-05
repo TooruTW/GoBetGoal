@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { candyBlue, candyGreen, candyPink, candyYellow } from "@/assets/candy";
+import { bagel1, bagel2, bagel3, bagel4 } from "@/assets/candy";
 
-const IMAGES = [candyBlue, candyGreen, candyPink, candyYellow];
+const IMAGES = [bagel1, bagel2, bagel3, bagel4];
 
 const cols = IMAGES.length; // 4
 const rows = 4; // 4 × 4 = 16
