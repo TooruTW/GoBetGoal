@@ -22,27 +22,35 @@ export default function PostFlow({ sortBy = "all" }: PostFlowProps) {
     if (isLoading || error || !data) return;
   }, [data, isLoading, error, isRecommend, userId]);
 
-
   useEffect(() => {
-    let newList = []
+    let newList = [];
     if (isLoading || !data) return;
     switch (sortBy) {
       case "all":
-        newList = data;
+        newList = [...data];
+        newList.sort((a, b) => new Date(b.create_at).getTime() - new Date(a.create_at).getTime());
         break;
       case "sport":
-        newList = data.filter((post) => post.trial.challenge.category.includes("運動"))
+        newList = [...data].filter((post) =>
+          post.trial.challenge.category.includes("運動")
+        );
         break;
       case "sleep":
-        newList = data.filter((post) => post.trial.challenge.category.includes("作息"))
+        newList = [...data].filter((post) =>
+          post.trial.challenge.category.includes("作息")
+        );
         break;
       case "diet":
-        newList = data.filter((post) => post.trial.challenge.category.includes("飲食"))
+        newList = [...data].filter((post) =>
+          post.trial.challenge.category.includes("飲食")
+        );
         break;
       case "likeCount":
-        newList = data.sort((a, b) => b.post_like.length - a.post_like.length)
+        newList = [...data];
+        newList.sort((a, b) => b.post_like.length - a.post_like.length);
         break;
     }
+    console.log(newList);
     if (!isRecommend) {
       const likePosts = newList.filter((post) => {
         return post.post_like.some(
@@ -51,7 +59,7 @@ export default function PostFlow({ sortBy = "all" }: PostFlowProps) {
       });
       newList = likePosts;
     }
-    setPostList(newList)
+    setPostList(newList);
   }, [data, isLoading, sortBy, isRecommend, userId]);
 
   useGSAP(
@@ -75,7 +83,7 @@ export default function PostFlow({ sortBy = "all" }: PostFlowProps) {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex gap-2 w-full h-15 max-w-140 fixed top-14 left-1/2 -translate-x-1/2 z-10 bg-schema-surface-container">
+      <div className="flex gap-2 w-full h-16 max-w-140 fixed top-13 left-1/2 -translate-x-1/2 z-10 bg-schema-surface-container">
         <div
           className="w-1/2 flex justify-center items-center py-2 hover:cursor-pointer"
           onClick={() => setIsRecommend(true)}
