@@ -4,7 +4,7 @@ import { MdOutlineKeyboardDoubleArrowDown } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 
-export default function TempleteDetail({
+export default function TemplateDetail({
   setIsOpen,
   challenge,
 }: {

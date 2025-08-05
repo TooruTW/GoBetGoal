@@ -1,16 +1,16 @@
-import TempleteCard from "./TempleteCard";
+import TemplateCard from "./TemplateCard";
 import { useState, useEffect } from "react";
 import { useGetChallenges } from "@/api";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { setChallengeTemplate } from "@/store/slices/challengeTemplate";
 
-export default function TempleteList({ className }: { className?: string }) {
+export default function TemplateList({ className }: { className?: string }) {
   const { data, isLoading } = useGetChallenges();
   const purchasedChallenges = useSelector(
     (state: RootState) => state.account.purchase_challenge
   );
-  const [templeteList, setTempleteList] = useState<
+  const [templateList, setTemplateList] = useState<
     {
       challengeName: string;
       isLocked: boolean;
@@ -26,14 +26,14 @@ export default function TempleteList({ className }: { className?: string }) {
     console.log(data);
 
     dispatch(setChallengeTemplate(data));
-    setTempleteList(
-      data?.map((templete) => {
+    setTemplateList(
+      data?.map((template) => {
         return {
-          challengeName: templete.title,
-          isLocked: purchasedChallenges.includes(templete.id),
-          challengeId: templete.id.toString(),
-          imageUrl: `/image${templete.img}`,
-          color: templete.color,
+          challengeName: template.title,
+          isLocked: purchasedChallenges.includes(template.id),
+          challengeId: template.id.toString(),
+          imageUrl: `/image${template.img}`,
+          color: template.color,
         };
       }) || []
     );
@@ -43,8 +43,8 @@ export default function TempleteList({ className }: { className?: string }) {
     <div
       className={` grid gap-2 grid-cols-2 h-fit max-xl:w-full max-w-175 max-xl:grid-cols-3 max-sm:grid-cols-2 ${className}`}
     >
-      {templeteList.map((templete) => (
-        <TempleteCard key={templete.challengeId} {...templete} />
+      {templateList.map((template) => (
+        <TemplateCard key={template.challengeId} {...template} />
       ))}
     </div>
   );

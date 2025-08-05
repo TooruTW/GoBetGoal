@@ -32,7 +32,9 @@ export default function Navigator() {
           <CheatBlanket amount={account.cheat_blanket} />
         </li>
         <li>
-          <Candy amount={account.candy_count} />
+          <Link className=" max-lg:hidden " to="shop">
+            <Candy amount={account.candy_count} />
+          </Link>
         </li>
         <Link className=" max-lg:hidden " to="trial">
           <li className="text-label transition-all hover:scale-120 ">

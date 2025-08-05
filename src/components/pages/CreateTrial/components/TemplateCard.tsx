@@ -9,7 +9,7 @@ type acceptProps = {
   color: string;
 };
 
-export default function TempleteCard({
+export default function TemplateCard({
   challengeName,
   isLocked,
   challengeId,
