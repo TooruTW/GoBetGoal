@@ -6,9 +6,11 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { usePostCreateTrial } from "@/api";
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ConfirmModal from "@/components/ui/ConfirmModal";
 import { ChallengeSupa } from "@/types/ChallengeSupa";
+import { usePostPurchase } from "@/api/postPurchase";
+import { useGetUserPurchase } from "@/api/getUserPurchase";
 
 type FormData = {
   trialName: string;
@@ -20,7 +22,29 @@ interface FormProps {
   challenge: ChallengeSupa | null;
 }
 
+interface PurchaseItem {
+  id: number;
+  item_id: number;
+  name: string;
+  price: number;
+  item_type: "challenge" | "avatar" | "trial_deposit";
+  image: string | undefined;
+  type: "challenge" | "avatar" | "trial_deposit";
+}
+
 export default function Form({ challenge }: FormProps) {
+  const { mutate: postPurchase } = usePostPurchase();
+  const userID = useSelector((state: RootState) => state.account.user_id);
+  const { id } = useParams();
+
+  // 查詢用戶購買記錄 - 使用您的 API 結構
+  const {
+    data: userPurchases,
+    isLoading: isPurchaseLoading,
+    error,
+  } = useGetUserPurchase(userID);
+  const [hasPurchased, setHasPurchased] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -35,27 +59,86 @@ export default function Form({ challenge }: FormProps) {
       trialDeposit: 100000,
     },
   });
-  const [showConfirm, setShowConfirm] = useState(false);
-  const userID = useSelector((state: RootState) => state.account.user_id);
-  const { mutate: postCreateTrial } = usePostCreateTrial();
-  const { id } = useParams();
 
-  console.log(challenge?.price);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [selectedToBuy, setSelectedToBuy] = useState<PurchaseItem | null>(null);
+  const { mutate: postCreateTrial } = usePostCreateTrial();
+
+  // 檢查是否已購買過這個 challenge
+  useEffect(() => {
+    if (userPurchases && challenge && !isPurchaseLoading) {
+      const purchased = userPurchases.some(
+        (purchase: PurchaseItem) =>
+          purchase.item_type === "challenge" &&
+          purchase.item_id === challenge.id
+        // &&
+        // purchase.status === "completed"
+      );
+      setHasPurchased(purchased);
+      console.log("檢查購買狀態:", {
+        purchased,
+        userPurchases,
+        challengeId: challenge.id,
+      });
+    }
+  }, [userPurchases, challenge, isPurchaseLoading]);
 
   const Confirm = () => {
+    // 如果已購買過，不顯示確認對話框
+    if (hasPurchased) {
+      return;
+    }
+
     // 只有當 challenge.price > 0 時才顯示確認對話框
     if (challenge && challenge.price > 0) {
       console.log("顯示確認對話框");
+      setSelectedToBuy({
+        id: challenge.id,
+        item_id: challenge.id,
+        name: challenge.title,
+        price: challenge.price,
+        item_type: "challenge",
+        type: "challenge",
+        image: challenge.img ? `/image${challenge.img}` : undefined,
+      });
       setShowConfirm(true);
     }
   };
 
-  // 監聽 trialStart 的值
+  // 處理購買確認
+  const handlePurchaseConfirm = () => {
+    if (!selectedToBuy || !challenge) return;
+
+    postPurchase(
+      {
+        item_id: challenge.id,
+        user_id: userID,
+        item_type: "challenge",
+        item_name: challenge.title,
+        price: challenge.price,
+      },
+      {
+        onSuccess: () => {
+          alert("購買成功！");
+          setShowConfirm(false);
+          setSelectedToBuy(null);
+          setHasPurchased(true); // 更新購買狀態
+        },
+        onError: (error) => {
+          console.error("購買失敗:", error);
+          alert("購買失敗，請稍後再試");
+          setShowConfirm(false);
+          setSelectedToBuy(null);
+        },
+      }
+    );
+  };
+
   const trialStartValue = watch("trialStart");
 
   const onSubmit = async (data: FormData) => {
-    // 如果 challenge.price > 0，先觸發確認對話框，阻止表單提交
-    if (challenge && challenge.price > 0 && !showConfirm) {
+    // 如果還沒購買且需要付費，先觸發確認對話框
+    if (!hasPurchased && challenge && challenge.price > 0 && !showConfirm) {
       Confirm();
       return;
     }
@@ -82,24 +165,35 @@ export default function Form({ challenge }: FormProps) {
         },
       });
 
-      // 提交成功後重置表單
       reset();
     } catch (error) {
       console.error("創建試煉失敗:", error);
     }
   };
 
-  // 處理確認對話框的確認按鈕
-  const handleConfirmSubmit = () => {
-    // 關閉確認對話框並提交表單
-    setShowConfirm(false);
-    // 重新觸發表單提交
-    handleSubmit(onSubmit)();
-  };
-
   return (
     <div className="flex flex-col gap-6 w-full px-6 py-7 relative overflow-hidden rounded-lg">
       <h2 className="text-h2 max-lg:hidden">客制項目</h2>
+
+      {/* 顯示購買狀態 */}
+      {isPurchaseLoading && (
+        <div className="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded">
+          🔄 檢查購買狀態中...
+        </div>
+      )}
+
+      {hasPurchased && !isPurchaseLoading && (
+        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+          ✅ 您已購買此挑戰模板
+        </div>
+      )}
+
+      {error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+          ❌ 購買記錄載入失敗: {error.message}
+        </div>
+      )}
+
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col items-center gap-9 w-full"
@@ -133,6 +227,7 @@ export default function Form({ challenge }: FormProps) {
             </span>
           )}
         </label>
+
         {/* 試煉開始日期 */}
         <label
           className="w-full max-w-140 flex flex-col gap-2"
@@ -143,7 +238,6 @@ export default function Form({ challenge }: FormProps) {
             value={trialStartValue}
             onChange={(date) => setValue("trialStart", date)}
             placeholder="請選擇日期"
-            onClick={Confirm}
           />
           {errors.trialStart && (
             <span className="text-red-500 text-sm">
@@ -151,6 +245,7 @@ export default function Form({ challenge }: FormProps) {
             </span>
           )}
         </label>
+
         {/* 投入糖果押金數量 */}
         <label
           className="w-full max-w-140 flex flex-col gap-2"
@@ -185,6 +280,7 @@ export default function Form({ challenge }: FormProps) {
             合作完成80％即返還押金。若找齊隊友，贏得試煉最多可以拿回200％押金糖果呦！
           </span>
         </label>
+
         {/* 創建試煉按鈕 */}
         <button
           type="submit"
@@ -195,18 +291,23 @@ export default function Form({ challenge }: FormProps) {
           {isSubmitting ? "創建中..." : "創建試煉"}
         </button>
       </form>
+
       <img
         src={monsterDefault}
         alt="bg-decoration"
-        className=" absolute -bottom-40 -left-25 z-0 w-100 opacity-20 rotate-20 pointer-events-none max-lg:hidden"
+        className="absolute -bottom-40 -left-25 z-0 w-100 opacity-20 rotate-20 pointer-events-none max-lg:hidden"
       />
 
-      {showConfirm && (
+      {showConfirm && selectedToBuy && (
         <ConfirmModal
           title="確認購買"
-          content={`確定要花 ${challenge?.price} 顆糖果購買模板？`}
-          onCancel={() => setShowConfirm(false)}
-          onConfirm={handleConfirmSubmit}
+          content={`確定要花 ${selectedToBuy.price} 顆糖果購買${selectedToBuy.name}？`}
+          onCancel={() => {
+            setShowConfirm(false);
+            setSelectedToBuy(null);
+          }}
+          onConfirm={handlePurchaseConfirm}
+          selectedToBuy={selectedToBuy}
         />
       )}
     </div>

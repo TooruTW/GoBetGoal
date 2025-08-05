@@ -26,8 +26,7 @@ const postPurchase = async ({
       item_type, 
       item_id, 
       item_name, 
-      price,
-      status: 'completed'  // 預設為完成狀態
+      price
     }])
     .select();
   
