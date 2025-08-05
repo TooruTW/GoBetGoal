@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setScreenSize } from "@/store/slices/screenSlice";
 import { RootState } from "@/store";
 import { TrialDetailSupa } from "@/types/TrialDetailSupa";
-interface acceptProps {
+type acceptProps = {
   trial: TrialDetailSupa[];
 }
 

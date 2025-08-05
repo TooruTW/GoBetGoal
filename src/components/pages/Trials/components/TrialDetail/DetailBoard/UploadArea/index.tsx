@@ -8,7 +8,7 @@ import { RootState } from "@/store";
 import { usePatchTrialHistory } from "@/api";
 import { useQueryClient } from "@tanstack/react-query";
 
-interface acceptProps {
+type acceptProps = {
   trial: TrialDetailSupa[];
 }
 

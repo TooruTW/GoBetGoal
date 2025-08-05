@@ -3,7 +3,7 @@ import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
 import { UseFormRegisterReturn, FieldError } from "react-hook-form";
 
-interface PasswordInputProps {
+type PasswordInputProps = {
   register: UseFormRegisterReturn;
   error?: FieldError;
   label?: string;

@@ -3,7 +3,7 @@ import { UserInfoSupa } from "./UserInfoSupa";
 import { ChallengeStageSupa } from "./ChallengeStageSupa";
 
 
-export interface TrialDetailSupa {
+export type TrialDetailSupa = {
   challenge_stage_id: string;
   created_at: string;
   end_at: string;

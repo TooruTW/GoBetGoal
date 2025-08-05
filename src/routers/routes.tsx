@@ -10,6 +10,8 @@ import UserPage from "@/components/pages/UserPage";
 import Info from "@/components/pages/Info";
 import Shop from "@/components/pages/Shop";
 
+
+
 // Authentication
 import Authentication from "@/components/pages/Authentication";
 import AuthAccount from "@/components/pages/AuthAccount";
@@ -31,6 +33,7 @@ import TrialComplete from "@/components/pages/TrialComplete";
 
 // Social Pages
 import SocialPages from "@/components/pages/SocialPages";
+import PopoutCard from "@/components/pages/SocialPages/components/PopoutCard";
 
 // Development
 import DevPage from "@/components/pages/DevPage";
@@ -118,24 +121,23 @@ export const routes: RouteObject[] = [
       {
         path: "trial-complete/:id",
         element: <TrialComplete />,
-
-      
       },
 
       // Social Pages routes
       {
         path: "social-pages",
-        element: <SocialPages />,
         children: [
           {
-            path: "category/:category",
+            index: true,
             element: <SocialPages />,
-            children: [
-              {
-                path: "friend/:id",
-                element: <SocialPages />,
-              },
-            ],
+          },
+          {
+              path: "category/:category",
+              element: <SocialPages />,
+            },
+          {
+            path: "post/:id",
+            element: <PopoutCard />,
           },
         ],
       },

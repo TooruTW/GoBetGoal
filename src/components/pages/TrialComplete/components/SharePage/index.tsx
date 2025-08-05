@@ -5,12 +5,12 @@ import { useMemo, useRef } from "react";
 import domtoimage from "dom-to-image-more";
 import { saveAs } from "file-saver";
 
-interface AcceptanceProps {
+type AcceptanceProps = {
   userImage: string;
   userName: string;
   trialName: string;
   trialReward: string;
-}
+};
 
 export default function SharePage(props: AcceptanceProps) {
   const { userImage, userName, trialName, trialReward } = props;
@@ -122,7 +122,7 @@ export default function SharePage(props: AcceptanceProps) {
         <li className="size-15 bg-schema-primary text-schema-on-primary rounded-full flex justify-center items-center">
           <LuDownload className="size-2/3" onClick={(e) => handleDownload(e)} />
         </li>
-        <li className="size-15 bg-schema-primary text-schema-on-primary rounded-full flex justify-center items-center">
+        <li className="size-15 bg-transparent text-white rounded-full flex justify-center items-center">
           <FaFacebook className="size-full" />
         </li>
         <li className="size-15 bg-schema-primary text-schema-on-primary rounded-full flex justify-center items-center">

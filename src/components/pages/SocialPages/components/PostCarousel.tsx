@@ -8,13 +8,14 @@ import {
   CarouselNext,
 } from "@/components/ui/carousel";
 
-interface PostCarouselProps {
+type PostCarouselProps = {
   imgUrl: string[];
   className?: string;
-}
+  onClick?: () => void;
+};
 
 export function PostCarousel(props: PostCarouselProps) {
-  const { imgUrl, className } = props;
+  const { imgUrl, className, onClick } = props;
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
 
@@ -29,17 +30,19 @@ export function PostCarousel(props: PostCarouselProps) {
   }, [api]);
 
   return (
-    <Carousel setApi={setApi} className={`relative ${className}`}>
+    <Carousel setApi={setApi} className={`relative ${className}`} onClick={onClick}>
+
       <CarouselContent>
         {imgUrl.map((img, index) => (
           <CarouselItem
             key={index}
-            className="flex justify-center items-center"
+            className="flex justify-center items-center w-full "
           >
-            <img src={img} alt="post" className="w-full h-auto" />
+            <img src={img} alt="post" className="w-full h-auto object-cover" />
           </CarouselItem>
         ))}
       </CarouselContent>
+
       <CarouselPrevious
         variant="ghost"
         className="left-0 h-full w-1/3 bg-transparent border-none shadow-none hover:bg-gradient-to-l hover:from-transparent hover:via-transparent hover:to-black/5 flex justify-start text-transparent hover:text-transparent transition-all duration-500"

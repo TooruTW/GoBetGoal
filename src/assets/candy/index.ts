@@ -1,9 +1,9 @@
 // Candy 圖片資源
-import candyBlue from "./CandyBlue.webp";
-import candyGreen from "./CandyGreen.webp";
-import candyPink from "./CandyPink.webp";
-import candyYellow from "./CandyYellow.webp";
+import bagel1 from "./Bagel1.webp";
+import bagel2 from "./bagel2.webp";
+import bagel3 from "./bagel3.webp";
+import bagel4 from "./bagel4.webp";
 
-export { candyBlue, candyGreen, candyPink, candyYellow };
+export { bagel1, bagel2, bagel3, bagel4 };
 
-export type CandyImage = typeof candyBlue;
+export type BagelImage = typeof bagel1;

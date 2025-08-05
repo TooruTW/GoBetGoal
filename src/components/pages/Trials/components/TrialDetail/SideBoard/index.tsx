@@ -7,25 +7,27 @@ export default function SideBoard() {
   const [isActive, setIsActive] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  function formatDate(date: string) {
-    const dateObj = new Date(date);
-    const year = dateObj.getFullYear();
-    const month = dateObj.getMonth() + 1;
-    const day = dateObj.getDate();
-    const hour = dateObj.getHours();
-    const minute = dateObj.getMinutes();
-    const msgDate = `${year}/${month}/${day}`;
-    const msgTime = `${hour.toLocaleString(undefined, {
-      minimumIntegerDigits: 2,
-    })}:${minute.toLocaleString(undefined, { minimumIntegerDigits: 2 })}`;
-    return { date: msgDate, time: msgTime };
-  }
 
-  function isSameDay(date1: string, date2: string) {
-    const date1Obj = new Date(date1);
-    const date2Obj = new Date(date2);
-    return date1Obj.toDateString() === date2Obj.toDateString();
-  }
+  // function formatDate(date: string) {
+  //   const dateObj = new Date(date);
+  //   const year = dateObj.getFullYear();
+  //   const month = dateObj.getMonth() + 1;
+  //   const day = dateObj.getDate();
+  //   const hour = dateObj.getHours();
+  //   const minute = dateObj.getMinutes();
+  //   const msgDate = `${year}/${month}/${day}`;
+  //   const msgTime = `${hour.toLocaleString(undefined, {
+  //     minimumIntegerDigits: 2,
+  //   })}:${minute.toLocaleString(undefined, { minimumIntegerDigits: 2 })}`;
+  //   return { date: msgDate, time: msgTime };
+  // }
+
+  // function isSameDay(date1: string, date2: string) {
+  //   const date1Obj = new Date(date1);
+  //   const date2Obj = new Date(date2);
+  //   return date1Obj.toDateString() === date2Obj.toDateString();
+  // } 
+  
   useEffect(() => {
     if (!containerRef.current) return;
     const container = containerRef.current;

@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
-interface acceptProps {
+type acceptProps = {
   charactor_img_link: string;
   nick_name: string;
   completeRate: string;

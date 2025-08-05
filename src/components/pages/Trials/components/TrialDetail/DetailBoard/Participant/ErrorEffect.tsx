@@ -1,7 +1,5 @@
 import gsap from "gsap";
-import { useRef,useEffect } from "react";
-
-
+import { useRef, useEffect } from "react";
 
 export default function ErrorEffect() {
   const signRef = useRef<HTMLHeadingElement | null>(null);

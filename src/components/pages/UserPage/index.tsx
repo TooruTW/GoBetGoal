@@ -1,5 +1,6 @@
 import Achievement from "@/components/pages/UserPage/components/Achievement";
 import UserTitle from "@/components/pages/UserPage/components/UserTitle";
+import Overview from "./components/Overview/index";
 import AccountSet from "@/components/pages/UserPage/components/AccountSet";
 import AddFriend from "@/components/pages/UserPage/components/AddFriend";
 import Friend from "@/components/pages/UserPage/components/Friend";
@@ -9,6 +10,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setAccount } from "@/store/slices/accountSlice";
+import LogOut from "./components/LogOut";
 
 export default function UserPage() {
   const dispatch = useDispatch();
@@ -44,17 +46,11 @@ export default function UserPage() {
 
           <TabsTrigger value="settings">帳號設置</TabsTrigger>
         </TabsList>
-        <TabsContent value="account" className="md:flex">
-          <section className="w-full md:w-1/2">
-            <h3 className="text-xl font-bold">年度總覽</h3>
-          </section>
-          <section className="w-full h-[400px] overflow-hidden md:w-1/2 ">
-            <h3 className="text-xl font-bold">成就</h3>
-            <Achievement girdCols={`grid-cols-3 lg:grid-cols-4`} />
-          </section>
+        <TabsContent value="account" className=" my-4">
+          <Overview />
         </TabsContent>
         <TabsContent value="achievements">
-          <Achievement girdCols={`grid-cols-3 md:grid-cols-4 lg:grid-cols-6`} />
+          <Achievement gridCols={`grid-cols-3 md:grid-cols-4 lg:grid-cols-6`} />
         </TabsContent>
         <TabsContent value="friends">
           {" "}
@@ -75,13 +71,12 @@ export default function UserPage() {
           <AccountSet />
         </TabsContent>
       </Tabs>
-      <section className="w-full  flex flex-col justify-center items-center">
-        <button
+      <section className="w-full  flex flex-col justify-center items-center  my-4">
+        <LogOut
+          variant="dark"
           onClick={handleLogout}
-          className=" text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors"
-        >
-          登出
-        </button>
+          className="bg-slate-800"
+        />
       </section>
     </div>
   );

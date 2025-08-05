@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
-interface acceptProps {
+type acceptProps = {
   timeToCount: Date | null;
-}
+};
 
 export default function CountDown(props: acceptProps) {
   const { timeToCount } = props;

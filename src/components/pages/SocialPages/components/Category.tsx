@@ -28,7 +28,7 @@ export default function Category() {
       </ul>
 
       {/* 手機模式可收合選單 */}
-      <div className="xl:hidden relative w-full flex justify-end">
+      <div className="xl:hidden relative w-full flex justify-end mt-20">
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           className="flex items-center gap-2 py-2 px-4 "

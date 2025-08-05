@@ -20,3 +20,14 @@ export { useDeleteFriend } from "./deleteFriend";
 export { useGetChallenges } from "./getChallenges";
 export { usePostCreateTrial } from "./postCreateTrial";
 export { useUserAchievementSupa } from "./getUserAchievementSupa";
+export { usePostAllSupa } from "./getPostAllSupa";
+export { usePostSupa } from "./getPostSupa";
+export { useGetLikePosts } from "./getLikePosts";
+export { usePostLikeSupa } from "./postPostLikeSupa";
+export { useDeletePostLikeSupa } from "./deletePostLikeSupa";
+export { useGetUserInfoAllSupa } from "./getUserInfoAllSupa";
+export { useGetUserHistoryTrialSupa } from "./getUserHistoryTrialSupa";
+export { useGetUserTrialSupa } from "./getUserTrialSupa";
+export { useGetUserPurchase } from "./getUserPurchase";
+export { usePostPurchase } from "./postPurchase";
+

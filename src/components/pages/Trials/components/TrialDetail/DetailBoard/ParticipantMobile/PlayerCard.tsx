@@ -7,7 +7,7 @@ export default function PlayerCard(props: { participantInfo: UserInfoSupa }) {
     nick_name = "unknown",
     charactor_img_link = "noImg",
     total_trial_count = 0,
-    liked_post_count = 0,
+    liked_posts_count = 0,
     friend_count = 0,
   } = props.participantInfo;
 
@@ -72,7 +72,7 @@ export default function PlayerCard(props: { participantInfo: UserInfoSupa }) {
           </li>
           <li className="flex flex-col items-center">
             <span>貼文讚數</span>
-            <span>{liked_post_count}</span>
+            <span>{liked_posts_count}</span>
           </li>
         </ul>
       </div>

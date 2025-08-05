@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
+import Character from "./Character";
+// import Bagel from "./Bagel";
 
 // import Hero from "./Hero";
 // import Fall from "./Fall";
 // import Logo from "./Logo";
-
 
 export default function Home() {
   return (
@@ -32,10 +33,13 @@ export default function Home() {
             </Link>
           </ul>
         </nav>
+
         {/* <Logo /> */}
         {/* <Hero /> */}
         {/* <Fall /> */}
       </section>
+
+      <Character />
     </div>
   );
 }
