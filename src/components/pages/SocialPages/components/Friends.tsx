@@ -20,7 +20,7 @@ export default function Friends(props: { user: UserInfoSupa[] }) {
             imageurl={item.charactor_img_link}
             name={item.nick_name}
             successCount={item.total_trial_count || 0}
-            likeCount={item.liked_post_count || 0}
+            likeCount={item.liked_posts_count || 0}
           />
         ))}
       </div>

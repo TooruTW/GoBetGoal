@@ -50,7 +50,6 @@ export default function PostFlow({ sortBy = "all" }: PostFlowProps) {
         newList.sort((a, b) => b.post_like.length - a.post_like.length);
         break;
     }
-    console.log(newList);
     if (!isRecommend) {
       const likePosts = newList.filter((post) => {
         return post.post_like.some(

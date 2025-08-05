@@ -44,8 +44,6 @@ function App() {
 
   useEffect(()=>{
     if(friendData && !friendLoading && !friendError){
-      console.log("add friend to store");
-      console.log(friendData);
       dispatch(setFriends(friendData))
     }
   },[friendData,friendLoading,friendError,dispatch])

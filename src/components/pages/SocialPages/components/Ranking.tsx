@@ -10,7 +10,6 @@ const [rankingList,setRankingList] = useState<UserInfoSupa[]>([]);
 
 useEffect(()=>{
   if(data && !isLoading && !error){
-    console.log(data,"data");
     const newList = data.sort((a,b)=>b.liked_posts_count - a.liked_posts_count);
     const top3 = newList.slice(0,3);
     setRankingList(top3);
