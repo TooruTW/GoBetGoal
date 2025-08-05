@@ -8,9 +8,8 @@ export default function UserTitle() {
   const {
     nick_name = "unknown",
     charactor_img_link = "noImg",
-
     total_trial_count = 0,
-    liked_post_count = 0,
+    liked_posts_count = 0,
     friend_count = 0,
   } = account || {};
 
@@ -31,7 +30,7 @@ export default function UserTitle() {
           </div>
           <div className="flex-col justify-center text-center">
             <p className="font-sm opacity-50">貼文讚數</p>{" "}
-            <p>{liked_post_count}</p>
+            <p>{liked_posts_count}</p>
           </div>
         </div>
       </div>

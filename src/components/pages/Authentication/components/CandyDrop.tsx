@@ -9,7 +9,7 @@ const rows = 4; // 5 × 4 = 20
 const box = 100; // 圖片寬高 (px)
 // const gap = 20                  // 每列上下間距
 
-const CandyDrop = () => {
+const CandyDrop = ({ className }: { className?: string }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const items = Array.from({ length: rows * cols }, (_, i) => IMAGES[i % cols]);
@@ -37,15 +37,7 @@ const CandyDrop = () => {
   }, []);
 
   return (
-    <div
-      ref={containerRef}
-      className="relative mx-auto h-screen"
-      style={{
-        width: 800, // 固定寬度
-        height: 320, // 固定高度
-        margin: "0 auto",
-      }}
-    >
+    <div ref={containerRef} className={`relative mx-auto ${className}`}>
       {items.map((src, idx) => {
         // left: 隨機在容器寬度內（不超出）
         const left = Math.random() * (800 - box);

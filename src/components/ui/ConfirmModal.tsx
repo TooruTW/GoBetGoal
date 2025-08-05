@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 
 interface PurchaseItem {
-  id: number;
+  id?: number;
   name: string;
   price: number;
   type: "challenge" | "avatar" | "trial_deposit";

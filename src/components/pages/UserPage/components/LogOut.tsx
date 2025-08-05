@@ -95,6 +95,7 @@ const Logout: React.FC<LogoutProps> = ({
     },
     falling1: {
       "--figure-duration": "400",
+      "--transform-figure": "none",
       "--walking-duration": "200",
       "--transform-arm1": "rotate(-60deg)",
       "--transform-wrist1": "none",
@@ -107,6 +108,7 @@ const Logout: React.FC<LogoutProps> = ({
     },
     falling2: {
       "--figure-duration": "400",
+      "--transform-figure": "none",
       "--walking-duration": "200",
       "--transform-arm1": "rotate(-100deg)",
       "--transform-arm2": "rotate(-60deg)",
@@ -119,6 +121,7 @@ const Logout: React.FC<LogoutProps> = ({
     },
     falling3: {
       "--figure-duration": "400",
+      "--transform-figure": "none",
       "--walking-duration": "200",
       "--transform-arm1": "rotate(-30deg)",
       "--transform-wrist1": "rotate(40deg)",

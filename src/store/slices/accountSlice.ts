@@ -1,13 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { UserInfoSupa } from "@/types/UserInfoSupa";
 
-const initialState = {
+const initialState: UserInfoSupa = {
   candy_count: 999,
   charactor_img_link: "",
   cheat_blanket: 999,
   nick_name: "nobody",
   system_preference_color_mode: "dark",
   user_id: "",
-  purchase_challenge:[1,2,3]
+  purchase_challenge: [],
+  purchase_avatar: [],
+  total_trial_count: 0,
+  liked_posts_count: 0,
+  friend_count: 0,
 };
 
 export const accountSlice = createSlice({
@@ -23,7 +28,11 @@ export const accountSlice = createSlice({
         state.nick_name = "nobody";
         state.system_preference_color_mode = "dark";
         state.user_id = "";
-        state.purchase_challenge=[]
+        state.purchase_challenge = [];
+        state.purchase_avatar = [];
+        state.total_trial_count = 0;
+        state.liked_posts_count = 0;
+        state.friend_count = 0;
         return;
       }
       state.candy_count = action.payload.candy_count;
@@ -34,6 +43,10 @@ export const accountSlice = createSlice({
         action.payload.system_preference_color_mode;
       state.user_id = action.payload.user_id;
       state.purchase_challenge = action.payload.purchase_challenge;
+      state.purchase_avatar = action.payload.purchase_avatar;
+      state.total_trial_count = action.payload.total_trial_count;
+      state.liked_posts_count = action.payload.liked_posts_count;
+      state.friend_count = action.payload.friend_count;
     },
     setDarkMode: (state, action) => {
       state.system_preference_color_mode = action.payload;

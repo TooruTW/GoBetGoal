@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import ImageLoader from "./ImageLoader";
 import { useNavigate } from "react-router-dom";
@@ -12,24 +12,24 @@ type acceptProps = {
     event: React.MouseEvent<SVGElement, MouseEvent>,
     id: string
   ) => void;
-}
+};
 
 export default function PlayerCard(props: acceptProps) {
   const navigate = useNavigate();
   const { participant, handleDelete } = props;
-  const isFriendRef = useRef(false);
+  const [isFriend, setIsFriend] = useState(false);
 
-  const friendList = useSelector((state: RootState) => state.friends);
+  const friendList = useSelector((state: RootState) => state.friends.friends);
+
   useEffect(() => {
-    isFriendRef.current = friendList.friends.some(
-      (friend) => friend === participant?.user_id
-    );
-  }, [friendList, participant]);
+    if (!participant || friendList[0] === undefined) return;
+    console.log(friendList, "friendList.friends");
+    const isFriend = friendList.some(user=> user.user_id === participant.user_id)
+    setIsFriend(isFriend);
+  }, [friendList, participant,isFriend]);
 
   function handleAddFriend() {
-    if (!isFriendRef.current) {
-      console.log("add friend", participant?.user_id);
-    }
+    console.log("add friend", participant?.user_id);
   }
 
   function handleNavigateToProfile() {
@@ -41,7 +41,7 @@ export default function PlayerCard(props: acceptProps) {
     nick_name = "unknown",
     charactor_img_link = "noImg",
     total_trial_count = 0,
-    liked_post_count = 0,
+    liked_posts_count = 0,
     friend_count = 0,
   } = participant || {};
 
@@ -53,8 +53,9 @@ export default function PlayerCard(props: acceptProps) {
           <IoClose
             id={user_id}
             onClick={(event) => handleDelete?.(event, user_id)}
-            className={`self-end text-3xl mx-6 opacity-0 scale-0  group-hover:opacity-100 transition ${isCloseAbleRef.current && "group-hover:scale-100"
-              }`}
+            className={`self-end text-3xl mx-6 opacity-0 scale-0  group-hover:opacity-100 transition ${
+              isCloseAbleRef.current && "group-hover:scale-100"
+            }`}
           />
           <div className="h-65 w-full ">
             <ImageLoader imgUrl={charactor_img_link} />
@@ -69,17 +70,18 @@ export default function PlayerCard(props: acceptProps) {
                 <span>朋友數</span> <span>{friend_count}</span>
               </p>
               <p className="flex justify-between">
-                <span>貼文讚數</span> <span>{liked_post_count}</span>
+                <span>貼文讚數</span> <span>{liked_posts_count}</span>
               </p>
             </div>
           </div>
           <div className="flex flex-col items-center gap-4 w-full">
             <button
               onClick={handleAddFriend}
-              className={`rounded-md bg-schema-inverse-surface text-schema-inverse-on-surface py-2 w-8/10 ${isFriendRef.current && "opacity-50"
-                }`}
+              className={`rounded-md bg-schema-inverse-surface text-schema-inverse-on-surface py-2 w-8/10 ${
+                isFriend && "opacity-50"
+              }`}
             >
-              {isFriendRef.current ? "已成為好友" : "加好友"}
+              {isFriend ? "已成為好友" : "加好友"}
             </button>
             <button
               onClick={handleNavigateToProfile}

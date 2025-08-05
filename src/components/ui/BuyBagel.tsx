@@ -1,11 +1,10 @@
 import GlareHover from "@/components/shared/reactBit/GlareHover";
 import type { MonsterImage } from "@/assets/monster";
 import CandyDrop from "../pages/Authentication/components/CandyDrop";
-import { useState } from "react";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { useEffect } from "react";
+import { Button } from "@/components/ui/button";
 import { monsterSleep, monsterRun, monsterCongrats } from "@/assets/monster";
 import { IoClose } from "react-icons/io5";
-import { useEffect } from "react";
 
 type Plan = {
   src: MonsterImage;
@@ -28,7 +27,6 @@ const plan: Plan[] = [
 ];
 
 export default function ConfirmModal({ onClose }: { onClose: () => void }) {
-  const [show, setShow] = useState(false);
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -67,20 +65,11 @@ export default function ConfirmModal({ onClose }: { onClose: () => void }) {
               glareSize={300}
               transitionDuration={800}
               playOnce={false}
-              onHover={() => setShow(true)}
-              className={`p-2 md:p-4  flex flex-col w-1/3 items-center gap-2 h-auto border  hover:perspective-dramatic rounded-4xl bg-schema-surface-container-high/75 hover:bg-schema-primary active:bg-schema-primary shadow-lg -translate-y-${item.translate} hover:-translate-y-2 transition-transform hover:scale-105 active:scale-95 `}
+              className={`group p-2 md:p-4  flex flex-col w-1/3 items-center gap-2 h-auto border  hover:perspective-dramatic rounded-4xl bg-schema-surface-container-high/75 hover:bg-schema-primary active:bg-schema-primary shadow-lg -translate-y-${item.translate} hover:-translate-y-2 transition-transform hover:scale-105 active:scale-95 `}
             >
               <h2 className="font-title md:text-xl">🍬 &nbsp; {item.show} </h2>
-              {show && (
-                <CandyDrop
-                  trigger={show}
-                  onAnimationComplete={() => setShow(false)}
-                />
-              )}
+              <CandyDrop className="group-hover:flex hidden w-30 absolute bottom-0 left-0" />
 
-              <div className="h-full w-full absolute z-0 flex items-center justify-center -translate-y-8 scale-75 opacity-80">
-                <CandyDrop />
-              </div>
               <div className="relative z-10 flex flex-col  items-center">
                 <img src={item.src} alt={item.src} className="h-full" />
                 <p className="text-sm font-title ">NTD {item.price} </p>

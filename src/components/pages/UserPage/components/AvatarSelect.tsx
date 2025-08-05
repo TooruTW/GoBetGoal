@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { FaLock } from "react-icons/fa";
-// import GlareHover from "@/components/shared/reactBit/GlareHover";
-import ConfirmModal from "../../../ui/ConfirmModal";
+import ConfirmModal from "@/components/ui/ConfirmModal";
 
 type Avatar = {
   src: string;
@@ -10,7 +9,7 @@ type Avatar = {
 
 type AvatarCarouselProps = {
   onSelect: (avatar: Avatar) => void;
-  onBuy?: (avatar: Avatar) => void;
+  onBuy?: () => void;
   selectedAvatar: Avatar | null;
   displayMode?: "lock" | "price" | "none";
   info?: string; // 資料庫目前儲存的頭像src
@@ -117,8 +116,13 @@ export default function AvatarCarousel({
           title="確認購買"
           content={`確定要花 ${selectedToBuy.price} 顆糖果購買這個角色嗎？`}
           onCancel={() => setSelectedToBuy(null)}
-          onBuy={onBuy}
-          selectedToBuy={selectedToBuy}
+          onConfirm={() => onBuy?.()}
+          selectedToBuy={{
+            name: selectedToBuy.src,
+            price: selectedToBuy.price,
+            type: "avatar",
+            image: selectedToBuy.src,
+          }}
         />
       )}
     </div>
