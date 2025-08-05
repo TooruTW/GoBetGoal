@@ -1,4 +1,4 @@
-import Achievement from "@/components/pages/UserPage/components/Achievement";
+import Achievement from "@/components/pages/UserPage/components/TempAchievement";
 import TrialHistoryCardList from "@/components/pages/UserPage/components/Overview/TrialHistoryCardList";
 
 import { useTrialAllSupa } from "@/api";
