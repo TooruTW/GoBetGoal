@@ -5,9 +5,10 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import Modal from "@/components/ui/modal";
-import { monsterCongrats, monsterDefault } from "@/assets/monster";
+import { monsterCongrats } from "@/assets/monster";
 
 export default function FormModify() {
+  
   const navigate = useNavigate();
   const { mutate: patchChangePassword } = usePatchChangePassword();
   const { mutate: patchChangeUserInfo } = usePatchChangeUserInfo();
