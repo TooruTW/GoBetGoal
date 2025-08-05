@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-import Achievement from "@/components/pages/UserPage/components/TempAchievement";
->>>>>>> dev
 import UserTitle from "@/components/pages/UserPage/components/UserTitle";
 import Overview from "./components/Overview/index";
 import AccountSet from "@/components/pages/UserPage/components/AccountSet";
