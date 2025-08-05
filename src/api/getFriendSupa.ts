@@ -3,7 +3,7 @@ import { supabase } from "@/supabaseClient";
 
 const getFriendSupa = async (id: string) => {
   if (id === "") return [];
-  const { data: fried_relationship, error } = await supabase
+  const { data, error } = await supabase
     .from("fried_relationship")
     .select(
       `
@@ -15,18 +15,15 @@ const getFriendSupa = async (id: string) => {
     .or(`request_id.eq.${id},address_id.eq.${id}`).neq('state',"rejected");
 
   if (error) throw error;
-  return fried_relationship;
+  return data;
 };
 
 export function useGetFriendSupa(id: string) {
   const { data, isLoading, error } = useQuery({
     queryKey: ["friend", id],
     queryFn: () => getFriendSupa(id),
+    enabled: !!id,
   });
-  if (error) {
-    console.log("error", error);
-  }
-  console.log(data);
 
   return { data, isLoading, error };
 }

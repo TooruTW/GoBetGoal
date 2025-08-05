@@ -25,6 +25,8 @@ const buttonVariants = cva(
         createTrialDetail:
           "py-1 px-4 bg-schema-surface-container-high text-schema-on-surface shadow-xs hover:bg-schema-surface-container-high/90 hover:scale-110 dark:bg-schema-surface-container-high/60 active:scale-105",
         datePicker: "border-2 border-schema-primary rounded-md",
+        postAddFriend:
+          "border-2 border-outline hover:scale-105 transition-all duration-300 active:scale-95",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",

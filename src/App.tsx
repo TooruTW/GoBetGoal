@@ -5,14 +5,14 @@ import { useEffect, useState } from "react";
 import { useGetUserInfoSupa, useGetUserSupa } from "./api";
 import { setAccount } from "./store/slices/accountSlice";
 import { RootState } from "./store";
+import { useGetFriendSupa } from "./api/index";
+import { setFriends } from "./store/slices/friendsSlice";
 
 function App() {
   // 
   const [userID, setUserID] = useState<string>("");
   const dispatch = useDispatch();
-
   const { data: user } = useGetUserSupa();
-
   const isDarkMode = useSelector(
     (state: RootState) => state.account.system_preference_color_mode
   );
@@ -39,6 +39,15 @@ function App() {
       dispatch(setAccount(null));
     }
   }, [userID, userInfoSupa, isLoading, error, dispatch]);
+
+  const { data: friendData, isLoading: friendLoading, error: friendError } = useGetFriendSupa(userID);
+
+  useEffect(()=>{
+    if(friendData && !friendLoading && !friendError){
+      dispatch(setFriends(friendData))
+    }
+  },[friendData,friendLoading,friendError,dispatch])
+
 
   return (
     <Layout className={isDarkMode === "dark" ? "dark" : ""}>
