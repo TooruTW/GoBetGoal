@@ -29,7 +29,6 @@ const plan: Plan[] = [
 ];
 
 export default function Shop() {
-  const [show, setShow] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
   const navigate = useNavigate();
@@ -81,7 +80,7 @@ export default function Shop() {
 
         <ul className="flex gap-2 md:gap-4">
           {plan.map((item, index) => (
-            <li onClick={depositSuccess}>
+            <li onClick={depositSuccess} key={index}>
               <GlareHover
                 glareColor="#ffffff"
                 key={index}
@@ -90,15 +89,11 @@ export default function Shop() {
                 glareSize={300}
                 transitionDuration={800}
                 playOnce={true}
-                onHover={() => setShow(true)}
-                className={`p-2 md:p-4 flex flex-col  items-center gap-2 h-auto border hover:perspective-dramatic rounded-4xl bg-schema-surface-container-high/75 hover:bg-schema-primary active:bg-schema-primary shadow-lg -translate-y-${item.translate} hover:-translate-y-2 transition-transform hover:scale-105 active:scale-95`}
+                className={`group p-2 md:p-4 flex flex-col relative items-center gap-2 h-auto border hover:perspective-dramatic rounded-4xl bg-schema-surface-container-high/75 hover:bg-schema-primary active:bg-schema-primary shadow-lg -translate-y-${item.translate} hover:-translate-y-2 transition-transform hover:scale-105 active:scale-95`}
               >
                 <h2 className="font-title md:text-xl">🍬 &nbsp; {item.show}</h2>
-                {show && <CandyDrop />}
+                <CandyDrop className="group-hover:flex hidden w-30 absolute bottom-0 left-0" />
 
-                {/* <div className="h-full w-full absolute z-0 flex items-center justify-center -translate-y-8 scale-75 opacity-80">
-                  <CandyDrop />
-                </div> */}
                 <div className="relative z-10 flex flex-col items-center">
                   <img src={item.src} alt={item.src} className="h-full" />
                   <p className="text-sm font-title">NTD {item.price}</p>

@@ -145,7 +145,7 @@ export default function AuthAccount() {
             avatar={registerInfo.avatar}
           />
           <div className="absolute  z-50  bottom-0 left-1/2 transform -translate-x-1/2  flex-col items-end justify-end">
-            <CandyDrop />
+            <CandyDrop className="w-full"/>
           </div>
         </div>
       )}
