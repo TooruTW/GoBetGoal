@@ -26,3 +26,5 @@ export { useGetLikePosts } from "./getLikePosts";
 export { usePostLikeSupa } from "./postPostLikeSupa";
 export { useDeletePostLikeSupa } from "./deletePostLikeSupa";
 export { useGetUserInfoAllSupa } from "./getUserInfoAllSupa";
+export { useGetUserHistoryTrialSupa } from "./getUserHistoryTrialSupa";
+export { useGetUserTrialSupa } from "./getUserTrialSupa";

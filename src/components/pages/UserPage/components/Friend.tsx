@@ -2,12 +2,16 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
-import { useGetFriendSupa, usePatchFriendRequest, useDeleteFriend } from "@/api";
+import {
+  useGetFriendSupa,
+  usePatchFriendRequest,
+  useDeleteFriend,
+} from "@/api";
 import { useQueryClient } from "@tanstack/react-query";
 import { IoCloseSharp } from "react-icons/io5";
 import ProfileCard from "@/components/shared/reactBit/ProfileCard";
 import { Button } from "@/components/ui/button";
-import { monsterDefault } from "@/assets/monster";
+import { monsterDefault, monsterCry } from "@/assets/monster";
 
 interface FriendUser {
   nick_name: string;
@@ -35,14 +39,16 @@ export default function Friend({ showState = "accepted" }: FriendProps) {
   const { mutate: deleteFriend } = useDeleteFriend();
   const userID = useSelector((state: RootState) => state.account.user_id);
   const { data, isLoading } = useGetFriendSupa(userID);
-  const filteredData = data?.filter((friend: FriendItem) => {
-    if (showState === "pending") {
-      return friend.state === "pending" && friend.address_id === userID;
-    } else if (showState === "accepted") {
-      return friend.state === "accepted";
-    }
-    return false;
-  }) ?? [];
+  const [show, setShow] = useState(false);
+  const filteredData =
+    data?.filter((friend: FriendItem) => {
+      if (showState === "pending") {
+        return friend.state === "pending" && friend.address_id === userID;
+      } else if (showState === "accepted") {
+        return friend.state === "accepted";
+      }
+      return false;
+    }) ?? [];
 
   useEffect(() => {
     if (isLoading) {
@@ -55,12 +61,6 @@ export default function Friend({ showState = "accepted" }: FriendProps) {
     }
     console.log(data);
   }, [data, isLoading, userID]);
-
-
-
-
-
-  // 處理刪除好友的函數
 
 
   return (
@@ -76,21 +76,27 @@ export default function Friend({ showState = "accepted" }: FriendProps) {
                     friend.address_id !== userID
                       ? friend.address_user.nick_name
                       : friend.request_id !== userID
-                        ? friend.request_user.nick_name
-                        : ""
+                      ? friend.request_user.nick_name
+                      : ""
                   }
                   status={
                     friend.state === "pending"
                       ? friend.note
-                      : `${friend.address_user.total_trial_count ?? friend.request_user.total_trial_count ?? 0}試煉 0貼文 `
+                      : `${
+                          friend.address_user.total_trial_count ??
+                          friend.request_user.total_trial_count ??
+                          0
+                        }試煉 0貼文 `
                   }
-                  contactText={friend.state === "pending" ? "接受" : "Contact Me"}
+                  contactText={
+                    friend.state === "pending" ? "接受" : "Contact Me"
+                  }
                   avatarUrl={
                     friend.address_id !== userID
                       ? friend.address_user.charactor_img_link
                       : friend.request_id !== userID
-                        ? friend.request_user.charactor_img_link
-                        : ""
+                      ? friend.request_user.charactor_img_link
+                      : ""
                   }
                   showUserInfo={true}
                   enableTilt={true}
@@ -113,27 +119,42 @@ export default function Friend({ showState = "accepted" }: FriendProps) {
                   }
                 />
 
-
                 <IoCloseSharp
                   className="size-8 absolute top-4 right-4 opacity-0 text-gray-500 group-hover:opacity-100 z-50 transition-opacity duration-200 cursor-pointer hover:text-white"
-                  onClick={() =>
-                    deleteFriend(
-                      {
-                        id1: friend.request_id,
-                        id2: friend.address_id,
-                      },
-                      {
-                        onSuccess: () => {
-                          queryClient.invalidateQueries({
-                            queryKey: ["friend", userID],
-                          });
-                        },
-                      }
-                    )
-                  }
+                  onClick={() => setShow(true)}
                 />
 
-
+                {show && (
+                  <div className="fixed inset-0 bg-black/5 flex items-center justify-center z-50" onClick={() => setShow(false)}>
+                    <div className="bg-schema-surface-container-high/30 rounded-xl py-6 px-10 text-center shadow-lg relative z-50 flex-col flex gap-3">
+                      <h2 className="text-lg font-bold ">確定要刪除好友嗎？</h2>
+                      <p className="text-sm">嗚嗚嗚</p>
+                      <img src={monsterCry} alt="" className="w-40" />
+                      <div className="flex justify-center gap-4 ">
+                        <Button variant="outline" onClick={() => setShow(false)}>取消</Button>
+                        <Button
+                          onClick={() =>
+                            deleteFriend(
+                              {
+                                id1: friend.request_id,
+                                id2: friend.address_id,
+                              },
+                              {
+                                onSuccess: () => {
+                                  queryClient.invalidateQueries({
+                                    queryKey: ["friend", userID],
+                                  });
+                                },
+                              }
+                            )
+                          }
+                        >
+                          確認
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </li>
             ))}
           </ul>
@@ -146,10 +167,8 @@ export default function Friend({ showState = "accepted" }: FriendProps) {
                 : "哈哈你沒有朋友"}
             </p>
             <Button>去交朋友</Button>
-          </div>)
-        }
-
-
+          </div>
+        )}
       </div>
     </div>
   );
