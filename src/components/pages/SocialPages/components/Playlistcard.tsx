@@ -26,8 +26,8 @@ export default function Playlistcard({
         <div className="text-label">
           <p>{name}</p>
           <p className="flex gap-2">
-            <span>{successCount}場成功試煉</span>
-            <span>{likeCount}貼文按讚數</span>
+            <span>{successCount} 場成功試煉</span>
+            <span>{likeCount} 貼文按讚數</span>
           </p>
         </div>
       </div>
