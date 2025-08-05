@@ -1,7 +1,5 @@
 import { IoFlagOutline } from "react-icons/io5";
-import Dices from "./Dices";
-
-
+import Dices from "@/components/icons/Dices";
 
 export default function TitleIcon() {
   return (
