@@ -21,7 +21,7 @@ export default function Playlistcard({
         <img
           src={imageurl}
           alt="avatar"
-          className="rounded-full w-10 h-10 object-cover"
+          className="rounded-full w-10 h-10 object-cover object-top"
         />
         <div className="text-label">
           <p>{name}</p>

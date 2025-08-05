@@ -1,16 +1,7 @@
 import Playlistcard from "./Playlistcard";
+import { UserInfoSupa } from "@/types/UserInfoSupa";
 
-type FriendsProps = {
-  user: {
-    id: string;
-    name: string;
-    imageurl: string;
-    successCount: number;
-    likeCount: number;
-  }[];
-};
-
-export default function Friends(props: FriendsProps) {
+export default function Friends(props: { user: UserInfoSupa[] }) {
   const { user } = props;
 
   return (
@@ -24,12 +15,12 @@ export default function Friends(props: FriendsProps) {
       <div className="w-full">
         {user.map((item) => (
           <Playlistcard
-            key={item.id}
-            id={item.id}
-            imageurl={item.imageurl}
-            name={item.name}
-            successCount={item.successCount}
-            likeCount={item.likeCount}
+            key={item.user_id}
+            id={item.user_id}
+            imageurl={item.charactor_img_link}
+            name={item.nick_name}
+            successCount={item.total_trial_count || 0}
+            likeCount={item.liked_post_count || 0}
           />
         ))}
       </div>
