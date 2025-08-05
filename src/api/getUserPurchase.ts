@@ -15,9 +15,9 @@ const getUserPurchase = async (userId: string) => {
   return data;
 };
 
-export function useUserPurchase(userId: string) {
+export function useGetUserPurchase(userId: string) {
   const { data, isLoading, error } = useQuery({
-    queryKey: ["purchase", userId],
+    queryKey: ["purchase_records", userId],
     queryFn: () => getUserPurchase(userId),
     enabled: !!userId,
 

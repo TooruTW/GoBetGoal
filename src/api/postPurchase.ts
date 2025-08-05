@@ -1,7 +1,7 @@
 import { supabase } from "@/supabaseClient";
 import { useMutation } from "@tanstack/react-query";
 
-const postPurchaseRecord = async ({
+const postPurchase = async ({
   user_id,
   item_type,
   item_id,
@@ -35,9 +35,9 @@ const postPurchaseRecord = async ({
   return data;
 };
 
-export function usePostPurchaseRecord() {
+export function usePostPurchase() {
   const mutation = useMutation({
-    mutationFn: postPurchaseRecord,
+    mutationFn: postPurchase,
     onError: (error) => {
       console.log(error);
     },

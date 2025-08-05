@@ -22,3 +22,5 @@ export { usePostCreateTrial } from "./postCreateTrial";
 export { useUserAchievementSupa } from "./getUserAchievementSupa";
 export { useGetUserHistoryTrialSupa } from "./getUserHistoryTrialSupa";
 export { useGetUserTrialSupa } from "./getUserTrialSupa";
+export { useGetUserPurchase } from "./getUserPurchase";
+export { usePostPurchase } from "./postPurchase";
