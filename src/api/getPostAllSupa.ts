@@ -1,13 +1,14 @@
 import { supabase } from "@/supabaseClient";
 import { useQuery } from "@tanstack/react-query";
+import { Post } from "@/types/Post";
 
 const getPostAllSupa = async () => {
     const { data, error } = await supabase
     .from('post')
-    .select('*,user_info(nick_name,charactor_img_link),trial(title,challenge(title)),post_like(like_by)')
+    .select('*,user_info(nick_name,charactor_img_link),trial(title,challenge(title,category)),post_like(like_by)')
 
     if(error) throw error;
-    return data;
+    return data as Post[];
 };
 
 export function usePostAllSupa() {

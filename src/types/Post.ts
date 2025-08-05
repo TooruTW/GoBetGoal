@@ -8,7 +8,7 @@ export type Post = {
     trial_id: string;
     trial: {
       title: string;
-      challenge: { title: string };
+      challenge: { title: string; category: string[] };
     };
     user_info: {
       nick_name: string;

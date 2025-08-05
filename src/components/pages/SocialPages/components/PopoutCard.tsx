@@ -1,6 +1,6 @@
 import { useClickOutside } from "@/hooks/useClickOutside";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useRef } from "react";
+import {  useRef } from "react";
 
 import { PostCarouselPopOut } from "./PostCarouselPopOut";
 import { usePostSupa } from "@/api";
@@ -16,15 +16,6 @@ export default function PopoutCard() {
   useClickOutside(ref, () => {
     navigate("/social-pages");
   });
-
-  // 在 popout 開啟時禁用背景滾動
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
-    // 在組件卸載時恢復滾動
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, []);
 
   if (isLoading || !data) return <div>Loading...</div>;
 

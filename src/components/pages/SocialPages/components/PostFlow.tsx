@@ -7,7 +7,11 @@ import { Post } from "@/types/Post";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 
-export default function PostFlow() {
+type PostFlowProps = {
+  sortBy?: "likeCount" | "sport" | "sleep" | "diet" | "all";
+};
+
+export default function PostFlow({ sortBy = "all" }: PostFlowProps) {
   const switchRef = useRef<HTMLDivElement>(null);
   const [isRecommend, setIsRecommend] = useState(true);
   const [postList, setPostList] = useState<Post[] | null>(null);
@@ -16,17 +20,39 @@ export default function PostFlow() {
 
   useEffect(() => {
     if (isLoading || error || !data) return;
-    if (isRecommend) {
-      setPostList(data);
-    } else {
-      const likePosts = data.filter((post) => {
+  }, [data, isLoading, error, isRecommend, userId]);
+
+
+  useEffect(() => {
+    let newList = []
+    if (isLoading || !data) return;
+    switch (sortBy) {
+      case "all":
+        newList = data;
+        break;
+      case "sport":
+        newList = data.filter((post) => post.trial.challenge.category.includes("運動"))
+        break;
+      case "sleep":
+        newList = data.filter((post) => post.trial.challenge.category.includes("作息"))
+        break;
+      case "diet":
+        newList = data.filter((post) => post.trial.challenge.category.includes("飲食"))
+        break;
+      case "likeCount":
+        newList = data.sort((a, b) => b.post_like.length - a.post_like.length)
+        break;
+    }
+    if (!isRecommend) {
+      const likePosts = newList.filter((post) => {
         return post.post_like.some(
           (like: { like_by: string }) => like.like_by === userId
         );
       });
-      setPostList(likePosts);
+      newList = likePosts;
     }
-  }, [data, isLoading, error, isRecommend, userId]);
+    setPostList(newList)
+  }, [data, isLoading, sortBy, isRecommend, userId]);
 
   useGSAP(
     () => {
