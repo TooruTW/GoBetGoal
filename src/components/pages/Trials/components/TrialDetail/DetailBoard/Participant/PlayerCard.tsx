@@ -22,7 +22,6 @@ export default function PlayerCard(props: acceptProps) {
   const { participant, handleDelete } = props;
   const [isFriend, setIsFriend] = useState(false);
 
-  const [isFriendListOpen, setIsFriendListOpen] = useState(true);
 
   const friendList = useSelector((state: RootState) => state.friends.friends);
 
@@ -76,23 +75,8 @@ export default function PlayerCard(props: acceptProps) {
     return () => clearInterval(timer);
   }, [flashEffect]);
 
-  const friendListRef = useRef<HTMLDivElement>(null);
 
-  const handleToggleFriendList = () => {
-    console.log("toggle friend list");
 
-    setIsFriendListOpen(!isFriendListOpen);
-  };
-
-  useGSAP(() => {
-    if (!friendListRef.current) return;
-    gsap.to(friendListRef.current, {
-      scaleY: isFriendListOpen ? 1 : 0,
-      duration: 0.5,
-      ease: "power2.inOut",
-      transformOrigin: "top center", // 從頂部開始縮放
-    });
-  }, [isFriendListOpen]);
 
   return (
     <div className="w-full">
@@ -145,7 +129,6 @@ export default function PlayerCard(props: acceptProps) {
             <ImageLoader imgUrl={charactor_img_link} />
           </div>
           <Button
-            onClick={handleToggleFriendList}
             ref={inviteButtonRef}
             variant="trialDetail"
             className="absolute bottom-6 w-8/10 font-normal active:scale-95 "
@@ -153,25 +136,7 @@ export default function PlayerCard(props: acceptProps) {
           >
             邀請好友
           </Button>
-          <div
-            ref={friendListRef}
-            className="absolute top-0 w-full bg-schema-surface-container-high rounded-md py-6 overflow-hidden"
-          >
-            <ul className="flex flex-col gap-4 ">
-              <li className="flex justify-between px-4">
-                <span>朋友1</span>
-              </li>
-              <li className="flex justify-between px-4">
-                <span>朋友1</span>
-              </li>
-              <li className="flex justify-between px-4">
-                <span>朋友1</span>
-              </li>
-              <li className="flex justify-between px-4">
-                <span>朋友1</span>
-              </li>
-            </ul>
-          </div>
+        
         </div>
       )}
     </div>

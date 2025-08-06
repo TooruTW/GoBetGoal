@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setScreenSize } from "@/store/slices/screenSlice";
 import { RootState } from "@/store";
 import { TrialDetailSupa } from "@/types/TrialDetailSupa";
+import Invitition from "./Participant/Invitition";
+
 type acceptProps = {
   trial: TrialDetailSupa[];
 }
@@ -59,6 +61,7 @@ export default function DetailBoard({ trial }: acceptProps) {
       {trialState === "進行中" && <UploadArea trial={trial}/>}
       <UploadCalendar trial={trial}/>
       {width < 960 ? <ParticipantMobile trial={trial} /> : <Participant trial={trial} />}
+      <Invitition className="w-full h-screen fixed top-0 left-0 z-50"/>
     </div>
   );
 }

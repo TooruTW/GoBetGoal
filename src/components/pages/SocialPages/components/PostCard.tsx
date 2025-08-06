@@ -10,7 +10,7 @@ import { usePostLikeSupa } from "@/api";
 import { useDeletePostLikeSupa } from "@/api";
 import { useGSAP } from "@gsap/react";
 import { LuSendHorizontal } from "react-icons/lu";
-import Notificatioin from "./Notificatioin";
+import Notificatioin from "@/components/ui/Notificatioin";
 import { Post } from "@/types/Post";
 
 export default function PostCard(props: Post) {

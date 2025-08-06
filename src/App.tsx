@@ -7,15 +7,20 @@ import { setAccount } from "./store/slices/accountSlice";
 import { RootState } from "./store";
 import { useGetFriendSupa } from "./api/index";
 import { setFriends } from "./store/slices/friendsSlice";
+import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
 
 function App() {
-  // 
   const [userID, setUserID] = useState<string>("");
   const dispatch = useDispatch();
   const { data: user } = useGetUserSupa();
   const isDarkMode = useSelector(
     (state: RootState) => state.account.system_preference_color_mode
   );
+
+  useEffect(()=>{
+    gsap.registerPlugin(useGSAP);
+  },[])
 
   useEffect(() => {
     if (user?.id) {
