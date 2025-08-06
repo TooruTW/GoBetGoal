@@ -4,17 +4,18 @@ import { Button } from "@/components/ui/button";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { useParams } from "react-router-dom";
-import { useTrialSupa } from "@/api";
+import { usePostInviteFriend, useTrialSupa } from "@/api";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useClickOutside } from "@/hooks/useClickOutside";
+import { useQueryClient } from "@tanstack/react-query";
 
 type acceptProps = {
   className?: string;
   onClick: () => void;
 };
 
-export default function Invitition({ className,onClick }: acceptProps) {
+export default function Invitition({ className, onClick }: acceptProps) {
   const [invititionList, setInvititionList] = useState<UserInfoSupa[]>([]);
   const [selectedInvitition, setSelectedInvitition] = useState<string[]>([]);
 
@@ -22,6 +23,8 @@ export default function Invitition({ className,onClick }: acceptProps) {
   const { data: trial, isLoading, error } = useTrialSupa(id as string);
 
   const friendList = useSelector((state: RootState) => state.friends.friends);
+  const userId = useSelector((state: RootState) => state.account.user_id);
+
   useEffect(() => {
     if (isLoading) return;
     if (error) return;
@@ -82,55 +85,117 @@ export default function Invitition({ className,onClick }: acceptProps) {
     }
   };
 
+  const { mutate: inviteFriend } = usePostInviteFriend();
+  const queryClient = useQueryClient();
+  const [isInviting, setIsInviting] = useState(false);
+
   const handleInvite = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+    e.stopPropagation();
+    if (isInviting) return; // 防止重複點擊
+
     console.log(selectedInvitition);
-    onClick();
+    setIsInviting(true);
+
+    let completedCount = 0;
+    const totalInvites = selectedInvitition.length;
+
+    if (totalInvites === 0) {
+      setIsInviting(false);
+      onClick();
+      return;
+    }
+
+    selectedInvitition.forEach((friendId) => {
+      inviteFriend(
+        {
+          trial_id: id as string,
+          participant_id: friendId,
+          invite_by: userId,
+        },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["trial", id] });
+            completedCount++;
+
+            // 當所有邀請都完成時，關閉視窗
+            if (completedCount === totalInvites) {
+              setIsInviting(false);
+              onClick();
+              setSelectedInvitition([]);
+            }
+          },
+          onError: () => {
+            completedCount++;
+            // 即使有錯誤也要繼續處理其他邀請
+            if (completedCount === totalInvites) {
+              setIsInviting(false);
+              onClick();
+              setSelectedInvitition([]);
+            }
+          },
+        }
+      );
+    });
   };
 
-  useClickOutside(invititionListRef,()=>{
+  useClickOutside(invititionListRef, () => {
     console.log("click outside");
     onClick();
   });
-
 
   return (
     <div
       className={`${className} backdrop-blur-xs bg-schema-surface-container-high/50 flex flex-col items-center justify-center`}
     >
-      <div ref={invititionListRef} className="flex flex-col gap-4 w-full max-w-150 items-center  bg-schema-surface-container py-4">
+      <div
+        ref={invititionListRef}
+        className="flex flex-col gap-4 w-full max-w-150 items-center  bg-schema-surface-container py-4"
+      >
         <h2 className="text-h2">邀請列表</h2>
         <ul className="flex flex-col rounded-md px-10 max-h-100 overflow-y-auto w-full py-4">
-          {invititionList.length > 0 ? invititionList.map((item) => (
-            <li
-              key={item.user_id}
-              className={`flex items-center justify-between gap-4 px-4 pt-4 border-b-8 border-transparent -translate-x-8 active:scale-95 cursor-pointer brightness-90 ${
-                selectedInvitition.includes(item.user_id)
-                  ? "selected"
-                  : "unselected"
-              }`}
-              onClick={() => handleSelect(item.user_id)}
-            >
-              <div
-                style={{
-                  backgroundImage: `url(${item.charactor_img_link})`,
-                  backgroundSize: "160%",
-                  backgroundPosition: "top",
-                  backgroundRepeat: "no-repeat",
-                }}
-                className="w-15 aspect-square avatar"
-              ></div>
+          {invititionList.length > 0 ? (
+            invititionList.map((item) => (
+              <li
+                key={item.user_id}
+                className={`flex items-center justify-between gap-4 px-4 pt-4 border-b-8 border-transparent -translate-x-8 active:scale-95 cursor-pointer brightness-90 ${
+                  selectedInvitition.includes(item.user_id)
+                    ? "selected"
+                    : "unselected"
+                }`}
+                onClick={() => handleSelect(item.user_id)}
+              >
+                <div
+                  style={{
+                    backgroundImage: `url(${item.charactor_img_link})`,
+                    backgroundSize: "160%",
+                    backgroundPosition: "top",
+                    backgroundRepeat: "no-repeat",
+                  }}
+                  className="w-15 aspect-square avatar"
+                ></div>
 
-              <ul className="grid grid-cols-3 gap-2 w-full">
-                <li className="text-h3 text-center">{item.nick_name}</li>
-                <li className="text-h3">完成試煉：{item.total_trial_count}</li>
-                <li className="text-h3">熱門貼文：{item.liked_posts_count}</li>
-              </ul>
-            </li>
-          )): <p className="text-h3">沒有好友可以邀請</p>}
+                <ul className="grid grid-cols-3 gap-2 w-full">
+                  <li className="text-h3 text-center">{item.nick_name}</li>
+                  <li className="text-h3">
+                    完成試煉：{item.total_trial_count}
+                  </li>
+                  <li className="text-h3">
+                    熱門貼文：{item.liked_posts_count}
+                  </li>
+                </ul>
+              </li>
+            ))
+          ) : (
+            <p className="text-h3">沒有好友可以邀請</p>
+          )}
         </ul>
-        <Button variant="trialDetail" className="w-4/5" onClick={handleInvite}>
-          邀請好友
+        <Button
+          variant="trialDetail"
+          className="w-4/5"
+          onClick={handleInvite}
+          disabled={isInviting}
+        >
+          {isInviting ? "邀請中..." : "邀請好友"}
         </Button>
       </div>
     </div>
