@@ -16,12 +16,26 @@ type acceptProps = {
     id: string
   ) => void;
   onClickInvitition?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  owner: string;
 };
 
 export default function PlayerCard(props: acceptProps) {
   const navigate = useNavigate();
-  const { participant, handleDelete,onClickInvitition } = props;
+  const { participant, handleDelete,onClickInvitition,owner } = props;
   const [isFriend, setIsFriend] = useState(false);
+  const userId = useSelector((state: RootState) => state.account.user_id);
+  const [isYourself, setIsYourself] = useState(false);
+  const [isOwner, setIsOwner] = useState(false);
+
+  useEffect(() => {
+    if (!participant) return;
+    if (participant.user_id === userId) {
+      setIsYourself(true);
+    }
+    if (participant?.user_id === owner) {
+      setIsOwner(true);
+    }
+  }, [participant, userId,owner]);
 
 
   const friendList = useSelector((state: RootState) => state.friends.friends);
@@ -90,7 +104,7 @@ const handleInvite = (e: React.MouseEvent<HTMLButtonElement>) => {
             id={user_id}
             onClick={(event) => handleDelete?.(event, user_id)}
             className={`self-end text-3xl mx-6 opacity-0 scale-0  group-hover:opacity-100 transition ${
-              isCloseAbleRef.current && "group-hover:scale-100"
+              (isCloseAbleRef.current && !isYourself && !isOwner) && "group-hover:scale-100"
             }`}
           />
           <div className="h-65 w-full ">

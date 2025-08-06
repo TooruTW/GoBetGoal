@@ -145,6 +145,7 @@ export default function Participant(props: acceptProps) {
             key={item[1].user_id}
             participant={item[1]}
             handleDelete={handleDelete}
+            owner={trial[0].trial.create_by}
           />
         );
       })}
