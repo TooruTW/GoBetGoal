@@ -9,10 +9,11 @@ import { useQueryClient } from "@tanstack/react-query";
 
 type acceptProps = {
   trial: TrialDetailSupa[];
+  onClickInvitition: () => void;
 };
 
 export default function Participant(props: acceptProps) {
-  const { trial } = props;
+  const { trial,onClickInvitition } = props;
 
   const [selectedParticipantId, setSelectedParticipantId] = useState<
     string | null
@@ -149,7 +150,7 @@ export default function Participant(props: acceptProps) {
       })}
       {Array.from({ length: 6 - participantListArray.length }).map(
         (_, index) => {
-          return <PlayerCard key={`unknown-${index}`} />;
+          return <PlayerCard key={`unknown-${index}`} onClickInvitition={onClickInvitition} />;
         }
       )}
       {/* confirm */}

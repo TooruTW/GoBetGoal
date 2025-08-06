@@ -7,12 +7,14 @@ import { useParams } from "react-router-dom";
 import { useTrialSupa } from "@/api";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { useClickOutside } from "@/hooks/useClickOutside";
 
 type acceptProps = {
   className?: string;
+  onClick: () => void;
 };
 
-export default function Invitition({ className }: acceptProps) {
+export default function Invitition({ className,onClick }: acceptProps) {
   const [invititionList, setInvititionList] = useState<UserInfoSupa[]>([]);
   const [selectedInvitition, setSelectedInvitition] = useState<string[]>([]);
 
@@ -25,11 +27,9 @@ export default function Invitition({ className }: acceptProps) {
     if (error) return;
     if (!trial) return;
     const playerSet = new Set(trial.map((item) => item.user_info.user_id));
-    console.log(playerSet);
     const friendNotInPlayerSet = friendList.filter(
       (item) => !playerSet.has(item.user_id)
     );
-    console.log(friendNotInPlayerSet);
     setInvititionList(friendNotInPlayerSet);
   }, [friendList, id, isLoading, error, trial]);
 
@@ -57,8 +57,8 @@ export default function Invitition({ className }: acceptProps) {
           duration: 0.1,
           filter: "brightness(0.9)",
           fontWeight: "normal",
-          x: 0,
-          borderBottom: "none",
+          x: -32,
+          borderBottom: "8px solid transparent",
         });
       }
       if (selectedInvitition.length > 0) {
@@ -66,8 +66,8 @@ export default function Invitition({ className }: acceptProps) {
           duration: 0.1,
           filter: "brightness(1)",
           fontWeight: "extrabold",
-          x: 25,
-          borderBottom: "5px solid var(--color-schema-outline)",
+          x: 0,
+          borderBottom: "8px solid var(--color-schema-outline)",
         });
       }
     },
@@ -82,17 +82,29 @@ export default function Invitition({ className }: acceptProps) {
     }
   };
 
+  const handleInvite = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    console.log(selectedInvitition);
+    onClick();
+  };
+
+  useClickOutside(invititionListRef,()=>{
+    console.log("click outside");
+    onClick();
+  });
+
+
   return (
     <div
       className={`${className} backdrop-blur-xs bg-schema-surface-container-high/50 flex flex-col items-center justify-center`}
     >
-      <div ref={invititionListRef}>
+      <div ref={invititionListRef} className="flex flex-col gap-4 w-full max-w-150 items-center  bg-schema-surface-container py-4">
         <h2 className="text-h2">邀請列表</h2>
-        <ul className="flex flex-col bg-schema-surface-container rounded-md py-8 pr-10">
-          {invititionList.map((item) => (
+        <ul className="flex flex-col rounded-md px-10 max-h-100 overflow-y-auto w-full py-4">
+          {invititionList.length > 0 ? invititionList.map((item) => (
             <li
               key={item.user_id}
-              className={`flex items-center justify-between gap-4 px-4 pt-4 active:scale-95 cursor-pointer brightness-90 ${
+              className={`flex items-center justify-between gap-4 px-4 pt-4 border-b-8 border-transparent -translate-x-8 active:scale-95 cursor-pointer brightness-90 ${
                 selectedInvitition.includes(item.user_id)
                   ? "selected"
                   : "unselected"
@@ -115,9 +127,9 @@ export default function Invitition({ className }: acceptProps) {
                 <li className="text-h3">熱門貼文：{item.liked_posts_count}</li>
               </ul>
             </li>
-          ))}
+          )): <p className="text-h3">沒有好友可以邀請</p>}
         </ul>
-        <Button variant="trialDetail" className="w-full">
+        <Button variant="trialDetail" className="w-4/5" onClick={handleInvite}>
           邀請好友
         </Button>
       </div>

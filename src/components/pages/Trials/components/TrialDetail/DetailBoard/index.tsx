@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setScreenSize } from "@/store/slices/screenSlice";
 import { RootState } from "@/store";
 import { TrialDetailSupa } from "@/types/TrialDetailSupa";
-import Invitition from "./Participant/Invitition";
+import Invitition from "./Invitition";
 
 type acceptProps = {
   trial: TrialDetailSupa[];
@@ -19,6 +19,7 @@ export default function DetailBoard({ trial }: acceptProps) {
 
   const [trialState,setTrialState] = useState<"待開始" | "進行中" | "已結束" | "通過" | "完美通過" | null>(null);
   const {width} = useSelector((state: RootState) => state.screen);
+  const [isInvititionOpen,setIsInvititionOpen] = useState(false);
 
   // 記錄用戶螢幕寬度
   const dispatch = useDispatch();
@@ -60,8 +61,8 @@ export default function DetailBoard({ trial }: acceptProps) {
       <TrialInfo trial={trial} />
       {trialState === "進行中" && <UploadArea trial={trial}/>}
       <UploadCalendar trial={trial}/>
-      {width < 960 ? <ParticipantMobile trial={trial} /> : <Participant trial={trial} />}
-      <Invitition className="w-full h-screen fixed top-0 left-0 z-50"/>
+      {width < 960 ? <ParticipantMobile trial={trial} /> : <Participant trial={trial} onClickInvitition={()=>setIsInvititionOpen(true)} />}
+      {isInvititionOpen && <Invitition className="w-full h-screen fixed top-0 left-0 z-50" onClick={()=>setIsInvititionOpen(false)} />}
     </div>
   );
 }

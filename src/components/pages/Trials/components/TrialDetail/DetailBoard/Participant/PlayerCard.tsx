@@ -15,11 +15,12 @@ type acceptProps = {
     event: React.MouseEvent<SVGElement, MouseEvent>,
     id: string
   ) => void;
+  onClickInvitition?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
 export default function PlayerCard(props: acceptProps) {
   const navigate = useNavigate();
-  const { participant, handleDelete } = props;
+  const { participant, handleDelete,onClickInvitition } = props;
   const [isFriend, setIsFriend] = useState(false);
 
 
@@ -76,7 +77,10 @@ export default function PlayerCard(props: acceptProps) {
   }, [flashEffect]);
 
 
-
+const handleInvite = (e: React.MouseEvent<HTMLButtonElement>) => {
+  e.stopPropagation();
+  onClickInvitition?.(e);
+}
 
   return (
     <div className="w-full">
@@ -133,6 +137,7 @@ export default function PlayerCard(props: acceptProps) {
             variant="trialDetail"
             className="absolute bottom-6 w-8/10 font-normal active:scale-95 "
             style={{ fontSize: "var(--text-p)" }}
+            onClick={handleInvite}
           >
             邀請好友
           </Button>
