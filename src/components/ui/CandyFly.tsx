@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { bagel1, bagel2, bagel3, bagel4 } from "@/assets/candy";
+import { bagel1, bagel2, bagel3, bagel4 } from "@/assets/bagel";
 
 const IMAGES = [bagel1, bagel2, bagel3, bagel4];
 

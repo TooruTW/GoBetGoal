@@ -1,4 +1,3 @@
-import Achievement from "@/components/pages/UserPage/components/Achievement";
 import UserTitle from "@/components/pages/UserPage/components/UserTitle";
 import Overview from "./components/Overview/index";
 import AccountSet from "@/components/pages/UserPage/components/AccountSet";
@@ -11,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setAccount } from "@/store/slices/accountSlice";
 import LogOut from "./components/LogOut";
+import Achievement from "./components/Achievement";
 
 export default function UserPage() {
   const dispatch = useDispatch();

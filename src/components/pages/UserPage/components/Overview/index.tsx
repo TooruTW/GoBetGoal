@@ -1,5 +1,5 @@
-import Achievement from "@/components/pages/UserPage/components/Achievement";
 import TrialHistoryCardList from "@/components/pages/UserPage/components/Overview/TrialHistoryCardList";
+import Achievement from "../Achievement";
 
 import { useTrialAllSupa } from "@/api";
 import { useEffect } from "react";
