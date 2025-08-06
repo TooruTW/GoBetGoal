@@ -5,6 +5,9 @@ import { useNavigate } from "react-router-dom";
 import type { UserInfoSupa } from "@/types/UserInfoSupa";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/store";
+import { Button } from "@/components/ui/button";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
 type acceptProps = {
   participant?: UserInfoSupa;
@@ -19,14 +22,18 @@ export default function PlayerCard(props: acceptProps) {
   const { participant, handleDelete } = props;
   const [isFriend, setIsFriend] = useState(false);
 
+  const [isFriendListOpen, setIsFriendListOpen] = useState(true);
+
   const friendList = useSelector((state: RootState) => state.friends.friends);
 
   useEffect(() => {
     if (!participant || friendList[0] === undefined) return;
     console.log(friendList, "friendList.friends");
-    const isFriend = friendList.some(user=> user.user_id === participant.user_id)
+    const isFriend = friendList.some(
+      (user) => user.user_id === participant.user_id
+    );
     setIsFriend(isFriend);
-  }, [friendList, participant,isFriend]);
+  }, [friendList, participant, isFriend]);
 
   function handleAddFriend() {
     console.log("add friend", participant?.user_id);
@@ -36,6 +43,7 @@ export default function PlayerCard(props: acceptProps) {
     console.log("navigate to profile", participant?.user_id);
     navigate(`/profile/${participant?.user_id}`);
   }
+
   const {
     user_id = "",
     nick_name = "unknown",
@@ -46,6 +54,46 @@ export default function PlayerCard(props: acceptProps) {
   } = participant || {};
 
   const isCloseAbleRef = useRef(nick_name !== "unknown");
+  const inviteButtonRef = useRef<HTMLButtonElement>(null);
+
+  const { contextSafe } = useGSAP();
+  const flashEffect = contextSafe(() => {
+    if (!inviteButtonRef.current) return;
+    const tl = gsap.timeline();
+    tl.to(inviteButtonRef.current, {
+      opacity: 0.4,
+    }).to(inviteButtonRef.current, {
+      opacity: 1,
+    });
+  });
+  useEffect(() => {
+    if (!inviteButtonRef.current) return;
+    const timer = setInterval(() => {
+      const chance = Math.random();
+      if (chance > 0.2) return;
+      flashEffect();
+    }, 2000);
+    return () => clearInterval(timer);
+  }, [flashEffect]);
+
+  const friendListRef = useRef<HTMLDivElement>(null);
+
+  const handleToggleFriendList = () => {
+    console.log("toggle friend list");
+
+    setIsFriendListOpen(!isFriendListOpen);
+  };
+
+  useGSAP(() => {
+    if (!friendListRef.current) return;
+    gsap.to(friendListRef.current, {
+      scaleY: isFriendListOpen ? 1 : 0,
+      duration: 0.5,
+      ease: "power2.inOut",
+      transformOrigin: "top center", // 從頂部開始縮放
+    });
+  }, [isFriendListOpen]);
+
   return (
     <div className="w-full">
       {isCloseAbleRef.current ? (
@@ -92,9 +140,37 @@ export default function PlayerCard(props: acceptProps) {
           </div>
         </div>
       ) : (
-        <div className="group flex flex-col items-center justify-center gap-4 w-full h-full bg-schema-surface-container/20 rounded-md py-6 ">
+        <div className="group flex flex-col items-center justify-center w-full h-full bg-schema-surface-container/20 rounded-md py-6 relative">
           <div className="h-65 w-full ">
             <ImageLoader imgUrl={charactor_img_link} />
+          </div>
+          <Button
+            onClick={handleToggleFriendList}
+            ref={inviteButtonRef}
+            variant="trialDetail"
+            className="absolute bottom-6 w-8/10 font-normal active:scale-95 "
+            style={{ fontSize: "var(--text-p)" }}
+          >
+            邀請好友
+          </Button>
+          <div
+            ref={friendListRef}
+            className="absolute top-0 w-full bg-schema-surface-container-high rounded-md py-6 overflow-hidden"
+          >
+            <ul className="flex flex-col gap-4 ">
+              <li className="flex justify-between px-4">
+                <span>朋友1</span>
+              </li>
+              <li className="flex justify-between px-4">
+                <span>朋友1</span>
+              </li>
+              <li className="flex justify-between px-4">
+                <span>朋友1</span>
+              </li>
+              <li className="flex justify-between px-4">
+                <span>朋友1</span>
+              </li>
+            </ul>
           </div>
         </div>
       )}

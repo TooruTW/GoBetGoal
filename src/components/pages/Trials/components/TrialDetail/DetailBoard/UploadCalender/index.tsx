@@ -16,10 +16,6 @@ export default function UploadCalendar(props: acceptProps) {
   const [filtedTrial, setFiltedTrial] = useState<TrialDetailSupa[]>([]);
   const [calendarRange, setCalenderRange] = useState({ month: dayjs().month(), year: dayjs().year() });
 
-  useEffect(()=>{
-    console.log(trial)
-  },[trial])
-
   useEffect(() => {
     if (calendarRange.month < 0) {
       setCalenderRange((prev) => ({ ...prev, month: 11, year: prev.year - 1 }));
