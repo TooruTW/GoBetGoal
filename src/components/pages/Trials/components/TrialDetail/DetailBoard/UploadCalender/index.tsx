@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { TrialDetailSupa } from "@/types/TrialDetailSupa";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
+import dayjs from "dayjs";
 
 type acceptProps = {
   trial: TrialDetailSupa[];
@@ -13,7 +14,7 @@ export default function UploadCalendar(props: acceptProps) {
   const { trial } = props;
   const userId = useSelector((state: RootState) => state.account.user_id);
   const [filtedTrial, setFiltedTrial] = useState<TrialDetailSupa[]>([]);
-  const [calendarRange, setCalenderRange] = useState({ month: 6, year: 2025 });
+  const [calendarRange, setCalenderRange] = useState({ month: dayjs().month(), year: dayjs().year() });
 
   useEffect(() => {
     if (calendarRange.month < 0) {

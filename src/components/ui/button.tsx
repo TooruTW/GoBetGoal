@@ -27,6 +27,7 @@ const buttonVariants = cva(
         datePicker: "border-2 border-schema-primary rounded-md",
         postAddFriend:
           "border-2 border-outline hover:scale-105 transition-all duration-300 active:scale-95",
+        trialDetail:"rounded-md bg-schema-inverse-surface text-schema-inverse-on-surface py-2"
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
