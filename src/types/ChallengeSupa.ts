@@ -16,4 +16,5 @@ export type ChallengeSupa = {
   price: number;
   color: string;
   challenge_stage?: ChallengeStageSupa[];
+  uuid: string;
 }
