@@ -16,16 +16,18 @@ type acceptProps = {
     id: string
   ) => void;
   onClickInvitition?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  owner: string;
+  owner?: string;
+  isInTheTrial?: boolean;
 };
 
 export default function PlayerCard(props: acceptProps) {
   const navigate = useNavigate();
-  const { participant, handleDelete,onClickInvitition,owner } = props;
+  const { participant, handleDelete,onClickInvitition,owner,isInTheTrial } = props;
   const [isFriend, setIsFriend] = useState(false);
   const userId = useSelector((state: RootState) => state.account.user_id);
   const [isYourself, setIsYourself] = useState(false);
   const [isOwner, setIsOwner] = useState(false);
+
 
   useEffect(() => {
     if (!participant) return;
@@ -42,7 +44,6 @@ export default function PlayerCard(props: acceptProps) {
 
   useEffect(() => {
     if (!participant || friendList[0] === undefined) return;
-    console.log(friendList, "friendList.friends");
     const isFriend = friendList.some(
       (user) => user.user_id === participant.user_id
     );
@@ -146,7 +147,7 @@ const handleInvite = (e: React.MouseEvent<HTMLButtonElement>) => {
           <div className="h-65 w-full ">
             <ImageLoader imgUrl={charactor_img_link} />
           </div>
-          <Button
+          {isInTheTrial && <Button
             ref={inviteButtonRef}
             variant="trialDetail"
             className="absolute bottom-6 w-8/10 font-normal active:scale-95 "
@@ -154,7 +155,7 @@ const handleInvite = (e: React.MouseEvent<HTMLButtonElement>) => {
             onClick={handleInvite}
           >
             邀請好友
-          </Button>
+          </Button>}
         
         </div>
       )}

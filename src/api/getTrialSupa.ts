@@ -7,6 +7,7 @@ const getTrialSupa = async (id: string) => {
     .select("*,user_info(*),trial(*,challenge(*)),challenge_stage(*)")
     .eq("trial_id", id)
     .order("stage_index")
+    .order("created_at",{ascending: true})
 
   if (error) throw error;
   return data;

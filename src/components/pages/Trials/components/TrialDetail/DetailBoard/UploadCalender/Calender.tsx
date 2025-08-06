@@ -23,11 +23,6 @@ export default function Calender(props: acceptProps) {
   const [dateList, setDateList] = useState<dayBoxType[]>([]);
   const { width } = useSelector((state: RootState) => state.screen);
 
-  useEffect(()=>{
-    if(trial.length === 0) return;
-    console.log(trial);
-  },[trial])
-
   const updateCurrentList = useCallback(
     (arr: TrialDetailSupa[], currentList: dayBoxType[]): dayBoxType[] => {
       const newList: dayBoxType[] = arr.map((item) => {
