@@ -23,11 +23,15 @@ export default function Calender(props: acceptProps) {
   const [dateList, setDateList] = useState<dayBoxType[]>([]);
   const { width } = useSelector((state: RootState) => state.screen);
 
+  useEffect(()=>{
+    console.log(dateList)
+  },[dateList])
+
   const updateCurrentList = useCallback(
     (arr: TrialDetailSupa[], currentList: dayBoxType[]): dayBoxType[] => {
       const newList: dayBoxType[] = arr.map((item) => {
         const newItem = {
-          date: new Date(item.start_at).getDate(),
+          date: new Date(item.end_at).getDate(),
           isThisMonth:
             new Date(item.end_at).getMonth() === month &&
             new Date(item.end_at).getFullYear() === year,
@@ -52,6 +56,7 @@ export default function Calender(props: acceptProps) {
     [month, year]
   );
 
+  // 重置日期列表
   useEffect(() => {
     if (!trial) return;    
     const lastDate = new Date(year, month + 1, 0).getDate();
