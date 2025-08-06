@@ -1,5 +1,5 @@
 // Candy 圖片資源
-import bagel1 from "./Bagel1.webp";
+import bagel1 from "./bagel1.webp";
 import bagel2 from "./bagel2.webp";
 import bagel3 from "./bagel3.webp";
 import bagel4 from "./bagel4.webp";

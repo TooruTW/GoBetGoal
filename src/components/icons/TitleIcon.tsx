@@ -1,8 +1,6 @@
 import { IoFlagOutline } from "react-icons/io5";
 import Dices from "./Dices";
 
-
-
 export default function TitleIcon() {
   return (
     <div className="relative w-10 h-10 max-md:w-7 max-md:h-7">
