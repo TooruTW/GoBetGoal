@@ -23,7 +23,6 @@ type Avatar = {
 
 type AvatarCarouselProps = {
   onSelect: (avatar: Avatar) => void;
-  onBuy?: () => void;
 
   displayMode?: "lock" | "price" | "none";
   info?: string; // 資料庫目前儲存的頭像src
@@ -42,7 +41,6 @@ interface ApiError {
 
 export default function AvatarSelect({
   onSelect,
-  onBuy,
 
   displayMode = "price",
   info,
@@ -157,7 +155,7 @@ export default function AvatarSelect({
 
     // 檢查必要字段
     if (!userID) {
-      setNoteContent("用戶ID不存在，請重新登錄 ^๑_๑^ ੭");
+      setNoteContent("請重新登入 ^๑_๑^ ੭");
       return;
     }
 
