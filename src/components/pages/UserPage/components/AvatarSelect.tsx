@@ -123,7 +123,7 @@ export default function AvatarSelect({
 
     patchUserInfo(updateData, {
       onSuccess: () => {
-        setNoteContent("頭像更換成功！");
+        setNoteContent("頭像更換成功！^ >𖥦< ^ ੭  ");
 
         // 更新本地狀態
         onSelect(selectedToChange);
@@ -137,7 +137,7 @@ export default function AvatarSelect({
       onError: (error: ApiError) => {
         console.error("頭像更換失敗:", error);
 
-        let errorMessage = "更換頭像失敗，請稍後再試";
+        let errorMessage = "更換頭像失敗，請稍後再試 ^๑_๑^ ੭";
         if (error?.response?.data?.message) {
           errorMessage = error.response.data.message;
         } else if (error?.message) {
@@ -157,9 +157,7 @@ export default function AvatarSelect({
 
     // 檢查必要字段
     if (!userID) {
-      console.error("用戶ID不存在");
-      setNoteContent("用戶ID不存在，請重新登錄");
-
+      setNoteContent("用戶ID不存在，請重新登錄 ^๑_๑^ ੭");
       return;
     }
 
@@ -195,7 +193,7 @@ export default function AvatarSelect({
     postPurchase(purchaseData, {
       onSuccess: (response) => {
         console.log("頭像購買成功，響應:", response);
-        setNoteContent("購買成功！");
+        setNoteContent("購買成功！ ^⌯𖥦⌯^ ੭");
 
         // 扣除糖果
         const updatedBagel = userBagel - selectedToBuy.price;
@@ -222,26 +220,23 @@ export default function AvatarSelect({
         // 購買成功後自動選擇該頭像
         onSelect(selectedToBuy);
         setSelectedToBuy(null);
-
-        // 如果有額外的購買回調，執行它
-        onBuy?.();
       },
       onError: (error: ApiError) => {
-        console.error("購買頭像失敗詳細信息:", { error });
+        console.error({ error });
 
         // 根據不同錯誤類型顯示不同消息
-        let errorMessage = "購買失敗，請稍後再試";
+        let errorMessage = "購買失敗，等一下再試喔 ^-﹏-^ ੭";
 
         if (error?.response?.status === 400) {
-          errorMessage = "請求參數錯誤";
+          errorMessage = "請求參數錯誤 ^-﹏-^ ੭";
         } else if (error?.response?.status === 401) {
-          errorMessage = "未授權，請重新登錄";
+          errorMessage = "重新登入再來買吧 ^-﹏-^ ੭";
         } else if (error?.response?.status === 403) {
-          errorMessage = "權限不足";
+          errorMessage = "權限不足 ^-﹏-^ ੭";
         } else if (error?.response?.status === 409) {
-          errorMessage = "已購買過此頭像";
+          errorMessage = "已經購買過了喔 ^-﹏-^ ੭";
         } else if (error?.response?.status === 500) {
-          errorMessage = "服務器錯誤";
+          errorMessage = "QQ 我們壞掉了，請救救我 ^-﹏-^ ੭";
         } else if (error?.response?.data?.message) {
           errorMessage = error.response.data.message;
         } else if (error?.message) {
