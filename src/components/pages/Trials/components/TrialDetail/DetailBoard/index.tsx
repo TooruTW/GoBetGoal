@@ -61,7 +61,7 @@ export default function DetailBoard({ trial }: acceptProps) {
       <TrialInfo trial={trial} />
       {trialState === "進行中" && <UploadArea trial={trial}/>}
       <UploadCalendar trial={trial}/>
-      {width < 960 ? <ParticipantMobile trial={trial} /> : <Participant trial={trial} onClickInvitition={()=>setIsInvititionOpen(true)} />}
+      {width < 960 ? <ParticipantMobile trial={trial} onClickInvitition={()=>setIsInvititionOpen(true)}/> : <Participant trial={trial} onClickInvitition={()=>setIsInvititionOpen(true)} />}
       {isInvititionOpen && <Invitition className="w-full h-screen fixed top-0 left-0 z-50" onClick={()=>setIsInvititionOpen(false)} />}
     </div>
   );
