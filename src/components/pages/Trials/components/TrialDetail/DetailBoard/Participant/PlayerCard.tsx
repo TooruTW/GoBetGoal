@@ -42,6 +42,7 @@ export default function PlayerCard(props: acceptProps) {
     }
   }, [participant, userId, owner]);
   const friendList = useSelector((state: RootState) => state.friends.friends);
+  
   useEffect(() => {
     if (!participant || friendList[0] === undefined) return;
     const isFriend = friendList.some(
