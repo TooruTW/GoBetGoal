@@ -9,6 +9,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 
+
 type acceptProps = {
   trial: TrialDetailSupa[];
   onClickInvitition: () => void;
@@ -26,8 +27,9 @@ export default function Participant(props: acceptProps) {
   >([]);
   const [isInTheTrial, setIsInTheTrial] = useState(false);
 
+
   useEffect(() => {
-    if(trial.length === 0) return;
+    if (trial.length === 0) return;
     const participantList = new Map(
       trial.map((item) => [item.user_info.user_id, item.user_info])
     );
@@ -39,8 +41,7 @@ export default function Participant(props: acceptProps) {
       participantListArray.push(val);
     });
     setParticipantListArray(participantListArray);
-
-  }, [trial,userId]);
+  }, [trial, userId]);
 
   const cardContainerRef = useRef<HTMLDivElement | null>(null);
   const noticeRef = useRef<HTMLDivElement | null>(null);
