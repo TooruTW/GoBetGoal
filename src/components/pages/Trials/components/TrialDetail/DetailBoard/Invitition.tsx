@@ -13,6 +13,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import { useQueryClient } from "@tanstack/react-query";
+import Notification from "@/components/ui/Notificatioin";
 
 type acceptProps = {
   className?: string;
@@ -27,13 +28,16 @@ export default function Invitition({ className, onClick }: acceptProps) {
   const [invititionList, setInvititionList] = useState<InvititionList[]>([]);
   const [selectedInvitition, setSelectedInvitition] = useState<string[]>([]);
 
+  const [noteContent, setNoteContent] = useState<string>("");
+
   const { id } = useParams();
   const { data: trial, isLoading, error } = useTrialSupa(id as string);
 
   const friendList = useSelector((state: RootState) => state.friends.friends);
   const userId = useSelector((state: RootState) => state.account.user_id);
 
-  const { data: inviteStatus, isLoading: isInviteStatusLoading } = useGetTrialParticipantsSupa(id as string);
+  const { data: inviteStatus, isLoading: isInviteStatusLoading } =
+    useGetTrialParticipantsSupa(id as string);
 
   useEffect(() => {
     if (isLoading || isInviteStatusLoading) return;
@@ -68,7 +72,15 @@ export default function Invitition({ className, onClick }: acceptProps) {
     });
 
     setInvititionList(listWithStatus);
-  }, [friendList, id, isLoading, error, trial, inviteStatus,isInviteStatusLoading]);
+  }, [
+    friendList,
+    id,
+    isLoading,
+    error,
+    trial,
+    inviteStatus,
+    isInviteStatusLoading,
+  ]);
 
   const invititionListRef = useRef<HTMLDivElement>(null);
 
@@ -87,7 +99,7 @@ export default function Invitition({ className, onClick }: acceptProps) {
 
   useGSAP(
     () => {
-      if (invititionList.length === 0) return;      
+      if (invititionList.length === 0) return;
       gsap.from(".avatar", {
         delay: 1,
         scale: 0,
@@ -186,6 +198,24 @@ export default function Invitition({ className, onClick }: acceptProps) {
     });
   };
 
+  const handleCopy = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    navigator.clipboard.writeText(
+      `${window.location.origin}/trials/detail/${id}`
+    );
+    setNoteContent("已複製邀請連結");
+    console.log("copy");
+  };
+
+  useEffect(() => {
+    if (noteContent) {
+      const timer = setTimeout(() => {
+        setNoteContent("");
+      }, 3500);
+      return () => clearTimeout(timer);
+    }
+  }, [noteContent]);
+
   useClickOutside(invititionListRef, () => {
     console.log("click outside");
     onClick();
@@ -195,11 +225,21 @@ export default function Invitition({ className, onClick }: acceptProps) {
     <div
       className={`${className} backdrop-blur-xs bg-schema-surface-container-high/50 flex flex-col items-center justify-center`}
     >
+      {noteContent && <Notification>{noteContent}</Notification>}
       <div
         ref={invititionListRef}
-        className="flex flex-col gap-4 w-full max-w-200 items-center  bg-schema-surface-container py-4"
+        className="flex flex-col gap-4 items-center  bg-schema-surface-container py-4"
       >
         <h2 className="text-h2">邀請列表</h2>
+        <div className="flex flex-col items-center justify-center gap-4">
+          <h3 className="text-h3">發送邀請連結</h3>
+          <div className="flex items-center justify-center gap-4">
+            <p className="text-p bg-schema-surface py-2 px-4 rounded-md text-schema-on-surface w-full max-w-100 overflow-hidden text-ellipsis whitespace-nowrap">{`${window.location.origin}/trials/detail/${id}`}</p>
+            <Button variant="trialDetail" onClick={handleCopy}>
+              複製
+            </Button>
+          </div>
+        </div>
         <ul className="flex flex-col rounded-md px-10 max-h-100 overflow-y-auto w-full py-4">
           {invititionList.length > 0 ? (
             invititionList.map((item) => (
@@ -222,13 +262,10 @@ export default function Invitition({ className, onClick }: acceptProps) {
                   className="w-15 aspect-square avatar"
                 ></div>
 
-                <ul className="grid grid-cols-4 gap-2 w-full">
+                <ul className="grid grid-cols-3 gap-2 w-full">
                   <li className="text-h3 text-center">{item.nick_name}</li>
                   <li className="text-h3">
                     完成試煉：{item.total_trial_count}
-                  </li>
-                  <li className="text-h3">
-                    熱門貼文：{item.liked_posts_count}
                   </li>
                   <li className="text-center">
                     {handleInviteStatus(item.user_id)}
