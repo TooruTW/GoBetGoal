@@ -20,14 +20,10 @@ export const friendsSlice = createSlice({
 
       if (friendMap.size > 0) {
         state.friends = Array.from(friendMap.values());
-      }
-      console.log("set friends",state.friends);
-      
+      }      
     },
     setRemoveSelf: (state, action) => {
-      console.log("remove self",action.payload);
       state.friends = state.friends.filter(friend => friend.user_id !== action.payload);
-      console.log("remove complete",state.friends);
     }
   },
 });

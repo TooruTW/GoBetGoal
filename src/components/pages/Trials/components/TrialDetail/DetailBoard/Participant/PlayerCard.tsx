@@ -8,6 +8,8 @@ import type { RootState } from "@/store";
 import { Button } from "@/components/ui/button";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { usePostFriendsRequest } from "@/api/postFriendsRequest";
+import { useQueryClient } from "@tanstack/react-query";
 
 type acceptProps = {
   participant?: UserInfoSupa;
@@ -22,12 +24,13 @@ type acceptProps = {
 
 export default function PlayerCard(props: acceptProps) {
   const navigate = useNavigate();
-  const { participant, handleDelete,onClickInvitition,owner,isInTheTrial } = props;
+  const { participant, handleDelete, onClickInvitition, owner, isInTheTrial } =
+    props;
   const [isFriend, setIsFriend] = useState(false);
   const userId = useSelector((state: RootState) => state.account.user_id);
   const [isYourself, setIsYourself] = useState(false);
   const [isOwner, setIsOwner] = useState(false);
-
+  const [isRequestingFriend, setIsRequestingFriend] = useState(false);
 
   useEffect(() => {
     if (!participant) return;
@@ -37,21 +40,40 @@ export default function PlayerCard(props: acceptProps) {
     if (participant?.user_id === owner) {
       setIsOwner(true);
     }
-  }, [participant, userId,owner]);
-
-
+  }, [participant, userId, owner]);
   const friendList = useSelector((state: RootState) => state.friends.friends);
-
   useEffect(() => {
     if (!participant || friendList[0] === undefined) return;
     const isFriend = friendList.some(
       (user) => user.user_id === participant.user_id
     );
     setIsFriend(isFriend);
+    const isRequestingFriend = friendList.some(
+      (user) =>
+        user.user_id === participant.user_id && user.friend_state === "pending"
+    );
+    setIsRequestingFriend(isRequestingFriend);
   }, [friendList, participant, isFriend]);
+
+  const queryClient = useQueryClient();
+  const { mutate: postAddFriend } = usePostFriendsRequest();
 
   function handleAddFriend() {
     console.log("add friend", participant?.user_id);
+    if (!participant) return;
+    postAddFriend(
+      {
+        request_id: userId,
+        address_id: participant.user_id,
+        note: "",
+      },
+      {
+        onSuccess: () => {
+          console.log("add friend success");
+          queryClient.invalidateQueries({ queryKey: ["friends"] });
+        },
+      }
+    );
   }
 
   function handleNavigateToProfile() {
@@ -91,11 +113,10 @@ export default function PlayerCard(props: acceptProps) {
     return () => clearInterval(timer);
   }, [flashEffect]);
 
-
-const handleInvite = (e: React.MouseEvent<HTMLButtonElement>) => {
-  e.stopPropagation();
-  onClickInvitition?.(e);
-}
+  const handleInvite = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    onClickInvitition?.(e);
+  };
 
   return (
     <div className="w-full">
@@ -105,7 +126,10 @@ const handleInvite = (e: React.MouseEvent<HTMLButtonElement>) => {
             id={user_id}
             onClick={(event) => handleDelete?.(event, user_id)}
             className={`self-end text-3xl mx-6 opacity-0 scale-0  group-hover:opacity-100 transition ${
-              (isCloseAbleRef.current && !isYourself && !isOwner) && "group-hover:scale-100"
+              isCloseAbleRef.current &&
+              !isYourself &&
+              !isOwner &&
+              "group-hover:scale-100"
             }`}
           />
           <div className="h-65 w-full ">
@@ -129,10 +153,19 @@ const handleInvite = (e: React.MouseEvent<HTMLButtonElement>) => {
             <button
               onClick={handleAddFriend}
               className={`rounded-md bg-schema-inverse-surface text-schema-inverse-on-surface py-2 w-8/10 ${
-                isFriend && "opacity-50"
-              }`}
+                isFriend
+                  ? "opacity-50"
+                  : isYourself
+                  ? "opacity-0"
+                  : "opacity-100"
+              } `}
+              disabled={isYourself || isFriend}
             >
-              {isFriend ? "已成為好友" : "加好友"}
+              {isFriend
+                ? isRequestingFriend
+                  ? "已送出邀請"
+                  : "已成為好友"
+                : "加好友"}
             </button>
             <button
               onClick={handleNavigateToProfile}
@@ -147,16 +180,17 @@ const handleInvite = (e: React.MouseEvent<HTMLButtonElement>) => {
           <div className="h-65 w-full ">
             <ImageLoader imgUrl={charactor_img_link} />
           </div>
-          {isInTheTrial && <Button
-            ref={inviteButtonRef}
-            variant="trialDetail"
-            className="absolute bottom-6 w-8/10 font-normal active:scale-95 "
-            style={{ fontSize: "var(--text-p)" }}
-            onClick={handleInvite}
-          >
-            邀請好友
-          </Button>}
-        
+          {isInTheTrial && (
+            <Button
+              ref={inviteButtonRef}
+              variant="trialDetail"
+              className="absolute bottom-6 w-8/10 font-normal active:scale-95 "
+              style={{ fontSize: "var(--text-p)" }}
+              onClick={handleInvite}
+            >
+              邀請好友
+            </Button>
+          )}
         </div>
       )}
     </div>

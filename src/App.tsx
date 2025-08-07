@@ -18,9 +18,9 @@ function App() {
     (state: RootState) => state.account.system_preference_color_mode
   );
 
-  useEffect(()=>{
+  useEffect(() => {
     gsap.registerPlugin(useGSAP);
-  },[])
+  }, []);
 
   useEffect(() => {
     if (user?.id) {
@@ -30,11 +30,7 @@ function App() {
     }
   }, [user]);
 
-  const {
-    data: userInfoSupa,
-    isLoading,
-    error,
-  } = useGetUserInfoSupa(userID);
+  const { data: userInfoSupa, isLoading, error } = useGetUserInfoSupa(userID);
 
   useEffect(() => {
     if (userID !== "" && !isLoading && !error && userInfoSupa) {
@@ -45,15 +41,18 @@ function App() {
     }
   }, [userID, userInfoSupa, isLoading, error, dispatch]);
 
-  const { data: friendData, isLoading: friendLoading, error: friendError } = useGetFriendSupa(userID);
+  const {
+    data: friendData,
+    isLoading: friendLoading,
+    error: friendError,
+  } = useGetFriendSupa(userID);
 
-  useEffect(()=>{
-    if(friendData && !friendLoading && !friendError){      
-      dispatch(setFriends(friendData))
-      dispatch(setRemoveSelf(userID))
+  useEffect(() => {
+    if (friendData && !friendLoading && !friendError) {
+      dispatch(setFriends(friendData));
+      dispatch(setRemoveSelf(userID));
     }
-  },[friendData,friendLoading,friendError,dispatch,userID])
-
+  }, [friendData, friendLoading, friendError, dispatch, userID]);
 
   return (
     <Layout className={isDarkMode === "dark" ? "dark" : ""}>
