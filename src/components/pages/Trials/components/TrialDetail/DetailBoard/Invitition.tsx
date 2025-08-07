@@ -4,7 +4,11 @@ import { Button } from "@/components/ui/button";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { useParams } from "react-router-dom";
-import { usePostInviteFriend, useTrialSupa, useGetTrialParticipantsSupa } from "@/api";
+import {
+  usePostInviteFriend,
+  useTrialSupa,
+  useGetTrialParticipantsSupa,
+} from "@/api";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useClickOutside } from "@/hooks/useClickOutside";
@@ -15,8 +19,12 @@ type acceptProps = {
   onClick: () => void;
 };
 
+type InvititionList = UserInfoSupa & {
+  invite_status: "pending" | "accept" | "reject" | "none";
+};
+
 export default function Invitition({ className, onClick }: acceptProps) {
-  const [invititionList, setInvititionList] = useState<UserInfoSupa[]>([]);
+  const [invititionList, setInvititionList] = useState<InvititionList[]>([]);
   const [selectedInvitition, setSelectedInvitition] = useState<string[]>([]);
 
   const { id } = useParams();
@@ -35,14 +43,41 @@ export default function Invitition({ className, onClick }: acceptProps) {
     const friendNotInPlayerSet = friendList.filter(
       (item) => !playerSet.has(item.user_id)
     );
-    setInvititionList(friendNotInPlayerSet);
-  }, [friendList, id, isLoading, error, trial]);
+
+    const listWithStatus: InvititionList[] = friendNotInPlayerSet.map(
+      (friend) => {
+        const status = inviteStatus?.find(
+          (item) => item.participant_id === friend.user_id
+        );
+        if (status) {
+          return {
+            ...friend,
+            invite_status: status.invite_status,
+          };
+        } else {
+          return {
+            ...friend,
+            invite_status: "none",
+          };
+        }
+      }
+    );
+
+    console.log(listWithStatus);
+    listWithStatus.sort((a, b) => {
+      if (a.invite_status === "none") return -1;
+      if (b.invite_status === "none") return 1;
+      return 0;
+    });
+
+    setInvititionList(listWithStatus);
+  }, [friendList, id, isLoading, error, trial, inviteStatus]);
 
   const invititionListRef = useRef<HTMLDivElement>(null);
 
   const handleInviteStatus = (id: string) => {
     const status = inviteStatus?.find((item) => item.participant_id === id);
-    if (!status) return 
+    if (!status) return;
     switch (status?.invite_status) {
       case "pending":
         return "等待回覆";
@@ -93,7 +128,7 @@ export default function Invitition({ className, onClick }: acceptProps) {
   );
 
   const handleSelect = (userId: string) => {
-    if(inviteStatus?.find((item) => item.participant_id === userId)) return;
+    if (inviteStatus?.find((item) => item.participant_id === userId)) return;
     if (selectedInvitition.includes(userId)) {
       setSelectedInvitition(selectedInvitition.filter((id) => id !== userId));
     } else {
