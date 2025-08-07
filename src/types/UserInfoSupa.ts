@@ -10,4 +10,5 @@ export type UserInfoSupa = {
     user_id: string;
     purchase_challenge: string[];
     purchase_avatar: string[];
+    friend_state?: "pending" | "accepted" | "rejected" ;
 }

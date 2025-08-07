@@ -41,7 +41,7 @@ export default function Invitition({ className, onClick }: acceptProps) {
     if (!trial) return;
     const playerSet = new Set(trial.map((item) => item.user_info.user_id));
     const friendNotInPlayerSet = friendList.filter(
-      (item) => !playerSet.has(item.user_id)
+      (item) => !playerSet.has(item.user_id) && item.friend_state === "accepted"
     );
     const listWithStatus: InvititionList[] = friendNotInPlayerSet.map(
       (friend) => {
@@ -68,7 +68,7 @@ export default function Invitition({ className, onClick }: acceptProps) {
     });
 
     setInvititionList(listWithStatus);
-  }, [friendList, id, isLoading, error, trial, inviteStatus]);
+  }, [friendList, id, isLoading, error, trial, inviteStatus,isInviteStatusLoading]);
 
   const invititionListRef = useRef<HTMLDivElement>(null);
 

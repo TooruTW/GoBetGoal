@@ -6,7 +6,7 @@ import { useGetUserInfoSupa, useGetUserSupa } from "./api";
 import { setAccount } from "./store/slices/accountSlice";
 import { RootState } from "./store";
 import { useGetFriendSupa } from "./api/index";
-import { setFriends } from "./store/slices/friendsSlice";
+import { setFriends, setRemoveSelf } from "./store/slices/friendsSlice";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 
@@ -48,10 +48,11 @@ function App() {
   const { data: friendData, isLoading: friendLoading, error: friendError } = useGetFriendSupa(userID);
 
   useEffect(()=>{
-    if(friendData && !friendLoading && !friendError){
+    if(friendData && !friendLoading && !friendError){      
       dispatch(setFriends(friendData))
+      dispatch(setRemoveSelf(userID))
     }
-  },[friendData,friendLoading,friendError,dispatch])
+  },[friendData,friendLoading,friendError,dispatch,userID])
 
 
   return (
