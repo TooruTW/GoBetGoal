@@ -6,7 +6,7 @@ import Friend from "@/components/pages/UserPage/components/Friend";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { usePostLogOutSupa, useGetUserSupa } from "@/api";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setAccount } from "@/store/slices/accountSlice";
 import LogOut from "./components/LogOut";
@@ -32,9 +32,13 @@ export default function UserPage() {
     });
   };
 
+  const { id } = useParams();
+
+
   return (
     <div className="w-full min-h-screen">
       <UserTitle />
+      <h1 className="text-2xl font-bold">{id}</h1>
       <Tabs
         defaultValue="account"
         className="w-full max-w-330 px-3 py-4 mx-auto"

@@ -56,7 +56,7 @@ export const routes: RouteObject[] = [
         element: <Home />,
       },
       {
-        path: "user",
+        path: "user/:id",
         element: <UserPage />,
       },
       {

@@ -77,8 +77,7 @@ export default function PlayerCard(props: acceptProps) {
   }
 
   function handleNavigateToProfile() {
-    console.log("navigate to profile", participant?.user_id);
-    navigate(`/profile/${participant?.user_id}`);
+    navigate(`/user/${participant?.user_id}`);
   }
 
   const {
