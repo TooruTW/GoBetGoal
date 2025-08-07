@@ -28,9 +28,10 @@ export default function PlayerCard(props: acceptProps) {
     props;
   const [isFriend, setIsFriend] = useState(false);
   const userId = useSelector((state: RootState) => state.account.user_id);
+  const [isRequestingFriend, setIsRequestingFriend] = useState(false);
+  
   const [isYourself, setIsYourself] = useState(false);
   const [isOwner, setIsOwner] = useState(false);
-  const [isRequestingFriend, setIsRequestingFriend] = useState(false);
 
   useEffect(() => {
     if (!participant) return;
@@ -41,7 +42,9 @@ export default function PlayerCard(props: acceptProps) {
       setIsOwner(true);
     }
   }, [participant, userId, owner]);
+
   const friendList = useSelector((state: RootState) => state.friends.friends);
+  
   useEffect(() => {
     if (!participant || friendList[0] === undefined) return;
     const isFriend = friendList.some(
@@ -77,8 +80,7 @@ export default function PlayerCard(props: acceptProps) {
   }
 
   function handleNavigateToProfile() {
-    console.log("navigate to profile", participant?.user_id);
-    navigate(`/profile/${participant?.user_id}`);
+    navigate(`/user/${participant?.user_id}`);
   }
 
   const {

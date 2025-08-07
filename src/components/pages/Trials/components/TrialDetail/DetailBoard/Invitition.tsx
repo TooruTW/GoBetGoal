@@ -228,13 +228,13 @@ export default function Invitition({ className, onClick }: acceptProps) {
       {noteContent && <Notification>{noteContent}</Notification>}
       <div
         ref={invititionListRef}
-        className="flex flex-col gap-4 items-center  bg-schema-surface-container py-4"
+        className="flex flex-col gap-4 items-center  bg-schema-surface-container py-4 w-full max-w-150"
       >
         <h2 className="text-h2">邀請列表</h2>
         <div className="flex flex-col items-center justify-center gap-4">
           <h3 className="text-h3">發送邀請連結</h3>
-          <div className="flex items-center justify-center gap-4">
-            <p className="text-p bg-schema-surface py-2 px-4 rounded-md text-schema-on-surface w-full max-w-100 overflow-hidden text-ellipsis whitespace-nowrap">{`${window.location.origin}/trials/detail/${id}`}</p>
+          <div className="flex items-center justify-center gap-4 max-lg:flex-col">
+            <p className="text-p bg-schema-surface py-2 px-4 rounded-md text-schema-on-surface w-full max-w-80 overflow-hidden text-ellipsis whitespace-nowrap">{`${window.location.origin}/trials/detail/${id}`}</p>
             <Button variant="trialDetail" onClick={handleCopy}>
               複製
             </Button>
@@ -262,12 +262,15 @@ export default function Invitition({ className, onClick }: acceptProps) {
                   className="w-15 aspect-square avatar"
                 ></div>
 
-                <ul className="grid grid-cols-3 gap-2 w-full">
-                  <li className="text-h3 text-center">{item.nick_name}</li>
-                  <li className="text-h3">
-                    完成試煉：{item.total_trial_count}
+                <ul className="grid grid-cols-3 gap-2 w-full text-nowrap" >
+                  <li className="text-h4 max-sm:text-p text-center flex items-center justify-center">
+                    <p>{item.nick_name}</p>
                   </li>
-                  <li className="text-center">
+                  <li className="text-p max-sm:text-label flex flex-col items-center">
+                    <p>完成試煉</p>
+                    <p>{item.total_trial_count}</p>
+                  </li>
+                  <li className="text-p max-sm:text-label flex items-center justify-center">
                     {handleInviteStatus(item.user_id)}
                   </li>
                 </ul>
