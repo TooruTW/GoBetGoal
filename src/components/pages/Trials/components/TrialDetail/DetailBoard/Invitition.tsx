@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { useParams } from "react-router-dom";
-import { usePostInviteFriend, useTrialSupa } from "@/api";
+import { usePostInviteFriend, useTrialSupa, useGetTrialParticipantsSupa } from "@/api";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useClickOutside } from "@/hooks/useClickOutside";
@@ -25,6 +25,8 @@ export default function Invitition({ className, onClick }: acceptProps) {
   const friendList = useSelector((state: RootState) => state.friends.friends);
   const userId = useSelector((state: RootState) => state.account.user_id);
 
+  const { data: inviteStatus } = useGetTrialParticipantsSupa(id as string);
+
   useEffect(() => {
     if (isLoading) return;
     if (error) return;
@@ -37,6 +39,19 @@ export default function Invitition({ className, onClick }: acceptProps) {
   }, [friendList, id, isLoading, error, trial]);
 
   const invititionListRef = useRef<HTMLDivElement>(null);
+
+  const handleInviteStatus = (id: string) => {
+    const status = inviteStatus?.find((item) => item.participant_id === id);
+    if (!status) return 
+    switch (status?.invite_status) {
+      case "pending":
+        return "等待回覆";
+      case "accept":
+        return "已接受";
+      case "reject":
+        return "已拒絕";
+    }
+  };
 
   useGSAP(
     () => {
@@ -78,6 +93,7 @@ export default function Invitition({ className, onClick }: acceptProps) {
   );
 
   const handleSelect = (userId: string) => {
+    if(inviteStatus?.find((item) => item.participant_id === userId)) return;
     if (selectedInvitition.includes(userId)) {
       setSelectedInvitition(selectedInvitition.filter((id) => id !== userId));
     } else {
@@ -149,7 +165,7 @@ export default function Invitition({ className, onClick }: acceptProps) {
     >
       <div
         ref={invititionListRef}
-        className="flex flex-col gap-4 w-full max-w-150 items-center  bg-schema-surface-container py-4"
+        className="flex flex-col gap-4 w-full max-w-200 items-center  bg-schema-surface-container py-4"
       >
         <h2 className="text-h2">邀請列表</h2>
         <ul className="flex flex-col rounded-md px-10 max-h-100 overflow-y-auto w-full py-4">
@@ -174,13 +190,16 @@ export default function Invitition({ className, onClick }: acceptProps) {
                   className="w-15 aspect-square avatar"
                 ></div>
 
-                <ul className="grid grid-cols-3 gap-2 w-full">
+                <ul className="grid grid-cols-4 gap-2 w-full">
                   <li className="text-h3 text-center">{item.nick_name}</li>
                   <li className="text-h3">
                     完成試煉：{item.total_trial_count}
                   </li>
                   <li className="text-h3">
                     熱門貼文：{item.liked_posts_count}
+                  </li>
+                  <li className="text-center">
+                    {handleInviteStatus(item.user_id)}
                   </li>
                 </ul>
               </li>

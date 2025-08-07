@@ -31,3 +31,5 @@ export { useGetUserTrialSupa } from "./getUserTrialSupa";
 export { useGetUserPurchase } from "./getUserPurchase";
 export { usePostPurchase } from "./postPurchase";
 export { usePostInviteFriend } from "./postInviteFriend";
+
+export { useGetTrialParticipantsSupa } from "./getTrialParticipantsSupa";
