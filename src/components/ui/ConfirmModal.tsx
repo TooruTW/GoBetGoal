@@ -10,7 +10,7 @@ interface PurchaseItem {
   id?: number;
   name: string;
   price: number;
-  type: "challenge" | "avatar" | "trial_deposit";
+  type: "challenge" | "avatar" | "trial_deposit" | "cheat_blanket";
   image?: string;
 }
 

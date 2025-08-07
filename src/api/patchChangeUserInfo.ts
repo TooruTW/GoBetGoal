@@ -6,7 +6,7 @@ const patchChangeUserInfo = async ({
   value,
   userID,
 }: {
-  target: "nick_name" | "charactor_img_link"| "total_trial_count" | "liked_post_count" | "friend_count" | "candy_count";
+  target: "nick_name" | "charactor_img_link"| "total_trial_count" | "liked_post_count" | "friend_count" | "candy_count"|  "cheat_blanket" ;
   value: string;
   userID: string;
 }) => {
