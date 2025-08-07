@@ -33,17 +33,16 @@ export default function Invitition({ className, onClick }: acceptProps) {
   const friendList = useSelector((state: RootState) => state.friends.friends);
   const userId = useSelector((state: RootState) => state.account.user_id);
 
-  const { data: inviteStatus } = useGetTrialParticipantsSupa(id as string);
+  const { data: inviteStatus, isLoading: isInviteStatusLoading } = useGetTrialParticipantsSupa(id as string);
 
   useEffect(() => {
-    if (isLoading) return;
+    if (isLoading || isInviteStatusLoading) return;
     if (error) return;
     if (!trial) return;
     const playerSet = new Set(trial.map((item) => item.user_info.user_id));
     const friendNotInPlayerSet = friendList.filter(
       (item) => !playerSet.has(item.user_id)
     );
-
     const listWithStatus: InvititionList[] = friendNotInPlayerSet.map(
       (friend) => {
         const status = inviteStatus?.find(
@@ -62,8 +61,6 @@ export default function Invitition({ className, onClick }: acceptProps) {
         }
       }
     );
-
-    console.log(listWithStatus);
     listWithStatus.sort((a, b) => {
       if (a.invite_status === "none") return -1;
       if (b.invite_status === "none") return 1;
@@ -90,7 +87,7 @@ export default function Invitition({ className, onClick }: acceptProps) {
 
   useGSAP(
     () => {
-      if (invititionList.length === 0) return;
+      if (invititionList.length === 0) return;      
       gsap.from(".avatar", {
         delay: 1,
         scale: 0,

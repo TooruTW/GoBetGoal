@@ -62,7 +62,7 @@ export default function Form({ challenge }: FormProps) {
 
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedToBuy, setSelectedToBuy] = useState<PurchaseItem | null>(null);
-  const { mutate: postCreateTrial } = usePostCreateTrial();
+  const { mutate: postCreateTrial,error: createTrialError } = usePostCreateTrial();
 
   // 檢查是否已購買過這個 challenge
   useEffect(() => {
@@ -160,6 +160,8 @@ export default function Form({ challenge }: FormProps) {
           setShowConfirm(false);
         },
         onError: () => {
+          console.log(createTrialError);
+          
           alert("創建試煉失敗，請重試");
           setShowConfirm(false);
         },
