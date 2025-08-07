@@ -5,6 +5,8 @@ import gsap from "gsap";
 import { useEffect, useState } from "react";
 import type { TrialDetailSupa } from "@/types/TrialDetailSupa";
 import type { UserInfoSupa } from "@/types/UserInfoSupa";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 type acceptProps = {
   trial: TrialDetailSupa[];
@@ -16,6 +18,13 @@ export default function ParticipantMobile(props: acceptProps) {
   const [participantListArray, setParticipantListArray] = useState<
     [string, UserInfoSupa][]
   >([]);
+
+  const [owner, setOwner] = useState<string>("");
+
+  useEffect(() => {
+    const owner = trial[0].trial.create_by;
+    setOwner(owner);
+  }, [trial]);
 
   useEffect(() => {
     const participantList = new Map(
@@ -54,7 +63,7 @@ export default function ParticipantMobile(props: acceptProps) {
           flipByProp={flipStates[index]}
           containerStyle={{ width: "100%", height: "auto" }}
           direction="vertical"
-          backComponent={<PlayerCard participantInfo={item[1]} />}
+          backComponent={<PlayerCard owner={owner} participant={item[1]} />}
           frontComponent={<BackSideCard />}
         />
       ))}
