@@ -1,14 +1,12 @@
-
+// useGetUserPurchase.ts
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/supabaseClient";
 
-
 const getUserPurchase = async (userId: string) => {
-    
-    const { data, error, count } = await supabase
-    .from('purchase_records')
+  const { data, error, count } = await supabase
+    .from("purchase_records")
     .select("*")
-    .eq('user_id', userId)
+    .eq("user_id", userId);
 
   if (error) throw error;
   if (count === 0) return [];
@@ -20,8 +18,7 @@ export function useGetUserPurchase(userId: string) {
     queryKey: ["purchase_records", userId],
     queryFn: () => getUserPurchase(userId),
     enabled: !!userId,
-
   });
 
-  return { data, isLoading, error };
+  return { data: data || [], isLoading, error };
 }

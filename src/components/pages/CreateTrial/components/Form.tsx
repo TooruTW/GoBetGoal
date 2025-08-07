@@ -6,11 +6,13 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { usePostCreateTrial } from "@/api";
 import { useParams } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import ConfirmModal from "@/components/ui/ConfirmModal";
 import { ChallengeSupa } from "@/types/ChallengeSupa";
 import { usePostPurchase } from "@/api/postPurchase";
 import { useGetUserPurchase } from "@/api/getUserPurchase";
+import { usePatchChangeUserInfo } from "@/api";
 
 type FormData = {
   trialName: string;
@@ -23,7 +25,7 @@ interface FormProps {
 }
 
 interface PurchaseItem {
-  id: number;
+  id: string;
   item_id: number;
   name: string;
   price: number;
@@ -47,6 +49,12 @@ export default function Form({ challenge }: FormProps) {
   const { mutate: postPurchase } = usePostPurchase();
   const userID = useSelector((state: RootState) => state.account.user_id);
   const { id } = useParams<{ id: string }>();
+
+  const { mutate: patchUserBagel } = usePatchChangeUserInfo();
+  const userBagel = useSelector(
+    (state: RootState) => state.account.candy_count
+  );
+  const queryClient = useQueryClient();
 
   // 查詢用戶購買記錄
   const { data: userPurchases, isLoading: isPurchaseLoading } =
@@ -193,6 +201,19 @@ export default function Form({ challenge }: FormProps) {
         setHasPurchased(true);
         setShowConfirm(false);
         setSelectedToBuy(null);
+        userBagel -= challenge.price; // 更新用戶糖果餘額
+        patchUserBagel(
+          { target: "candy_count", value: userBagel, userID },
+          {
+            onSuccess: () => {
+              // 重新獲取 user_info 資料
+              queryClient.invalidateQueries({
+                queryKey: ["user_info", userID],
+              });
+              console.log("success");
+            },
+          }
+        );
 
         // 購買成功後自動創建試煉
         if (pendingTrialData) {
@@ -224,7 +245,7 @@ export default function Form({ challenge }: FormProps) {
         } else if (error?.message) {
           errorMessage = error.message;
         }
-        
+
         alert(errorMessage);
         setShowConfirm(false);
         setSelectedToBuy(null);

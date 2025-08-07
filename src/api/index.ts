@@ -30,4 +30,5 @@ export { useGetUserHistoryTrialSupa } from "./getUserHistoryTrialSupa";
 export { useGetUserTrialSupa } from "./getUserTrialSupa";
 export { useGetUserPurchase } from "./getUserPurchase";
 export { usePostPurchase } from "./postPurchase";
+export { useGetAvatar } from "./getAvatar";
 

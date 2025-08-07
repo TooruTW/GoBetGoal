@@ -6,9 +6,9 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import Modal from "@/components/ui/modal";
 import { monsterCongrats } from "@/assets/monster";
+import { Button } from "@/components/ui/button";
 
 export default function FormModify() {
-  
   const navigate = useNavigate();
   const { mutate: patchChangePassword } = usePatchChangePassword();
   const { mutate: patchChangeUserInfo } = usePatchChangeUserInfo();
@@ -48,7 +48,11 @@ export default function FormModify() {
   };
 
   return (
-    <div className="w-full px-3 flex flex-col gap-4 items-center max-w-110 py-10">
+    <div className="w-full  flex flex-col gap-4 items-center max-w-110 py-10">
+      <div className="flex justify-between w-full pb-8">
+        <h2 className="text-2xl font-bold">編輯資訊</h2>
+        <Button onClick={handleUpdate}>更新資訊</Button>
+      </div>
       <div className="w-full flex flex-col gap-4">
         <div className="w-full flex gap-4 items-center">
           <h2 className="text-nowrap">暱稱</h2>
@@ -69,13 +73,6 @@ export default function FormModify() {
             onBlur={(e) => setNewPassword(e.target.value)}
           />
         </div>
-
-        <button
-          className="w-full bg-schema-primary text-white rounded-lg p-2"
-          onClick={handleUpdate}
-        >
-          修改
-        </button>
 
         {/* ✅ Modal 顯示控制 */}
         {showModal && (
