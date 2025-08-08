@@ -1,8 +1,8 @@
-import TrialHistoryCardList from "@/components/pages/UserPage/components/Overview/TrialHistoryCardList";
+// import TrialHistoryCardList from "@/components/pages/UserPage/components/Overview/TrialHistoryCardList";
 import Achievement from "../Achievement";
 
-import { useTrialAllSupa } from "@/api";
-import { useEffect } from "react";
+// import { useTrialAllSupa } from "@/api";
+// import { useEffect } from "react";
 
 export default function Overview() {
   // const { data, isLoading, error } = useTrialAllSupa();
