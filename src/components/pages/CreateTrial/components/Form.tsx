@@ -26,7 +26,7 @@ interface FormProps {
 
 interface PurchaseItem {
   id: string;
-  item_id: number;
+  item_id: string;
   name: string;
   price: number;
   item_type: "challenge" | "avatar" | "trial_deposit";
@@ -120,7 +120,7 @@ export default function Form({ challenge }: FormProps) {
         challengeId: challenge.uuid,
       });
     }
-  }, [userPurchases, challenge, isPurchaseLoading]);
+  }, [userID, userPurchases, challenge, isPurchaseLoading]);
 
   // 創建試煉的獨立函數
   const createTrial = async (formData: FormData) => {
@@ -166,7 +166,7 @@ export default function Form({ challenge }: FormProps) {
     }
 
     const purchaseData = {
-      item_id: Number(challenge.uuid),
+      item_id: String(challenge.uuid),
       user_id: userID,
       item_type: "challenge" as const,
       item_name: challenge.title,
@@ -201,9 +201,9 @@ export default function Form({ challenge }: FormProps) {
         setHasPurchased(true);
         setShowConfirm(false);
         setSelectedToBuy(null);
-        userBagel -= challenge.price; // 更新用戶糖果餘額
+        const newBagel = userBagel - challenge.price; // 計算新的糖果餘額
         patchUserBagel(
-          { target: "candy_count", value: userBagel, userID },
+          { target: "candy_count", value: newBagel, userID },
           {
             onSuccess: () => {
               // 重新獲取 user_info 資料
@@ -278,8 +278,8 @@ export default function Form({ challenge }: FormProps) {
       console.log("需要購買，顯示確認對話框");
       setPendingTrialData(data); // 保存表單數據
       setSelectedToBuy({
-        id: Number(challenge.uuid),
-        item_id: Number(challenge.uuid),
+        id: challenge.uuid,
+        item_id: challenge.uuid,
         name: challenge.title,
         price: challenge.price,
         item_type: "challenge",
