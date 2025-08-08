@@ -26,17 +26,17 @@ export default function UserPage() {
   const handleLogout = () => {
     postLogOutSupa(undefined, {
       onSuccess: () => {
-        console.log("Logout success, clearing Redux state");
         dispatch(setAccount(null));
+        navigate("/");
+        window.location.reload();
       },
     });
   };
 
   const { id } = useParams();
 
-
   return (
-    <div className="w-full min-h-screen">
+    <div className="w-full min-h-screen p-6">
       <UserTitle />
       <h1 className="text-2xl font-bold">{id}</h1>
       <Tabs
