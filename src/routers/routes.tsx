@@ -6,11 +6,14 @@ import ErrorPage from "@/components/layout/ErrorPage";
 
 // Pages
 import Home from "@/components/pages/Home";
-import UserPage from "@/components/pages/UserPage";
 import Info from "@/components/pages/Info";
 import Shop from "@/components/pages/Shop";
 
-
+// User Page
+import UserPage from "@/components/pages/UserPage";
+import Overview from "@/components/pages/UserPage/components/Overview";
+import Achievement from "@/components/pages/UserPage/components/Achievement";
+import AccountSet from "@/components/pages/UserPage/components/AccountSet";
 
 // Authentication
 import Authentication from "@/components/pages/Authentication";
@@ -58,6 +61,24 @@ export const routes: RouteObject[] = [
       {
         path: "user/:id",
         element: <UserPage />,
+        children: [
+          {
+            index: true,
+            element: <Overview />,
+          },
+          {
+            path: "achievements",
+            element: <Achievement />,
+          },
+          {
+            path: "friends",
+            element: <div>friends</div>,
+          },
+          {
+            path: "settings",
+            element: <AccountSet />,
+          },
+        ],
       },
       {
         path: "info",

@@ -6,7 +6,7 @@ import UserTitle from "@/components/pages/UserPage/components/UserTitle";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { usePostLogOutSupa } from "@/api";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setAccount } from "@/store/slices/accountSlice";
 import LogOut from "./components/LogOut";
@@ -84,22 +84,50 @@ export default function UserPage() {
       <UserTitle userInfo={userInfo?.[0] || undefined} />
       <nav className="w-55 px-4 py-2 rounded-lg bg-schema-surface-container flex justify-between text-p-small relative">
         <div className="absolute left-1 top-0 w-12.5 rounded-lg h-full scale-y-80 border-1 border-schema-outline pointer-events-none select-box"></div>
-        <div className={`cursor-pointer ${selectedTabIndex === 0 ? "brightness-100" : "brightness-50"}`} onClick={() => handleTabChange(0)}>
+        <Link to={`/user/${id}`}>
+        <div
+          className={`cursor-pointer ${
+            selectedTabIndex === 0 ? "brightness-100" : "brightness-50"
+          }`}
+          onClick={() => handleTabChange(0)}
+        >
           總覽
         </div>
-        <div className={`cursor-pointer ${selectedTabIndex === 1 ? "brightness-100" : "brightness-50"}`} onClick={() => handleTabChange(1)}>
+        </Link>
+        <Link to="achievements">
+        <div
+          className={`cursor-pointer ${
+            selectedTabIndex === 1 ? "brightness-100" : "brightness-50"
+          }`}
+          onClick={() => handleTabChange(1)}
+        >
           成就
         </div>
-        <div className={`cursor-pointer ${selectedTabIndex === 2 ? "brightness-100" : "brightness-50"}`} onClick={() => handleTabChange(2)}>
+        </Link>
+        <Link to="friends">
+        <div
+          className={`cursor-pointer ${
+            selectedTabIndex === 2 ? "brightness-100" : "brightness-50"
+          }`}
+          onClick={() => handleTabChange(2)}
+        >
           好友
         </div>
-        <div className={`cursor-pointer ${selectedTabIndex === 3 ? "brightness-100" : "brightness-50"}`} onClick={() => handleTabChange(3)}>
+        </Link>
+        <Link to="settings">
+        <div
+          className={`cursor-pointer ${
+            selectedTabIndex === 3 ? "brightness-100" : "brightness-50"
+          }`}
+          onClick={() => handleTabChange(3)}
+        >
           帳號設置
         </div>
+        </Link>
       </nav>
+      <Outlet />
 
-
-        {/* <TabsContent value="account" className=" my-4">
+      {/* <TabsContent value="account" className=" my-4">
           <Overview />
         </TabsContent>
 
