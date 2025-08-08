@@ -1,19 +1,19 @@
-import TrialHistoryCardList from "@/components/pages/UserPage/components/Overview/TrialHistoryCardList";
+// import TrialHistoryCardList from "@/components/pages/UserPage/components/Overview/TrialHistoryCardList";
 import Achievement from "../Achievement";
 
-import { useTrialAllSupa } from "@/api";
-import { useEffect } from "react";
+// import { useTrialAllSupa } from "@/api";
+// import { useEffect } from "react";
 
 export default function Overview() {
-  const { data, isLoading, error } = useTrialAllSupa();
+  // const { data, isLoading, error } = useTrialAllSupa();
 
-  useEffect(() => {
-    if (isLoading) return;
-    if (error) console.log(error);
-  }, [data, isLoading, error]);
+  // useEffect(() => {
+  //   if (isLoading) return;
+  //   if (error) console.log(error);
+  // }, [data, isLoading, error]);
 
   return (
-    <section>
+    <section className="w-full">
       <section className="md:flex  ">
         <section className="w-full md:w-1/2 mt-4 ">
           <h3 className="text-xl font-bold">年度總覽</h3>
@@ -28,10 +28,10 @@ export default function Overview() {
           </div>
         </section>
       </section>
-      <section className="my-10">
+      {/* <section className="my-10">
         <h3 className="text-xl font-bold my-2">歷史試煉</h3>
         <TrialHistoryCardList />
-      </section>
+      </section> */}
     </section>
   );
 }

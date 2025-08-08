@@ -1,87 +1,144 @@
 import UserTitle from "@/components/pages/UserPage/components/UserTitle";
-import Overview from "./components/Overview/index";
-import AccountSet from "@/components/pages/UserPage/components/AccountSet";
-import AddFriend from "@/components/pages/UserPage/components/AddFriend";
-import Friend from "@/components/pages/UserPage/components/Friend";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { usePostLogOutSupa, useGetUserSupa } from "@/api";
-import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { usePostLogOutSupa } from "@/api";
+import { useEffect, useState } from "react";
+import {
+  Link,
+  Outlet,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setAccount } from "@/store/slices/accountSlice";
 import LogOut from "./components/LogOut";
-import Achievement from "./components/Achievement";
+import { useGetUserInfoSupa } from "@/api/getUserInfoSupa";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
 export default function UserPage() {
   const dispatch = useDispatch();
   const { mutate: postLogOutSupa } = usePostLogOutSupa();
-  const { data: user } = useGetUserSupa();
   const navigate = useNavigate();
+  const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
+  const { id } = useParams();
+  const location = useLocation();
+
   useEffect(() => {
-    if (!user) {
-      navigate("/auth");
+    const pathname = location.pathname.split("/");
+    const tab = pathname[pathname.length - 1];
+    console.log(tab, "tab");
+
+    switch (tab) {
+      case "overview":
+        setSelectedTabIndex(0);
+        break;
+      case "achievements":
+        setSelectedTabIndex(1);
+        break;
+      case "friends":
+        setSelectedTabIndex(2);
+        break;
+      case "settings":
+        setSelectedTabIndex(3);
+        break;
+      default:
+        break;
     }
-  }, [user, navigate]);
+  }, [location, id, navigate]);
 
   const handleLogout = () => {
     postLogOutSupa(undefined, {
       onSuccess: () => {
-        console.log("Logout success, clearing Redux state");
         dispatch(setAccount(null));
+        navigate("/");
+        window.location.reload();
       },
     });
   };
 
-  const { id } = useParams();
+  const { data: userInfo } = useGetUserInfoSupa(id || "");
+  useEffect(() => {
+    if (userInfo) {
+      console.log(userInfo, "userInfo", id, "id");
+    }
+  }, [userInfo, id]);
 
+  useGSAP(() => {
+    let position = 1;
+    let widthScale = 1;
+    switch (selectedTabIndex) {
+      case 0:
+        position = 0;
+        widthScale = 1;
+        break;
+      case 1:
+        position = 44;
+        widthScale = 1;
+        break;
+      case 2:
+        position = 88;
+        widthScale = 1;
+        break;
+      case 3:
+        position = 134;
+        widthScale = 1.5;
+        break;
+      default:
+        break;
+    }
+
+    gsap.to(".select-box", {
+      x: position,
+      duration: 0.5,
+      width: widthScale * 12.5 * 4 + "px",
+      ease: "power2.inOut",
+    });
+  }, [selectedTabIndex]);
 
   return (
-    <div className="w-full min-h-screen">
-      <UserTitle />
-      <h1 className="text-2xl font-bold">{id}</h1>
-      <Tabs
-        defaultValue="account"
-        className="w-full max-w-330 px-3 py-4 mx-auto"
-      >
-        <TabsList>
-          <TabsTrigger value="account">總覽</TabsTrigger>
-          <TabsTrigger value="achievements">成就</TabsTrigger>
-          <TabsTrigger value="friends">好友</TabsTrigger>
-
-          <TabsTrigger value="settings">帳號設置</TabsTrigger>
-        </TabsList>
-        <TabsContent value="account" className=" my-4">
-          <Overview />
-        </TabsContent>
-        <TabsContent value="achievements">
-          <Achievement gridCols={`grid-cols-3 md:grid-cols-4 lg:grid-cols-6`} />
-        </TabsContent>
-        <TabsContent value="friends">
-          {" "}
-          <div className="py-10">
-            <div className="flex pb-6 justify-between">
-              <h3 className="text-xl font-bold ">好友邀請</h3>
-              <AddFriend />
-            </div>
-            <Friend showState="pending" />
+    <div className="w-full min-h-screen p-6 flex flex-col gap-4 items-center ">
+      <UserTitle userInfo={userInfo?.[0] || undefined} />
+      <nav className="w-55 px-4 py-2 rounded-lg bg-schema-surface-container flex justify-between text-p-small relative self-start">
+        <div className="absolute left-1 top-0 w-12.5 rounded-lg h-full scale-y-80 border-1 border-schema-outline pointer-events-none select-box"></div>
+        <Link to={`overview`}>
+          <div
+            className={`cursor-pointer ${
+              selectedTabIndex === 0 ? "brightness-100" : "brightness-50"
+            }`}
+          >
+            總覽
           </div>
-          <div className="py-10">
-            <h3 className="text-xl font-bold pb-6">好友列表</h3>
-            <Friend showState="accepted" />
+        </Link>
+        <Link to="achievements">
+          <div
+            className={`cursor-pointer ${
+              selectedTabIndex === 1 ? "brightness-100" : "brightness-50"
+            }`}
+          >
+            成就
           </div>
-        </TabsContent>
-
-        <TabsContent value="settings">
-          <AccountSet />
-        </TabsContent>
-      </Tabs>
-      <section className="w-full  flex flex-col justify-center items-center  my-4">
-        <LogOut
-          variant="dark"
-          onClick={handleLogout}
-          className="bg-slate-800"
-        />
-      </section>
+        </Link>
+        <Link to="friends">
+          <div
+            className={`cursor-pointer ${
+              selectedTabIndex === 2 ? "brightness-100" : "brightness-50"
+            }`}
+          >
+            好友
+          </div>
+        </Link>
+        <Link to="settings">
+          <div
+            className={`cursor-pointer ${
+              selectedTabIndex === 3 ? "brightness-100" : "brightness-50"
+            }`}
+          >
+            帳號設置
+          </div>
+        </Link>
+      </nav>
+      <Outlet />
+      <LogOut variant="dark" onClick={handleLogout} className="bg-slate-800" />
     </div>
   );
 }
