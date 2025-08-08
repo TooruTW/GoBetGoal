@@ -17,11 +17,15 @@ export default function UserPage() {
   const { mutate: postLogOutSupa } = usePostLogOutSupa();
   const { data: user } = useGetUserSupa();
   const navigate = useNavigate();
+  const isLocalStorageExist = localStorage.getItem(
+    "sb-rbrltczejudsoxphrxnq-auth-token"
+  );
   useEffect(() => {
+    if (isLocalStorageExist) return;
     if (!user) {
       navigate("/auth");
     }
-  }, [user, navigate]);
+  }, [user, navigate, isLocalStorageExist]);
 
   const handleLogout = () => {
     postLogOutSupa(undefined, {
