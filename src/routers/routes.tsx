@@ -14,6 +14,7 @@ import UserPage from "@/components/pages/UserPage";
 import Overview from "@/components/pages/UserPage/components/Overview";
 import Achievement from "@/components/pages/UserPage/components/Achievement";
 import AccountSet from "@/components/pages/UserPage/components/AccountSet";
+import Friend from "@/components/pages/UserPage/components/Friend";
 
 // Authentication
 import Authentication from "@/components/pages/Authentication";
@@ -67,12 +68,16 @@ export const routes: RouteObject[] = [
             element: <Overview />,
           },
           {
+            path: "overview",
+            element: <Overview />,
+          },
+          {
             path: "achievements",
             element: <Achievement />,
           },
           {
             path: "friends",
-            element: <div>friends</div>,
+            element: <Friend />,
           },
           {
             path: "settings",
@@ -153,9 +158,9 @@ export const routes: RouteObject[] = [
             element: <SocialPages />,
           },
           {
-              path: "category/:category",
-              element: <SocialPages />,
-            },
+            path: "category/:category",
+            element: <SocialPages />,
+          },
           {
             path: "post/:id",
             element: <PopoutCard />,
