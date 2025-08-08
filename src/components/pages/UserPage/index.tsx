@@ -1,16 +1,16 @@
 import UserTitle from "@/components/pages/UserPage/components/UserTitle";
-// import Overview from "./components/Overview/index";
-// import AccountSet from "@/components/pages/UserPage/components/AccountSet";
-// import AddFriend from "@/components/pages/UserPage/components/AddFriend";
-// import Friend from "@/components/pages/UserPage/components/Friend";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { usePostLogOutSupa } from "@/api";
 import { useEffect, useState } from "react";
-import { Link, Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
+import {
+  Link,
+  Outlet,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setAccount } from "@/store/slices/accountSlice";
 import LogOut from "./components/LogOut";
-// import Achievement from "./components/Achievement";
 import { useGetUserInfoSupa } from "@/api/getUserInfoSupa";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -22,10 +22,6 @@ export default function UserPage() {
   const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
   const { id } = useParams();
   const location = useLocation();
-
-  // const isLocalStorageExist = localStorage.getItem(
-  //   "sb-rbrltczejudsoxphrxnq-auth-token"
-  // );
 
   useEffect(() => {
     const pathname = location.pathname.split("/");
