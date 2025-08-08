@@ -1,10 +1,12 @@
 import Aurora from "@/components/shared/reactBit/Aurora";
-import { useSelector } from "react-redux";
-import type { RootState } from "@/store";
 import { Skeleton } from "@/components/ui/skeleton";
+import { UserInfoSupa } from "@/types/UserInfoSupa";
 
-export default function UserTitle() {
-  const account = useSelector((state: RootState) => state.account);
+type acceptProps = {
+  userInfo?: UserInfoSupa;
+};
+
+export default function UserTitle({ userInfo }: acceptProps) {
 
   const {
     nick_name,
@@ -12,7 +14,7 @@ export default function UserTitle() {
     total_trial_count,
     liked_posts_count,
     friend_count,
-  } = account;
+  } = userInfo || {};
 
   return (
     <div className="md:flex w-full md:px-6 relative h-[320px] md:h-auto">
@@ -31,14 +33,17 @@ export default function UserTitle() {
         )}
       </div>
       <div className="md:w-1/2 flex-col my-6 z-10 px-3 md:px-10">
-        <p className="font-bold text-2xl">{nick_name ? nick_name : "載入中..."}</p>
+        <p className="font-bold text-2xl">
+          {nick_name ? nick_name : "載入中..."}
+        </p>
         <div className="flex justify-between">
           <div className="flex-col justify-center text-center">
             <p className="font-sm opacity-50">成功試煉數</p>{" "}
             <p>{total_trial_count || 0}</p>
           </div>
           <div className="flex-col justify-center text-center">
-            <p className="font-sm opacity-50">朋友數</p> <p>{friend_count || 0}</p>
+            <p className="font-sm opacity-50">朋友數</p>{" "}
+            <p>{friend_count || 0}</p>
           </div>
           <div className="flex-col justify-center text-center">
             <p className="font-sm opacity-50">貼文讚數</p>{" "}

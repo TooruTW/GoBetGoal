@@ -4,28 +4,24 @@ import AccountSet from "@/components/pages/UserPage/components/AccountSet";
 import AddFriend from "@/components/pages/UserPage/components/AddFriend";
 import Friend from "@/components/pages/UserPage/components/Friend";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { usePostLogOutSupa, useGetUserSupa } from "@/api";
+import { usePostLogOutSupa } from "@/api";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setAccount } from "@/store/slices/accountSlice";
 import LogOut from "./components/LogOut";
-import Achievement from "./components/Achievement";
+import Achievement from "./components/Achievement"; 
+import { useGetUserInfoSupa } from "@/api/getUserInfoSupa";
 
 export default function UserPage() {
   const dispatch = useDispatch();
   const { mutate: postLogOutSupa } = usePostLogOutSupa();
-  const { data: user } = useGetUserSupa();
   const navigate = useNavigate();
-  const isLocalStorageExist = localStorage.getItem(
-    "sb-rbrltczejudsoxphrxnq-auth-token"
-  );
-  useEffect(() => {
-    if (isLocalStorageExist) return;
-    if (!user) {
-      navigate("/auth");
-    }
-  }, [user, navigate, isLocalStorageExist]);
+
+  // const isLocalStorageExist = localStorage.getItem(
+  //   "sb-rbrltczejudsoxphrxnq-auth-token"
+  // );
+
 
   const handleLogout = () => {
     postLogOutSupa(undefined, {
@@ -38,11 +34,16 @@ export default function UserPage() {
   };
 
   const { id } = useParams();
+  const { data: userInfo } = useGetUserInfoSupa(id || "");
+  useEffect(() => {
+    if(userInfo) {
+      console.log(userInfo, "userInfo" ,id , "id" );
+    }
+  }, [userInfo, id]);
 
   return (
     <div className="w-full min-h-screen p-6">
-      <UserTitle />
-      <h1 className="text-2xl font-bold">{id}</h1>
+      <UserTitle userInfo={userInfo?.[0] || undefined} />
       <Tabs
         defaultValue="account"
         className="w-full max-w-330 px-3 py-4 mx-auto"
