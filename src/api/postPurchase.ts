@@ -10,7 +10,7 @@ const postPurchase = async ({
 }: {
   user_id: string;
   item_type: 'challenge' | 'avatar' | 'trial_deposit';
-  item_id: number;
+  item_id: string;
   item_name: string;
   price: number;
 }) => {

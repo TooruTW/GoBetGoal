@@ -23,8 +23,8 @@ interface FormProps {
 }
 
 interface PurchaseItem {
-  id: number;
-  item_id: number;
+  id: string;
+  item_id: string;
   name: string;
   price: number;
   item_type: "challenge" | "avatar" | "trial_deposit";
