@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/supabaseClient";
 
 type Achievement = {
-  id?: number;
+  id?: string;
   created_at?: string;
   order: number;
   title: string;

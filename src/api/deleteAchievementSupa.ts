@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/supabaseClient";
 
 
-const deleteAchievementSupa = async (id: number) => {
+const deleteAchievementSupa = async (id: string) => {
   console.log("deleteAchievementSupa", id);
   const { error } = await supabase
     .from("achievements")
@@ -14,7 +14,7 @@ const deleteAchievementSupa = async (id: number) => {
 export function useDeleteAchievementSupa() {
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: (id: number) => deleteAchievementSupa(id),
+    mutationFn: (id: string) => deleteAchievementSupa(id),
 
     onError: (error) => {
       console.log("delete error", error);

@@ -22,8 +22,8 @@ type challenge = {
 type acceptProps = {
   trial: {
     id: string;
-    challenge_id: number;
-    created_by: number;
+    challenge_id: string;
+    created_by: string;
     created_at: string;
     deposit: number;
     start_at: string;
