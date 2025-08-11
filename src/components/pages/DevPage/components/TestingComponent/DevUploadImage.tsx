@@ -1,20 +1,39 @@
 import { Button } from "@/components/ui/button";
 import { usePostUploadImage, useGetImageUrl } from "@/api";
 import { useState } from "react";
+import imageCompression from "browser-image-compression";
 
 export default function DevUploadImage() {
   const [fileName, setFileName] = useState<string | null>(null);
   const { mutate: uploadImage, isPending } = usePostUploadImage();
   const { data: imageUrl } = useGetImageUrl(fileName);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const uniqueFileName = `${Date.now()}_${file.name}`;
+    const options = {
+      maxSizeMB: 0.5,
+      maxWidthOrHeight: 640,
+      useWebWorker: true,
+      fileType: "image/webp",
+    };
+    const uniqueFileName = `${Date.now()}`;
     setFileName(uniqueFileName);
 
-    uploadImage({ file, fileName: uniqueFileName });
+    try {
+      const compressedFile = await imageCompression(file, options);
+      console.log(
+        "compressedFile instanceof Blob",
+        compressedFile instanceof Blob
+      ); // true
+      console.log(
+        `compressedFile size ${compressedFile.size / 1024 / 1024} MB`
+      ); // smaller than maxSizeMB
+      uploadImage({ file: compressedFile, fileName: uniqueFileName });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
