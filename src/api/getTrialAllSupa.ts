@@ -9,7 +9,7 @@ const getTrialAllSupa = async () => {
         nick_name,charactor_img_link
       )
     )
-  `);
+  `).order("created_at", { ascending: false });
 
   if (error) throw error;
 

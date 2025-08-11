@@ -10,7 +10,7 @@ const postFriendsRequest = async ({
   address_id: string;
   note: string;
 }) => {
-  if (!request_id || !address_id || !note) {
+  if (!request_id || !address_id ) {
     console.log("請輸入完整資料");
     return;
   }

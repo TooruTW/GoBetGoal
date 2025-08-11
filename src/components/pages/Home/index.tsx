@@ -1,12 +1,10 @@
 import { Link } from "react-router-dom";
 import Character from "./Character";
-// import Bagel from "./Bagel";
-
-// import Hero from "./Hero";
-// import Fall from "./Fall";
-// import Logo from "./Logo";
+import { useSelector } from "react-redux";
+import type { RootState } from "@/store";
 
 export default function Home() {
+  const userId = useSelector((state: RootState) => state.account.user_id);
   return (
     <div className="w-full min-h-screen">
       <section className="w-full min-h-screen flex justify-center items-center flex-col">
@@ -16,7 +14,7 @@ export default function Home() {
             <Link to="/">
               <li className="px-4 py-3 border-2">Home</li>
             </Link>
-            <Link to="/user">
+            <Link to={`/user/${userId || "guest"}`}>
               <li className="px-4 py-3 border-2">User</li>
             </Link>
             <Link to="/trials">

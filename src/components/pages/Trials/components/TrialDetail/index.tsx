@@ -13,23 +13,19 @@ export default function TrialDetail() {
 
   useEffect(() => {
     if (data) {
-      const endDate = dayjs(data[data.length-1].end_at);
+      const endDate = dayjs(data[data.length - 1].end_at);
       const now = dayjs();
       const diffDays = endDate.diff(now, "day");
 
-      if(diffDays < 0){
+      if (diffDays < 0) {
         console.log("trial is over");
         navigate(`/trial-complete/${id}`);
       }
-
     }
-  }, [data,id,navigate]);
-
+  }, [data, id, navigate]);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
-
-
 
   return (
     <div className="flex py-20 w-full max-w-330 relative px-4 overflow-hidden">

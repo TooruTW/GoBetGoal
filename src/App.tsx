@@ -6,16 +6,21 @@ import { useGetUserInfoSupa, useGetUserSupa } from "./api";
 import { setAccount } from "./store/slices/accountSlice";
 import { RootState } from "./store";
 import { useGetFriendSupa } from "./api/index";
-import { setFriends } from "./store/slices/friendsSlice";
+import { setFriends, setRemoveSelf } from "./store/slices/friendsSlice";
+import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
 
 function App() {
-  // 
   const [userID, setUserID] = useState<string>("");
   const dispatch = useDispatch();
   const { data: user } = useGetUserSupa();
   const isDarkMode = useSelector(
     (state: RootState) => state.account.system_preference_color_mode
   );
+
+  useEffect(() => {
+    gsap.registerPlugin(useGSAP);
+  }, []);
 
   useEffect(() => {
     if (user?.id) {
@@ -25,11 +30,7 @@ function App() {
     }
   }, [user]);
 
-  const {
-    data: userInfoSupa,
-    isLoading,
-    error,
-  } = useGetUserInfoSupa(userID);
+  const { data: userInfoSupa, isLoading, error } = useGetUserInfoSupa(userID);
 
   useEffect(() => {
     if (userID !== "" && !isLoading && !error && userInfoSupa) {
@@ -40,14 +41,18 @@ function App() {
     }
   }, [userID, userInfoSupa, isLoading, error, dispatch]);
 
-  const { data: friendData, isLoading: friendLoading, error: friendError } = useGetFriendSupa(userID);
+  const {
+    data: friendData,
+    isLoading: friendLoading,
+    error: friendError,
+  } = useGetFriendSupa(userID);
 
-  useEffect(()=>{
-    if(friendData && !friendLoading && !friendError){
-      dispatch(setFriends(friendData))
+  useEffect(() => {
+    if (friendData && !friendLoading && !friendError) {
+      dispatch(setFriends(friendData));
+      dispatch(setRemoveSelf(userID));
     }
-  },[friendData,friendLoading,friendError,dispatch])
-
+  }, [friendData, friendLoading, friendError, dispatch, userID]);
 
   return (
     <Layout className={isDarkMode === "dark" ? "dark" : ""}>

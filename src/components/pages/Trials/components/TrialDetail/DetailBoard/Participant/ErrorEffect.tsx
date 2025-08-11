@@ -1,13 +1,15 @@
+import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRef, useEffect } from "react";
 
 export default function ErrorEffect() {
   const signRef = useRef<HTMLHeadingElement | null>(null);
-  function flashEffect() {
+
+  const { contextSafe } = useGSAP();
+
+  const flashEffect = contextSafe(() => {
     if (!signRef.current) return;
-
     const tl = gsap.timeline();
-
     // 瞬間順移到隨機位置，同時改變字體和文字
     tl.set(signRef.current, {
       xPercent: Math.floor(Math.random() * 40 - 20), // -20 到 20
@@ -50,10 +52,9 @@ export default function ErrorEffect() {
         },
         "+=0.08"
       ); // 最後瞬間回到原位
-  }
+  });
 
-  useEffect(() => {
-    if (!signRef.current) return;
+  useGSAP(() => {
     // 基礎閃爍效果
     gsap.to(signRef.current, {
       opacity: 0.2,
@@ -61,7 +62,10 @@ export default function ErrorEffect() {
       repeat: -1,
       yoyo: true,
     });
+  });
 
+  useEffect(() => {
+    if (!signRef.current) return;
     // 定期觸發閃現效果
     const interval = setInterval(() => {
       if (Math.random() < 0.8) {
@@ -73,7 +77,8 @@ export default function ErrorEffect() {
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [flashEffect]);
+  
   return (
     <h1 ref={signRef} className="text-h1 font-black">
       No Signal

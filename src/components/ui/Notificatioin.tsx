@@ -19,12 +19,15 @@ export default function Notificatioin({
 
   const noteCardRef = useRef<HTMLDivElement>(null);
   useGSAP(() => {
+    if (!children) return;
+    if (!noteCardRef.current) return;
+    setIsOpen(true);
     gsap.from(noteCardRef.current, {
       xPercent: 1000,
       duration: 0.5,
       ease: "power2.inOut",
     });
-  }, []);
+  }, [children]);
 
   const { contextSafe } = useGSAP({ scope: noteCardRef });
   const timeUpAnumation = contextSafe(() => {

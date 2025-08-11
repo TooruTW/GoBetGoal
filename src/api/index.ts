@@ -32,3 +32,5 @@ export { useGetUserPurchase } from "./getUserPurchase";
 export { usePostPurchase } from "./postPurchase";
 export { useGetAvatar } from "./getAvatar";
 export { usePostDeposit } from "./postDeposit";
+export { usePostInviteFriend } from "./postInviteFriend";
+export { useGetTrialParticipantsSupa } from "./getTrialParticipantsSupa";
