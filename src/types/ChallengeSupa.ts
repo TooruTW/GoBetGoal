@@ -1,7 +1,7 @@
 import { ChallengeStageSupa } from "./ChallengeStageSupa";
 
 export type ChallengeSupa = {
-  id: number;
+  id: string;
   title: string;
   description: string;
   frequency: number;

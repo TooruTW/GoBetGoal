@@ -26,8 +26,8 @@ const CandyDrop = ({ className }: { className?: string }) => {
             y: 0,
             opacity: 1,
             ease: "bounce.out", // 模擬落地彈跳
-            duration: 1,
-            delay: idx * 0.1, // 依序掉落
+            duration: 0.5,
+            delay: idx * 0.05, // 依序掉落
           }
         );
       });

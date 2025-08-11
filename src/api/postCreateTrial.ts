@@ -15,7 +15,7 @@ export function usePostCreateTrial() {
   return useMutation({
     mutationFn: postCreateTrial,
     onError: (error) => {
-      console.error(error.message);
+      console.error("新增失敗", error);
     },
   });
 }
