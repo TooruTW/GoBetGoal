@@ -38,7 +38,7 @@ export default function Navigator() {
             <Candy amount={account.candy_count} />
           </Link>
         </li>
-        <Link className=" max-lg:hidden " to="trial">
+        <Link className=" max-lg:hidden " to="trials">
           <li className="text-label transition-all hover:scale-120 ">
             我的試煉
           </li>
@@ -48,9 +48,11 @@ export default function Navigator() {
             交流平台
           </li>
         </Link>
-        <li className=" max-lg:hidden ">
-          <CreateTrialBtn />
-        </li>
+        {account.user_id && (
+          <li className=" max-lg:hidden ">
+            <CreateTrialBtn />
+          </li>
+        )}
         <li className="cursor-pointer">
           <User />
         </li>

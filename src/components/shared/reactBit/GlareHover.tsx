@@ -21,7 +21,6 @@ interface GlareHoverProps {
 
 const GlareHover: React.FC<GlareHoverProps> = ({
   background,
-  onMouseEnter,
   borderRadius = "10px",
   borderColor = "",
   children,

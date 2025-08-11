@@ -16,4 +16,6 @@ export type ChallengeSupa = {
   price: number;
   color: string;
   challenge_stage?: ChallengeStageSupa[];
+  check_by_ai: boolean;
+  max_user: number;
 }
