@@ -9,9 +9,7 @@ type PostUploadImageProps = {
 const postUploadImage = async ({ file, fileName }: PostUploadImageProps) => {
   const { data, error } = await supabase.storage
     .from("challenge")
-    .upload(fileName, file, {
-      upsert: true,
-    });
+    .upload(fileName, file);
 
   if (error) {
     throw error;
