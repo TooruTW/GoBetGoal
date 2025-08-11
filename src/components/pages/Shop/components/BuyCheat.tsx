@@ -155,7 +155,7 @@ export default function BuyCheat({ onClose }: BuyCheatProps) {
         patchUserInfo(
           {
             target: "candy_count",
-            value: String(updatedCandyCount),
+            value: updatedCandyCount,
             userID,
           },
           {

@@ -138,6 +138,7 @@ export default function Form({ challenge }: FormProps) {
 
   // 創建試煉的獨立函數
   const createTrial = async (formData: FormData) => {
+    if (!id) return;
     try {
       console.log("開始創建試煉:", formData);
 
