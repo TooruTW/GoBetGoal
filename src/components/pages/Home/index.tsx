@@ -17,7 +17,7 @@ export default function Home() {
             <Link to={`/user/${userId || "guest"}`}>
               <li className="px-4 py-3 border-2">User</li>
             </Link>
-            <Link to="/trials">
+            <Link to="/trials/list/all/all">
               <li className="px-4 py-3 border-2">Trials</li>
             </Link>
             <Link to="/auth">
