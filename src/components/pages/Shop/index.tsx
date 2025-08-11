@@ -1,28 +1,33 @@
 import GlareHover from "@/components/shared/reactBit/GlareHover";
 import type { MonsterImage } from "@/assets/monster";
 import CandyDrop from "@/components/pages/Authentication/components/CandyDrop";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { monsterSleep, monsterRun, monsterCongrats } from "@/assets/monster";
 import { ArrowLeft } from "lucide-react";
+import { useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import Candy from "@/components/layout/Header/Navigator/Candy";
+import { RootState } from "@/store";
+import { usePatchChangeUserInfo, usePostDeposit } from "@/api";
+import { useQueryClient } from "@tanstack/react-query";
+import Notificatioin from "@/components/pages/SocialPages/components/Notificatioin";
 
 type Plan = {
   src: MonsterImage;
   price: number;
-  candy: number;
+  get_bagel: number;
   show: string;
   translate: number;
 };
 
 const plan: Plan[] = [
-  { src: monsterSleep, price: 19, candy: 10000, show: "1k", translate: 0 },
-  { src: monsterRun, price: 99, candy: 100000, show: "100k", translate: 10 },
+  { src: monsterSleep, price: 19, get_bagel: 10000, show: "1k", translate: 0 },
+  { src: monsterRun, price: 99, get_bagel: 100000, show: "100k", translate: 10 },
   {
     src: monsterCongrats,
     price: 299,
-    candy: 1000000,
+    get_bagel: 1000000,
     show: "1M",
     translate: 0,
   },
@@ -30,28 +35,82 @@ const plan: Plan[] = [
 
 export default function Shop() {
   const [showSuccess, setShowSuccess] = useState(false);
-
+  const [noteContent, setNoteContent] = useState("");
+  const [showAnime, setShowAnime] = useState<boolean[]>(
+    new Array(plan.length).fill(false)
+  );
   const navigate = useNavigate();
   const location = useLocation();
+  const queryClient = useQueryClient();
 
-  // 判斷是否從其他頁面導航而來（不是從 header 來的）
+  const { mutate: postDeposit } = usePostDeposit();
+  const { mutate: patchUserInfo } = usePatchChangeUserInfo();
+  const account = useSelector((state: RootState) => state.account);
+  const userID = account.user_id;
+
   const isFromNavigation = location.state?.fromNavigation === true;
   const from = location.state?.from || "/";
 
-  const handleGoBack = () => {
-    navigate(from, { replace: true });
+  const handleGoBack = () => navigate(from, { replace: true });
+
+  const depositSuccess = (planIndex: number) => {
+    const selectedPlan = plan[planIndex];
+
+    postDeposit(
+      {
+        user_id: userID,
+        get_bagel: selectedPlan.get_bagel,
+        deposit_money: selectedPlan.price,
+      },
+      {
+        onSuccess: () => {
+          console.log("儲值成功");
+
+          const updatedBagel = account.candy_count + selectedPlan.get_bagel;
+
+          patchUserInfo(
+            { target: "candy_count", value: String(updatedBagel), userID },
+            {
+              onSuccess: () => {
+                queryClient.invalidateQueries({
+                  queryKey: ["user_info", userID],
+                });
+                console.log("糖果餘額更新成功");
+                setShowSuccess(true);
+              },
+              onError: (error) => {
+                console.error("更新糖果餘額失敗:", error);
+                setNoteContent("儲值成功但更新餘額失敗，請重新整理頁面");
+              },
+            }
+          );
+        },
+        onError: (error: Error) => {
+          console.error("儲值失敗:", error);
+
+          let errorMessage = "儲值失敗，請稍後再試 ^-﹏-^ ੭";
+
+          if (error?.message?.includes("duplicate")) {
+            errorMessage = "重複儲值請求 ^-﹏-^ ੭";
+          } else if (error?.message?.includes("unauthorized")) {
+            errorMessage = "請重新登入 ^-﹏-^ ੭";
+          } else if (error?.message) {
+            errorMessage = error.message;
+          }
+
+          setNoteContent(errorMessage);
+        },
+      }
+    );
   };
 
-  const onClose = () => {
-    setShowSuccess(false);
-  };
-  const depositSuccess = () => {
-    console.log("Deposit successful");
-    setShowSuccess(true);
-    // setTimeout(() => {
-    //   navigate(from, { replace: true });
-    // }, 2000);
-  };
+  const onClose = () => setShowSuccess(false);
+
+  useEffect(() => {
+    if (!noteContent) return;
+    const timer = setTimeout(() => setNoteContent(""), 3000);
+    return () => clearTimeout(timer);
+  }, [noteContent]);
 
   return (
     <div
@@ -60,7 +119,7 @@ export default function Shop() {
       }`}
     >
       {!isFromNavigation && (
-        <div className="w-full ">
+        <div className="w-full">
           <Button
             variant="ghost"
             size="sm"
@@ -72,18 +131,32 @@ export default function Shop() {
           </Button>
         </div>
       )}
-      <div
-        className="flex flex-col md:w-4/5 p-3 justify-center"
-        onClick={(e) => e.stopPropagation()}
-      >
+
+      <div className="flex flex-col md:w-4/5 p-3 justify-center">
         <h2 className="text-h2 font-title text-center pb-8">貝果不夠了？</h2>
 
         <ul className="flex gap-2 md:gap-4">
           {plan.map((item, index) => (
-            <li onClick={depositSuccess} key={index}>
+            <li
+              onClick={() => depositSuccess(index)}
+              key={index}
+              onMouseEnter={() => {
+                setShowAnime((prev) => {
+                  const newAnime = [...prev];
+                  newAnime[index] = true;
+                  return newAnime;
+                });
+              }}
+              onMouseLeave={() => {
+                setShowAnime((prev) => {
+                  const newAnime = [...prev];
+                  newAnime[index] = false;
+                  return newAnime;
+                });
+              }}
+            >
               <GlareHover
                 glareColor="#ffffff"
-                key={index}
                 glareOpacity={0.3}
                 glareAngle={-30}
                 glareSize={300}
@@ -91,38 +164,38 @@ export default function Shop() {
                 playOnce={true}
                 className={`group p-2 md:p-4 flex flex-col relative items-center gap-2 h-auto border hover:perspective-dramatic rounded-4xl bg-schema-surface-container-high/75 hover:bg-schema-primary active:bg-schema-primary shadow-lg -translate-y-${item.translate} hover:-translate-y-2 transition-transform hover:scale-105 active:scale-95`}
               >
-                <h2 className="font-title md:text-xl">🍬 &nbsp; {item.show}</h2>
-                <CandyDrop className="group-hover:flex hidden w-30 absolute bottom-0 left-0" />
-
-                <div className="relative z-10 flex flex-col items-center">
+                <h2 className="font-title md:text-xl">🥯 &nbsp; {item.show}</h2>
+                <div className="relative flex flex-col items-center">
                   <img src={item.src} alt={item.src} className="h-full" />
-                  <p className="text-sm font-title">NTD {item.price}</p>
-                  <Button
-                    variant="secondary"
-                    className="hover:scale-105 active:scale-95 cursor-pointer"
-                  >
-                    兌換
-                  </Button>
+                  {showAnime[index] && (
+                    <CandyDrop className="w-full absolute bottom-0 left-0" />
+                  )}
                 </div>
+                <p className="text-sm font-title">NTD {item.price}</p>
+                <Button
+                  variant="secondary"
+                  className="hover:scale-105 active:scale-95 cursor-pointer"
+                >
+                  兌換
+                </Button>
               </GlareHover>
             </li>
           ))}
         </ul>
       </div>
+
       {showSuccess && (
         <div className="fixed w-full h-full top-0 left-0 flex items-end justify-end bg-black/50 z-50">
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-schema-surface-container-high p-6 rounded-lg shadow-lg z-30 flex flex-col items-center gap-4">
             <h3 className="text-h3 font-bold mb-4">成功儲值！</h3>
-            <p className="">現在你就是貝果富翁啦，盡情揮霍吧</p>
+            <p>現在你就是貝果富翁啦，盡情揮霍吧</p>
             <video autoPlay loop className="h-30">
               <source
                 src="/animation/monster/monsterCongrats.webm"
                 type="video/webm"
               />
-              您的瀏覽器不支援 video 播放。
             </video>
-
-            <Candy amount={1000000} />
+            <Candy amount={account.candy_count} />
             <div className="flex justify-center gap-4">
               <Button
                 className="mt-4"
@@ -135,9 +208,14 @@ export default function Shop() {
               </Button>
             </div>
           </div>
-
-          <CandyDrop />
+          <CandyDrop className="w-full absolute bottom-0 left-1/2 -translate-x-1/3" />
         </div>
+      )}
+
+      {noteContent && (
+        <Notificatioin time={2000}>
+          <p>{noteContent}</p>
+        </Notificatioin>
       )}
     </div>
   );
