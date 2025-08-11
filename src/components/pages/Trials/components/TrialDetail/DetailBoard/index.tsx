@@ -4,12 +4,12 @@ import TrialInfo from "./TrialInfo";
 import { useState, useEffect } from "react";
 import ParticipantMobile from "./ParticipantMobile";
 import UploadArea from "./UploadArea";
-import UploadCalendar from "./UploadCalender";
 import { useDispatch, useSelector } from "react-redux";
 import { setScreenSize } from "@/store/slices/screenSlice";
 import { RootState } from "@/store";
 import { TrialDetailSupa } from "@/types/TrialDetailSupa";
 import Invitition from "./Invitition";
+import UploadSection from "./UploadSecion";
 
 type acceptProps = {
   trial: TrialDetailSupa[];
@@ -60,7 +60,7 @@ export default function DetailBoard({ trial }: acceptProps) {
       <BackBtn />
       <TrialInfo trial={trial} />
       {trialState === "進行中" && <UploadArea trial={trial}/>}
-      <UploadCalendar trial={trial}/>
+      <UploadSection trial={trial}/>
       {width < 960 ? <ParticipantMobile trial={trial} onClickInvitition={()=>setIsInvititionOpen(true)}/> : <Participant trial={trial} onClickInvitition={()=>setIsInvititionOpen(true)} />}
       {isInvititionOpen && <Invitition className="w-full h-screen fixed top-0 left-0 z-50" onClick={()=>setIsInvititionOpen(false)} />}
     </div>
