@@ -1,10 +1,12 @@
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import TemplateDetail from "./TemplateDetail";
 import gsap from "gsap";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import { ChallengeSupa } from "@/types/ChallengeSupa";
+import { useGSAP } from "@gsap/react";
+import { bagel1, bagel2, bagel3, bagel4 } from "@/assets/bagel";
 
 interface ChallengeInfoProps {
   challenge: ChallengeSupa | null;
@@ -16,7 +18,9 @@ export default function ChallengeInfo({ challenge }: ChallengeInfoProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
-  useEffect(() => {
+  const bagels = [bagel1, bagel2, bagel3, bagel4];
+
+  useGSAP(() => {
     gsap.fromTo(
       imageRef.current,
       {
@@ -30,7 +34,7 @@ export default function ChallengeInfo({ challenge }: ChallengeInfoProps) {
         repeat: -1,
       }
     );
-  }, []);
+  });
 
   useClickOutside(containerRef, () => setIsOpen(false));
 
@@ -43,42 +47,41 @@ export default function ChallengeInfo({ challenge }: ChallengeInfoProps) {
     >
       <img
         ref={imageRef}
-        src={`/image${challenge?.img}`}
+        src={challenge?.img ? `/image${challenge?.img}` : bagels[Math.floor(Math.random() * bagels.length)]}
         alt=""
         className="size-35 max-lg:size-30 max-md:size-25 absolute -top-15   right-8 rotate-9"
       />
       <div>
-        <h1 className="text-h1 font-bold">{challenge?.title} </h1>
+        <h1 className="text-h1 font-bold">{challenge?.title || "選擇試煉模板" } </h1>
         <span className="text-label text-schema-on-surface-variant">
-          {challenge?.description}
+          {challenge?.description || "挑選想挑戰的試煉模板吧！"}
         </span>
       </div>
 
       <ul className="grid grid-cols-5 gap-2 max-lg:grid-cols-3">
         <li className="flex flex-col items-center">
           <p className="text-label text-schema-on-surface-variant">關卡頻率</p>{" "}
-          <p className="text-p">{challenge?.frequency}</p>
+          <p className="text-p">{challenge?.frequency || "0"}</p>
         </li>
         <li className="flex flex-col items-center">
           <p className="text-label text-schema-on-surface-variant">關卡數量</p>{" "}
-          <p className="text-p">{challenge?.stage_count}</p>
+          <p className="text-p">{challenge?.stage_count || "0"}</p>
         </li>
         <li className="flex flex-col items-center">
           <p className="text-label text-schema-on-surface-variant">
             試煉總時長 （天）
           </p>
           <p className="text-p">
-            {" "}
-            {(challenge?.stage_count || 0) * (challenge?.frequency || 0)}{" "}
+            {(challenge?.stage_count || 0) * (challenge?.frequency || 0)}
           </p>
         </li>
         <li className="flex flex-col items-center">
-          <p className="text-label text-schema-on-surface-variant">人數上限</p>{" "}
-          <p className="text-p">6</p>
+          <p className="text-label text-schema-on-surface-variant">人數上限</p>
+          <p className="text-p">{challenge?.max_user || "0"}</p>
         </li>
         <li className="flex flex-col items-center">
-          <p className="text-label text-schema-on-surface-variant">審查方式</p>{" "}
-          <p className="text-p">AI 審查</p>
+          <p className="text-label text-schema-on-surface-variant">審查方式</p>
+          <p className="text-p">{challenge?.check_by_ai ? "AI 審查" : "良心審查"}</p>
         </li>
       </ul>
 
