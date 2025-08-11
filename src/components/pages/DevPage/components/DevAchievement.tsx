@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { usePostAchievementSupa } from "@/api/postAchievementSupa";
 import { useDeleteAchievementSupa } from "@/api/deleteAchievementSupa";
 type Achievement = {
-  id?: number;
+  id?: string;
   created_at?: string;
   order: number;
   title: string;
@@ -32,7 +32,7 @@ export default function DevAchievement() {
     postAchievement(input);
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: string) => {
     console.log(id);
     deleteAchievement(id);
   };

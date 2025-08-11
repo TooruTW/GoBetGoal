@@ -27,7 +27,7 @@ type TrialStageData = {
   chance_remain: number;
   trial: {
     id: string;
-    challenge_id: number;
+    challenge_id: string;
     created_by: number;
     created_at: string;
     deposit: number;

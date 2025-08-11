@@ -7,7 +7,7 @@ import SpotlightCard from "@/components/shared/reactBit/SpotlightCard";
 import { monsterCry } from "@/assets/monster";
 
 type Achievement = {
-  id?: number;
+  id?: string;
   created_at?: string;
   order: number;
   title: string;

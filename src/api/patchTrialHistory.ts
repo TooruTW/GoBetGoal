@@ -2,7 +2,7 @@ import { supabase } from "@/supabaseClient";
 import { useMutation } from "@tanstack/react-query";
 
 interface patchTrialHistoryProps {
-  history_id: number;
+  history_id: string;
   uploadList: string[];
 }
 const patchTrialHistory = async (props: patchTrialHistoryProps) => {
