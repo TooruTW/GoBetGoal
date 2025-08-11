@@ -2,8 +2,10 @@ import { monsterSport, monsterEat, monsterSleep } from "@/assets/monster";
 import { useState, useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 
 interface VideoItem {
+  id: string;
   title: string;
   src: string;
   video: string;
@@ -19,6 +21,7 @@ interface DecorConfig {
 
 const videoList: VideoItem[] = [
   {
+    id: "sport",
     title: "運動",
     src: monsterSport,
     video: "/animation/monster/monsterBeep.webm",
@@ -30,6 +33,7 @@ const videoList: VideoItem[] = [
     color: "primary",
   },
   {
+    id: "eat",
     title: "飲食",
     src: monsterEat,
     video: "/animation/monster/monsterEat.webm",
@@ -41,6 +45,7 @@ const videoList: VideoItem[] = [
     color: "secondary",
   },
   {
+    id: "sleep",
     title: "作息",
     src: monsterSleep,
     video: "/animation/monster/character66.webm",
@@ -69,10 +74,16 @@ export default function Category() {
   const [currentVideo, setCurrentVideo] = useState(videoList[0].video);
   const [currentIndex, setCurrentIndex] = useState(0);
   const decorRef = useRef<HTMLDivElement>(null);
+  const { category } = useParams();
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const handleVideoChange = (video: string, index: number) => {
+  const handleVideoChange = (video: string, index: number, id: string) => {
     setCurrentVideo(video);
     setCurrentIndex(index);
+    if(!category) return;
+    const newPath = location.pathname.replace(category, id);
+    navigate(newPath);
   };
 
   const currentDecorList = [
@@ -123,7 +134,7 @@ export default function Category() {
                 key={index}
                 src={item.src}
                 alt={item.title}
-                onClick={() => handleVideoChange(item.video, index)}
+                onClick={() => handleVideoChange(item.video, index, item.id)}
                 className={`w-24 object-cover cursor-pointer hover:scale-115 transition-all active:scale-90 ${
                   currentIndex === index
                     ? "scale-105  opacity-100 -translate-y-4"

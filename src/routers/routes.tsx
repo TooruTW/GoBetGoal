@@ -120,7 +120,7 @@ export const routes: RouteObject[] = [
         element: <Trials />,
         children: [
           {
-            index: true,
+            path: "list/:scope/:category",
             element: <TrialsList />,
           },
           {

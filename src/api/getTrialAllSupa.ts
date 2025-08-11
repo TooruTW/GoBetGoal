@@ -1,19 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/supabaseClient";
+import { TrialSupa } from "@/types/TrialSupa";
 
 const getTrialAllSupa = async () => {
   const { data, error } = await supabase.from("trial").select(`
     *,challenge:challenge_id (category,description,frequency,title,challenge_stage(description)),
     trial_participant (
       user_info:participant_id (
-        nick_name,charactor_img_link
+        nick_name,charactor_img_link,user_id
       )
     )
   `).order("created_at", { ascending: false });
 
   if (error) throw error;
 
-  return data;
+  return data as TrialSupa[];
 };
 
 export function useTrialAllSupa() {
