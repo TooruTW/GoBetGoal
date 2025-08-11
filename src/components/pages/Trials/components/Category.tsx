@@ -77,11 +77,12 @@ export default function Category() {
   const { category } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
-  
+
   const handleVideoChange = (video: string, index: number, id: string) => {
     setCurrentVideo(video);
     setCurrentIndex(index);
-    const newPath = location.pathname.replace(category || "", id);
+    if(!category) return;
+    const newPath = location.pathname.replace(category, id);
     navigate(newPath);
   };
 

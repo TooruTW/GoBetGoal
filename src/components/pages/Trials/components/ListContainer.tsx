@@ -16,12 +16,26 @@ export default function ListContainer() {
   useEffect(() => {
     if (isLoading || !data || !userId) return;
     if (error) console.log(error);
+    let filteredData: TrialSupa[] = data
     if(scope === "my"){
-      const filteredData = data.filter((trial) => trial.trial_participant.some((participant) => participant.user_info.user_id === userId));      
-      setFilteredData(filteredData);
-    }else{
-      setFilteredData(data);
+      filteredData = data.filter((trial) => trial.trial_participant.some((participant) => participant.user_info.user_id === userId));      
     }
+    
+    switch (category) {
+      case "sport":
+        filteredData = filteredData.filter((trial) => trial.challenge.category.includes("運動"));
+        break;
+      case "eat":
+        filteredData = filteredData.filter((trial) => trial.challenge.category.includes("飲食"));
+        break;
+      case "sleep":
+        filteredData = filteredData.filter((trial) => trial.challenge.category.includes("作息"));
+        break;
+      default:
+        break;
+    }
+    
+    setFilteredData(filteredData);
 
   }, [data, isLoading, error, scope, category, userId]);
 

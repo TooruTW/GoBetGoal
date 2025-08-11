@@ -10,7 +10,8 @@ export default function ScopeTab() {
 
   const handleNav = (isToMyTrials: boolean) => {
     const isMyTrials = isToMyTrials ? "my" : "all";
-    const newPath = location.pathname.replace(scope || "", isMyTrials);
+    if(!scope) return;
+    const newPath = location.pathname.replace(scope, isMyTrials);
     navigate(newPath);
   };
 
