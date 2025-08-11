@@ -1,18 +1,24 @@
 import { monsterDefault } from "@/assets/monster";
 import { DatePicker } from "@/components/shared/reactBit/DatePicker";
+import ConfirmModal from "@/components/ui/ConfirmModal";
+import Notificatioin from "@/components/pages/SocialPages/components/Notificatioin";
+
 import { useForm } from "react-hook-form";
+
 import { createTrial } from "@/types/CreateTrial";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store";
-import { usePostCreateTrial } from "@/api";
+import { ChallengeSupa } from "@/types/ChallengeSupa";
+
 import { useParams } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
-import ConfirmModal from "@/components/ui/ConfirmModal";
-import { ChallengeSupa } from "@/types/ChallengeSupa";
-import { usePostPurchase } from "@/api/postPurchase";
-import { useGetUserPurchase } from "@/api/getUserPurchase";
-import { usePatchChangeUserInfo } from "@/api";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+import {
+  usePostCreateTrial,
+  usePostPurchase,
+  useGetUserPurchase,
+  usePatchChangeUserInfo,
+} from "@/api";
 
 type FormData = {
   trialName: string;
@@ -47,6 +53,14 @@ interface ApiError {
 
 export default function Form({ challenge }: FormProps) {
   const { mutate: postPurchase } = usePostPurchase();
+  const [note, setNote] = useState<{
+    content: string;
+    type?: "default" | "bad";
+    key: number;
+  }>({ content: "", key: 0 });
+  function showNote(content: string, type?: "default" | "bad") {
+    setNote({ content, type, key: Date.now() });
+  }
   const userID = useSelector((state: RootState) => state.account.user_id);
   const { id } = useParams<{ id: string }>();
 
@@ -100,15 +114,15 @@ export default function Form({ challenge }: FormProps) {
           purchase,
           itemType: purchase.item_type,
           itemId: purchase.item_id,
-          challengeId: challenge.uuid,
+          challengeId: challenge.id,
           match:
             purchase.item_type === "challenge" &&
-            Number(purchase.item_id) === Number(challenge.uuid),
+            Number(purchase.item_id) === Number(challenge.id),
         });
 
         return (
           purchase.item_type === "challenge" &&
-          Number(purchase.item_id) === Number(challenge.uuid)
+          Number(purchase.item_id) === Number(challenge.id)
         );
       });
 
@@ -117,7 +131,7 @@ export default function Form({ challenge }: FormProps) {
         purchased,
         hasPurchased: purchased,
         userPurchasesCount: userPurchases.length,
-        challengeId: challenge.uuid,
+        challengeId: challenge.id,
       });
     }
   }, [userID, userPurchases, challenge, isPurchaseLoading]);
@@ -130,7 +144,7 @@ export default function Form({ challenge }: FormProps) {
       const newData: createTrial = {
         start_at: formData.trialStart,
         deposit: formData.trialDeposit,
-        challenge_id: Number(id),
+        challenge_id: id,
         title: formData.trialName,
         create_by: userID,
       };
@@ -139,21 +153,23 @@ export default function Form({ challenge }: FormProps) {
 
       postCreateTrial(newData, {
         onSuccess: () => {
-          console.log("試煉創建成功");
-          alert("試煉創建成功！");
+          
+          showNote("試煉創建成功！");
           setShowConfirm(false);
           setPendingTrialData(null);
           reset();
         },
         onError: (error) => {
-          console.error("創建試煉失敗:", error);
-          alert("創建試煉失敗，請重試");
+          showNote("創建失敗( ´•̥̥̥ω•̥̥̥` )", "bad");
+          console.log("創建試煉失敗:", error);
           setShowConfirm(false);
           setPendingTrialData(null);
         },
       });
     } catch (error) {
-      console.error("創建試煉過程出錯:", error);
+      console.log("創建試煉過程出錯:", error);
+
+      alert("創建試煉過程出錯");
       setPendingTrialData(null);
     }
   };
@@ -161,12 +177,12 @@ export default function Form({ challenge }: FormProps) {
   // 處理購買確認
   const handlePurchaseConfirm = () => {
     if (!selectedToBuy || !challenge) {
-      console.error("缺少必要數據:", { selectedToBuy, challenge });
+      console.log("缺少必要數據:", { selectedToBuy, challenge });
       return;
     }
 
     const purchaseData = {
-      item_id: String(challenge.uuid),
+      item_id: String(challenge.id),
       user_id: userID,
       item_type: "challenge" as const,
       item_name: challenge.title,
@@ -176,28 +192,28 @@ export default function Form({ challenge }: FormProps) {
     console.log("準備執行購買:", {
       purchaseData,
       userID,
-      challengeId: challenge.uuid,
+      challengeId: challenge.id,
       challengeTitle: challenge.title,
       challengePrice: challenge.price,
     });
 
     // 檢查必要字段
     if (!userID) {
-      console.error("用戶ID不存在");
-      alert("用戶ID不存在，請重新登錄");
+      console.log("用戶ID不存在");
+      showNote("請重新登錄( ´•̥̥̥ω•̥̥̥` )", "bad");
       return;
     }
 
-    if (!challenge.uuid) {
-      console.error("挑戰ID不存在");
-      alert("挑戰ID不存在");
+    if (!challenge.id) {
+      console.log("試煉ID不存在");
+      showNote("這個試煉維修中，請左轉( ´•̥̥̥ω•̥̥̥` )", "bad");
       return;
     }
 
     postPurchase(purchaseData, {
       onSuccess: (response) => {
-        console.log("購買成功，響應:", response);
-        alert("購買成功！");
+        showNote("購買成功！/˃̵ ֊ ˂̵ マ Ⳋ ");
+        console.log("購買成功:", response);
         setHasPurchased(true);
         setShowConfirm(false);
         setSelectedToBuy(null);
@@ -223,9 +239,6 @@ export default function Form({ challenge }: FormProps) {
       },
       onError: (error: ApiError) => {
         // 詳細錯誤處理
-        console.error("購買失敗詳細信息:", {
-          error,
-        });
 
         // 根據不同錯誤類型顯示不同消息
         let errorMessage = "購買失敗，請稍後再試";
@@ -245,8 +258,10 @@ export default function Form({ challenge }: FormProps) {
         } else if (error?.message) {
           errorMessage = error.message;
         }
-
-        alert(errorMessage);
+        showNote(`購買失敗 ( ง ᵒ̌皿ᵒ̌)ง⁼³ ${errorMessage}`, "bad");
+        console.error("購買失敗詳細信息:", {
+          error,
+        });
         setShowConfirm(false);
         setSelectedToBuy(null);
         setPendingTrialData(null);
@@ -278,8 +293,8 @@ export default function Form({ challenge }: FormProps) {
       console.log("需要購買，顯示確認對話框");
       setPendingTrialData(data); // 保存表單數據
       setSelectedToBuy({
-        id: challenge.uuid,
-        item_id: challenge.uuid,
+        id: challenge.id,
+        item_id: challenge.id,
         name: challenge.title,
         price: challenge.price,
         item_type: "challenge",
@@ -411,6 +426,11 @@ export default function Form({ challenge }: FormProps) {
           onConfirm={handlePurchaseConfirm}
           selectedToBuy={selectedToBuy}
         />
+      )}
+      {note.content && (
+        <Notificatioin key={note.key} time={3000} type={note.type}>
+          <p>{note.content}</p>
+        </Notificatioin>
       )}
     </div>
   );

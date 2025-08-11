@@ -14,8 +14,8 @@ const postCreateTrial = async (createData: createTrial) => {
 export function usePostCreateTrial() {
   return useMutation({
     mutationFn: postCreateTrial,
-    onError: () => {
-      console.error("新增失敗");
+    onError: (error) => {
+      console.error("新增失敗", error);
     },
   });
 }
