@@ -1,9 +1,10 @@
-import DevAchievement from "./TestingComponent/DevAchievement";
+import DevUploadImage from "./TestingComponent/DevUploadImage";
+
 
 export default function DevComponent() {
   return (
     <div>
-      <DevAchievement />
+      <DevUploadImage />
     </div>
   );
 }
