@@ -111,16 +111,7 @@ export default function DevUploadImage() {
       {/* 檔案預覽區域 */}
       {selectedFile && previewUrl && (
         <div className="border rounded-lg p-4 bg-gray-50">
-          <h3 className="font-semibold mb-2 text-gray-700">檔案預覽</h3>
           <div className="space-y-3">
-            <div className="flex items-center space-x-4 text-sm text-gray-600">
-              <span>檔案名稱: {selectedFile.name}</span>
-              <span>
-                檔案大小: {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
-              </span>
-              <span>檔案類型: {selectedFile.type}</span>
-            </div>
-
             <div className="flex justify-center">
               <img
                 src={previewUrl}
