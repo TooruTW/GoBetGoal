@@ -168,7 +168,7 @@ export default function Calender(props: acceptProps) {
   }, [month, year, trial, makeBlankDateList, updateCurrentList]);
 
   return (
-    <div className="w-full">
+    <div className="w-full ">
       <div className="grid grid-cols-7 w-full">
         <p className="text-label text-schema-on-surface-variant">Sun</p>
         <p className="text-label text-schema-on-surface-variant">Mon</p>

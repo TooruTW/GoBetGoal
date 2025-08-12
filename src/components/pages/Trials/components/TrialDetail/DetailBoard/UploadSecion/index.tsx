@@ -55,7 +55,7 @@ export default function UploadCalendar(props: acceptProps) {
   }, [trial, playerId]);
 
   return (
-    <div className="flex gap-6 w-full">
+    <div className="flex gap-6 w-full max-h-100 h-full">
       <div className="border-1 border-schema-outline rounded-md p-3 flex flex-col gap-3 items-center w-2/5">
         <div className="flex flex-col gap-3 w-full">
           <ul className="flex gap-3 w-full">

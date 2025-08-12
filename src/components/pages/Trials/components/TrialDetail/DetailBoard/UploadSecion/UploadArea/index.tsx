@@ -34,9 +34,9 @@ export default function UploadArea({trial}:acceptProps) {
 
   return (
     <div className="h-full w-full relative">
-      <ChallengeBox currentChallenge={currentChallenge} />
-      <GrFormNext className="size-10 hover:bg-schema-outline rounded-full -translate-y-1/2 absolute top-1/2 right-0" onClick={() => handleSwitch(true)} />
-      <GrFormPrevious className="size-10 hover:bg-schema-outline rounded-full -translate-y-1/2 absolute top-1/2 left-0" onClick={() => handleSwitch(false)} />
+      {currentChallenge && <ChallengeBox currentChallenge={currentChallenge} />}
+      <GrFormNext className="size-10 hover:bg-schema-outline rounded-full -translate-y-1/2 absolute top-1/2 -right-2" onClick={() => handleSwitch(true)} />
+      <GrFormPrevious className="size-10 hover:bg-schema-outline rounded-full -translate-y-1/2 absolute top-1/2 -left-2" onClick={() => handleSwitch(false)} />
     </div>
   );
 }
