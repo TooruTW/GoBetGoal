@@ -34,10 +34,7 @@ export default function DayBox({ dateInfo }: acceptProps) {
       break
     default:
       break
-  }
-
-  console.log(color,"color");
-  
+  }  
 
   return (
     <div onClick={handleClick} className={`aspect-square w-full flex items-center justify-center relative `}>

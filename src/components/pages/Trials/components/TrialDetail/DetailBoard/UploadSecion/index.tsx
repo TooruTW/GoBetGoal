@@ -20,15 +20,14 @@ export default function UploadCalendar(props: acceptProps) {
     month: dayjs().month(),
     year: dayjs().year(),
   });
+  const [passCount,setPassCount] = useState<number>(0)
+  const [cheatCount,setCheatCount] = useState<number>(0)
+  const [failCount,setFailCount] = useState<number>(0)
 
   useEffect(()=>{
     if(userId){
-      console.log(userId,"setCurrentPlayer as userId");
-      
       setCurrentPlayer(userId)
     }else{
-      console.log(trial[0].participant_id,"setCurrentPlayer as fristplayer");
-      
       setCurrentPlayer(trial[0].participant_id)
     }
   },[userId,trial])
@@ -41,9 +40,14 @@ export default function UploadCalendar(props: acceptProps) {
     }
   }, [calendarRange]);
 
+  // 過濾trial
   useEffect(() => {
     const filtedTrial = trial.filter((item) => item.participant_id === currentPlayer);
     setFiltedTrial(filtedTrial);
+    // 計算pass,cheat,fail的數量
+    setPassCount(filtedTrial.filter((item) => item.status === "pass").length);
+    setCheatCount(filtedTrial.filter((item) => item.status === "cheat").length);
+    setFailCount(filtedTrial.filter((item) => item.status === "fail").length);
   }, [trial, currentPlayer]);
 
   return (
@@ -53,15 +57,15 @@ export default function UploadCalendar(props: acceptProps) {
           <ul className="flex gap-3 w-full">
             <li className="border-1 border-[#85AC7C] rounded-md w-full grid grid-cols-2">
               <span className="text-center bg-[#85AC7C] text-white">通過</span>
-              <span className="text-center">5/10</span>
+              <span className="text-center">{passCount}/{filtedTrial.length}</span>
             </li>
             <li className="border-1 border-[#D8B747] rounded-md w-full grid grid-cols-2">
               <span className="text-center bg-[#D8B747] text-white">遮羞布</span>
-              <span className="text-center">5/10</span>
+              <span className="text-center">{cheatCount}/{filtedTrial.length}</span>
             </li>
             <li className="border-1 border-[#D98AD1] rounded-md w-full grid grid-cols-2">
               <span className="text-center bg-[#D98AD1] text-white">失敗</span>
-              <span className="text-center">5/10</span>
+              <span className="text-center">{failCount}/{filtedTrial.length}</span>
             </li>
           </ul>
         </div>
