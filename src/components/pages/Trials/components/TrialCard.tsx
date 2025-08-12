@@ -25,7 +25,7 @@ export default function TrialCard({trial}: {trial: TrialSupa}) {
   };
 
   const handleGetDetail = () => {
-    navigate(`/trials/detail/${trial.id}`);
+    navigate(`/trials/detail/${trial.id}/0`);
   };
 
   useEffect(() => {

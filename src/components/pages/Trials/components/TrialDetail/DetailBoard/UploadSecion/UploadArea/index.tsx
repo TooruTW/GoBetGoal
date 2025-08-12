@@ -1,10 +1,18 @@
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 
 import ChallengeBox from "./ChallengeBox";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { TrialDetailSupa } from "@/types/TrialDetailSupa";
 
-export default function UploadArea() {
+type acceptProps = {
+  trial: TrialDetailSupa[];
+};
+
+export default function UploadArea({trial}:acceptProps) {
   const [currentChallenge, setCurrentChallenge] = useState(1);
+  useEffect(()=>{
+    console.log(trial,"trial");
+  },[trial])
 
   const handleSwitch = (isNext:boolean)=>{
     if(isNext){

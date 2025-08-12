@@ -6,13 +6,15 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import dayjs from "dayjs";
 import UploadArea from "./UploadArea";
+import { useNavigate, useParams } from "react-router-dom";
 
 type acceptProps = {
   trial: TrialDetailSupa[];
 };
 
 export default function UploadCalendar(props: acceptProps) {
-  const [currentPlayer,setCurrentPlayer] = useState<string>("")
+  const {playerId,id} = useParams()
+  const navigate = useNavigate()
   const { trial } = props;
   const userId = useSelector((state: RootState) => state.account.user_id);
   const [filtedTrial, setFiltedTrial] = useState<TrialDetailSupa[]>([]);
@@ -25,12 +27,14 @@ export default function UploadCalendar(props: acceptProps) {
   const [failCount,setFailCount] = useState<number>(0)
 
   useEffect(()=>{
-    if(userId){
-      setCurrentPlayer(userId)
-    }else{
-      setCurrentPlayer(trial[0].participant_id)
+    if(playerId === "0"){
+      if(userId){
+        navigate(`/trials/detail/${id}/${userId}`)
+      }else{
+        navigate(`/trials/detail/${id}/${trial[0].participant_id}`)
+      }
     }
-  },[userId,trial])
+  },[userId,trial,playerId,id,navigate])
 
   useEffect(() => {
     if (calendarRange.month < 0) {
@@ -42,13 +46,13 @@ export default function UploadCalendar(props: acceptProps) {
 
   // 過濾trial
   useEffect(() => {
-    const filtedTrial = trial.filter((item) => item.participant_id === currentPlayer);
+    const filtedTrial = trial.filter((item) => item.participant_id === playerId);
     setFiltedTrial(filtedTrial);
     // 計算pass,cheat,fail的數量
     setPassCount(filtedTrial.filter((item) => item.status === "pass").length);
     setCheatCount(filtedTrial.filter((item) => item.status === "cheat").length);
     setFailCount(filtedTrial.filter((item) => item.status === "fail").length);
-  }, [trial, currentPlayer]);
+  }, [trial, playerId]);
 
   return (
     <div className="flex gap-6 w-full">
@@ -85,7 +89,7 @@ export default function UploadCalendar(props: acceptProps) {
         />
       </div>
       <div className="border-2 border-schema-outline rounded-md h-full w-3/5">
-        <UploadArea />
+        <UploadArea trial={filtedTrial} />
       </div>
     </div>
   );

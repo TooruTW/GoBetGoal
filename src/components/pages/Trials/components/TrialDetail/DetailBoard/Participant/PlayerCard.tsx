@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import ImageLoader from "./ImageLoader";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import type { UserInfoSupa } from "@/types/UserInfoSupa";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/store";
@@ -27,24 +27,32 @@ export default function PlayerCard(props: acceptProps) {
   const { participant, handleDelete, onClickInvitition, owner, isInTheTrial } =
     props;
   const [isFriend, setIsFriend] = useState(false);
+
   const userId = useSelector((state: RootState) => state.account.user_id);
   const [isRequestingFriend, setIsRequestingFriend] = useState(false);
-  
+  const { id } = useParams();
+
   const [isYourself, setIsYourself] = useState(false);
   const [isOwner, setIsOwner] = useState(false);
 
   useEffect(() => {
     if (!participant) return;
+    console.log("check participant", participant);
+
     if (participant.user_id === userId) {
+      console.log("is yourself");
+
       setIsYourself(true);
     }
     if (participant?.user_id === owner) {
+      console.log("is owner");
+
       setIsOwner(true);
     }
   }, [participant, userId, owner]);
 
   const friendList = useSelector((state: RootState) => state.friends.friends);
-  
+
   useEffect(() => {
     if (!participant || friendList[0] === undefined) return;
     const isFriend = friendList.some(
@@ -61,8 +69,9 @@ export default function PlayerCard(props: acceptProps) {
   const queryClient = useQueryClient();
   const { mutate: postAddFriend } = usePostFriendsRequest();
 
-  function handleAddFriend() {
+  function handleAddFriend(e: React.MouseEvent<HTMLButtonElement>) {
     console.log("add friend", participant?.user_id);
+    e.stopPropagation();
     if (!participant) return;
     postAddFriend(
       {
@@ -79,7 +88,8 @@ export default function PlayerCard(props: acceptProps) {
     );
   }
 
-  function handleNavigateToProfile() {
+  function handleNavigateToProfile(e: React.MouseEvent<HTMLButtonElement>) {
+    e.stopPropagation();
     navigate(`/user/${participant?.user_id}`);
   }
 
@@ -120,10 +130,17 @@ export default function PlayerCard(props: acceptProps) {
     onClickInvitition?.(e);
   };
 
+  const handleChangeTrialInfo = () => {
+    navigate(`/trials/detail/${id}/${user_id}`);
+  };
+
   return (
     <div className="w-full">
       {isCloseAbleRef.current ? (
-        <div className="group flex flex-col items-center justify-between gap-4 w-full bg-schema-surface-container/20 rounded-md py-6 ">
+        <div
+          className="group flex flex-col items-center justify-between gap-4 w-full bg-schema-surface-container/20 rounded-md py-6"
+          onClick={handleChangeTrialInfo}
+        >
           <IoClose
             id={user_id}
             onClick={(event) => handleDelete?.(event, user_id)}
@@ -155,15 +172,17 @@ export default function PlayerCard(props: acceptProps) {
             <button
               onClick={handleAddFriend}
               className={`rounded-md bg-schema-inverse-surface text-schema-inverse-on-surface py-2 w-8/10 ${
-                isFriend
+                isFriend || !userId
                   ? "opacity-50"
                   : isYourself
                   ? "opacity-0"
                   : "opacity-100"
               } `}
-              disabled={isYourself || isFriend}
+              disabled={isYourself || isFriend || !userId}
             >
-              {isFriend
+              {!userId
+                ? "請先登入"
+                : isFriend
                 ? isRequestingFriend
                   ? "已送出邀請"
                   : "已成為好友"
