@@ -12,6 +12,7 @@ type acceptProps = {
 };
 
 export default function UploadCalendar(props: acceptProps) {
+  const [currentPlayer,setCurrentPlayer] = useState<string>("")
   const { trial } = props;
   const userId = useSelector((state: RootState) => state.account.user_id);
   const [filtedTrial, setFiltedTrial] = useState<TrialDetailSupa[]>([]);
@@ -19,6 +20,18 @@ export default function UploadCalendar(props: acceptProps) {
     month: dayjs().month(),
     year: dayjs().year(),
   });
+
+  useEffect(()=>{
+    if(userId){
+      console.log(userId,"setCurrentPlayer as userId");
+      
+      setCurrentPlayer(userId)
+    }else{
+      console.log(trial[0].participant_id,"setCurrentPlayer as fristplayer");
+      
+      setCurrentPlayer(trial[0].participant_id)
+    }
+  },[userId,trial])
 
   useEffect(() => {
     if (calendarRange.month < 0) {
@@ -29,9 +42,9 @@ export default function UploadCalendar(props: acceptProps) {
   }, [calendarRange]);
 
   useEffect(() => {
-    const filtedTrial = trial.filter((item) => item.participant_id === userId);
+    const filtedTrial = trial.filter((item) => item.participant_id === currentPlayer);
     setFiltedTrial(filtedTrial);
-  }, [trial, userId]);
+  }, [trial, currentPlayer]);
 
   return (
     <div className="flex gap-6 w-full">

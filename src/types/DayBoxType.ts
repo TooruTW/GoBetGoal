@@ -7,4 +7,5 @@ export type dayBoxType = {
     stageIndex: number | null;
     imageUrl: string[];
     dayType: "start" | "end" | "middle" | "none" | "start-end";
+    status: "pending" | "pass" | "fail" | "cheat" | null;
   };

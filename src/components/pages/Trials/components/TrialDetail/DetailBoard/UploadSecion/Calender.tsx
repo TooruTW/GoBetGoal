@@ -38,6 +38,7 @@ export default function Calender(props: acceptProps) {
           imageUrl: [],
           stageIndex: null,
           dayType: "none",
+          status: null,
         } as dayBoxType)
     );
 
@@ -51,6 +52,7 @@ export default function Calender(props: acceptProps) {
           imageUrl: [],
           stageIndex: null,
           dayType: "none",
+          status: null,
         } as dayBoxType)
     );
 
@@ -67,6 +69,7 @@ export default function Calender(props: acceptProps) {
           imageUrl: [],
           stageIndex: null,
           dayType: "none",
+          status: null,
         } as dayBoxType)
     );
     return [...headList, ...currentList, ...tailList];
@@ -75,18 +78,15 @@ export default function Calender(props: acceptProps) {
   const updateCurrentList = useCallback(
     (currentMonthDateList: dayBoxType[]) => {
       if (!trial || trial.length === 0) return;
+
       // 找到所有的起始日
       const startDateList = trial.map((item) => {
         return dayjs(item.start_at).format("l");
       });
-      console.log(startDateList, "startDateList");
-
       // 找到所有的结束日
       const endDateList = trial.map((item) => {
         return dayjs(item.end_at).format("l");
       });
-      console.log(endDateList, "endDateList");
-
       // 找到試煉的開始跟結束日
       const firstDateOfTrial = startDateList[0];
       const lastDateOfTrial = endDateList[endDateList.length - 1];
@@ -106,21 +106,57 @@ export default function Calender(props: acceptProps) {
           item.dayType = "end";
         }
 
-        if(startDateList.includes(dayjs(item.date).format("l")) && endDateList.includes(dayjs(item.date).format("l"))){
-          item.dayType = "start-end"
+        if (
+          startDateList.includes(dayjs(item.date).format("l")) &&
+          endDateList.includes(dayjs(item.date).format("l"))
+        ) {
+          item.dayType = "start-end";
         }
       });
 
       // 更新stageIndex
-      let stageIndex = 1
-      currentMonthDateList.forEach((item)=>{
-        if(item.dayType !== "none"){
-          item.stageIndex = stageIndex
-          if(item.dayType === "end"){
-            stageIndex++
+      let stageIndex = 1;
+      currentMonthDateList.forEach((item) => {
+        if (item.dayType !== "none") {
+          item.stageIndex = stageIndex;
+          if (item.dayType === "end") {
+            stageIndex++;
           }
         }
+      });
+
+      // 更新status
+      const pendingList = trial.filter((item) => item.status === "pending").map((item) => {
+        return item.stage_index;
+      });
+      
+      const passList = trial.filter((item) => item.status === "pass").map((item) => {
+        return item.stage_index;
+      });
+      const failList = trial.filter((item) => item.status === "fail").map((item) => {
+        return item.stage_index;
+      });
+      const cheatList = trial.filter((item) => item.status === "cheat").map((item) => {
+        return item.stage_index;
+      });
+
+      currentMonthDateList.forEach((item)=>{
+        if(item.stageIndex === null) return;
+        if(pendingList.includes(item.stageIndex)){
+          item.status = "pending"
+        }
+        if(passList.includes(item.stageIndex)){
+          item.status = "pass"
+        }
+        if(failList.includes(item.stageIndex)){
+          item.status = "fail"
+        }
+        if(cheatList.includes(item.stageIndex)){
+          item.status = "cheat"
+        }
       })
+
+      console.log(pendingList, passList, failList, cheatList);
 
       console.log(currentMonthDateList, "currentMonthDateList");
 
