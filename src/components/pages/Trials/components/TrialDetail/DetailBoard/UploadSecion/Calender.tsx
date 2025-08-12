@@ -1,11 +1,12 @@
 import DayBox from "./DayBox";
 import { TrialDetailSupa } from "@/types/TrialDetailSupa";
 import { useState, useEffect, useCallback } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store";
-import { monsterDefault } from "@/assets/monster";
+
 import { dayBoxType } from "@/types/DayBoxType";
 import dayjs from "dayjs";
+import LocalizedFormat from "dayjs/plugin/localizedFormat";
+
+dayjs.extend(LocalizedFormat);
 
 type acceptProps = {
   trial: TrialDetailSupa[];
@@ -16,31 +17,26 @@ type acceptProps = {
 export default function Calender(props: acceptProps) {
   const { trial, month, year } = props;
   const [dateList, setDateList] = useState<dayBoxType[]>([]);
-  const { width } = useSelector((state: RootState) => state.screen);
 
   // const updateCurrentList = (
   //   trial: TrialDetailSupa[],
   //   currentList: dayBoxType[]
   // ) => {};
 
-  // 重置日期列表
-  useEffect(() => {
-    if (!trial) return;
+  const makeBlankDateList = useCallback(() => {
     const lastDate = new Date(year, month + 1, 0).getDate();
     const firstDay = new Date(year, month, 1).getDay();
     const lastDay = new Date(year, month + 1, 0).getDay();
     const lastDayOfLastMonth = new Date(year, month, 0).getDate();
-
     const headList = new Array(firstDay).fill(0).map(
       (_, index) =>
         ({
-          date: `${year}-${month}-${
-            lastDayOfLastMonth - firstDay + index + 1
-          }`,
+          date: `${year}-${month}-${lastDayOfLastMonth - firstDay + index + 1}`,
           isThisMonth: false,
           isThisDate: false,
           challenge: [],
           imageUrl: [],
+          stageIndex: null,
           dayType: "none",
         } as dayBoxType)
     );
@@ -53,6 +49,7 @@ export default function Calender(props: acceptProps) {
           isThisDate: false,
           challenge: [],
           imageUrl: [],
+          stageIndex: null,
           dayType: "none",
         } as dayBoxType)
     );
@@ -60,7 +57,7 @@ export default function Calender(props: acceptProps) {
     const currentList: dayBoxType[] = new Array(lastDate).fill(0).map(
       (_, index) =>
         ({
-          date: `${year}-${month +1}-${index + 1}`,
+          date: `${year}-${month + 1}-${index + 1}`,
           isThisMonth: true,
           isThisDate: dayjs(`${year}-${month + 1}-${index + 1}`).isSame(
             dayjs(),
@@ -68,16 +65,77 @@ export default function Calender(props: acceptProps) {
           ),
           challenge: [],
           imageUrl: [],
+          stageIndex: null,
           dayType: "none",
         } as dayBoxType)
     );
+    return [...headList, ...currentList, ...tailList];
+  }, [month, year]);
 
-    // currentList = updateCurrentList(trial, currentList);
+  const updateCurrentList = useCallback(
+    (currentMonthDateList: dayBoxType[]) => {
+      if (!trial || trial.length === 0) return;
+      // 找到所有的起始日
+      const startDateList = trial.map((item) => {
+        return dayjs(item.start_at).format("l");
+      });
+      console.log(startDateList, "startDateList");
 
-    console.log(headList, currentList, tailList);
+      // 找到所有的结束日
+      const endDateList = trial.map((item) => {
+        return dayjs(item.end_at).format("l");
+      });
+      console.log(endDateList, "endDateList");
 
-    setDateList([...headList, ...currentList, ...tailList]);
-  }, [month, year, trial]);
+      // 找到試煉的開始跟結束日
+      const firstDateOfTrial = startDateList[0];
+      const lastDateOfTrial = endDateList[endDateList.length - 1];
+      // 更新dateType
+      currentMonthDateList.forEach((item) => {
+        if (
+          dayjs(item.date).isBetween(firstDateOfTrial, lastDateOfTrial, "day")
+        ) {
+          item.dayType = "middle";
+        }
+
+        if (startDateList.includes(dayjs(item.date).format("l"))) {
+          item.dayType = "start";
+        }
+
+        if (endDateList.includes(dayjs(item.date).format("l"))) {
+          item.dayType = "end";
+        }
+
+        if(startDateList.includes(dayjs(item.date).format("l")) && endDateList.includes(dayjs(item.date).format("l"))){
+          item.dayType = "start-end"
+        }
+      });
+
+      // 更新stageIndex
+      let stageIndex = 1
+      currentMonthDateList.forEach((item)=>{
+        if(item.dayType !== "none"){
+          item.stageIndex = stageIndex
+          if(item.dayType === "end"){
+            stageIndex++
+          }
+        }
+      })
+
+      console.log(currentMonthDateList, "currentMonthDateList");
+
+      console.log(firstDateOfTrial, lastDateOfTrial);
+    },
+    [trial]
+  );
+
+  // 重置日期列表
+  useEffect(() => {
+    if (!trial) return;
+    const newList = makeBlankDateList();
+    updateCurrentList(newList);
+    setDateList(newList);
+  }, [month, year, trial, makeBlankDateList, updateCurrentList]);
 
   return (
     <div className="w-full">
@@ -90,9 +148,7 @@ export default function Calender(props: acceptProps) {
         <p className="text-label text-schema-on-surface-variant">Fri</p>
         <p className="text-label text-schema-on-surface-variant">Sat</p>
       </div>
-      <div
-        className={`grid grid-cols-7 w-full ${width < 960 ? "gap-5" : "gap-1"}`}
-      >
+      <div className={`grid grid-cols-7 w-full`}>
         {dateList.length > 0 &&
           dateList.map((item, index) => {
             return <DayBox key={index} dateInfo={item} />;
