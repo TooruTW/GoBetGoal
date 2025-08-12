@@ -13,56 +13,70 @@ import UploadSection from "./UploadSecion";
 
 type acceptProps = {
   trial: TrialDetailSupa[];
-}
+};
 
 export default function DetailBoard({ trial }: acceptProps) {
-
-  const [trialState,setTrialState] = useState<"待開始" | "進行中" | "已結束" | "通過" | "完美通過" | null>(null);
-  const {width} = useSelector((state: RootState) => state.screen);
-  const [isInvititionOpen,setIsInvititionOpen] = useState(false);
+  const [trialState, setTrialState] = useState<
+    "待開始" | "進行中" | "已結束" | "通過" | "完美通過" | null
+  >(null);
+  const { width } = useSelector((state: RootState) => state.screen);
+  const [isInvititionOpen, setIsInvititionOpen] = useState(false);
 
   // 記錄用戶螢幕寬度
   const dispatch = useDispatch();
   useEffect(() => {
     const handleResize = () => {
-      dispatch(setScreenSize({width: window.innerWidth}))
+      dispatch(setScreenSize({ width: window.innerWidth }));
     };
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, [dispatch]);
 
-
   useEffect(() => {
-    const trialInfo = trial[0].trial
-    switch(trialInfo.trial_status){
+    const trialInfo = trial[0].trial;
+    switch (trialInfo.trial_status) {
       case "pending":
-        setTrialState("待開始")
-        break
+        setTrialState("待開始");
+        break;
       case "ongoing":
-        setTrialState("進行中")
-        break
+        setTrialState("進行中");
+        break;
       case "end":
-        setTrialState("已結束")
-        break
+        setTrialState("已結束");
+        break;
       case "pass":
-        setTrialState("通過")
-        break
+        setTrialState("通過");
+        break;
       case "perfect":
-        setTrialState("完美通過")
-        break
+        setTrialState("完美通過");
+        break;
     }
   }, [trial]);
-  
 
   return (
     <div className="flex flex-col gap-6 w-full">
       <BackBtn />
       <TrialInfo trial={trial} />
-      {trialState === "進行中" && <UploadArea trial={trial}/>}
-      <UploadSection trial={trial}/>
-      {width < 960 ? <ParticipantMobile trial={trial} onClickInvitition={()=>setIsInvititionOpen(true)}/> : <Participant trial={trial} onClickInvitition={()=>setIsInvititionOpen(true)} />}
-      {isInvititionOpen && <Invitition className="w-full h-screen fixed top-0 left-0 z-50" onClick={()=>setIsInvititionOpen(false)} />}
+      {trialState === "進行中" && <UploadArea trial={trial} />}
+      <UploadSection trial={trial} />
+      {width < 960 ? (
+        <ParticipantMobile
+          trial={trial}
+          onClickInvitition={() => setIsInvititionOpen(true)}
+        />
+      ) : (
+        <Participant
+          trial={trial}
+          onClickInvitition={() => setIsInvititionOpen(true)}
+        />
+      )}
+      {isInvititionOpen && (
+        <Invitition
+          className="w-full h-screen fixed top-0 left-0 z-50"
+          onClick={() => setIsInvititionOpen(false)}
+        />
+      )}
     </div>
   );
 }

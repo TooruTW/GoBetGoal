@@ -2,7 +2,6 @@ import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 
 import ChallengeBox from "./ChallengeBox";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 
 export default function UploadArea() {
   const [currentChallenge, setCurrentChallenge] = useState(1);
