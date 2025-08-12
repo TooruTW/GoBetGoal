@@ -155,12 +155,6 @@ export default function Calender(props: acceptProps) {
           item.status = "cheat"
         }
       })
-
-      console.log(pendingList, passList, failList, cheatList);
-
-      console.log(currentMonthDateList, "currentMonthDateList");
-
-      console.log(firstDateOfTrial, lastDateOfTrial);
     },
     [trial]
   );

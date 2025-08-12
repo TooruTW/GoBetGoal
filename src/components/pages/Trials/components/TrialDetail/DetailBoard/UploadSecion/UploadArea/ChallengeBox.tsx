@@ -1,26 +1,17 @@
 import { Button } from "@/components/ui/button";
-import { useTrialSupa } from "@/api";
-import { useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { TrialDetailSupa } from "@/types/TrialDetailSupa";
 
-export default function ChallengeBox({ index }: { index: number }) {
-  const { id } = useParams();
+export default function ChallengeBox({ currentChallenge }: { currentChallenge: TrialDetailSupa | null }) {
 
-  const { data, isLoading, error } = useTrialSupa(id?.toString() || "");
+  if (!currentChallenge) return null;
 
-  useEffect(()=>{
-    if(isLoading) return;
-    if(error) return;
-    if(data){
-      console.log(data,"data")
-    }
-  },[data,index,isLoading,error])
+  const {stage_index, end_at, challenge_stage} = currentChallenge
 
     return (
     <div className="border-1 border-schema-outline rounded-md p-3 h-full w-full flex flex-col justify-between">
       <div className="flex justify-between">
-        <p>Challenge {index}</p>
-        <div>countDown timer</div>
+        <p>{...challenge_stage.description} {stage_index}</p>
+        <div>{end_at}</div>
       </div>
       <div className="flex justify-center items-center rounded-md">
         upload files or check box

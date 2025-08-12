@@ -37,16 +37,10 @@ export default function PlayerCard(props: acceptProps) {
 
   useEffect(() => {
     if (!participant) return;
-    console.log("check participant", participant);
-
     if (participant.user_id === userId) {
-      console.log("is yourself");
-
       setIsYourself(true);
     }
     if (participant?.user_id === owner) {
-      console.log("is owner");
-
       setIsOwner(true);
     }
   }, [participant, userId, owner]);
@@ -70,7 +64,6 @@ export default function PlayerCard(props: acceptProps) {
   const { mutate: postAddFriend } = usePostFriendsRequest();
 
   function handleAddFriend(e: React.MouseEvent<HTMLButtonElement>) {
-    console.log("add friend", participant?.user_id);
     e.stopPropagation();
     if (!participant) return;
     postAddFriend(
