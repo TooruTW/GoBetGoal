@@ -5,6 +5,7 @@ import UploadImageInput from "./UploadImageInput";
 import imageCompression from "browser-image-compression";
 import { usePostUploadImage, useGetImageUrl } from "@/api";
 import RetryImage from "./RetryImg";
+import ShowCheckResult from "./ShowCheckResult";
 
 export default function ChallengeBox({
   currentChallenge,
@@ -24,6 +25,10 @@ export default function ChallengeBox({
 
   const [uploadedFileName, setUploadedFileName] = useState<string[]>([]);
 
+  const [isShowCheckResult, setIsShowCheckResult] = useState(false);
+  const [isChecking, setIsChecking] = useState(true);
+  const [isPass, setIsPass] = useState(true);
+
   const { mutate: uploadImage, isPending } = usePostUploadImage();
   const {
     data: imageUrlArr,
@@ -41,6 +46,8 @@ export default function ChallengeBox({
     }
   }, [currentChallenge, challenge_stage.sample_image]);
 
+
+
   useEffect(() => {
     if (
       imageUrlArr &&
@@ -48,11 +55,31 @@ export default function ChallengeBox({
       !isImageLoading &&
       !imageError
     ) {
-      setPreviewImage(imageUrlArr);
-      console.log("set imageUrlArr to previewImage", imageUrlArr);
+      console.log("url is ready", imageUrlArr);
+      setIsChecking(true);
+      Promise.all(imageUrlArr.map((item) => handleCheck(item))).then((result)=>{
+        setIsChecking(false);
+        setIsPass(result.every((item) => item.result));
+        console.log("result", result);
+      });
     }
   }, [imageUrlArr, challenge_stage.sample_image, isImageLoading, imageError]);
 
+  // 模擬審查圖片
+  const handleCheck = async(imgUrl: string) => {
+    const passingRate = 0.8;
+    const result = Math.random() < passingRate;
+
+    const answer = await new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(result);
+      }, 5000);
+    });
+
+    return { imgUrl, result: answer };
+  };
+
+  // 壓縮並上傳
   const handleConfirmUpload = async () => {
     if (!selectedFile) return;
     const options = {
@@ -95,6 +122,7 @@ export default function ChallengeBox({
     );
 
     setUploadedFileName(tempFileList);
+    setIsShowCheckResult(true);
   };
 
   const handleSetSelectedFile = (file: File, index: number) => {
@@ -162,6 +190,7 @@ export default function ChallengeBox({
                     index={index}
                   />
                 )}
+                {isShowCheckResult && <ShowCheckResult isPass={isPass} isChecking={isChecking} />}
               </div>
             </div>
           );

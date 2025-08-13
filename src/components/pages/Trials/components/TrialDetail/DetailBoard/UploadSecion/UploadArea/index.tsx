@@ -12,10 +12,6 @@ export default function UploadArea({trial}:acceptProps) {
   const [currentChallenge, setCurrentChallenge] = useState<TrialDetailSupa | null>(null);
   const [currentIndex, setCurrentIndex] = useState<number>(1);
 
-  useEffect(()=>{
-    console.log(trial,"trial");
-  },[trial])
-
   const handleSwitch = (isNext:boolean)=>{
     if(isNext){
       if(currentIndex === trial.length) return;

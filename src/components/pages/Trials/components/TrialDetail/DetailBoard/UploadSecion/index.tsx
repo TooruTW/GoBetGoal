@@ -13,8 +13,8 @@ type acceptProps = {
 };
 
 export default function UploadCalendar(props: acceptProps) {
-  const {playerId,id} = useParams()
-  const navigate = useNavigate()
+  const { playerId, id } = useParams();
+  const navigate = useNavigate();
   const { trial } = props;
   const userId = useSelector((state: RootState) => state.account.user_id);
   const [filtedTrial, setFiltedTrial] = useState<TrialDetailSupa[]>([]);
@@ -22,19 +22,19 @@ export default function UploadCalendar(props: acceptProps) {
     month: dayjs().month(),
     year: dayjs().year(),
   });
-  const [passCount,setPassCount] = useState<number>(0)
-  const [cheatCount,setCheatCount] = useState<number>(0)
-  const [failCount,setFailCount] = useState<number>(0)
+  const [passCount, setPassCount] = useState<number>(0);
+  const [cheatCount, setCheatCount] = useState<number>(0);
+  const [failCount, setFailCount] = useState<number>(0);
 
-  useEffect(()=>{
-    if(playerId === "0"){
-      if(userId){
-        navigate(`/trials/detail/${id}/${userId}`)
-      }else{
-        navigate(`/trials/detail/${id}/${trial[0].participant_id}`)
+  useEffect(() => {
+    if (playerId === "0") {
+      if (userId) {
+        navigate(`/trials/detail/${id}/${userId}`);
+      } else {
+        navigate(`/trials/detail/${id}/${trial[0].participant_id}`);
       }
     }
-  },[userId,trial,playerId,id,navigate])
+  }, [userId, trial, playerId, id, navigate]);
 
   useEffect(() => {
     if (calendarRange.month < 0) {
@@ -46,7 +46,9 @@ export default function UploadCalendar(props: acceptProps) {
 
   // 過濾trial
   useEffect(() => {
-    const filtedTrial = trial.filter((item) => item.participant_id === playerId);
+    const filtedTrial = trial.filter(
+      (item) => item.participant_id === playerId
+    );
     setFiltedTrial(filtedTrial);
     // 計算pass,cheat,fail的數量
     setPassCount(filtedTrial.filter((item) => item.status === "pass").length);
@@ -61,15 +63,23 @@ export default function UploadCalendar(props: acceptProps) {
           <ul className="flex gap-3 w-full">
             <li className="border-1 border-[#85AC7C] rounded-md w-full grid grid-cols-2">
               <span className="text-center bg-[#85AC7C] text-white">通過</span>
-              <span className="text-center">{passCount}/{filtedTrial.length}</span>
+              <span className="text-center">
+                {passCount}/{filtedTrial.length}
+              </span>
             </li>
             <li className="border-1 border-[#D8B747] rounded-md w-full grid grid-cols-2">
-              <span className="text-center bg-[#D8B747] text-white">遮羞布</span>
-              <span className="text-center">{cheatCount}/{filtedTrial.length}</span>
+              <span className="text-center bg-[#D8B747] text-white">
+                遮羞布
+              </span>
+              <span className="text-center">
+                {cheatCount}/{filtedTrial.length}
+              </span>
             </li>
             <li className="border-1 border-[#D98AD1] rounded-md w-full grid grid-cols-2">
               <span className="text-center bg-[#D98AD1] text-white">失敗</span>
-              <span className="text-center">{failCount}/{filtedTrial.length}</span>
+              <span className="text-center">
+                {failCount}/{filtedTrial.length}
+              </span>
             </li>
           </ul>
         </div>
