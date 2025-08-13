@@ -8,6 +8,7 @@ import {
   usePatchChanceRemain,
 } from "@/api";
 import { useImageUpload } from "@/hooks/useImageUpload";
+import { useImageCheck } from "@/hooks/useImageCheck";
 import RetryImage from "./RetryImg";
 import ShowCheckResult from "./ShowCheckResult";
 import { useQueryClient } from "@tanstack/react-query";
@@ -27,8 +28,9 @@ export default function ChallengeBox({
   } = currentChallenge;
 
   const [isShowCheckResult, setIsShowCheckResult] = useState(false);
-  const [isChecking, setIsChecking] = useState(true);
   const [isPass, setIsPass] = useState(true);
+
+  const { checkImage, isChecking } = useImageCheck();
 
   // 管理上傳圖片狀態
   const [previewImage, setPreviewImage] = useState<string[]>([]);
@@ -69,12 +71,10 @@ export default function ChallengeBox({
       !imageError
     ) {
       console.log("url is ready", imageUrlArr);
-      setIsChecking(true);
-      Promise.all(imageUrlArr.map((item) => handleCheck(item))).then(
+      Promise.all(imageUrlArr.map((item) => checkImage(item))).then(
         (result) => {
           const isPassTest = result.every((item) => item.result);
           const resultUrl = result.map((item) => item.imgUrl);
-          setIsChecking(false);
           setIsPass(isPassTest);
 
           if (isPassTest) {
@@ -136,35 +136,18 @@ export default function ChallengeBox({
     chance_remain,
     queryClient,
     currentChallenge.trial_id,
+    checkImage,
   ]);
-
-  // 模擬審查圖片
-  const handleCheck = async (imgUrl: string) => {
-    const passingRate = 0.8;
-    const result = Math.random() < passingRate;
-
-    const answer = await new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(result);
-      }, 5000);
-    });
-    console.log("check result", imgUrl, answer);
-    return { imgUrl, result: answer };
-  };
 
   // 確認上傳 - 組合壓縮和上傳
   const handleConfirmUpload = async () => {
     if (!selectedFile || selectedFile.length === 0) return;
-
     setUploadedFileName([]);
-
     try {
       // 1. 先壓縮圖片
       const compressedFiles = await compressImages(selectedFile);
-
       // 2. 再上傳壓縮後的圖片
       const fileNames = await uploadImages(compressedFiles);
-
       setUploadedFileName(fileNames);
       setIsShowCheckResult(true);
     } catch (error) {
