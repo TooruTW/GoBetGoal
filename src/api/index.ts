@@ -36,3 +36,5 @@ export { usePostInviteFriend } from "./postInviteFriend";
 export { usePostUploadImage } from "./postUploadImage";
 export { useGetImageUrl } from "./getImageUrl";
 export { useGetTrialParticipantsSupa } from "./getTrialParticipantsSupa";
+export { usePatchUploadToChallengeHistorySupa } from "./patchUploadToChallengeHistorySupa";
+export { usePatchChanceRemain } from "./patchChanceRemain";

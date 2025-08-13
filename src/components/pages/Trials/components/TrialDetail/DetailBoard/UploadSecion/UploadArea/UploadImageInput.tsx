@@ -1,16 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoAddOutline } from "react-icons/io5";
 
 export default function DevUploadImage({
-  isHide,
   className,
   selectedFile,
   setSelectedFile,
   index,
 }: {
-  isHide: boolean;
   className?: string;
-  selectedFile: File ;
+  selectedFile: File;
   setSelectedFile: (file: File, index: number) => void;
   index: number;
 }) {
@@ -19,16 +17,18 @@ export default function DevUploadImage({
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    // 創建本地預覽 URL
-    const localPreviewUrl = URL.createObjectURL(file);
-    setPreviewUrl(localPreviewUrl);
     setSelectedFile(file, index);
-    console.log("file", file);
   };
 
+  useEffect(() => {
+    if(!selectedFile) return
+    // 創建本地預覽 URL
+    const localPreviewUrl = URL.createObjectURL(selectedFile);
+    setPreviewUrl(localPreviewUrl);
+  }, [selectedFile]);
 
   return (
-    <div className={`${className} ${isHide ? "opacity-0 pointer-events-none" : "opacity-100"}`}>
+    <div className={`${className} "opacity-100"}`}>
       <div className={`relative w-full h-full`}>
         <input
           type="file"

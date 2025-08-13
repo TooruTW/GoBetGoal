@@ -3,9 +3,15 @@ import { TrialDetailSupa } from "@/types/TrialDetailSupa";
 import { useEffect, useState } from "react";
 import UploadImageInput from "./UploadImageInput";
 import imageCompression from "browser-image-compression";
-import { usePostUploadImage, useGetImageUrl } from "@/api";
+import {
+  usePostUploadImage,
+  useGetImageUrl,
+  usePatchUploadToChallengeHistorySupa,
+  usePatchChanceRemain,
+} from "@/api";
 import RetryImage from "./RetryImg";
 import ShowCheckResult from "./ShowCheckResult";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function ChallengeBox({
   currentChallenge,
@@ -18,17 +24,17 @@ export default function ChallengeBox({
     challenge_stage,
     chance_remain,
     upload_image,
+    status,
   } = currentChallenge;
-
-  const [previewImage, setPreviewImage] = useState<string[]>([]);
-  const [selectedFile, setSelectedFile] = useState<File[]>([]);
-
-  const [uploadedFileName, setUploadedFileName] = useState<string[]>([]);
 
   const [isShowCheckResult, setIsShowCheckResult] = useState(false);
   const [isChecking, setIsChecking] = useState(true);
   const [isPass, setIsPass] = useState(true);
 
+  // 管理上傳圖片狀態
+  const [previewImage, setPreviewImage] = useState<string[]>([]);
+  const [selectedFile, setSelectedFile] = useState<File[]>([]);
+  const [uploadedFileName, setUploadedFileName] = useState<string[]>([]);
   const { mutate: uploadImage, isPending } = usePostUploadImage();
   const {
     data: imageUrlArr,
@@ -37,16 +43,24 @@ export default function ChallengeBox({
   } = useGetImageUrl(uploadedFileName);
 
   useEffect(() => {
-    if (currentChallenge.upload_image) {
+    if (status === "pass" && currentChallenge.upload_image) {
       setPreviewImage(currentChallenge.upload_image);
-      console.log("set result img", currentChallenge.upload_image);
+      console.log(
+        "challenge is pass, set result img",
+        currentChallenge.upload_image
+      );
     } else {
       setPreviewImage(challenge_stage.sample_image);
       console.log("set sample img", challenge_stage.sample_image);
     }
-  }, [currentChallenge, challenge_stage.sample_image]);
+  }, [currentChallenge, challenge_stage.sample_image, status]);
 
-
+  // 更新資料庫
+  const { mutate: patchUploadToChallengeHistorySupa } =
+    usePatchUploadToChallengeHistorySupa();
+  // 更新剩餘次數
+  const { mutate: patchChanceRemain } = usePatchChanceRemain();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (
@@ -57,16 +71,76 @@ export default function ChallengeBox({
     ) {
       console.log("url is ready", imageUrlArr);
       setIsChecking(true);
-      Promise.all(imageUrlArr.map((item) => handleCheck(item))).then((result)=>{
-        setIsChecking(false);
-        setIsPass(result.every((item) => item.result));
-        console.log("result", result);
-      });
+      Promise.all(imageUrlArr.map((item) => handleCheck(item))).then(
+        (result) => {
+          const isPassTest = result.every((item) => item.result);
+          const resultUrl = result.map((item) => item.imgUrl);
+          setIsChecking(false);
+          setIsPass(isPassTest);
+
+          if (isPassTest) {
+            patchUploadToChallengeHistorySupa(
+              { history_id: currentChallenge.id, imageUrlArr: resultUrl },
+              {
+                onSuccess: () => {
+                  console.log("test pass, result is uploaded");
+                  queryClient.invalidateQueries({
+                    queryKey: ["trial", currentChallenge.trial_id],
+                  });
+                },
+                onError: (error) => {
+                  console.error(error, "test pass but upload fail");
+                },
+              }
+            );
+          } else {
+            patchChanceRemain(
+              {
+                history_id: currentChallenge.id,
+                chance_remain: chance_remain - 1,
+              },
+              {
+                onSuccess: () => {
+                  console.log("test fail, chance_remain is updated");
+                  queryClient.invalidateQueries({
+                    queryKey: ["trial", currentChallenge.trial_id],
+                  });
+                },
+                onError: (error) => {
+                  console.error(
+                    error,
+                    "test fail, chance_remain is not updated"
+                  );
+                },
+              }
+            );
+
+            console.log("test fail, result is not uploaded");
+          }
+          setUploadedFileName([]);
+          setSelectedFile([]);
+
+          setTimeout(() => {
+            setIsShowCheckResult(false);
+          }, 2000);
+        }
+      );
     }
-  }, [imageUrlArr, challenge_stage.sample_image, isImageLoading, imageError]);
+  }, [
+    imageUrlArr,
+    challenge_stage.sample_image,
+    isImageLoading,
+    imageError,
+    patchUploadToChallengeHistorySupa,
+    currentChallenge.id,
+    patchChanceRemain,
+    chance_remain,
+    queryClient,
+    currentChallenge.trial_id,
+  ]);
 
   // 模擬審查圖片
-  const handleCheck = async(imgUrl: string) => {
+  const handleCheck = async (imgUrl: string) => {
     const passingRate = 0.8;
     const result = Math.random() < passingRate;
 
@@ -126,7 +200,6 @@ export default function ChallengeBox({
   };
 
   const handleSetSelectedFile = (file: File, index: number) => {
-    console.log(file, index, "file,index");
     setSelectedFile((prev) => {
       const newSelectedFile = [...prev];
       newSelectedFile[index] = file;
@@ -145,15 +218,21 @@ export default function ChallengeBox({
         {isPending && (
           <div className="text-schema-primary">正在上傳圖片...</div>
         )}
-
         <Button
           className="py-1 h-fit"
           onClick={handleConfirmUpload}
-          disabled={isPending}
+          disabled={isPending || chance_remain === 0 || status !== "pending"}
         >
           <span>
-            <span className="text-p">上傳</span> <br />
-            <span className="text-label">剩餘 {chance_remain} 次機會</span>
+            {status === "pending" && (
+              <>
+                <span className="text-p">上傳</span> <br />
+                <span className="text-label">剩餘 {chance_remain} 次機會</span>
+              </>
+            )}
+            {status === "pass" && <span className="text-p">通過</span>}
+            {status === "cheat" && <span className="text-p">資本主義</span>}
+            {status === "fail" && <span className="text-p">失敗</span>}
           </span>
         </Button>
       </div>
@@ -181,16 +260,17 @@ export default function ChallengeBox({
                   />
                 )}
 
-                {!imageUrlArr && (
+                {!imageUrlArr && status === "pending" && (
                   <UploadImageInput
                     className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-full h-full"
-                    isHide={false}
                     selectedFile={selectedFile?.[index]}
                     setSelectedFile={handleSetSelectedFile}
                     index={index}
                   />
                 )}
-                {isShowCheckResult && <ShowCheckResult isPass={isPass} isChecking={isChecking} />}
+                {isShowCheckResult && (
+                  <ShowCheckResult isPass={isPass} isChecking={isChecking} />
+                )}
               </div>
             </div>
           );
