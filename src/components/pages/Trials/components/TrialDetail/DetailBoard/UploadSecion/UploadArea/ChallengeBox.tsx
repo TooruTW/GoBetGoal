@@ -2,13 +2,12 @@ import { Button } from "@/components/ui/button";
 import { TrialDetailSupa } from "@/types/TrialDetailSupa";
 import { useEffect, useState } from "react";
 import UploadImageInput from "./UploadImageInput";
-import imageCompression from "browser-image-compression";
 import {
-  usePostUploadImage,
   useGetImageUrl,
   usePatchUploadToChallengeHistorySupa,
   usePatchChanceRemain,
 } from "@/api";
+import { useImageUpload } from "@/hooks/useImageUpload";
 import RetryImage from "./RetryImg";
 import ShowCheckResult from "./ShowCheckResult";
 import { useQueryClient } from "@tanstack/react-query";
@@ -35,7 +34,7 @@ export default function ChallengeBox({
   const [previewImage, setPreviewImage] = useState<string[]>([]);
   const [selectedFile, setSelectedFile] = useState<File[]>([]);
   const [uploadedFileName, setUploadedFileName] = useState<string[]>([]);
-  const { mutate: uploadImage, isPending } = usePostUploadImage();
+  const { isPending, compressImages, uploadImages } = useImageUpload();
   const {
     data: imageUrlArr,
     isLoading: isImageLoading,
@@ -149,75 +148,8 @@ export default function ChallengeBox({
         resolve(result);
       }, 5000);
     });
-
+    console.log("check result", imgUrl, answer);
     return { imgUrl, result: answer };
-  };
-
-  // 圖片壓縮配置
-  const compressionOptions = {
-    maxSizeMB: 0.5,
-    maxWidthOrHeight: 640,
-    useWebWorker: true,
-    fileType: "image/webp",
-  };
-
-  // 壓縮圖片
-  const compressImages = async (files: File[]): Promise<File[]> => {
-    const compressedFiles: File[] = [];
-
-    await Promise.all(
-      files.map(async (file) => {
-        try {
-          const compressedFile = await imageCompression(
-            file,
-            compressionOptions
-          );
-          console.log(
-            "compressedFile instanceof Blob",
-            compressedFile instanceof Blob
-          ); // true
-          console.log(
-            `compressedFile size ${compressedFile.size / 1024 / 1024} MB`
-          ); // smaller than maxSizeMB
-
-          compressedFiles.push(compressedFile);
-        } catch (error) {
-          console.log("圖片壓縮失敗:", error);
-        }
-      })
-    );
-
-    return compressedFiles;
-  };
-
-  // 上傳圖片
-  const uploadImages = async (files: File[]): Promise<string[]> => {
-    const tempFileList: string[] = [];
-
-    await Promise.all(
-      files.map(async (file) => {
-        try {
-          const randomFileName = `${Date.now()}_${Math.random()
-            .toString(36)
-            .substr(2, 9)}`;
-          console.log(randomFileName, "randomFileName is going to upload");
-          tempFileList.push(randomFileName);
-
-          uploadImage(
-            { file, fileName: randomFileName },
-            {
-              onError: (error) => {
-                console.error("上傳失敗:", error);
-              },
-            }
-          );
-        } catch (error) {
-          console.log("圖片上傳失敗:", error);
-        }
-      })
-    );
-
-    return tempFileList;
   };
 
   // 確認上傳 - 組合壓縮和上傳
@@ -262,7 +194,7 @@ export default function ChallengeBox({
         <Button
           className="py-1 h-fit"
           onClick={handleConfirmUpload}
-          disabled={isPending || chance_remain === 0 || status !== "pending"}
+          disabled={isPending || status !== "pending"}
         >
           <span>
             {status === "pending" && (
