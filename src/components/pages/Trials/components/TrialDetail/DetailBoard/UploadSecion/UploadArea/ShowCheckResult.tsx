@@ -1,18 +1,19 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 export default function ShowCheckResult({
-  isPass = true,
-  isChecking = true,
+  state="checking",
 }: {
-  isPass?: boolean;
-  isChecking?: boolean;
+  state: "pass" | "fail" | "checking";
 }) {
   const showCheckResultRef = useRef<HTMLDivElement>(null);
+  useEffect(()=>{
+    console.log(state, "checking state");
+  },[state])
 
   useGSAP(() => {
-    if (isChecking) {
+    if (state === "checking") {
       gsap.to(".pass", {
         opacity: 0,
         duration: 1,
@@ -33,7 +34,7 @@ export default function ShowCheckResult({
       gsap.set(".fail", {
         opacity: 0,
       });
-      if (isPass) {
+      if (state === "pass") {
         gsap.to(".pass", {
           opacity: 1,
           xPercent: 50,
@@ -47,12 +48,12 @@ export default function ShowCheckResult({
         });
       }
     }
-  },{dependencies:[isPass,isChecking], revertOnUpdate:true});
+  },{dependencies:[state], revertOnUpdate:true});
 
   return (
     <div
       ref={showCheckResultRef}
-      className={`absolute top-0 left-0 h-full w-full flex justify-center ${isChecking ? "gap-4" : "gap-0"} items-center border-2 border-schema-on-primary px-4 bg-schema-surface-container`}
+      className={`absolute top-0 left-0 h-full w-full flex justify-center ${state === "checking" ? "gap-4" : "gap-0"} items-center border-2 border-schema-on-primary px-4 bg-schema-surface-container`}
     >
       <div className="w-1/3 aspect-square border-10 rounded-full border-schema-primary pass"></div>
       <div className="size-1/3 aspect-square relative rotate-45 fail">

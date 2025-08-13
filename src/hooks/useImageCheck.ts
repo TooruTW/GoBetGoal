@@ -1,20 +1,14 @@
-import { useState } from "react";
-
 type CheckResult = {
   imgUrl: string;
   result: boolean;
 };
 
 export const useImageCheck = () => {
-  const [isChecking, setIsChecking] = useState(false);
-
   // 模擬審查圖片
   const checkImage = async (imgUrl: string): Promise<CheckResult> => {
-    setIsChecking(true);
-
     try {
-      const passingRate = 0.8;
-      const result = Math.random() < passingRate;
+      const lastChar = imgUrl.split("")[imgUrl.length - 1];
+      const result = isNaN(Number(lastChar));
 
       const answer = await new Promise<boolean>((resolve) => {
         setTimeout(() => {
@@ -24,13 +18,13 @@ export const useImageCheck = () => {
 
       console.log("check result", imgUrl, answer);
       return { imgUrl, result: answer };
-    } finally {
-      setIsChecking(false);
+    } catch (error) {
+      console.error(error);
+      return { imgUrl, result: false };
     }
   };
 
   return {
     checkImage,
-    isChecking,
   };
 };

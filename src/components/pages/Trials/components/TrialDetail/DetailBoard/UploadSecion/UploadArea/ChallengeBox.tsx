@@ -28,9 +28,9 @@ export default function ChallengeBox({
   } = currentChallenge;
 
   const [isShowCheckResult, setIsShowCheckResult] = useState(false);
-  const [isPass, setIsPass] = useState(true);
+  const [checkingState, setCheckingState] = useState<"checking" | "pass" | "fail">("checking");
 
-  const { checkImage, isChecking } = useImageCheck();
+  const { checkImage } = useImageCheck();
 
   // 管理上傳圖片狀態
   const [previewImage, setPreviewImage] = useState<string[]>([]);
@@ -73,9 +73,11 @@ export default function ChallengeBox({
       console.log("url is ready", imageUrlArr);
       Promise.all(imageUrlArr.map((item) => checkImage(item))).then(
         (result) => {
+          console.log("check result process is done", result);
+          
           const isPassTest = result.every((item) => item.result);
           const resultUrl = result.map((item) => item.imgUrl);
-          setIsPass(isPassTest);
+          setCheckingState(isPassTest ? "pass" : "fail");
 
           if (isPassTest) {
             patchUploadToChallengeHistorySupa(
@@ -116,6 +118,7 @@ export default function ChallengeBox({
 
             console.log("test fail, result is not uploaded");
           }
+
           setUploadedFileName([]);
           setSelectedFile([]);
 
@@ -149,6 +152,7 @@ export default function ChallengeBox({
       // 2. 再上傳壓縮後的圖片
       const fileNames = await uploadImages(compressedFiles);
       setUploadedFileName(fileNames);
+      setCheckingState("checking");
       setIsShowCheckResult(true);
     } catch (error) {
       console.error("上傳流程失敗:", error);
@@ -225,7 +229,7 @@ export default function ChallengeBox({
                   />
                 )}
                 {isShowCheckResult && (
-                  <ShowCheckResult isPass={isPass} isChecking={isChecking} />
+                  <ShowCheckResult state={checkingState} />
                 )}
               </div>
             </div>
