@@ -1,10 +1,8 @@
 import { dayBoxType } from "@/types/DayBoxType";
 import dayjs from "dayjs";
-
 type acceptProps = {
   dateInfo: dayBoxType;
 };
-
 export default function DayBox({ dateInfo }: acceptProps) {
   const { date, isThisMonth, isThisDate,status } = dateInfo;
 
@@ -13,9 +11,7 @@ export default function DayBox({ dateInfo }: acceptProps) {
     if (!isThisMonth) return;
     console.log("clicked", date, dateInfo.stageIndex);
   };
-
   let color:string = ""
-
   switch(status){
     case "pending":
       color = "bg-schema-surface-variant"
@@ -35,7 +31,6 @@ export default function DayBox({ dateInfo }: acceptProps) {
     default:
       break
   }  
-
   return (
     <div onClick={handleClick} className={`w-full min-h-11 flex items-center justify-center relative `}>
       {dateInfo.dayType === "middle" && <div className={`w-full h-3/5 absolute top-1/2 -translate-y-1/2 left-0 z-0 ${color}`}></div>}

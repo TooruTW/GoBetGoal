@@ -17,14 +17,14 @@ const monthArr = [
 type acceptProps = {
   month: number;
   year: number;
-  editCalender: (key: "month" | "year", value: number) => void;
-}
+  editCalendar: (key: "month" | "year", value: number) => void;
+};
 
 export default function MonthSelector(props: acceptProps) {
-  const { month, year, editCalender } = props;
+  const { month, year, editCalendar } = props;
 
   const handleMonthChange = (number: number) => {
-    editCalender("month", month + number);
+    editCalendar("month", month + number);
   };
 
   return (

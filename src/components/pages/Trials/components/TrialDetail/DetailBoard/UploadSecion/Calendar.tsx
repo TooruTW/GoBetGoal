@@ -1,28 +1,18 @@
 import DayBox from "./DayBox";
 import { TrialDetailSupa } from "@/types/TrialDetailSupa";
 import { useState, useEffect, useCallback } from "react";
-
 import { dayBoxType } from "@/types/DayBoxType";
 import dayjs from "dayjs";
 import LocalizedFormat from "dayjs/plugin/localizedFormat";
-
 dayjs.extend(LocalizedFormat);
-
 type acceptProps = {
   trial: TrialDetailSupa[];
   month: number;
   year: number;
 };
-
-export default function Calender(props: acceptProps) {
+export default function Calendar(props: acceptProps) {
   const { trial, month, year } = props;
   const [dateList, setDateList] = useState<dayBoxType[]>([]);
-
-  // const updateCurrentList = (
-  //   trial: TrialDetailSupa[],
-  //   currentList: dayBoxType[]
-  // ) => {};
-
   const makeBlankDateList = useCallback(() => {
     const lastDate = new Date(year, month + 1, 0).getDate();
     const firstDay = new Date(year, month, 1).getDay();
@@ -41,7 +31,6 @@ export default function Calender(props: acceptProps) {
           status: null,
         } as dayBoxType)
     );
-
     const tailList = new Array(7 - lastDay - 1).fill(0).map(
       (_, index) =>
         ({
@@ -55,7 +44,6 @@ export default function Calender(props: acceptProps) {
           status: null,
         } as dayBoxType)
     );
-
     const currentList: dayBoxType[] = new Array(lastDate).fill(0).map(
       (_, index) =>
         ({
@@ -74,11 +62,9 @@ export default function Calender(props: acceptProps) {
     );
     return [...headList, ...currentList, ...tailList];
   }, [month, year]);
-
   const updateCurrentList = useCallback(
     (currentMonthDateList: dayBoxType[]) => {
       if (!trial || trial.length === 0) return;
-
       // 找到所有的起始日
       const startDateList = trial.map((item) => {
         return dayjs(item.start_at).format("l");
@@ -113,7 +99,6 @@ export default function Calender(props: acceptProps) {
           item.dayType = "start-end";
         }
       });
-
       // 更新stageIndex
       let stageIndex = 1;
       currentMonthDateList.forEach((item) => {
@@ -124,41 +109,45 @@ export default function Calender(props: acceptProps) {
           }
         }
       });
-
       // 更新status
-      const pendingList = trial.filter((item) => item.status === "pending").map((item) => {
-        return item.stage_index;
-      });
-      
-      const passList = trial.filter((item) => item.status === "pass").map((item) => {
-        return item.stage_index;
-      });
-      const failList = trial.filter((item) => item.status === "fail").map((item) => {
-        return item.stage_index;
-      });
-      const cheatList = trial.filter((item) => item.status === "cheat").map((item) => {
-        return item.stage_index;
-      });
-
-      currentMonthDateList.forEach((item)=>{
-        if(item.stageIndex === null) return;
-        if(pendingList.includes(item.stageIndex)){
-          item.status = "pending"
+      const pendingList = trial
+        .filter((item) => item.status === "pending")
+        .map((item) => {
+          return item.stage_index;
+        });
+      const passList = trial
+        .filter((item) => item.status === "pass")
+        .map((item) => {
+          return item.stage_index;
+        });
+      const failList = trial
+        .filter((item) => item.status === "fail")
+        .map((item) => {
+          return item.stage_index;
+        });
+      const cheatList = trial
+        .filter((item) => item.status === "cheat")
+        .map((item) => {
+          return item.stage_index;
+        });
+      currentMonthDateList.forEach((item) => {
+        if (item.stageIndex === null) return;
+        if (pendingList.includes(item.stageIndex)) {
+          item.status = "pending";
         }
-        if(passList.includes(item.stageIndex)){
-          item.status = "pass"
+        if (passList.includes(item.stageIndex)) {
+          item.status = "pass";
         }
-        if(failList.includes(item.stageIndex)){
-          item.status = "fail"
+        if (failList.includes(item.stageIndex)) {
+          item.status = "fail";
         }
-        if(cheatList.includes(item.stageIndex)){
-          item.status = "cheat"
+        if (cheatList.includes(item.stageIndex)) {
+          item.status = "cheat";
         }
-      })
+      });
     },
     [trial]
   );
-
   // 重置日期列表
   useEffect(() => {
     if (!trial) return;
@@ -166,7 +155,6 @@ export default function Calender(props: acceptProps) {
     updateCurrentList(newList);
     setDateList(newList);
   }, [month, year, trial, makeBlankDateList, updateCurrentList]);
-
   return (
     <div className="w-full ">
       <div className="grid grid-cols-7 w-full">

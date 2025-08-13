@@ -1,5 +1,5 @@
 import MonthSelector from "./MonthSelector";
-import Calender from "./Calender";
+import Calendar from "./Calendar";
 import { useState, useEffect } from "react";
 import { TrialDetailSupa } from "@/types/TrialDetailSupa";
 import { useSelector } from "react-redux";
@@ -17,8 +17,8 @@ export default function UploadCalendar(props: acceptProps) {
   const navigate = useNavigate();
   const { trial } = props;
   const userId = useSelector((state: RootState) => state.account.user_id);
-  const [filtedTrial, setFiltedTrial] = useState<TrialDetailSupa[]>([]);
-  const [calendarRange, setCalenderRange] = useState({
+  const [filteredTrial, setFilteredTrial] = useState<TrialDetailSupa[]>([]);
+  const [calendarRange, setCalendarRange] = useState({
     month: dayjs().month(),
     year: dayjs().year(),
   });
@@ -38,22 +38,24 @@ export default function UploadCalendar(props: acceptProps) {
 
   useEffect(() => {
     if (calendarRange.month < 0) {
-      setCalenderRange((prev) => ({ ...prev, month: 11, year: prev.year - 1 }));
+      setCalendarRange((prev) => ({ ...prev, month: 11, year: prev.year - 1 }));
     } else if (calendarRange.month > 11) {
-      setCalenderRange((prev) => ({ ...prev, month: 0, year: prev.year + 1 }));
+      setCalendarRange((prev) => ({ ...prev, month: 0, year: prev.year + 1 }));
     }
   }, [calendarRange]);
 
   // 過濾trial
   useEffect(() => {
-    const filtedTrial = trial.filter(
+    const filteredTrial = trial.filter(
       (item) => item.participant_id === playerId
     );
-    setFiltedTrial(filtedTrial);
+    setFilteredTrial(filteredTrial);
     // 計算pass,cheat,fail的數量
-    setPassCount(filtedTrial.filter((item) => item.status === "pass").length);
-    setCheatCount(filtedTrial.filter((item) => item.status === "cheat").length);
-    setFailCount(filtedTrial.filter((item) => item.status === "fail").length);
+    setPassCount(filteredTrial.filter((item) => item.status === "pass").length);
+    setCheatCount(
+      filteredTrial.filter((item) => item.status === "cheat").length
+    );
+    setFailCount(filteredTrial.filter((item) => item.status === "fail").length);
   }, [trial, playerId]);
 
   return (
@@ -64,7 +66,7 @@ export default function UploadCalendar(props: acceptProps) {
             <li className="border-1 border-[#85AC7C] rounded-md w-full grid grid-cols-2">
               <span className="text-center bg-[#85AC7C] text-white">通過</span>
               <span className="text-center">
-                {passCount}/{filtedTrial.length}
+                {passCount}/{filteredTrial.length}
               </span>
             </li>
             <li className="border-1 border-[#D8B747] rounded-md w-full grid grid-cols-2">
@@ -72,13 +74,13 @@ export default function UploadCalendar(props: acceptProps) {
                 遮羞布
               </span>
               <span className="text-center">
-                {cheatCount}/{filtedTrial.length}
+                {cheatCount}/{filteredTrial.length}
               </span>
             </li>
             <li className="border-1 border-[#D98AD1] rounded-md w-full grid grid-cols-2">
               <span className="text-center bg-[#D98AD1] text-white">失敗</span>
               <span className="text-center">
-                {failCount}/{filtedTrial.length}
+                {failCount}/{filteredTrial.length}
               </span>
             </li>
           </ul>
@@ -87,19 +89,19 @@ export default function UploadCalendar(props: acceptProps) {
         <MonthSelector
           month={calendarRange.month}
           year={calendarRange.year}
-          editCalender={(key: "month" | "year", value: number) =>
-            setCalenderRange((prev) => ({ ...prev, [key]: value }))
+          editCalendar={(key: "month" | "year", value: number) =>
+            setCalendarRange((prev) => ({ ...prev, [key]: value }))
           }
         />
         {/* calendar */}
-        <Calender
-          trial={filtedTrial}
+        <Calendar
+          trial={filteredTrial}
           month={calendarRange.month}
           year={calendarRange.year}
         />
       </div>
       <div className="border-2 border-schema-outline rounded-md h-full w-3/5">
-        <UploadArea trial={filtedTrial} />
+        <UploadArea trial={filteredTrial} />
       </div>
     </div>
   );
