@@ -4,7 +4,7 @@ import { useState } from "react";
 import imageCompression from "browser-image-compression";
 
 export default function DevUploadImage() {
-  const [uploadedFileName, setUploadedFileName] = useState<string | null>(null);
+  const [uploadedFileName, setUploadedFileName] = useState<string[] | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isCompressing, setIsCompressing] = useState(false);
@@ -56,7 +56,7 @@ export default function DevUploadImage() {
         {
           onSuccess: () => {
             console.log("上傳成功，設置 fileName 為:", randomFileName);
-            setUploadedFileName(randomFileName);
+            setUploadedFileName([randomFileName]);
             setIsCompressing(false);
           },
           onError: (error) => {
@@ -111,16 +111,7 @@ export default function DevUploadImage() {
       {/* 檔案預覽區域 */}
       {selectedFile && previewUrl && (
         <div className="border rounded-lg p-4 bg-gray-50">
-          <h3 className="font-semibold mb-2 text-gray-700">檔案預覽</h3>
           <div className="space-y-3">
-            <div className="flex items-center space-x-4 text-sm text-gray-600">
-              <span>檔案名稱: {selectedFile.name}</span>
-              <span>
-                檔案大小: {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
-              </span>
-              <span>檔案類型: {selectedFile.type}</span>
-            </div>
-
             <div className="flex justify-center">
               <img
                 src={previewUrl}
@@ -174,7 +165,7 @@ export default function DevUploadImage() {
           <p className="text-sm text-gray-600">圖片連結: {imageUrl}</p>
           <div className="border rounded-lg p-4 bg-gray-50">
             <img
-              src={imageUrl}
+              src={imageUrl[0]}
               alt="已上傳的圖片"
               className="max-w-xs mx-auto"
               onError={handleImageError}

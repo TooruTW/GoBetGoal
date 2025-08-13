@@ -52,7 +52,7 @@
   --text-h2: 32px;
   --text-h3: 20px;
   --text-h4: 18px;
-  --text-calender-day-mobile: 20px;
+  --text-Calendar-day-mobile: 20px;
   --text-p: 16px;
   --text-p-small: 14px;
   --text-label: 12px;
@@ -103,20 +103,20 @@
 
   --color-schema-inverse-surface: var(--inverseSurface);
   --color-schema-inverse-on-surface: var(--inverseOnSurface);
-  
+
   --color-schema-outline: var(--outline);
 
   --color-schema-primary: var(--primary);
   --color-schema-on-primary: var(--onPrimary);
   --color-schema-primary-container: var(--PrimaryContainer);
   --color-schema-on-primary-container: var(--onPrimaryContainer);
-  
+
   --color-schema-surface: var(--surface);
   --color-schema-surface-variant: var(--surfaceVariant);
   --color-schema-on-surface: var(--onSurface);
   --color-schema-on-surface-variant: var(--onSurfaceVariant);
   --color-schema-on-background: var(--onBackground);
-  
+
   --color-schema-surface-container: var(--surfaceContainer);
   --color-schema-surface-container-low: var(--surfaceContainerLow);
   --color-schema-surface-container-high: var(--surfaceContainerHigh);
@@ -175,10 +175,10 @@
   --onPrimary: #ffffff;
   --primaryContainer: #ffd9de;
   --onPrimaryContainer: #713341;
-  
+
   --secondary: #bef0b2;
   --onSecondary: #ffffff;
-  --secondaryContainer: #41FF14;
+  --secondaryContainer: #41ff14;
   --onSecondaryContainer: #265022;
 
   --tertiary: #ffe08b;
@@ -268,9 +268,9 @@
   --onPrimary: #551d2b;
   --primaryContainer: #713341;
   --onPrimaryContainer: #ffd9de;
-  --secondary: #41FF14;
+  --secondary: #41ff14;
   --onSecondary: #0e380d;
-  --secondaryContainer: #41FF14;
+  --secondaryContainer: #41ff14;
   --onSecondaryContainer: #265022;
   --tertiary: #e3c46d;
   --onTertiary: #3d2f00;
@@ -328,7 +328,6 @@
 
 /* 霓虹特效類別 */
 @layer components {
-
   /* 基礎霓虹效果 */
   .neon-red {
     color: var(--neon-red);
@@ -397,9 +396,11 @@
 
   /* 漸層效果 */
   .bg-gradient-set-1 {
-    background: linear-gradient(135deg,
-        var(--color-gradient-set-1-1) 0%,
-        var(--color-gradient-set-1-2) 100%);
+    background: linear-gradient(
+      135deg,
+      var(--color-gradient-set-1-1) 0%,
+      var(--color-gradient-set-1-2) 100%
+    );
   }
 
   .error {
@@ -444,7 +445,6 @@
 }
 
 @keyframes neon-flicker {
-
   0%,
   18%,
   22%,

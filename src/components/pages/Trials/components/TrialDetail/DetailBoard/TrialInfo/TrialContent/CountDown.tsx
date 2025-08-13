@@ -10,6 +10,7 @@ export default function CountDown(props: acceptProps) {
 
   // timeToCount 改變時，重設 remain
   useEffect(() => {
+    
     if (!timeToCount) return;
     setRemain(
       Math.max(

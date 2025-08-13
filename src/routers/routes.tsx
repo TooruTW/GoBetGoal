@@ -124,7 +124,7 @@ export const routes: RouteObject[] = [
             element: <TrialsList />,
           },
           {
-            path: "detail/:id",
+            path: "detail/:id/:playerId",
             element: <TrialDetail />,
             errorElement: <TrialErrorPage />,
           },

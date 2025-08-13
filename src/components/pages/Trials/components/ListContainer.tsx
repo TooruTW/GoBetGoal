@@ -14,7 +14,7 @@ export default function ListContainer() {
   const userId = useSelector((state: RootState) => state.account.user_id);
 
   useEffect(() => {
-    if (isLoading || !data || !userId) return;
+    if (isLoading || !data ) return;
     if (error) console.log(error);
     let filteredData: TrialSupa[] = data
     if(scope === "my"){
@@ -41,6 +41,7 @@ export default function ListContainer() {
 
   return (
     <div className="w-full px-3 grid md:grid-cols-2 gap-6 relative z-20">
+      {!userId && filteredData.length === 0 && <div className="text-schema-on-surface-variant">請先登入</div>}
       {filteredData?.map((trial) => (
         <GlareHover key={trial.id} className="bg-surface-container">
           <TrialCard trial={trial} />
