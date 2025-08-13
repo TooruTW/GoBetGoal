@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useGetFriendSupa, usePatchFriendRequest } from "@/api";
 import { useQueryClient } from "@tanstack/react-query";
 import { IoCloseSharp } from "react-icons/io5";
-import { useDeleteFriend } from "@/api";
+import { useDeleteFriendSupa } from "@/api";
 
 export default function DevAddFriend() {
   const { mutate: postFriendsRequest } = usePostFriendsRequest();
@@ -16,7 +16,7 @@ export default function DevAddFriend() {
   const { data, isLoading } = useGetFriendSupa(userID);
   const { mutate: patchFriendRequest } = usePatchFriendRequest();
   const queryClient = useQueryClient();
-  const { mutate: deleteFriend } = useDeleteFriend();
+  const { mutate: deleteFriend } = useDeleteFriendSupa();
 
   useEffect(() => {
     if (isLoading) {

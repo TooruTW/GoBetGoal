@@ -5,7 +5,7 @@ import { RootState } from "@/store";
 import {
   useGetFriendSupa,
   usePatchFriendRequest,
-  useDeleteFriend,
+  useDeleteFriendSupa,
 } from "@/api";
 import { useQueryClient } from "@tanstack/react-query";
 import { IoCloseSharp } from "react-icons/io5";
@@ -37,7 +37,7 @@ interface FriendProps {
 export default function Friend({ showState = "accepted" }: FriendProps) {
   const { mutate: patchFriendRequest } = usePatchFriendRequest();
   const queryClient = useQueryClient();
-  const { mutate: deleteFriend } = useDeleteFriend();
+  const { mutate: deleteFriend } = useDeleteFriendSupa();
   const userID = useSelector((state: RootState) => state.account.user_id);
   const { data, isLoading } = useGetFriendSupa(userID);
   const [show, setShow] = useState(false);

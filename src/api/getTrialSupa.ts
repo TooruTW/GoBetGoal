@@ -17,6 +17,7 @@ export function useTrialSupa(id: string) {
   const { data, isLoading, error } = useQuery({
     queryKey: ["trial", id],
     queryFn: () => getTrialSupa(id),
+    enabled: !!id,
   });
 
   return { data, isLoading, error };

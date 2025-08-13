@@ -16,7 +16,7 @@ export { usePatchChangePassword } from "./patchChangePassword";
 export { usePatchChangeUserInfo } from "./patchChangeUserInfo";
 export { usePostFriendsRequest } from "./postFriendsRequest";
 export { usePatchFriendRequest } from "./patchFriendRequest";
-export { useDeleteFriend } from "./deleteFriend";
+export { useDeleteFriendSupa } from "./deleteFriendSupa";
 export { useGetChallenges } from "./getChallenges";
 export { usePostCreateTrial } from "./postCreateTrial";
 export { useUserAchievementSupa } from "./getUserAchievementSupa";

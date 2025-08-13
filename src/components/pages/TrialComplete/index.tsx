@@ -65,7 +65,7 @@ export default function TrialComplete() {
 
   // all player info
   useEffect(() => {
-    if (isLoading || !data) return;
+    if (isLoading || !data) return;    
 
     const participantMap = new Map<string, ParticipantsProps>();
 
