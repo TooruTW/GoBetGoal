@@ -104,7 +104,7 @@ export default function Calendar(props: acceptProps) {
       currentMonthDateList.forEach((item) => {
         if (item.dayType !== "none") {
           item.stageIndex = stageIndex;
-          if (item.dayType === "end") {
+          if (item.dayType === "end" || item.dayType === "start-end") {
             stageIndex++;
           }
         }
@@ -130,6 +130,8 @@ export default function Calendar(props: acceptProps) {
         .map((item) => {
           return item.stage_index;
         });
+
+
       currentMonthDateList.forEach((item) => {
         if (item.stageIndex === null) return;
         if (pendingList.includes(item.stageIndex)) {

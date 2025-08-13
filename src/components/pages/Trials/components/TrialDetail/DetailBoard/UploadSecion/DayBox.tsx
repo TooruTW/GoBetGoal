@@ -31,6 +31,7 @@ export default function DayBox({ dateInfo }: acceptProps) {
     default:
       break
   }  
+  
   return (
     <div onClick={handleClick} className={`w-full min-h-11 flex items-center justify-center relative `}>
       {dateInfo.dayType === "middle" && <div className={`w-full h-3/5 absolute top-1/2 -translate-y-1/2 left-0 z-0 ${color}`}></div>}

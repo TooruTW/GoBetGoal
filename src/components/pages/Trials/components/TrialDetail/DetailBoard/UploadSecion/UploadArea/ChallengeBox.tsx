@@ -153,23 +153,25 @@ export default function ChallengeBox({
     return { imgUrl, result: answer };
   };
 
-  // 壓縮並上傳
-  const handleConfirmUpload = async () => {
-    if (!selectedFile) return;
-    const options = {
-      maxSizeMB: 0.5,
-      maxWidthOrHeight: 640,
-      useWebWorker: true,
-      fileType: "image/webp",
-    };
-    const tempFileList: string[] = [];
+  // 圖片壓縮配置
+  const compressionOptions = {
+    maxSizeMB: 0.5,
+    maxWidthOrHeight: 640,
+    useWebWorker: true,
+    fileType: "image/webp",
+  };
 
-    setUploadedFileName([]);
+  // 壓縮圖片
+  const compressImages = async (files: File[]): Promise<File[]> => {
+    const compressedFiles: File[] = [];
 
     await Promise.all(
-      selectedFile.map(async (file) => {
+      files.map(async (file) => {
         try {
-          const compressedFile = await imageCompression(file, options);
+          const compressedFile = await imageCompression(
+            file,
+            compressionOptions
+          );
           console.log(
             "compressedFile instanceof Blob",
             compressedFile instanceof Blob
@@ -178,11 +180,31 @@ export default function ChallengeBox({
             `compressedFile size ${compressedFile.size / 1024 / 1024} MB`
           ); // smaller than maxSizeMB
 
-          const randomFileName = `${Date.now()}`;
+          compressedFiles.push(compressedFile);
+        } catch (error) {
+          console.log("圖片壓縮失敗:", error);
+        }
+      })
+    );
+
+    return compressedFiles;
+  };
+
+  // 上傳圖片
+  const uploadImages = async (files: File[]): Promise<string[]> => {
+    const tempFileList: string[] = [];
+
+    await Promise.all(
+      files.map(async (file) => {
+        try {
+          const randomFileName = `${Date.now()}_${Math.random()
+            .toString(36)
+            .substr(2, 9)}`;
           console.log(randomFileName, "randomFileName is going to upload");
           tempFileList.push(randomFileName);
+
           uploadImage(
-            { file: compressedFile, fileName: randomFileName },
+            { file, fileName: randomFileName },
             {
               onError: (error) => {
                 console.error("上傳失敗:", error);
@@ -190,13 +212,32 @@ export default function ChallengeBox({
             }
           );
         } catch (error) {
-          console.log(error);
+          console.log("圖片上傳失敗:", error);
         }
       })
     );
 
-    setUploadedFileName(tempFileList);
-    setIsShowCheckResult(true);
+    return tempFileList;
+  };
+
+  // 確認上傳 - 組合壓縮和上傳
+  const handleConfirmUpload = async () => {
+    if (!selectedFile || selectedFile.length === 0) return;
+
+    setUploadedFileName([]);
+
+    try {
+      // 1. 先壓縮圖片
+      const compressedFiles = await compressImages(selectedFile);
+
+      // 2. 再上傳壓縮後的圖片
+      const fileNames = await uploadImages(compressedFiles);
+
+      setUploadedFileName(fileNames);
+      setIsShowCheckResult(true);
+    } catch (error) {
+      console.error("上傳流程失敗:", error);
+    }
   };
 
   const handleSetSelectedFile = (file: File, index: number) => {
