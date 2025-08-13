@@ -1,8 +1,9 @@
 import { supabase } from "@/supabaseClient";
 import { useQuery } from "@tanstack/react-query";
 
+let count = 0;
 const getImageUrl = async (fileName: string[]) => {
-console.log(fileName,"fileName");
+console.log(fileName,"fileName",count++);
 
   const data = await Promise.all(fileName.map(async(file)=>{
     const { data } = supabase.storage.from("challenge").getPublicUrl(file);

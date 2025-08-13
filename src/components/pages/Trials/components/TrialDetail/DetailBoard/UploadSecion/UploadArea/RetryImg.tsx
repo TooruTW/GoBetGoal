@@ -1,6 +1,12 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 
-function RetryImage({ src, alt, maxRetries = 3, retryDelay = 2000, className }:{
+function RetryImage({
+  src,
+  alt,
+  maxRetries = 3,
+  retryDelay = 2000,
+  className,
+}: {
   src: string;
   alt: string;
   maxRetries: number;
@@ -24,6 +30,11 @@ function RetryImage({ src, alt, maxRetries = 3, retryDelay = 2000, className }:{
       console.warn("已達最大重試次數，停止嘗試");
     }
   }, [retryCount, maxRetries, retryDelay, src]);
+
+  useEffect(() => {
+    setCurrentSrc(src);
+    setRetryCount(0);
+  }, [src]);
 
   return (
     <img

@@ -32,11 +32,12 @@ export default function ChallengeBox({
   } = useGetImageUrl(uploadedFileName);
 
   useEffect(() => {
-    console.log(currentChallenge, "currentChallenge");
     if (currentChallenge.upload_image) {
       setPreviewImage(currentChallenge.upload_image);
+      console.log("set result img", currentChallenge.upload_image);
     } else {
       setPreviewImage(challenge_stage.sample_image);
+      console.log("set sample img", challenge_stage.sample_image);
     }
   }, [currentChallenge, challenge_stage.sample_image]);
 
@@ -47,9 +48,8 @@ export default function ChallengeBox({
       !isImageLoading &&
       !imageError
     ) {
-      console.log(imageUrlArr, "imageUrlArr");
-
       setPreviewImage(imageUrlArr);
+      console.log("set imageUrlArr to previewImage", imageUrlArr);
     }
   }, [imageUrlArr, challenge_stage.sample_image, isImageLoading, imageError]);
 
@@ -61,33 +61,40 @@ export default function ChallengeBox({
       useWebWorker: true,
       fileType: "image/webp",
     };
+    const tempFileList: string[] = [];
 
-    selectedFile.forEach(async (file) => {
-      try {
-        const compressedFile = await imageCompression(file, options);
-        console.log(
-          "compressedFile instanceof Blob",
-          compressedFile instanceof Blob
-        ); // true
-        console.log(
-          `compressedFile size ${compressedFile.size / 1024 / 1024} MB`
-        ); // smaller than maxSizeMB
+    setUploadedFileName([]);
 
-        const randomFileName = `${Date.now()}`;
-        console.log(randomFileName, "randomFileName is going to upload");
-        setUploadedFileName((prev) => [...prev, randomFileName]);
-        uploadImage(
-          { file: compressedFile, fileName: randomFileName },
-          {
-            onError: (error) => {
-              console.error("上傳失敗:", error);
-            },
-          }
-        );
-      } catch (error) {
-        console.log(error);
-      }
-    });
+    await Promise.all(
+      selectedFile.map(async (file) => {
+        try {
+          const compressedFile = await imageCompression(file, options);
+          console.log(
+            "compressedFile instanceof Blob",
+            compressedFile instanceof Blob
+          ); // true
+          console.log(
+            `compressedFile size ${compressedFile.size / 1024 / 1024} MB`
+          ); // smaller than maxSizeMB
+
+          const randomFileName = `${Date.now()}`;
+          console.log(randomFileName, "randomFileName is going to upload");
+          tempFileList.push(randomFileName);
+          uploadImage(
+            { file: compressedFile, fileName: randomFileName },
+            {
+              onError: (error) => {
+                console.error("上傳失敗:", error);
+              },
+            }
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      })
+    );
+
+    setUploadedFileName(tempFileList);
   };
 
   const handleSetSelectedFile = (file: File, index: number) => {
@@ -134,15 +141,17 @@ export default function ChallengeBox({
                 {item}
               </div>
               <div className="w-full h-4/5 flex items-center justify-center border-2 border-schema-primary relative">
-                <RetryImage
-                  maxRetries={3}
-                  retryDelay={1500}
-                  src={previewImage?.[index]}
-                  alt="preview"
-                  className={`w-full h-full object-contain opacity-50 ${
-                    upload_image ? "opacity-100" : "opacity-50"
-                  }`}
-                />
+                {previewImage.length > 0 && (
+                  <RetryImage
+                    maxRetries={3}
+                    retryDelay={1500}
+                    src={previewImage?.[index]}
+                    alt="preview"
+                    className={`w-full h-full object-cover opacity-50 ${
+                      upload_image ? "opacity-100" : "opacity-50"
+                    }`}
+                  />
+                )}
 
                 {!imageUrlArr && (
                   <UploadImageInput
