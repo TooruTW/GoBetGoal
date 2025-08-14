@@ -1,12 +1,12 @@
 import TrialHistoryCard from "./TrialHistoryCard";
-import { useGetUserHistoryTrialSupa } from "@/api";
+import { useTrialSupa } from "@/api";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/store";
 
 export default function ListContainer() {
   const userID = useSelector((state: RootState) => state.account.user_id);
-  const { data, isLoading, error } = useGetUserHistoryTrialSupa(userID);
+  const { data, isLoading, error } = useTrialSupa(userID);
 
   useEffect(() => {
     if (isLoading) {

@@ -1,12 +1,12 @@
 import { supabase } from "@/supabaseClient";
 import { useMutation } from "@tanstack/react-query";
 
-const deleteFriendSupa = async ({ id1, id2 }: { id1: string; id2: string }) => {
+const deleteFriendSupa = async ({ user_id, friend_id }: { user_id: string; friend_id: string }) => {
   const { data, error } = await supabase
     .from("fried_relationship")
     .delete()
     .or(
-      `and(request_id.eq.${id1},address_id.eq.${id2}),and(request_id.eq.${id2},address_id.eq.${id1})`
+      `and(request_id.eq.${user_id},address_id.eq.${friend_id}),and(request_id.eq.${friend_id},address_id.eq.${user_id})`
     );
 
   if (error) {
