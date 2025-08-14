@@ -3,7 +3,7 @@ import { FaLock } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import Notificatioin from "@/components/pages/SocialPages/components/Notificatioin";
+import Notification from "@/components/pages/SocialPages/components/Notification";
 import { RootState } from "@/store";
 import {
   usePatchChangeUserInfo,
@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 
 type Avatar = {
   uuid: string;
-  charactor_img_link: string;
+  character_img_link: string;
   price: number;
 };
 
@@ -56,7 +56,7 @@ export default function AvatarSelect({
   const { data: avatarImages = [], isLoading } = useGetAvatar();
   const userID = useSelector((state: RootState) => state.account.user_id);
   const nowAvatar = useSelector(
-    (state: RootState) => state.account.charactor_img_link
+    (state: RootState) => state.account.character_img_link
   );
 
   const userBagel = useSelector(
@@ -84,7 +84,7 @@ export default function AvatarSelect({
     // 如果是免費頭像或已購買的頭像，顯示更換確認對話框
     if (avatar.price === 0 || isAvatarPurchased(avatar.uuid)) {
       // 如果點擊的是當前使用的頭像，直接選中不顯示更換對話框
-      if (info === avatar.charactor_img_link) {
+      if (info === avatar.character_img_link) {
         onSelect(avatar);
         return;
       }
@@ -104,8 +104,8 @@ export default function AvatarSelect({
     }
 
     const updateData = {
-      target: "charactor_img_link" as const,
-      value: selectedToChange.charactor_img_link,
+      target: "character_img_link" as const,
+      value: selectedToChange.character_img_link,
       userID: userID,
     };
 
@@ -175,7 +175,7 @@ export default function AvatarSelect({
 
     console.log("準備購買頭像:", {
       purchaseData,
-      avatarSrc: selectedToBuy.charactor_img_link,
+      avatarSrc: selectedToBuy.character_img_link,
       avatarUuid: selectedToBuy.uuid,
       userBagel,
     });
@@ -263,9 +263,9 @@ export default function AvatarSelect({
       </div>
 
       {noteContent && (
-        <Notificatioin time={2000}>
+        <Notification time={2000}>
           <p>{noteContent}</p>
-        </Notificatioin>
+        </Notification>
       )}
       <ul className="overflow-visible gap-3 grid grid-cols-3 md:grid-cols-6">
         {avatarImages.map((avatar) => {
@@ -283,14 +283,14 @@ export default function AvatarSelect({
                     : "hover:cursor-pointer hover:shadow-lg"
                 }
                 ${
-                  nowAvatar === avatar.charactor_img_link
+                  nowAvatar === avatar.character_img_link
                     ? " border-2 border-schema-primary scale-105"
                     : ""
                 }
                 ${
                   selectedToChange &&
-                  selectedToChange.charactor_img_link ===
-                    avatar.charactor_img_link
+                  selectedToChange.character_img_link ===
+                    avatar.character_img_link
                     ? " border-2 border-white scale-105"
                     : ""
                 }
@@ -298,7 +298,7 @@ export default function AvatarSelect({
               onClick={() => handleClick(avatar)}
             >
               <img
-                src={avatar.charactor_img_link}
+                src={avatar.character_img_link}
                 alt={`avatar-${avatar.uuid}`}
                 className="w-full object-cover rounded-xl"
               />
@@ -332,7 +332,7 @@ export default function AvatarSelect({
             name: `頭像-${selectedToBuy.uuid}`,
             price: selectedToBuy.price,
             type: "avatar",
-            image: selectedToBuy.charactor_img_link,
+            image: selectedToBuy.character_img_link,
           }}
         />
       )}

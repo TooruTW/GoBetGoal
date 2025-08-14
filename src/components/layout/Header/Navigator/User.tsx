@@ -8,12 +8,12 @@ export default function User() {
     <div
       className="w-9 aspect-square rounded-full overflow-hidden"
       style={{
-        backgroundImage: `url(${account.charactor_img_link})`,
+        backgroundImage: `url(${account.character_img_link})`,
         backgroundSize: "150%",
         backgroundPosition: "top",
       }}
     >
-      {account.charactor_img_link === "" && (
+      {account.character_img_link === "" && (
         <MdAccountCircle className="w-full h-full" />
       )}
     </div>

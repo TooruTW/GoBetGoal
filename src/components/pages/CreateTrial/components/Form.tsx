@@ -1,7 +1,7 @@
 import { monsterDefault } from "@/assets/monster";
 import { DatePicker } from "@/components/shared/reactBit/DatePicker";
 import ConfirmModal from "@/components/ui/ConfirmModal";
-import Notificatioin from "@/components/pages/SocialPages/components/Notificatioin";
+import Notificatioin from "@/components/pages/SocialPages/components/Notification";
 
 import { useForm } from "react-hook-form";
 
@@ -19,6 +19,7 @@ import {
   useGetUserPurchase,
   usePatchChangeUserInfo,
 } from "@/api";
+import { PurchaseRecord } from "@/types/PurchaseRecord";
 
 type FormData = {
   trialName: string;
@@ -109,7 +110,7 @@ export default function Form({ challenge }: FormProps) {
     });
 
     if (userPurchases && challenge && !isPurchaseLoading) {
-      const purchased = userPurchases.some((purchase: PurchaseItem) => {
+      const purchased = userPurchases.some((purchase: PurchaseRecord) => {
         console.log("檢查購買項目:", {
           purchase,
           itemType: purchase.item_type,
@@ -154,7 +155,6 @@ export default function Form({ challenge }: FormProps) {
 
       postCreateTrial(newData, {
         onSuccess: () => {
-          
           showNote("試煉創建成功！");
           setShowConfirm(false);
           setPendingTrialData(null);

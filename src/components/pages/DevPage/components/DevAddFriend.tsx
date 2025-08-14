@@ -94,10 +94,12 @@ export default function DevAddFriend() {
                 {friend.address_id !== userID && (
                   <>
                     <p>{friend.address_id}</p>
-                    <h2 className="text-center text-h2">{friend.address_user.nick_name}</h2>
+                    <h2 className="text-center text-h2">
+                      {friend.address_user.nick_name}
+                    </h2>
                     <img
                       className="w-full rounded-full"
-                      src={friend.address_user.charactor_img_link}
+                      src={friend.address_user.character_img_link}
                       alt=""
                     />
                     {friend.state === "pending" && <p>等待回應</p>}
@@ -108,10 +110,12 @@ export default function DevAddFriend() {
                 {friend.request_id !== userID && (
                   <>
                     <p>{friend.request_id}</p>
-                    <h2 className="text-center text-h2">{friend.request_user.nick_name}</h2>
+                    <h2 className="text-center text-h2">
+                      {friend.request_user.nick_name}
+                    </h2>
                     <img
                       className="w-full rounded-full"
-                      src={friend.request_user.charactor_img_link}
+                      src={friend.request_user.character_img_link}
                       alt=""
                     />
                     {friend.state === "pending" && (

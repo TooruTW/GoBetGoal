@@ -254,7 +254,7 @@ export default function Invitition({ className, onClick }: acceptProps) {
               >
                 <div
                   style={{
-                    backgroundImage: `url(${item.charactor_img_link})`,
+                    backgroundImage: `url(${item.character_img_link})`,
                     backgroundSize: "160%",
                     backgroundPosition: "top",
                     backgroundRepeat: "no-repeat",
@@ -262,7 +262,7 @@ export default function Invitition({ className, onClick }: acceptProps) {
                   className="w-15 aspect-square avatar"
                 ></div>
 
-                <ul className="grid grid-cols-3 gap-2 w-full text-nowrap" >
+                <ul className="grid grid-cols-3 gap-2 w-full text-nowrap">
                   <li className="text-h4 max-sm:text-p text-center flex items-center justify-center">
                     <p>{item.nick_name}</p>
                   </li>

@@ -32,7 +32,7 @@ export default function DevAchievement() {
             return (
               <li key={achievement.id} className={`${userAchiSet.has(achievement.id) ? "opacity-100" : "opacity-30"}`}>
                 <p>{achievement.id}</p>
-                <p>{achievement.oreder}</p>
+                <p>{achievement.order}</p>
                 <p>{achievement.title}</p>
                 <p>{achievement.description}</p>
                 <img src={achievement.icon_url} alt="" />

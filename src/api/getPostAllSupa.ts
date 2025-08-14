@@ -35,11 +35,11 @@ function isUserInfo(obj: unknown): obj is Post["user_info"] {
 
   return (
     typeof item.nick_name === "string" &&
-    typeof item.charactor_img_link === "string" &&
+    typeof item.character_img_link === "string" &&
     item.nick_name !== undefined &&
-    item.charactor_img_link !== undefined &&
+    item.character_img_link !== undefined &&
     String(item.nick_name).length > 0 &&
-    String(item.charactor_img_link).length > 0
+    String(item.character_img_link).length > 0
   );
 }
 
@@ -97,7 +97,7 @@ const getPostAllSupa = async (): Promise<Post[]> => {
   const { data, error } = await supabase
     .from("post")
     .select(
-      "*,user_info(nick_name,charactor_img_link),trial(title,challenge(title,category)),post_like(like_by)"
+      "*,user_info(nick_name,character_img_link),trial(title,challenge(title,category)),post_like(like_by)"
     );
 
   if (error) throw error;

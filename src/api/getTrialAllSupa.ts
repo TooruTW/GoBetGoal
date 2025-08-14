@@ -13,13 +13,13 @@ function isUserInfo(
 
   return (
     typeof item.nick_name === "string" &&
-    typeof item.charactor_img_link === "string" &&
+    typeof item.character_img_link === "string" &&
     typeof item.user_id === "string" &&
     item.nick_name !== undefined &&
-    item.charactor_img_link !== undefined &&
+    item.character_img_link !== undefined &&
     item.user_id !== undefined &&
     String(item.nick_name).length > 0 &&
-    String(item.charactor_img_link).length > 0 &&
+    String(item.character_img_link).length > 0 &&
     String(item.user_id).length > 0
   );
 }
@@ -112,7 +112,7 @@ const getTrialAllSupa = async (): Promise<TrialSupa[]> => {
     *,challenge:challenge_id (category,description,frequency,title,challenge_stage(description)),
     trial_participant (
       user_info:participant_id (
-        nick_name,charactor_img_link,user_id
+        nick_name,character_img_link,user_id
       )
     )
   `

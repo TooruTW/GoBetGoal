@@ -11,7 +11,7 @@ import Candy from "@/components/layout/Header/Navigator/Candy";
 import { RootState } from "@/store";
 import { usePatchChangeUserInfo, usePostDeposit } from "@/api";
 import { useQueryClient } from "@tanstack/react-query";
-import Notificatioin from "@/components/pages/SocialPages/components/Notificatioin";
+import Notificatioin from "@/components/pages/SocialPages/components/Notification";
 
 type Plan = {
   src: MonsterImage;
@@ -23,7 +23,13 @@ type Plan = {
 
 const plan: Plan[] = [
   { src: monsterSleep, price: 19, get_bagel: 10000, show: "1k", translate: 0 },
-  { src: monsterRun, price: 99, get_bagel: 100000, show: "100k", translate: 10 },
+  {
+    src: monsterRun,
+    price: 99,
+    get_bagel: 100000,
+    show: "100k",
+    translate: 10,
+  },
   {
     src: monsterCongrats,
     price: 299,

@@ -16,7 +16,7 @@ import AddFriend from "./AddFriend";
 
 interface FriendUser {
   nick_name: string;
-  charactor_img_link: string;
+  character_img_link: string;
   total_trial_count?: number;
 }
 
@@ -97,9 +97,9 @@ export default function Friend({ showState = "accepted" }: FriendProps) {
                   }
                   avatarUrl={
                     friend.address_id !== userID
-                      ? friend.address_user.charactor_img_link
+                      ? friend.address_user.character_img_link
                       : friend.request_id !== userID
-                      ? friend.request_user.charactor_img_link
+                      ? friend.request_user.character_img_link
                       : ""
                   }
                   showUserInfo={true}

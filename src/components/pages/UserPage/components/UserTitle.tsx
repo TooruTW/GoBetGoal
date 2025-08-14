@@ -8,10 +8,9 @@ type acceptProps = {
 };
 
 export default function UserTitle({ userInfo }: acceptProps) {
-
   const {
     nick_name,
-    charactor_img_link,
+    character_img_link,
     total_trial_count,
     liked_posts_count,
     friend_count,
@@ -20,9 +19,9 @@ export default function UserTitle({ userInfo }: acceptProps) {
   return (
     <div className="flex flex-col sm:flex-row w-full md:px-6 relative h-[320px] sm:h-auto ">
       <div className="h-[200px] sm:w-1/2 overflow-hidden max-w-330 z-10 relative">
-        {charactor_img_link ? (
+        {character_img_link ? (
           <img
-            src={charactor_img_link}
+            src={character_img_link}
             alt="avatar"
             className="w-3/5 mx-auto"
           />

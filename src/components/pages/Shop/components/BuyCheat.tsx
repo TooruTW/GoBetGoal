@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import Notificatioin from "@/components/pages/SocialPages/components/Notificatioin";
+import Notificatioin from "@/components/pages/SocialPages/components/Notification";
 import { RootState } from "@/store";
 import { usePatchChangeUserInfo, usePostPurchase } from "@/api";
 import ConfirmModal from "@/components/ui/ConfirmModal";

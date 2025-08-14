@@ -10,7 +10,7 @@ function isUserInfoSupa(obj: unknown): obj is UserInfoSupa {
 
   return (
     typeof item.candy_count === "number" &&
-    typeof item.charactor_img_link === "string" &&
+    typeof item.character_img_link === "string" &&
     typeof item.cheat_blanket === "number" &&
     typeof item.nick_name === "string" &&
     typeof item.system_preference_color_mode === "string" &&
@@ -21,7 +21,7 @@ function isUserInfoSupa(obj: unknown): obj is UserInfoSupa {
     Array.isArray(item.purchase_challenge) &&
     Array.isArray(item.purchase_avatar) &&
     item.candy_count !== undefined &&
-    item.charactor_img_link !== undefined &&
+    item.character_img_link !== undefined &&
     item.cheat_blanket !== undefined &&
     item.nick_name !== undefined &&
     item.system_preference_color_mode !== undefined &&
@@ -31,7 +31,7 @@ function isUserInfoSupa(obj: unknown): obj is UserInfoSupa {
     item.user_id !== undefined &&
     item.purchase_challenge !== undefined &&
     item.purchase_avatar !== undefined &&
-    String(item.charactor_img_link).length > 0 &&
+    String(item.character_img_link).length > 0 &&
     String(item.nick_name).length > 0 &&
     String(item.system_preference_color_mode).length > 0 &&
     String(item.user_id).length > 0 &&
@@ -74,7 +74,6 @@ export const getUserInfoAllSupa = async (): Promise<UserInfoSupa[]> => {
   if (invalidData.length > 0) {
     console.warn(`發現 ${invalidData.length} 筆結構不正確的資料:`, invalidData);
   }
-
 
   return validatedData;
 };

@@ -3,7 +3,7 @@ import { supabase } from "@/supabaseClient";
 
 type Avatar = {
   uuid: string;
-  charactor_img_link: string;
+  character_img_link: string;
   price: number;
 };
 
@@ -13,13 +13,13 @@ function isAvatar(obj: unknown): obj is Avatar {
     typeof obj === "object" &&
     obj !== null &&
     typeof (obj as Record<string, unknown>).uuid === "string" &&
-    typeof (obj as Record<string, unknown>).charactor_img_link === "string" &&
+    typeof (obj as Record<string, unknown>).character_img_link === "string" &&
     typeof (obj as Record<string, unknown>).price === "number" &&
     (obj as Record<string, unknown>).uuid !== undefined &&
-    (obj as Record<string, unknown>).charactor_img_link !== undefined &&
+    (obj as Record<string, unknown>).character_img_link !== undefined &&
     (obj as Record<string, unknown>).price !== undefined &&
     String((obj as Record<string, unknown>).uuid).length > 0 &&
-    String((obj as Record<string, unknown>).charactor_img_link).length > 0 &&
+    String((obj as Record<string, unknown>).character_img_link).length > 0 &&
     Number((obj as Record<string, unknown>).price) >= 0
   );
 }
