@@ -47,6 +47,7 @@ import DevEditNameOrPassword from "@/components/pages/DevPage/components/DevEdit
 import DevAddFriend from "@/components/pages/DevPage/components/DevAddFriend";
 import DevDeleteFriend from "@/components/pages/DevPage/components/DevDeleteFriend";
 import DevComponent from "@/components/pages/DevPage/components/DevComponent";
+import Dashboard from "@/components/pages/DevPage/components/Dashboard";
 
 export const routes: RouteObject[] = [
   {
@@ -120,11 +121,11 @@ export const routes: RouteObject[] = [
         element: <Trials />,
         children: [
           {
-            path: "list/:scope/:category",
+            index: true,
             element: <TrialsList />,
           },
           {
-            path: "detail/:id/:playerId",
+            path: "detail/:id",
             element: <TrialDetail />,
             errorElement: <TrialErrorPage />,
           },
@@ -196,6 +197,10 @@ export const routes: RouteObject[] = [
           {
             path: "component-testing",
             element: <DevComponent />,
+          },
+          {
+            path: "dashboard",
+            element: <Dashboard />,
           },
         ],
       },
