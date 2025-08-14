@@ -148,8 +148,8 @@ export default function Friend({ showState = "accepted" }: FriendProps) {
                           onClick={() =>
                             deleteFriend(
                               {
-                                id1: friend.request_id,
-                                id2: friend.address_id,
+                                user_id: friend.request_id,
+                                friend_id: friend.address_id,
                               },
                               {
                                 onSuccess: () => {
