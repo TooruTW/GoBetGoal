@@ -1,8 +1,8 @@
 export type Post = {
     id: string;
     content: string;
-    create_at: string;
-    history: number | null;
+    created_at: string;
+    trial_history_id: string | null;
     image_url: string[];
     publish_by: string;
     trial_id: string;
