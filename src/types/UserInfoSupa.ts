@@ -1,6 +1,6 @@
 export type UserInfoSupa = {
     candy_count: number;
-    charactor_img_link: string;
+    character_img_link: string;
     cheat_blanket: number;
     nick_name: string;
     system_preference_color_mode: string;

@@ -6,7 +6,7 @@ const getPostAllSupa = async (id: string) => {
   const { data, error } = await supabase
     .from("post")
     .select(
-      "*,user_info(nick_name,charactor_img_link),trial(title,challenge(title)),post_like(like_by)"
+      "*,user_info(nick_name,character_img_link),trial(title,challenge(title)),post_like(like_by)"
     )
     .eq("id", id);
 

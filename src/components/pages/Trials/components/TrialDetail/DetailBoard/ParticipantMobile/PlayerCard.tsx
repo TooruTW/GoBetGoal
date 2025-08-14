@@ -8,32 +8,33 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { useDeleteParticipantInTrialSupa } from "@/api/deleteParticipantInTrialSupa";
 
-
 type acceptProps = {
   participant?: UserInfoSupa;
   owner?: string;
 };
 
-export default function PlayerCard({participant, owner}: acceptProps) {
+export default function PlayerCard({ participant, owner }: acceptProps) {
   const navigate = useNavigate();
   const [position, setPosition] = useState<number>(0);
   const userId = useSelector((state: RootState) => state.account.user_id);
   const friendList = useSelector((state: RootState) => state.friends.friends);
 
-  const {id: trialId} = useParams();
-    
+  const { id: trialId } = useParams();
+
   const [isYourself, setIsYourself] = useState(false);
   const [isOwner, setIsOwner] = useState(false);
   const [friendState, setFriendState] = useState<string>("");
   const [isFriend, setIsFriend] = useState(false);
 
-  useEffect(()=>{
-    if(!friendList[0]) return;
-    console.log(friendList,"friendList");
-    const state = friendList.find(item => item.user_id === participant?.user_id)?.friend_state;
-        setFriendState(state||"");
-        if(state) setIsFriend(true);
-  },[friendList,participant])
+  useEffect(() => {
+    if (!friendList[0]) return;
+    console.log(friendList, "friendList");
+    const state = friendList.find(
+      (item) => item.user_id === participant?.user_id
+    )?.friend_state;
+    setFriendState(state || "");
+    if (state) setIsFriend(true);
+  }, [friendList, participant]);
 
   useEffect(() => {
     if (!participant) return;
@@ -49,7 +50,7 @@ export default function PlayerCard({participant, owner}: acceptProps) {
     onSwiped: (eventData) => {
       if (eventData.deltaX > 0) {
         if (eventData.deltaX > 50) {
-          if(isYourself) return;
+          if (isYourself) return;
           setPosition(200);
         }
       } else {
@@ -63,7 +64,7 @@ export default function PlayerCard({participant, owner}: acceptProps) {
   const handleTap = () => {
     if (position !== 0) setPosition(0);
   };
-  
+
   const queryClient = useQueryClient();
   const { mutate: postAddFriend } = usePostFriendsRequest();
 
@@ -89,10 +90,10 @@ export default function PlayerCard({participant, owner}: acceptProps) {
   };
 
   const { mutate: deleteParticipantInTrial } =
-  useDeleteParticipantInTrialSupa();
+    useDeleteParticipantInTrialSupa();
 
   const handleExile = () => {
-    if(!trialId || isOwner || !participant) return;
+    if (!trialId || isOwner || !participant) return;
     deleteParticipantInTrial(
       {
         trialId: trialId,
@@ -131,12 +132,20 @@ export default function PlayerCard({participant, owner}: acceptProps) {
       <div className="border-2 border-schema-primary absolute top-1/6 left-0 w-full h-2/3 -skew-x-24"></div>
       <div className="relative">
         <div
-          className={`absolute z-0 top-1/2 -translate-y-1/2 -left-50 w-50 h-2/3 -skew-x-24 ${isFriend ? "bg-schema-on-background/50" : "bg-schema-on-background"} text-schema-on-primary flex justify-center items-center transition-transform duration-300 origin-right ${
+          className={`absolute z-0 top-1/2 -translate-y-1/2 -left-50 w-50 h-2/3 -skew-x-24 ${
+            isFriend ? "bg-schema-on-background/50" : "bg-schema-on-background"
+          } text-schema-on-primary flex justify-center items-center transition-transform duration-300 origin-right ${
             position > 0 ? "scale-100" : "scale-0"
           }`}
           onClick={handleAddFriend}
         >
-          <p className="skew-x-24">{isFriend ? (friendState === "pending" ? "等待確認好友" : "已加好友") : "加好友"}</p>
+          <p className="skew-x-24">
+            {isFriend
+              ? friendState === "pending"
+                ? "等待確認好友"
+                : "已加好友"
+              : "加好友"}
+          </p>
         </div>
         <div
           className={`absolute z-0 top-1/2 -translate-y-1/2 -right-50 w-50 h-2/3 -skew-x-24 bg-red-500 text-schema-on-primary flex justify-center items-center transition-transform duration-300 origin-left ${
@@ -144,14 +153,16 @@ export default function PlayerCard({participant, owner}: acceptProps) {
           }`}
           onClick={handleExile}
         >
-          <p className="skew-x-24">{isOwner ? "敢踢房主？" : (isYourself ? "離開試煉" : "踢除玩家")}</p>
+          <p className="skew-x-24">
+            {isOwner ? "敢踢房主？" : isYourself ? "離開試煉" : "踢除玩家"}
+          </p>
         </div>
         <div
           className="grid grid-cols-6 px-6 relative z-10 bg-inherit h-full"
           onClick={handleTap}
         >
           <img
-            src={participant?.charactor_img_link}
+            src={participant?.character_img_link}
             alt="playerImg"
             className="col-span-1 w-full -translate-y-5 h-full object-cover"
             onClick={handleViewProfile}

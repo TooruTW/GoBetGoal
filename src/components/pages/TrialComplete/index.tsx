@@ -73,7 +73,7 @@ export default function TrialComplete() {
       if (!participantMap.has(history.participant_id)) {
         participantMap.set(history.participant_id, {
           id: history.participant_id,
-          charactor_img_link: history.user_info.charactor_img_link,
+          character_img_link: history.user_info.character_img_link,
           nick_name: history.user_info.nick_name,
           completeRate: `${
             history.status === "pass" || history.status === "cheat" ? 1 : 0
@@ -124,12 +124,15 @@ export default function TrialComplete() {
     setImages(imageArray);
 
     const category = filteredData[0].trial.challenge.category;
-    const result = filteredData[0].trial.trial_status;
+    const result = filteredData[0].trial.trial_status as
+      | "pass"
+      | "perfect"
+      | "fail";
     const trialName = filteredData[0].trial.title;
     const challengeName = filteredData[0].trial.challenge.title;
     const challengeCount = filteredData.length;
     const trialDescription = filteredData[0].trial.challenge.description;
-    const trialFrequency = filteredData[0].trial.challenge.frequency;
+    const trialFrequency = String(filteredData[0].trial.challenge.frequency);
     const trialTotalDays =
       filteredData.length * filteredData[0].trial.challenge.frequency;
     const participantCount = new Set(data.map((item) => item.participant_id))
@@ -148,7 +151,7 @@ export default function TrialComplete() {
     });
 
     const userInfo = {
-      charactor_img_link: filteredData[0].user_info.charactor_img_link,
+      character_img_link: filteredData[0].user_info.character_img_link,
       nick_name: filteredData[0].user_info.nick_name,
     };
     const trialReward = filteredData[0].trial.deposit * rewardRate;
@@ -161,7 +164,7 @@ export default function TrialComplete() {
     const trialCompleteRate = `${passCount + cheatCount} / ${challengeCount}`;
 
     setCertification({
-      charactor_img_link: userInfo.charactor_img_link,
+      character_img_link: userInfo.character_img_link,
       nick_name: userInfo.nick_name,
       trialReward: trialReward,
       trialCompleteRate: trialCompleteRate,
@@ -172,16 +175,19 @@ export default function TrialComplete() {
   // share page animation
   const { contextSafe } = useGSAP({ scope: sharePageRef });
   // 先隱藏元素
-  useGSAP(() => {
-    // 設定初始狀態
-    if (!sharePageRef.current) return;
-    gsap.set(sharePageRef.current, {
-      opacity: 0,
-      yPercent: 100,
-    });
-  }, {
-    dependencies: [sharePageRef.current],
-  });
+  useGSAP(
+    () => {
+      // 設定初始狀態
+      if (!sharePageRef.current) return;
+      gsap.set(sharePageRef.current, {
+        opacity: 0,
+        yPercent: 100,
+      });
+    },
+    {
+      dependencies: [sharePageRef.current],
+    }
+  );
   const handleShowSharePage = contextSafe(
     (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
@@ -244,7 +250,7 @@ export default function TrialComplete() {
         className="w-full fixed bottom-0 max-h-5/4 z-10 bg-schema-surface-container flex justify-center items-center rounded-t-4xl border-2 border-t-schema-outline border-l-schema-outline border-r-schema-outline py-20"
       >
         <SharePage
-          userImage={userInfo.charactor_img_link}
+          userImage={userInfo.character_img_link}
           userName={userInfo.nick_name}
           trialName={trialBrief?.trialName || ""}
           trialReward={certification?.trialReward.toString() || "0"}

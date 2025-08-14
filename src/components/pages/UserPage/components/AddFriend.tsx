@@ -65,8 +65,6 @@ export default function AddFriend() {
     setSearchResult(result);
   }, [searchName, userInfoAll]);
 
-
-
   const handleAddFriend = () => {
     if (!friendID.trim()) {
       alert("請輸入好友ID");
@@ -174,7 +172,7 @@ export default function AddFriend() {
                             <div className="flex items-start justify-center h-12 overflow-hidden">
                               <img
                                 className="w-full object-cover -translate-y-1/10"
-                                src={user.charactor_img_link}
+                                src={user.character_img_link}
                               />
                             </div>
                             <p className="text-h4 h-full flex items-center justify-center text-schema-on-surface">

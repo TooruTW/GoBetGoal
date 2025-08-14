@@ -1,4 +1,4 @@
-import Playlistcard from "./Playlistcard";
+import Playlistcard from "./PlayerlistCard";
 import { UserInfoSupa } from "@/types/UserInfoSupa";
 
 export default function Friends(props: { user: UserInfoSupa[] }) {
@@ -17,7 +17,7 @@ export default function Friends(props: { user: UserInfoSupa[] }) {
           <Playlistcard
             key={item.user_id}
             id={item.user_id}
-            imageurl={item.charactor_img_link}
+            imageUrl={item.character_img_link}
             name={item.nick_name}
             successCount={item.total_trial_count || 0}
             likeCount={item.liked_posts_count || 0}

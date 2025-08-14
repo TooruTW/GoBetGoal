@@ -202,7 +202,7 @@ export default function ChallengeBox({
           return (
             <div
               key={index}
-              className="border-2 border-schema-primary rounded-md w-full max-w-1/2 h-full "
+              className="border-2 border-schema-primary rounded-md w-1/3 h-full "
             >
               <div className="w-full h-1/5 bg-schema-primary flex items-center justify-center text-schema-on-primary p-1">
                 {item}

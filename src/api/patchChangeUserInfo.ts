@@ -8,7 +8,7 @@ const patchChangeUserInfo = async ({
 }: {
   target:
     | "nick_name"
-    | "charactor_img_link"
+    | "character_img_link"
     | "total_trial_count"
     | "liked_post_count"
     | "friend_count"

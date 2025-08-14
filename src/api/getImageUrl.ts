@@ -1,16 +1,15 @@
 import { supabase } from "@/supabaseClient";
 import { useQuery } from "@tanstack/react-query";
 
-let count = 0;
-const getImageUrl = async (fileName: string[]) => {
-console.log(fileName,"fileName",count++);
+const getImageUrl = async (fileName: string[]): Promise<string[]> => {
+  const data = await Promise.all(
+    fileName.map(async (file) => {
+      const { data } = supabase.storage.from("challenge").getPublicUrl(file);
+      return data.publicUrl;
+    })
+  );
 
-  const data = await Promise.all(fileName.map(async(file)=>{
-    const { data } = supabase.storage.from("challenge").getPublicUrl(file);
-    return data.publicUrl;
-  }))
-
-  console.log(data,"uploadedFile array");
+  console.log(data, "uploadedFile array");
   return data;
 };
 

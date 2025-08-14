@@ -4,17 +4,17 @@ import gsap from "gsap";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { monsterCongrats, monsterCry } from "@/assets/monster";
 
-type NotificatioinProps = {
+type NotificationProps = {
   children: React.ReactNode;
   time?: number;
   type?: "default" | "bad";
 };
 
-export default function Notificatioin({
+export default function Notification({
   children,
   time = 3000,
   type = "default",
-}: NotificatioinProps) {
+}: NotificationProps) {
   const [isOpen, setIsOpen] = useState(true);
 
   const noteCardRef = useRef<HTMLDivElement>(null);
@@ -27,7 +27,7 @@ export default function Notificatioin({
   }, []);
 
   const { contextSafe } = useGSAP({ scope: noteCardRef });
-  const timeUpAnumation = contextSafe(() => {
+  const timeUpAnimation = contextSafe(() => {
     // 檢查元素是否仍然存在
     if (noteCardRef.current) {
       gsap.to(noteCardRef.current, {
@@ -45,12 +45,12 @@ export default function Notificatioin({
     const timer = setTimeout(() => {
       // 確保組件仍然掛載且元素存在
       if (isOpen && noteCardRef.current) {
-        timeUpAnumation();
+        timeUpAnimation();
       }
     }, time);
 
     return () => clearTimeout(timer);
-  }, [timeUpAnumation, isOpen, time]);
+  }, [timeUpAnimation, isOpen, time]);
 
   if (!isOpen) return null;
 

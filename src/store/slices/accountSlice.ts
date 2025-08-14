@@ -3,7 +3,7 @@ import { UserInfoSupa } from "@/types/UserInfoSupa";
 
 const initialState: UserInfoSupa = {
   candy_count: 999,
-  charactor_img_link: "",
+  character_img_link: "",
   cheat_blanket: 999,
   nick_name: "nobody",
   system_preference_color_mode: "dark",
@@ -23,7 +23,7 @@ export const accountSlice = createSlice({
       if (!action.payload) {
         // 如果 payload 為 null 或 undefined，重置為初始狀態
         state.candy_count = 999;
-        state.charactor_img_link = "";
+        state.character_img_link = "";
         state.cheat_blanket = 999;
         state.nick_name = "nobody";
         state.system_preference_color_mode = "dark";
@@ -36,7 +36,7 @@ export const accountSlice = createSlice({
         return;
       }
       state.candy_count = action.payload.candy_count;
-      state.charactor_img_link = action.payload.charactor_img_link;
+      state.character_img_link = action.payload.character_img_link;
       state.cheat_blanket = action.payload.cheat_blanket;
       state.nick_name = action.payload.nick_name;
       state.system_preference_color_mode =

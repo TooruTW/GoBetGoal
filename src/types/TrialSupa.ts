@@ -14,7 +14,7 @@ export type TrialSupa = {
   trial_participant: {
     user_info: {
       nick_name: string;
-      charactor_img_link: string;
+      character_img_link: string;
       user_id: string;
     };
   }[];

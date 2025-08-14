@@ -5,8 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { TrialSupa } from "@/types/TrialSupa";
 
-
-export default function TrialCard({trial}: {trial: TrialSupa}) {
+export default function TrialCard({ trial }: { trial: TrialSupa }) {
   const { trial_participant, challenge, title, deposit } = trial;
   const [startAt, setStartAt] = useState("NOW");
   const [isLiked, setIsLiked] = useState(false);
@@ -49,7 +48,7 @@ export default function TrialCard({trial}: {trial: TrialSupa}) {
               <img
                 key={index}
                 className="rounded-full w-11 aspect-square bg-white object-cover object-top-left"
-                src={participant.user_info.charactor_img_link}
+                src={participant.user_info.character_img_link}
                 alt=""
               />
             ))}

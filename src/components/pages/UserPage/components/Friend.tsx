@@ -5,7 +5,7 @@ import { RootState } from "@/store";
 import {
   useGetFriendSupa,
   usePatchFriendRequest,
-  useDeleteFriend,
+  useDeleteFriendSupa,
 } from "@/api";
 import { useQueryClient } from "@tanstack/react-query";
 import { IoCloseSharp } from "react-icons/io5";
@@ -16,7 +16,7 @@ import AddFriend from "./AddFriend";
 
 interface FriendUser {
   nick_name: string;
-  charactor_img_link: string;
+  character_img_link: string;
   total_trial_count?: number;
 }
 
@@ -37,7 +37,7 @@ interface FriendProps {
 export default function Friend({ showState = "accepted" }: FriendProps) {
   const { mutate: patchFriendRequest } = usePatchFriendRequest();
   const queryClient = useQueryClient();
-  const { mutate: deleteFriend } = useDeleteFriend();
+  const { mutate: deleteFriend } = useDeleteFriendSupa();
   const userID = useSelector((state: RootState) => state.account.user_id);
   const { data, isLoading } = useGetFriendSupa(userID);
   const [show, setShow] = useState(false);
@@ -97,9 +97,9 @@ export default function Friend({ showState = "accepted" }: FriendProps) {
                   }
                   avatarUrl={
                     friend.address_id !== userID
-                      ? friend.address_user.charactor_img_link
+                      ? friend.address_user.character_img_link
                       : friend.request_id !== userID
-                      ? friend.request_user.charactor_img_link
+                      ? friend.request_user.character_img_link
                       : ""
                   }
                   showUserInfo={true}

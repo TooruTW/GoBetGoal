@@ -3,18 +3,18 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
 type acceptProps = {
-  charactor_img_link: string;
+  character_img_link: string;
   nick_name: string;
   completeRate: string;
   cheatCount: number;
   onClick?: () => void;
   rank: number;
   className?: string;
-}
+};
 
 export default function PlayerCard(props: acceptProps) {
   const {
-    charactor_img_link,
+    character_img_link,
     nick_name,
     completeRate,
     cheatCount,
@@ -98,7 +98,7 @@ export default function PlayerCard(props: acceptProps) {
         <li className="col-span-1"></li>
         <li className="col-span-1 flex items-center justify-center">
           <img
-            src={charactor_img_link}
+            src={character_img_link}
             alt="playerImage"
             className="w-full scale-120 max-w-15 avatar"
           />

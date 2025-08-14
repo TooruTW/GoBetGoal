@@ -13,7 +13,7 @@ const postFirstEditUserInfo = async (userInfo: UserInfo) => {
     .insert([
       {
         user_id: userInfo.user_id,
-        charactor_img_link: userInfo.avatarUrl,
+        character_img_link: userInfo.avatarUrl,
         nick_name: userInfo.nickname,
       },
     ])

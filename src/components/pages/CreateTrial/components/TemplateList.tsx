@@ -30,7 +30,7 @@ export default function TemplateList({ className }: { className?: string }) {
       data?.map((template) => {
         return {
           challengeName: template.title,
-          isLocked: purchasedChallenges.includes(template.id),
+          isLocked: !purchasedChallenges.includes(template.id),
           challengeId: template.id.toString(),
           imageUrl: `/image${template.img}`,
           color: template.color,

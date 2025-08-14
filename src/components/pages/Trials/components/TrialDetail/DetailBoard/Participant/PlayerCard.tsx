@@ -89,7 +89,7 @@ export default function PlayerCard(props: acceptProps) {
   const {
     user_id = "",
     nick_name = "unknown",
-    charactor_img_link = "noImg",
+    character_img_link = "noImg",
     total_trial_count = 0,
     liked_posts_count = 0,
     friend_count = 0,
@@ -145,7 +145,7 @@ export default function PlayerCard(props: acceptProps) {
             }`}
           />
           <div className="h-65 w-full ">
-            <ImageLoader imgUrl={charactor_img_link} />
+            <ImageLoader imgUrl={character_img_link} />
           </div>
           <div className="self-start flex flex-col justify-between gap-4 w-full px-6 min-h-44">
             <p className=" font-bold text-h4 ">{nick_name}</p>
@@ -192,7 +192,7 @@ export default function PlayerCard(props: acceptProps) {
       ) : (
         <div className="group flex flex-col items-center justify-center w-full h-full bg-schema-surface-container/20 rounded-md py-6 relative">
           <div className="h-65 w-full ">
-            <ImageLoader imgUrl={charactor_img_link} />
+            <ImageLoader imgUrl={character_img_link} />
           </div>
           {isInTheTrial && (
             <Button
