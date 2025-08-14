@@ -26,9 +26,12 @@ export default function UploadCalendar(props: acceptProps) {
   const [cheatCount, setCheatCount] = useState<number>(0);
   const [failCount, setFailCount] = useState<number>(0);
 
+
   useEffect(() => {
+  const isInTrial = trial.some((item) => item.participant_id === userId);
+
     if (playerId === "0") {
-      if (userId) {
+      if (isInTrial) {
         navigate(`/trials/detail/${id}/${userId}`);
       } else {
         navigate(`/trials/detail/${id}/${trial[0].participant_id}`);

@@ -19,7 +19,7 @@ export default function TrialInfo(props: acceptProps) {
   }
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 w-full">
       <div className="bg-schema-surface-container rounded-xl p-5 flex flex-col justify-between gap-4 max-lg:flex-col ">
         <div className="flex w-full justify-between max-lg:max-w-none max-lg:flex-col gap-4">
           <div className="flex gap-4 w-fit max-lg:justify-start">

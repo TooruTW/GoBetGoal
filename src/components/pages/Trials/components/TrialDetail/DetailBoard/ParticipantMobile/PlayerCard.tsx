@@ -6,7 +6,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { usePostFriendsRequest } from "@/api";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
-import { useDeleteParticipantInTrialSupa } from "@/api/deleteParticipantInTrialSupa";
+import { useDeleteParticipantInTrialSupa } from "@/api";
 
 type acceptProps = {
   participant?: UserInfoSupa;

@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 
 export default function TrialDetail() {
-  const { id } = useParams();
+  const { id,playerId } = useParams();
   const navigate = useNavigate();
   const { data, isLoading, error } = useTrialSupa(id?.toString() || "");
 
@@ -24,7 +24,7 @@ export default function TrialDetail() {
     console.log(data, "useTrialSupa to get a detail info of a trial");
 
     }
-  }, [data, id, navigate]);
+  }, [data, id, navigate,playerId]);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
