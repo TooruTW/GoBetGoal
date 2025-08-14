@@ -37,3 +37,5 @@ export { useGetImageUrl } from "./getImageUrl";
 export { useGetTrialParticipantsSupa } from "./getTrialParticipantsSupa";
 export { usePatchUploadToChallengeHistorySupa } from "./patchUploadToChallengeHistorySupa";
 export { usePatchChanceRemain } from "./patchChanceRemain";
+export { useDeleteAvatarSupa } from "./deleteAvatarSupa";
+export { usePostAvatarSupa } from "./postAvatarSupa";

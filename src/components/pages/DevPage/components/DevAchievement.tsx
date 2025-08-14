@@ -148,38 +148,6 @@ export default function DevAchievement() {
                 </tr>
               ))}
           </tbody>
-
-          {/* <ul className="grid grid-cols-2 gap-4">
-            {achievements.length > 0 &&
-              achievements.map((achievement) => (
-                <li
-                  className="border p-1-2 p-4 rounded-md flex flex-col gap-4"
-                  key={achievement.id}
-                >
-                  <h2 className="text-xl">id: {achievement.id}</h2>
-                  <h2 className="text-xl">編號: {achievement.order}</h2>
-                  <h2 className="text-2xl font-bold">
-                    成就名稱: {achievement.title}
-                  </h2>
-                  <p className="text-2xl ">
-                    成就說明: {achievement.description}
-                  </p>
-                  <img
-                    src={achievement.icon_url}
-                    alt={achievement.title}
-                    className="w-1/2 h-1/2"
-                  />
-                  <Button
-                    className="border p-1-2 p-4 cursor-pointer"
-                    onClick={() =>
-                      achievement.id && handleDelete(achievement.id)
-                    }
-                  >
-                    刪除
-                  </Button>
-                </li>
-              ))}
-          </ul> */}
         </table>
       </div>
     </div>
