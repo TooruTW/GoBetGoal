@@ -113,7 +113,6 @@ const getChallenges = async (): Promise<ChallengeSupa[]> => {
     console.warn(`發現 ${invalidData.length} 筆結構不正確的資料:`, invalidData);
   }
 
-  console.log("驗證後的 challenge data", validatedData);
 
   return validatedData;
 };

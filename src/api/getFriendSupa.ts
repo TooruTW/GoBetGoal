@@ -115,7 +115,6 @@ const getFriendSupa = async (id: string): Promise<UserRelation[]> => {
     console.warn(`發現 ${invalidData.length} 筆結構不正確的資料:`, invalidData);
   }
 
-  console.log("驗證後的 friend data", validatedData);
 
   return validatedData;
 };
