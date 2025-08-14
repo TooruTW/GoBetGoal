@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import type { TrialDetailSupa } from "@/types/TrialDetailSupa";
 import type { UserInfoSupa } from "@/types/UserInfoSupa";
 import { IoClose } from "react-icons/io5";
-import { useDeleteParticipantInTrialSupa } from "@/api/deleteParticipantInTrialSupa";
+import { useDeleteParticipantInTrialSupa } from "@/api";
 import { useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
@@ -149,7 +149,7 @@ export default function Participant(props: acceptProps) {
   return (
     <div
       ref={cardContainerRef}
-      className="flex justify-between gap-4 min-h-160"
+      className="flex justify-between gap-4 min-h-160 w-full"
     >
       {participantListArray.map((item) => {
         return (
