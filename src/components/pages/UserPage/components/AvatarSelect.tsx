@@ -49,6 +49,7 @@ export default function AvatarSelect({
   const [selectedToChange, setSelectedToChange] = useState<Avatar | null>(null); // 新增：要更換的頭像
   const navigate = useNavigate();
   const [noteContent, setNoteContent] = useState("");
+
   // Redux 和 API hooks
   const { mutate: postPurchase } = usePostPurchase();
   const { mutate: patchUserInfo } = usePatchChangeUserInfo(); // 統一使用這個 hook
@@ -67,15 +68,6 @@ export default function AvatarSelect({
     useGetUserPurchase(userID);
 
   const queryClient = useQueryClient();
-
-  // 加載中狀態
-  if (isLoading || isPurchasesLoading) {
-    return (
-      <div className="flex justify-center items-center py-8">
-        <div className="text-lg">載入中...</div>
-      </div>
-    );
-  }
 
   // 檢查用戶是否已購買某個頭像
   const isAvatarPurchased = (avatarUuid: string) => {
@@ -253,6 +245,15 @@ export default function AvatarSelect({
     }, 3000);
     return () => clearTimeout(timer);
   }, [noteContent]);
+
+  // 加載中狀態 - 移到這裡使用條件渲染
+  if (isLoading || isPurchasesLoading) {
+    return (
+      <div className="flex justify-center items-center py-8">
+        <div className="text-lg">載入中...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="overflow-visible">
