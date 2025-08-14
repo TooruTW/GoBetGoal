@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <div className="w-full min-h-screen">
       <section className="w-full min-h-screen flex justify-center items-center flex-col">
-        <h1 className="text-9xl text-amber-50 font-title">Flag or bet</h1>
+        <h1 className="text-9xl text-schema-primary font-title">GoBetGoal</h1>
         <nav>
           <ul className="flex justify-center gap-4">
             <Link to="/">
