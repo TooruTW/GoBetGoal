@@ -10,7 +10,7 @@ export default function Dashboard() {
     <div className="flex flex-col items-center justify-center w-full p-4 h-full gap-4">
       <div className="w-full">
         <h1 className="text-h1 font-title">儀表板</h1>
-        </div>
+      </div>
       <div className="flex w-full gap-4">
         <Earn />
         <TopUp />

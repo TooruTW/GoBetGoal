@@ -10,7 +10,7 @@ export default function DevSideBar() {
     <div>
       <ul className="flex flex-col  border-r border-b-schema-on-surface-variant text-nowrap h-full group fixed bg-schema-surface-container transform transition duration-300">
         <Link to="dashboard">
-          <li className="hover:bg-schema-surface-container-highest  p-4 h-20 flex items-center gap-2 ">
+          <li className="hover:bg-schema-surface-container-highest  p-4 h-20 flex items-center gap-4 ">
             <TbDashboardFilled />
             <p className="hidden group-hover:block transform transition duration-300">
               儀表板
@@ -18,7 +18,7 @@ export default function DevSideBar() {
           </li>
         </Link>
         <Link to="achievement">
-          <li className="hover:bg-schema-surface-container-highest  p-4 h-20 flex items-center gap-2 ">
+          <li className="hover:bg-schema-surface-container-highest  p-4 h-20 flex items-center gap-4 ">
             <LuBadgeCheck />
             <p className="hidden group-hover:block transform transition duration-300">
               成就
@@ -26,7 +26,7 @@ export default function DevSideBar() {
           </li>
         </Link>
         <Link to="add-friend">
-          <li className="hover:bg-schema-surface-container-highest  p-4 h-20 flex items-center gap-2 ">
+          <li className="hover:bg-schema-surface-container-highest  p-4 h-20 flex items-center gap-4 ">
             <HiTemplate />
             <p className="hidden group-hover:block transform transition duration-300">
               試煉模板
@@ -34,7 +34,7 @@ export default function DevSideBar() {
           </li>
         </Link>
         <Link to="delete-friend">
-          <li className="hover:bg-schema-surface-container-highest  p-4 h-20 flex items-center gap-2 ">
+          <li className="hover:bg-schema-surface-container-highest  p-4 h-20 flex items-center gap-4 ">
             <FaFlag />
             <p className="hidden group-hover:block transform transition duration-300">
               試煉管理
@@ -42,7 +42,7 @@ export default function DevSideBar() {
           </li>
         </Link>
         <Link to="component-testing">
-          <li className="hover:bg-schema-surface-container-highest  p-4 h-20 flex items-center gap-2 ">
+          <li className="hover:bg-schema-surface-container-highest  p-4 h-20 flex items-center gap-4 ">
             <FaUserCircle />
             <p className="hidden group-hover:block transform transition duration-300">
               角色
