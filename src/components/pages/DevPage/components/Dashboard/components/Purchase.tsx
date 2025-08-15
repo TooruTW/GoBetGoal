@@ -5,7 +5,6 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Bar,
   ResponsiveContainer,
 } from "recharts";
 
@@ -144,10 +143,6 @@ export default function Purchase() {
             fill="var(--primary)"
           />
         </AreaChart>
-        <Bar dataKey="快樂遮羞布" stackId="a" fill="var(--primary)" />
-        <Bar dataKey="試煉押金" stackId="a" fill="var(--tertiary)" />
-        <Bar dataKey="試煉模板" stackId="a" fill="var(--tertiary)" />
-        <Bar dataKey="人物" stackId="a" fill="var(--quaternary)" />
       </ResponsiveContainer>
     </div>
   );

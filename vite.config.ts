@@ -49,6 +49,6 @@ export default defineConfig({
       },
     },
     // 調整 chunk 大小警告限制
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 1500,
   },
 });

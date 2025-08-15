@@ -8,7 +8,6 @@ import Cheat from "./Cheat";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import PurchaseNumAndPeople from "./PurchaseNumAndPeople";
 import ARPCheat from "./ARPCheat";
-import CheatPlan from "./CheatPlan";
 
 export default function PurchaseCard() {
   return (
@@ -56,7 +55,6 @@ export default function PurchaseCard() {
             </div>
             <div className="flex gap-4">
               <Cheat />
-              <CheatPlan />
             </div>
           </TabsContent>
         </Tabs>

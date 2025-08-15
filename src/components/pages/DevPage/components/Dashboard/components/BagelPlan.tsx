@@ -1,38 +1,6 @@
 import { Cell, Pie, PieChart, ResponsiveContainer, Sector } from "recharts";
 
-type TooltipPayload = ReadonlyArray<any>;
 
-type Coordinate = {
-  x: number;
-  y: number;
-};
-
-type PieSectorData = {
-  percent?: number;
-  name?: string | number;
-  midAngle?: number;
-  middleRadius?: number;
-  tooltipPosition?: Coordinate;
-  value?: number;
-  paddingAngle?: number;
-  dataKey?: string;
-  payload?: any;
-  tooltipPayload?: ReadonlyArray<TooltipPayload>;
-};
-
-type GeometrySector = {
-  cx: number;
-  cy: number;
-  innerRadius: number;
-  outerRadius: number;
-  startAngle: number;
-  endAngle: number;
-};
-
-type PieLabelProps = PieSectorData &
-  GeometrySector & {
-    tooltipPayload?: any;
-  };
 
 const data = [
   { name: "1張", value: 300 },
@@ -40,47 +8,22 @@ const data = [
   { name: "10張", value: 200 },
 ];
 
-const RADIAN = Math.PI / 180;
 const COLORS = ["#bef0b2", "#ffe08b", "#eba7e4"];
 
-const renderCustomizedLabel = ({
-  cx,
-  cy,
-  midAngle,
-  innerRadius,
-  outerRadius,
-  percent,
-}: PieLabelProps) => {
-  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-  const x = cx + radius * Math.cos(-(midAngle ?? 0) * RADIAN);
-  const y = cy + radius * Math.sin(-(midAngle ?? 0) * RADIAN);
-
-  return (
-    <text
-      x={x}
-      y={y}
-      fill="white"
-      textAnchor={x > cx ? "start" : "end"}
-      dominantBaseline="central"
-    >
-      {`${((percent ?? 1) * 100).toFixed(0)}%`}
-    </text>
-  );
-};
-
-const renderActiveShape = ({
-  cx,
-  cy,
-  midAngle,
-  innerRadius,
-  outerRadius,
-  startAngle,
-  endAngle,
-  fill,
-  payload,
-  percent,
-  value,
-}: PieSectorDataItem) => {
+const renderActiveShape = (props: any) => {
+  const {
+    cx,
+    cy,
+    midAngle,
+    innerRadius,
+    outerRadius,
+    startAngle,
+    endAngle,
+    fill,
+    payload,
+    percent,
+    value,
+  } = props;
   const RADIAN = Math.PI / 180;
   const sin = Math.sin(-RADIAN * (midAngle ?? 1));
   const cos = Math.cos(-RADIAN * (midAngle ?? 1));
