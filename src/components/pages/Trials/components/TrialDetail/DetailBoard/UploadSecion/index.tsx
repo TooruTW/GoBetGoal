@@ -25,10 +25,10 @@ export default function UploadCalendar(props: acceptProps) {
   const [passCount, setPassCount] = useState<number>(0);
   const [cheatCount, setCheatCount] = useState<number>(0);
   const [failCount, setFailCount] = useState<number>(0);
-
+  const [currentIndex, setCurrentIndex] = useState<number>(1);
 
   useEffect(() => {
-  const isInTrial = trial.some((item) => item.participant_id === userId);
+    const isInTrial = trial.some((item) => item.participant_id === userId);
 
     if (playerId === "0") {
       if (isInTrial) {
@@ -101,10 +101,15 @@ export default function UploadCalendar(props: acceptProps) {
           trial={filteredTrial}
           month={calendarRange.month}
           year={calendarRange.year}
+          setCurrentIndex={setCurrentIndex}
         />
       </div>
       <div className="border-2 border-schema-outline rounded-md h-full w-3/5">
-        <UploadArea trial={filteredTrial} />
+        <UploadArea
+          trial={filteredTrial}
+          currentIndex={currentIndex}
+          setCurrentIndex={setCurrentIndex}
+        />
       </div>
     </div>
   );

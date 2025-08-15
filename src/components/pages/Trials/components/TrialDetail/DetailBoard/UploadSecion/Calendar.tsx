@@ -9,9 +9,10 @@ type acceptProps = {
   trial: TrialDetailSupa[];
   month: number;
   year: number;
+  setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
 };
 export default function Calendar(props: acceptProps) {
-  const { trial, month, year } = props;
+  const { trial, month, year, setCurrentIndex } = props;
   const [dateList, setDateList] = useState<dayBoxType[]>([]);
   const makeBlankDateList = useCallback(() => {
     const lastDate = new Date(year, month + 1, 0).getDate();
@@ -131,7 +132,6 @@ export default function Calendar(props: acceptProps) {
           return item.stage_index;
         });
 
-
       currentMonthDateList.forEach((item) => {
         if (item.stageIndex === null) return;
         if (pendingList.includes(item.stageIndex)) {
@@ -171,7 +171,13 @@ export default function Calendar(props: acceptProps) {
       <div className={`grid grid-cols-7 w-full`}>
         {dateList.length > 0 &&
           dateList.map((item, index) => {
-            return <DayBox key={index} dateInfo={item} />;
+            return (
+              <DayBox
+                key={index}
+                dateInfo={item}
+                setCurrentIndex={setCurrentIndex}
+              />
+            );
           })}
       </div>
     </div>
