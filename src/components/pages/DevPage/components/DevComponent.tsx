@@ -1,146 +1,116 @@
-import { useAchievementSupa } from "@/api";
+import { useGetAvatar } from "@/api";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { usePostAchievementSupa } from "@/api/postAchievementSupa";
-import { useDeleteAchievementSupa } from "@/api/deleteAchievementSupa";
+import { usePostAvatarSupa } from "@/api/postAvatarSupa";
+import { useDeleteAvatarSupa } from "@/api/deleteAvatarSupa";
 import { IoCloseOutline } from "react-icons/io5";
-type Achievement = {
+
+type Avatar = {
   id?: string;
-  created_at?: string;
-  order: number;
-  title: string;
-  description: string;
-  icon_url: string;
+  character_img_link: string;
+  price: number;
 };
 
-export default function DevAchievement() {
-  const { data, isLoading, error } = useAchievementSupa();
-  const [achievements, setAchievements] = useState<Achievement[]>([]);
-  const [input, setInput] = useState<Achievement>({
-    order: 0,
-    title: "",
-    description: "",
-    icon_url: "",
+export default function DevAvatar() {
+  const { data, isLoading, error } = useGetAvatar();
+  const [avatars, setAvatars] = useState<Avatar[]>([]);
+  const [input, setInput] = useState<Avatar>({
+    character_img_link: "",
+    price: 0,
   });
-  const { mutate: postAchievement } = usePostAchievementSupa();
-  const { mutate: deleteAchievement } = useDeleteAchievementSupa();
+  const { mutate: postAvatar } = usePostAvatarSupa();
+  const { mutate: deleteAvatar } = useDeleteAvatarSupa();
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInput({ ...input, [e.target.name]: e.target.value });
+    const value =
+      e.target.name === "price" ? Number(e.target.value) : e.target.value;
+    setInput({ ...input, [e.target.name]: value });
   };
 
   const handleSubmit = () => {
     console.log(input);
-    postAchievement(input);
+    postAvatar(input);
   };
 
   const handleDelete = (id: string) => {
     console.log(id);
-    deleteAchievement(id);
+    deleteAvatar(id);
   };
 
   useEffect(() => {
     if (isLoading) return;
     if (error) console.log(error);
-    if (data) setAchievements(data);
+    if (data) setAvatars(data);
   }, [data, isLoading, error]);
 
   return (
     <div className="flex flex-col gap-4 items-center h-screen">
       <div className="w-full">
-        <h1 className="text-h1 font-title">成就管理</h1>
+        <h1 className="text-h1 font-title">頭像管理</h1>
       </div>
 
-      <div className="flex  gap-2 w-full items-center">
-        {" "}
+      <div className="flex gap-2 w-full items-center">
         <input
           onBlur={(event) => handleInputChange(event)}
-          name="order"
+          name="character_img"
           type="text"
           className="border p-1-2 p-4 rounded-md w-full"
-          placeholder="編號"
+          placeholder="頭像圖片連結"
         />
         <input
           onBlur={(event) => handleInputChange(event)}
-          name="title"
-          type="text"
+          name="price"
+          type="number"
           className="border p-1-2 p-4 rounded-md"
-          placeholder="成就名稱"
-        />
-        <input
-          onBlur={(event) => handleInputChange(event)}
-          name="description"
-          type="text"
-          className="border p-1-2 p-4 rounded-md"
-          placeholder="成就說明"
-        />
-        <input
-          onBlur={(event) => handleInputChange(event)}
-          name="icon_url"
-          type="text"
-          className="border p-1-2 p-4 rounded-md "
-          placeholder="成就圖片鏈結"
+          placeholder="價格"
         />
         <Button
           className="border p-1-2 p-4 cursor-pointer"
           onClick={handleSubmit}
         >
-          新增成就
+          新增頭像
         </Button>
       </div>
 
-      <div className="h-screen  my-4 overflow-y-scroll">
-        <table className=" p-1-collapse  ">
-          <thead className="text-lg text-start ">
-            <tr className=" bg-schema-background px-2">
-              <th scope="col" className=" px-2">
-                編號
-              </th>
-              <th scope="col" className=" px-2">
+      <div className="h-screen my-4 overflow-y-scroll">
+        <table className="p-1-collapse">
+          <thead className="text-lg text-start">
+            <tr className="bg-schema-background px-2">
+              <th scope="col" className="px-2">
                 圖片
               </th>
-              <th scope="col" className=" px-2">
+              <th scope="col" className="px-2">
                 ID
               </th>
-              <th scope="col" className=" px-2">
-                成就名稱
+              <th scope="col" className="px-2">
+                價格
               </th>
-              <th scope="col" className=" px-2">
-                成就說明
-              </th>
-              <th scope="col" className=" px-2"></th>
+              <th scope="col" className="px-2"></th>
             </tr>
           </thead>
 
           <tbody className="overflow-y-scroll h-full">
-            {achievements.length > 0 &&
-              achievements.map((achievement) => (
+            {avatars.length > 0 &&
+              avatars.map((avatar) => (
                 <tr
-                  key={achievement.id}
+                  key={avatar.id}
                   className="border-b px-2 hover:bg-schema-surface-container-highest"
                 >
-                  <th scope="row" className=" p-1">
-                    {achievement.order}
-                  </th>
-                  <td className=" p-6">
-                    {" "}
+                  <td className="p-6">
                     <img
-                      src={achievement.icon_url}
-                      alt={achievement.title}
+                      src={avatar.character_img_link}
+                      alt="avatar"
                       className="w-20"
                     />
                   </td>
-                  <td className=" p-6 text-schema-on-surface-variant">
-                    {achievement.id}
+                  <td className="p-6 text-schema-on-surface-variant">
+                    {avatar.id}
                   </td>
-                  <td className=" p-6">{achievement.title}</td>
-                  <td className=" p-6">{achievement.description}</td>
-
+                  <td className="p-6">{avatar.price}</td>
                   <td>
                     <button
                       className="text-2xl p-4 cursor-pointer"
-                      onClick={() =>
-                        achievement.id && handleDelete(achievement.id)
-                      }
+                      onClick={() => avatar.id && handleDelete(avatar.id)}
                     >
                       <IoCloseOutline />
                     </button>
@@ -148,38 +118,6 @@ export default function DevAchievement() {
                 </tr>
               ))}
           </tbody>
-
-          {/* <ul className="grid grid-cols-2 gap-4">
-            {achievements.length > 0 &&
-              achievements.map((achievement) => (
-                <li
-                  className="border p-1-2 p-4 rounded-md flex flex-col gap-4"
-                  key={achievement.id}
-                >
-                  <h2 className="text-xl">id: {achievement.id}</h2>
-                  <h2 className="text-xl">編號: {achievement.order}</h2>
-                  <h2 className="text-2xl font-bold">
-                    成就名稱: {achievement.title}
-                  </h2>
-                  <p className="text-2xl ">
-                    成就說明: {achievement.description}
-                  </p>
-                  <img
-                    src={achievement.icon_url}
-                    alt={achievement.title}
-                    className="w-1/2 h-1/2"
-                  />
-                  <Button
-                    className="border p-1-2 p-4 cursor-pointer"
-                    onClick={() =>
-                      achievement.id && handleDelete(achievement.id)
-                    }
-                  >
-                    刪除
-                  </Button>
-                </li>
-              ))}
-          </ul> */}
         </table>
       </div>
     </div>
