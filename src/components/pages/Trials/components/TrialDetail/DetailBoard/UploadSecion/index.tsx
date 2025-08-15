@@ -80,10 +80,10 @@ export default function UploadCalendar(props: acceptProps) {
   },[filteredTrial])
 
   return (
-    <div className="flex gap-6 w-full max-h-100 h-full">
-      <div className="border-1 border-schema-outline rounded-md p-3 flex flex-col gap-3 items-center w-2/5">
+    <div className="flex gap-6 w-full lg:max-h-120 h-full max-lg:flex-col-reverse ">
+      <div className="border-1 border-schema-outline rounded-md p-3 flex flex-col gap-3 items-center lg:w-2/5">
         <div className="flex flex-col gap-3 w-full">
-          <ul className="flex gap-3 w-full">
+          <ul className="flex gap-3 w-full max-lg:text-label">
             <li className="border-1 border-[#85AC7C] rounded-md w-full grid grid-cols-2">
               <span className="text-center bg-[#85AC7C] text-white">通過</span>
               <span className="text-center">
@@ -122,7 +122,7 @@ export default function UploadCalendar(props: acceptProps) {
           setCurrentIndex={setCurrentIndex}
         />
       </div>
-      <div className="border-2 border-schema-outline rounded-md h-full w-3/5">
+      <div className="border-2 border-schema-outline rounded-md h-full w-3/5 max-lg:w-full ">
         <UploadArea
           trial={filteredTrial}
           currentIndex={currentIndex}

@@ -168,8 +168,8 @@ export default function ChallengeBox({
   };
 
   return (
-    <div className="border-1 border-schema-outline rounded-md p-6 h-full w-full flex flex-col justify-between gap-6">
-      <div className="flex justify-between w-full h-1/6 gap-6">
+    <div className="rounded-md p-6 h-full w-full flex flex-col justify-between gap-4 ">
+      <div className="flex justify-between items-center w-full min-h-10">
         <div>
           <p>{start_at}</p>
           <div> 關卡 {stage_index}</div>
@@ -197,14 +197,14 @@ export default function ChallengeBox({
         </Button>
       </div>
 
-      <div className="flex justify-center items-center rounded-md h-full gap-2 max-h-65">
+      <div className="flex justify-center items-center rounded-md  gap-2 min-h-50 max-lg:flex-col">
         {challenge_stage.description.map((item, index) => {
           return (
             <div
               key={index}
-              className="border-2 border-schema-primary rounded-md w-1/3 h-full "
+              className="border-2 border-schema-primary rounded-md h-40 aspect-4/3 lg:w-1/2 xl:w-1/3 "
             >
-              <div className="w-full h-1/5 bg-schema-primary flex items-center justify-center text-schema-on-primary p-1">
+              <div className="w-full h-1/5 bg-schema-primary flex items-center justify-center text-schema-on-primary p-1 max-lg:text-label leading-3">
                 {item}
               </div>
               <div className="w-full h-4/5 flex items-center justify-center border-2 border-schema-primary relative">

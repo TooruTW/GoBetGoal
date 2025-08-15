@@ -35,7 +35,7 @@ export default function UploadArea({
   }, [currentIndex, trial]);
 
   return (
-    <div className="h-full w-full relative">
+    <div className="h-full w-full relative ">
       {currentChallenge && <ChallengeBox currentChallenge={currentChallenge} />}
       <GrFormNext
         className="size-10 hover:bg-schema-outline rounded-full -translate-y-1/2 absolute top-1/2 -right-2"
