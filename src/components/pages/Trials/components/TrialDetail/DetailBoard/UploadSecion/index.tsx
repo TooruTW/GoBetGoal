@@ -7,6 +7,8 @@ import { RootState } from "@/store";
 import dayjs from "dayjs";
 import UploadArea from "./UploadArea";
 import { useNavigate, useParams } from "react-router-dom";
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 
 type acceptProps = {
   trial: TrialDetailSupa[];
@@ -27,9 +29,13 @@ export default function UploadCalendar(props: acceptProps) {
   const [failCount, setFailCount] = useState<number>(0);
   const [currentIndex, setCurrentIndex] = useState<number>(1);
 
+  dayjs.extend(isSameOrBefore)
+  dayjs.extend(isSameOrAfter)
+
+
+  // redirect to right trial detail page
   useEffect(() => {
     const isInTrial = trial.some((item) => item.participant_id === userId);
-
     if (playerId === "0") {
       if (isInTrial) {
         navigate(`/trials/detail/${id}/${userId}`);
@@ -38,7 +44,7 @@ export default function UploadCalendar(props: acceptProps) {
       }
     }
   }, [userId, trial, playerId, id, navigate]);
-
+  // handle calendar range
   useEffect(() => {
     if (calendarRange.month < 0) {
       setCalendarRange((prev) => ({ ...prev, month: 11, year: prev.year - 1 }));
@@ -46,7 +52,6 @@ export default function UploadCalendar(props: acceptProps) {
       setCalendarRange((prev) => ({ ...prev, month: 0, year: prev.year + 1 }));
     }
   }, [calendarRange]);
-
   // 過濾trial
   useEffect(() => {
     const filteredTrial = trial.filter(
@@ -60,6 +65,19 @@ export default function UploadCalendar(props: acceptProps) {
     );
     setFailCount(filteredTrial.filter((item) => item.status === "fail").length);
   }, [trial, playerId]);
+  // finde nearest stage index
+  useEffect(()=>{
+    if(filteredTrial.length===0) return;
+    console.log(filteredTrial[0].start_at);
+    const today = dayjs();
+    const nearestStage = filteredTrial.find((stage)=>{return today.isSameOrAfter(stage.start_at) && today.isSameOrBefore(stage.end_at)})
+    if(nearestStage){
+      setCurrentIndex(nearestStage.stage_index)
+    }else{
+      setCurrentIndex(1)
+    }
+
+  },[filteredTrial])
 
   return (
     <div className="flex gap-6 w-full max-h-100 h-full">
