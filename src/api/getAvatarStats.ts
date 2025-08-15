@@ -4,8 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 export const getAvatarStats = async () => {
   const { data: user_info, error } = await supabase
     .from("user_info")
-    .select("charactor_img_link");
-    
+    .select("character_img_link");
+
   if (error) {
     throw new Error(error.message);
   }

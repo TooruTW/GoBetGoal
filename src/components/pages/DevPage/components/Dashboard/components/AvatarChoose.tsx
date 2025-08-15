@@ -18,7 +18,17 @@ interface AvatarData {
 }
 
 // 自定義 X 軸標記（使用對應的頭像圖片）
-const renderCustomAxisTick = ({ x, y, payload, data }: any) => {
+const renderCustomAxisTick = ({
+  x,
+  y,
+  payload,
+  data,
+}: {
+  x: number;
+  y: number;
+  payload: { value: string };
+  data: AvatarData[];
+}) => {
   const imageSize = 60;
   const currentData = data?.find(
     (item: AvatarData) => item.name === payload.value
@@ -40,7 +50,17 @@ const renderCustomAxisTick = ({ x, y, payload, data }: any) => {
 };
 
 // 自定義柱狀圖標籤（原始文字標籤）
-const renderCustomBarLabel = ({ payload, x, y, width, height, value }) => {
+const renderCustomBarLabel = ({
+  x,
+  y,
+  width,
+  value,
+}: {
+  x: number;
+  y: number;
+  width: number;
+  value: number;
+}) => {
   return (
     <text
       x={x + width / 2}
@@ -63,8 +83,8 @@ const AvatarChoose = () => {
     if (!rawData) return [];
 
     const avatarCounts = rawData.reduce(
-      (acc: Record<string, number>, user: any) => {
-        const link = user.charactor_img_link;
+      (acc: Record<string, number>, user: { character_img_link: string }) => {
+        const link = user.character_img_link;
         acc[link] = (acc[link] || 0) + 1;
         return acc;
       },
@@ -137,10 +157,7 @@ const AvatarChoose = () => {
                   border: "1px solid #dee2e6",
                   borderRadius: "8px",
                 }}
-                formatter={(value: number, name: string) => [
-                  `${value} 人`,
-                  "使用人數",
-                ]}
+                formatter={(value: number) => [`${value} 人`, "使用人數"]}
                 labelFormatter={(label: string) => `${label}`}
               />
               <Bar

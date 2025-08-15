@@ -3,7 +3,7 @@ import DepositUser from "./components/DepositUser";
 import ARPU from "./components/ARPU";
 import PurchaseCard from "./components/PurchaseCard";
 import Earn from "./components/Earn";
-import DepositPlan from "./components/DepositPlan";
+import BagelPlan from "./components/BagelPlan";
 
 export default function Dashboard() {
   return (
@@ -18,7 +18,7 @@ export default function Dashboard() {
       </div>
       <div className="flex w-full gap-4">
         <ARPU />
-        <DepositPlan />
+        <BagelPlan />
       </div>
       <PurchaseCard />
     </div>
