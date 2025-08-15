@@ -14,6 +14,7 @@ export default function UploadImgs({ images }: { images: string[][] }) {
     if (lodaingCountRef.current === images.length) {
       setIsReady(true);
     }
+    
   };
 
   useGSAP(
@@ -41,6 +42,7 @@ export default function UploadImgs({ images }: { images: string[][] }) {
   );
   useGSAP(
     () => {
+      if (!uploadImgsRef.current || !images[0].length) return;
       gsap.to(`.day-box`, {
         y: 0,
         zIndex: 0,

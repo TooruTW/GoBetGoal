@@ -5,7 +5,7 @@ import gsap from "gsap";
 
 export type ParticipantsProps = {
   id: string;
-  charactor_img_link: string;
+  character_img_link: string;
   nick_name: string;
   completeRate: string;
   cheatCount: number;
@@ -45,7 +45,7 @@ export default function Participants({
       {participants.map((participant, index) => (
         <PlayerCard
           key={index}
-          charactor_img_link={participant.charactor_img_link}
+          character_img_link={participant.character_img_link}
           nick_name={participant.nick_name}
           completeRate={participant.completeRate}
           cheatCount={participant.cheatCount}

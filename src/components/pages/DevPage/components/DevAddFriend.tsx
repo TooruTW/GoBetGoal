@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useGetFriendSupa, usePatchFriendRequest } from "@/api";
 import { useQueryClient } from "@tanstack/react-query";
 import { IoCloseSharp } from "react-icons/io5";
-import { useDeleteFriend } from "@/api";
+import { useDeleteFriendSupa } from "@/api";
 
 export default function DevAddFriend() {
   const { mutate: postFriendsRequest } = usePostFriendsRequest();
@@ -16,7 +16,7 @@ export default function DevAddFriend() {
   const { data, isLoading } = useGetFriendSupa(userID);
   const { mutate: patchFriendRequest } = usePatchFriendRequest();
   const queryClient = useQueryClient();
-  const { mutate: deleteFriend } = useDeleteFriend();
+  const { mutate: deleteFriend } = useDeleteFriendSupa();
 
   useEffect(() => {
     if (isLoading) {
@@ -77,8 +77,8 @@ export default function DevAddFriend() {
                   onClick={() =>
                     deleteFriend(
                       {
-                        id1: friend.request_id,
-                        id2: friend.address_id,
+                        user_id: friend.request_id,
+                        friend_id: friend.address_id,
                       },
                       {
                         onSuccess: () => {
@@ -94,10 +94,12 @@ export default function DevAddFriend() {
                 {friend.address_id !== userID && (
                   <>
                     <p>{friend.address_id}</p>
-                    <h2 className="text-center text-h2">{friend.address_user.nick_name}</h2>
+                    <h2 className="text-center text-h2">
+                      {friend.address_user.nick_name}
+                    </h2>
                     <img
                       className="w-full rounded-full"
-                      src={friend.address_user.charactor_img_link}
+                      src={friend.address_user.character_img_link}
                       alt=""
                     />
                     {friend.state === "pending" && <p>等待回應</p>}
@@ -108,10 +110,12 @@ export default function DevAddFriend() {
                 {friend.request_id !== userID && (
                   <>
                     <p>{friend.request_id}</p>
-                    <h2 className="text-center text-h2">{friend.request_user.nick_name}</h2>
+                    <h2 className="text-center text-h2">
+                      {friend.request_user.nick_name}
+                    </h2>
                     <img
                       className="w-full rounded-full"
-                      src={friend.request_user.charactor_img_link}
+                      src={friend.request_user.character_img_link}
                       alt=""
                     />
                     {friend.state === "pending" && (

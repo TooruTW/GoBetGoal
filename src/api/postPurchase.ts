@@ -9,8 +9,8 @@ const postPurchase = async ({
   price,
 }: {
   user_id: string;
-  item_type: 'challenge' | 'avatar' | 'trial_deposit';
-  item_id: number;
+  item_type: 'challenge' | 'avatar' | 'trial_deposit' | 'cheat_blanket';
+  item_id: string;
   item_name: string;
   price: number;
 }) => {

@@ -28,7 +28,7 @@ export default function PostFlow({ sortBy = "all" }: PostFlowProps) {
     switch (sortBy) {
       case "all":
         newList = [...data];
-        newList.sort((a, b) => new Date(b.create_at).getTime() - new Date(a.create_at).getTime());
+        newList.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
         break;
       case "sport":
         newList = [...data].filter((post) =>

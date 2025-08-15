@@ -10,7 +10,7 @@ import { usePostLikeSupa } from "@/api";
 import { useDeletePostLikeSupa } from "@/api";
 import { useGSAP } from "@gsap/react";
 import { LuSendHorizontal } from "react-icons/lu";
-import Notificatioin from "./Notificatioin";
+import Notificatioin from "@/components/ui/Notificatioin";
 import { Post } from "@/types/Post";
 
 export default function PostCard(props: Post) {
@@ -77,12 +77,12 @@ export default function PostCard(props: Post) {
   };
 
   useGSAP(() => {
-    if(!isLiked) return;
+    if (!isLiked) return;
     gsap.from(heartRef.current, {
       scale: 2,
       duration: 0.5,
       color: "red",
-      ease: "power2.inOut", 
+      ease: "power2.inOut",
     });
   }, [isLiked]);
 
@@ -147,7 +147,7 @@ export default function PostCard(props: Post) {
                 className="w-10 h-10 rounded-full bg-white"
               >
                 <img
-                  src={user_info.charactor_img_link}
+                  src={user_info.character_img_link}
                   alt="avatar"
                   className="w-10 h-10 rounded-full object-cover object-top"
                 />
@@ -172,12 +172,12 @@ export default function PostCard(props: Post) {
               />
 
               {isLiked ? (
-                <div ref={heartRef}  className="size-6">
+                <div ref={heartRef} className="size-6">
                   <FaHeart
                     className="size-full cursor-pointer"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleLike();
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleLike();
                     }}
                   />
                 </div>

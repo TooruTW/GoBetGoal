@@ -1,24 +1,22 @@
-import { useMutation } from "@tanstack/react-query";
 import { supabase } from "@/supabaseClient";
+import { useMutation } from "@tanstack/react-query";
 
-const deleteFriendSupa = async (
-  id: string
-) => {
-  const { error, data } = await supabase
+const deleteFriendSupa = async ({ user_id, friend_id }: { user_id: string; friend_id: string }) => {
+  const { data, error } = await supabase
     .from("fried_relationship")
     .delete()
-    .eq("id", id);
-  console.log(id, "got kill");
-  console.log(data, "data");
+    .or(
+      `and(request_id.eq.${user_id},address_id.eq.${friend_id}),and(request_id.eq.${friend_id},address_id.eq.${user_id})`
+    );
 
-  if (error) throw error;
+  if (error) {
+    console.log("error", error);
+  }
+  return data;
 };
 
-export function useDeleteFriendSupa() {
-  const mutation = useMutation({
-    mutationFn: (parm: { id: string}) =>
-      deleteFriendSupa(parm.id),
+export const useDeleteFriendSupa = () => {
+  return useMutation({
+    mutationFn: deleteFriendSupa,
   });
-
-  return mutation;
-}
+};

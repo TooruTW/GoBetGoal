@@ -22,6 +22,7 @@
     "@tailwindcss/vite": "^4.1.10",
     "@tanstack/react-query": "^5.81.5",
     "@tanstack/react-query-devtools": "^5.81.5",
+    "browser-image-compression": "^2.0.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
@@ -43,6 +44,7 @@
     "react-router-dom": "^7.6.2",
     "react-swipeable": "^7.0.2",
     "reactjs-flip-card": "^2.0.3",
+    "recharts": "^3.1.2",
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.10"
   },

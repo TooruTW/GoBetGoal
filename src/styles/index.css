@@ -176,15 +176,17 @@
   --primaryContainer: #ffd9de;
   --onPrimaryContainer: #713341;
   
-  --secondary: #bef0b2;
+  --secondary: #00dfa7;
   --onSecondary: #ffffff;
   --secondaryContainer: #41FF14;
   --onSecondaryContainer: #265022;
 
-  --tertiary: #ffe08b;
+  --tertiary: #FFBF00;
   --onTertiary: #ffffff;
   --tertiaryContainer: #ffe08b;
   --onTertiaryContainer: #584400;
+
+  --quaternary: #51BBFE;
 
   --error: #ba1a1a;
   --onError: #ffffff;
@@ -207,11 +209,11 @@
   --onPrimaryFixed: #3a0717;
   --primaryFixedDim: #ffb1c0;
   --onPrimaryFixedVariant: #713341;
-  --secondaryFixed: #bef0b2;
+  --secondaryFixed: #02c594;
   --onSecondaryFixed: #002202;
   --secondaryFixedDim: #a3d397;
   --onSecondaryFixedVariant: #265022;
-  --tertiary: #e3c46d;
+  --tertiary: #FFAE03;
   --onTertiary: #3d2f00;
   --tertiaryContainer: #ffe08b;
   --onTertiaryContainer: #584400;
@@ -268,14 +270,19 @@
   --onPrimary: #551d2b;
   --primaryContainer: #713341;
   --onPrimaryContainer: #ffd9de;
-  --secondary: #41FF14;
+
+  --secondary: #C1FF9B;
   --onSecondary: #0e380d;
   --secondaryContainer: #41FF14;
   --onSecondaryContainer: #265022;
+
   --tertiary: #e3c46d;
   --onTertiary: #3d2f00;
   --tertiaryContainer: #ffe08b;
   --onTertiaryContainer: #584400;
+
+  --quaternary: #ACECF7;
+
   --error: #ffb4ab;
   --onError: #690005;
   --errorContainer: #93000a;

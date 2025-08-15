@@ -6,7 +6,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
 export type ResultProps = {
-  charactor_img_link: string;
+  character_img_link: string;
   nick_name: string;
   trialReward: number;
   trialCompleteRate: string;
@@ -67,7 +67,7 @@ export default function MyTrialInfo(props: TrialCompleteProps) {
 
         <img
           ref={avatarRef}
-          src={certification.charactor_img_link}
+          src={certification.character_img_link}
           alt="user"
           className="w-full max-lg:aspect-[2/1] max-w-1/3 object-cover z-10 self-start max-h-60 object-top max-xl:self-center max-xl:max-w-1/2 max-md:max-w-none"
         />

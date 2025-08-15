@@ -5,17 +5,27 @@ import gsap from "gsap";
 import { useEffect, useState } from "react";
 import type { TrialDetailSupa } from "@/types/TrialDetailSupa";
 import type { UserInfoSupa } from "@/types/UserInfoSupa";
+import { useGSAP } from "@gsap/react";
 
 type acceptProps = {
   trial: TrialDetailSupa[];
+  onClickInvitition: () => void;
 };
 
 export default function ParticipantMobile(props: acceptProps) {
-  const { trial } = props;
+  const { trial, onClickInvitition } = props;
   const [flipStates, setFlipStates] = useState<boolean[]>([]);
   const [participantListArray, setParticipantListArray] = useState<
     [string, UserInfoSupa][]
   >([]);
+  const {trial_status}=trial[0].trial
+
+  const [owner, setOwner] = useState<string>("");
+
+  useEffect(() => {
+    const owner = trial[0].trial.create_by;
+    setOwner(owner);
+  }, [trial]);
 
   useEffect(() => {
     const participantList = new Map(
@@ -26,7 +36,7 @@ export default function ParticipantMobile(props: acceptProps) {
     setFlipStates(new Array(participantListArray.length).fill(false));
   }, [trial]);
 
-  useEffect(() => {
+  useGSAP(() => {
     const obj = { val: 0 };
     gsap.to(obj, {
       val: participantListArray.length - 1,
@@ -43,6 +53,11 @@ export default function ParticipantMobile(props: acceptProps) {
     });
   }, [participantListArray.length]);
 
+  const handleInvite = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    onClickInvitition();
+  };
+
   return (
     // container
     <div className="flex flex-col gap-4 w-full px-4">
@@ -54,10 +69,17 @@ export default function ParticipantMobile(props: acceptProps) {
           flipByProp={flipStates[index]}
           containerStyle={{ width: "100%", height: "auto" }}
           direction="vertical"
-          backComponent={<PlayerCard participantInfo={item[1]} />}
+          backComponent={<PlayerCard owner={owner} participant={item[1]} />}
           frontComponent={<BackSideCard />}
         />
       ))}
+      {participantListArray.length < 6 && trial_status==="pending" && (
+        <div className="flex justify-center items-center">
+          <button className="bg-schema-primary text-schema-on-primary px-4 py-2 rounded-md" onClick={handleInvite}>
+            邀請好友
+          </button>
+        </div>
+      )}
     </div>
   );
 }

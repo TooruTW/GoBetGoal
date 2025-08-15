@@ -3,39 +3,9 @@ import { FaHeart } from "react-icons/fa6";
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { TrialSupa } from "@/types/TrialSupa";
 
-type trialParticipant = {
-  user_info: {
-    nick_name: string;
-    charactor_img_link: string;
-  };
-};
-type challenge = {
-  category: string[];
-  description: string;
-  frequency: string;
-  title: string;
-  challenge_stage: {
-    description: string;
-  }[];
-};
-type acceptProps = {
-  trial: {
-    id: string;
-    challenge_id: number;
-    created_by: number;
-    created_at: string;
-    deposit: number;
-    start_at: string;
-    title: string;
-    trial_status: string;
-    trial_participant: trialParticipant[];
-    challenge: challenge;
-  };
-}
-
-export default function TrialCard(porps: acceptProps) {
-  const { trial } = porps;
+export default function TrialCard({ trial }: { trial: TrialSupa }) {
   const { trial_participant, challenge, title, deposit } = trial;
   const [startAt, setStartAt] = useState("NOW");
   const [isLiked, setIsLiked] = useState(false);
@@ -54,7 +24,7 @@ export default function TrialCard(porps: acceptProps) {
   };
 
   const handleGetDetail = () => {
-    navigate(`/trials/detail/${trial.id}`);
+    navigate(`/trials/detail/${trial.id}/0`);
   };
 
   useEffect(() => {
@@ -78,7 +48,7 @@ export default function TrialCard(porps: acceptProps) {
               <img
                 key={index}
                 className="rounded-full w-11 aspect-square bg-white object-cover object-top-left"
-                src={participant.user_info.charactor_img_link}
+                src={participant.user_info.character_img_link}
                 alt=""
               />
             ))}
@@ -136,7 +106,7 @@ export default function TrialCard(porps: acceptProps) {
           <div className="rounded-md px-2 py-1 font-bold text-p bg-schema-container-height/20 w-full">
             <p className="text-label text-schema-on-surface-variant">關卡數</p>
             <p className="leading-6 text-small">
-              {challenge.challenge_stage.length}
+              {challenge.challenge_stage?.length || 0}
             </p>
           </div>
           <div className="rounded-md px-2 py-1 font-bold text-p bg-schema-container-height/20 w-full">

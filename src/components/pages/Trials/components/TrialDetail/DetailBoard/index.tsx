@@ -3,62 +3,75 @@ import Participant from "./Participant";
 import TrialInfo from "./TrialInfo";
 import { useState, useEffect } from "react";
 import ParticipantMobile from "./ParticipantMobile";
-import UploadArea from "./UploadArea";
-import UploadCalendar from "./UploadCalender";
 import { useDispatch, useSelector } from "react-redux";
 import { setScreenSize } from "@/store/slices/screenSlice";
 import { RootState } from "@/store";
 import { TrialDetailSupa } from "@/types/TrialDetailSupa";
+import Invitition from "./Invitition";
+import UploadSection from "./UploadSecion";
+import { Button } from "@/components/ui/button";
+import { useDeleteParticipantInTrialSupa } from "@/api";
+import { useQueryClient } from "@tanstack/react-query";
+
 type acceptProps = {
   trial: TrialDetailSupa[];
-}
+};
 
 export default function DetailBoard({ trial }: acceptProps) {
-
-  const [trialState,setTrialState] = useState<"待開始" | "進行中" | "已結束" | "通過" | "完美通過" | null>(null);
-  const {width} = useSelector((state: RootState) => state.screen);
-
+  const {trial_status}=trial[0].trial
+  const { width } = useSelector((state: RootState) => state.screen);
+  const [isInvititionOpen, setIsInvititionOpen] = useState(false);
+  const userID = useSelector((state: RootState) => state.account.user_id);
+  const isInTrial = trial.some((item) => item.participant_id === userID);
+  const { mutate: leaveTrial } = useDeleteParticipantInTrialSupa();
+  const queryClient = useQueryClient();
   // 記錄用戶螢幕寬度
   const dispatch = useDispatch();
   useEffect(() => {
     const handleResize = () => {
-      dispatch(setScreenSize({width: window.innerWidth}))
+      dispatch(setScreenSize({ width: window.innerWidth }));
     };
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, [dispatch]);
 
+  const handleLeaveTrial = () => {
+    leaveTrial({ trialId: trial[0].trial_id, userId: userID },{
+      onSuccess:()=>{
+        queryClient.invalidateQueries({ queryKey: ["trial",trial[0].trial_id] });
+      }
+    });
+  };
 
-  useEffect(() => {
-    const trialInfo = trial[0].trial
-    switch(trialInfo.trial_status){
-      case "pending":
-        setTrialState("待開始")
-        break
-      case "ongoing":
-        setTrialState("進行中")
-        break
-      case "end":
-        setTrialState("已結束")
-        break
-      case "pass":
-        setTrialState("通過")
-        break
-      case "perfect":
-        setTrialState("完美通過")
-        break
-    }
-  }, [trial]);
-  
 
   return (
-    <div className="flex flex-col gap-6 w-full">
+    <div className="flex flex-col items-center gap-6 w-full">
       <BackBtn />
       <TrialInfo trial={trial} />
-      {trialState === "進行中" && <UploadArea trial={trial}/>}
-      <UploadCalendar trial={trial}/>
-      {width < 960 ? <ParticipantMobile trial={trial} /> : <Participant trial={trial} />}
+      <UploadSection trial={trial} />
+      {width < 960 ? (
+        <ParticipantMobile
+          trial={trial}
+          onClickInvitition={() => setIsInvititionOpen(true)}
+        />
+      ) : (
+        <Participant
+          trial={trial}
+          onClickInvitition={() => setIsInvititionOpen(true)}
+        />
+      )}
+      {isInTrial && trial_status==="pending" && (
+        <Button className="w-25 mt-50" onClick={handleLeaveTrial}>
+          Leave Trial
+        </Button>
+      )}
+      {isInvititionOpen && (
+        <Invitition
+          className="w-full h-screen fixed top-0 left-0 z-50"
+          onClick={() => setIsInvititionOpen(false)}
+        />
+      )}
     </div>
   );
 }

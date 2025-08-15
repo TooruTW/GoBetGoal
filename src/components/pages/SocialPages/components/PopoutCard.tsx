@@ -1,6 +1,6 @@
 import { useClickOutside } from "@/hooks/useClickOutside";
 import { useNavigate, useParams } from "react-router-dom";
-import {  useRef } from "react";
+import { useRef } from "react";
 
 import { PostCarouselPopOut } from "./PostCarouselPopOut";
 import { usePostSupa } from "@/api";
@@ -12,7 +12,7 @@ export default function PopoutCard() {
   const ref = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const { data, isLoading } = usePostSupa(id!);
-  
+
   useClickOutside(ref, () => {
     navigate("/social-pages");
   });
@@ -25,7 +25,10 @@ export default function PopoutCard() {
         ref={ref}
         className="relative w-full h-4/5 max-lg:h-full flex flex-col items-center px-2 bg-schema-surface-container border-t-2 border-b-2 py-10 border-outline overflow-y-auto"
       >
-        <div className="absolute top-2 right-2 lg:hidden" onClick={() => navigate("/social-pages")}>
+        <div
+          className="absolute top-2 right-2 lg:hidden"
+          onClick={() => navigate("/social-pages")}
+        >
           <IoIosClose className="size-10" />
         </div>
 
@@ -36,7 +39,7 @@ export default function PopoutCard() {
         <div className="w-full">
           <div className="flex items-center gap-2">
             <div className="size-12 rounded-full overflow-hidden">
-              <img src={data[0].user_info.charactor_img_link} alt="avatar" />
+              <img src={data[0].user_info.character_img_link} alt="avatar" />
             </div>
             <p>{data[0].user_info.nick_name}</p>
             <Button variant="postAddFriend">加好友</Button>

@@ -6,7 +6,7 @@ export default function Title() {
     <div>
       <Link className="flex items-center cursor-pointer" to="/">
         <TitleIcon />
-        <TitleText className="max-md:hidden">Flag or Bet</TitleText>{" "}
+        <TitleText className="max-md:hidden">GoBetGoal</TitleText>
       </Link>
     </div>
   );

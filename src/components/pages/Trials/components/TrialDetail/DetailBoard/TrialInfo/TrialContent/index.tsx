@@ -18,29 +18,24 @@ export default function TrailContent(props: acceptProps) {
   const currentStage = useMemo(
     () =>
       trial.find((item) =>
-        today.isBetween(dayjs(item.start_at), dayjs(item.end_at), "day", "[)")
+        today.isBetween(dayjs(item.start_at), dayjs(item.end_at), "day", "[)") || today.isSame(dayjs(item.end_at))
   ),
     [trial, today]
   );
 
   const [timeToCount, setTimeToCount] = useState<Date | null>(null);
-
   const [countDownState, setCountDownState] = useState("判斷中......");
   const isTrialInProgressRef = useRef(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
       if (currentStage) {
-        setTimeToCount(dayjs(currentStage?.end_at).toDate());
+        setTimeToCount(dayjs(currentStage?.end_at).endOf("day").toDate());
         setCountDownState("打卡死線還剩下......");
         isTrialInProgressRef.current = true;
       } else{
-        if(today.isAfter(dayjs(trialStartDate))){
-          setCountDownState("關卡結束");
-        }else{
           setCountDownState("距離試煉開始還有......");
           setTimeToCount(trialStartDate);
-        }
       }
     }, 1000);
     return () => clearInterval(timer);

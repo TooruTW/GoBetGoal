@@ -3,6 +3,8 @@ import React, { useRef } from "react";
 interface GlareHoverProps {
   width?: string;
   height?: string;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
   background?: string;
   borderRadius?: string;
   borderColor?: string;

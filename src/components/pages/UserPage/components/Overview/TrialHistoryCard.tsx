@@ -1,46 +1,10 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-
-type challenge = {
-  category: string[];
-  description: string;
-  frequency: string;
-  title: string;
-  img: string;
-  color: string;
-  challenge_stage: {
-    description: string;
-  }[];
-};
-
-type TrialStageData = {
-  id: string;
-  participant_id: string;
-  trial_id: string;
-  challenge_stage_id: string;
-  upload_image: string[];
-  upload_at: string;
-  status: string;
-  start_at: string;
-  end_at: string;
-  stage_index: number;
-  chance_remain: number;
-  trial: {
-    id: string;
-    challenge_id: number;
-    created_by: number;
-    created_at: string;
-    deposit: number;
-    start_at: string;
-    title: string;
-    trial_status: string;
-    challenge?: challenge;
-  };
-};
+import { TrialDetailSupa } from "@/types/TrialDetailSupa";
 
 type acceptProps = {
-  trialData: TrialStageData;
-  allData: TrialStageData[];
+  trialData: TrialDetailSupa;
+  allData: TrialDetailSupa[];
 };
 
 export default function TrialCard(props: acceptProps) {

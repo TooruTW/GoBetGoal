@@ -19,7 +19,7 @@ export default function TemplateCard({
   return (
     <Link to={`/create-trial/${challengeId}`}>
       <div
-        className={`w-full min-w-40 h-27 text-white p-2 rounded-lg border-2 relative overflow-hidden hover:border-2 hover:scale-105 hover:shadow hover:border-material-theme-white`}
+        className={`w-full min-w-40 h-27 text-white p-2 rounded-lg border-2 relative overflow-hidden hover:border-2 hover:scale-105 active:scale-100 hover:shadow hover:border-material-theme-white`}
         style={{ backgroundColor: `#${color}` }}
       >
         <p className="flex justify-between items-center">

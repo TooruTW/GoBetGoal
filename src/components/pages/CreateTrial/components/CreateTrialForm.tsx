@@ -15,7 +15,7 @@ export default function CreateTrialForm({ className }: { className?: string }) {
 
   useEffect(() => {
     if (challengeTemplate.length > 0 && id) {
-      const foundChallenge = challengeTemplate.find((item) => item.id === Number(id));
+      const foundChallenge = challengeTemplate.find((item) => item.id === id);
       setChallenge(foundChallenge || null);
       console.log("父層取得 challenge:", foundChallenge);
     }

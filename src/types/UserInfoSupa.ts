@@ -1,6 +1,6 @@
 export type UserInfoSupa = {
     candy_count: number;
-    charactor_img_link: string;
+    character_img_link: string;
     cheat_blanket: number;
     nick_name: string;
     system_preference_color_mode: string;
@@ -10,4 +10,5 @@ export type UserInfoSupa = {
     user_id: string;
     purchase_challenge: string[];
     purchase_avatar: string[];
+    friend_state?: "pending" | "accepted" | "rejected" ;
 }

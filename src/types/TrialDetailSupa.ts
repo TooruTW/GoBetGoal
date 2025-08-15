@@ -7,7 +7,7 @@ export type TrialDetailSupa = {
   challenge_stage_id: string;
   created_at: string;
   end_at: string;
-  id: number;
+  id: string;
   participant_id: string;
   stage_index: number;
   start_at: string;

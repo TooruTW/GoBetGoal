@@ -4,31 +4,44 @@ import { useEffect, useRef, useState } from "react";
 import type { TrialDetailSupa } from "@/types/TrialDetailSupa";
 import type { UserInfoSupa } from "@/types/UserInfoSupa";
 import { IoClose } from "react-icons/io5";
-import { useDeleteParticipantInTrialSupa } from "@/api/deleteParticipantInTrialSupa";
+import { useDeleteParticipantInTrialSupa } from "@/api";
 import { useQueryClient } from "@tanstack/react-query";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+
 
 type acceptProps = {
   trial: TrialDetailSupa[];
+  onClickInvitition: () => void;
 };
 
 export default function Participant(props: acceptProps) {
-  const { trial } = props;
+  const { trial, onClickInvitition } = props;
 
   const [selectedParticipantId, setSelectedParticipantId] = useState<
     string | null
   >(null);
-
+  const userId = useSelector((state: RootState) => state.account.user_id);
   const [participantListArray, setParticipantListArray] = useState<
-    [string, UserInfoSupa][]
+    UserInfoSupa[]
   >([]);
+  const [isInTheTrial, setIsInTheTrial] = useState(false);
+
 
   useEffect(() => {
+    if (trial.length === 0) return;
     const participantList = new Map(
       trial.map((item) => [item.user_info.user_id, item.user_info])
     );
-    const participantListArray = Array.from(participantList);
+    const participantListArray: UserInfoSupa[] = [];
+    participantList.forEach((val) => {
+      if (val.user_id === userId) {
+        setIsInTheTrial(true);
+      }
+      participantListArray.push(val);
+    });
     setParticipantListArray(participantListArray);
-  }, [trial]);
+  }, [trial, userId]);
 
   const cardContainerRef = useRef<HTMLDivElement | null>(null);
   const noticeRef = useRef<HTMLDivElement | null>(null);
@@ -91,7 +104,7 @@ export default function Participant(props: acceptProps) {
       y: e.clientY,
       id: id,
       name:
-        participantListArray.find((item) => item[0] === id)?.[1].nick_name ||
+        participantListArray.find((item) => item.user_id === id)?.nick_name ||
         "",
     }));
   };
@@ -136,20 +149,27 @@ export default function Participant(props: acceptProps) {
   return (
     <div
       ref={cardContainerRef}
-      className="flex justify-between gap-4 min-h-160"
+      className="flex justify-between gap-4 min-h-160 w-full"
     >
       {participantListArray.map((item) => {
         return (
           <PlayerCard
-            key={item[1].user_id}
-            participant={item[1]}
+            key={item.user_id}
+            participant={item}
             handleDelete={handleDelete}
+            owner={trial[0].trial.create_by}
           />
         );
       })}
       {Array.from({ length: 6 - participantListArray.length }).map(
         (_, index) => {
-          return <PlayerCard key={`unknown-${index}`} />;
+          return (
+            <PlayerCard
+              key={`unknown-${index}`}
+              onClickInvitition={onClickInvitition}
+              isInTheTrial={isInTheTrial}
+            />
+          );
         }
       )}
       {/* confirm */}
