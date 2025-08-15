@@ -33,7 +33,7 @@ const CharacterAnalysis = () => {
 
     const characterCount = users.reduce<Record<string, CharacterCount>>(
       (acc, user) => {
-        const imgLink = user?.charactor_img_link;
+        const imgLink = user?.character_img_link;
         if (!imgLink) return acc;
 
         if (!acc[imgLink]) {
