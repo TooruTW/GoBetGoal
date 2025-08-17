@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import Notificatioin from "@/components/pages/SocialPages/components/Notification";
+import Notification from "@/components/pages/SocialPages/components/Notification";
 import { RootState } from "@/store";
 import { usePatchChangeUserInfo, usePostPurchase } from "@/api";
 import ConfirmModal from "@/components/ui/ConfirmModal";
@@ -260,20 +260,19 @@ export default function BuyCheat({ onClose }: BuyCheatProps) {
       className="absolute top-1/2 left-1/2 w-full h-screen flex flex-col justify-center items-center bg-black/50 mt-7 -translate-x-1/2"
       onClick={handleBackdropClick}
     >
-      <div className="flex flex-col w-4/5 p-6 justify-center bg-schema-surface-container relative rounded-4xl">
-        {/* 關閉按鈕 */}
-        <button
-          onClick={handleClose}
-          disabled={isProcessing || showConfirm}
-          className="absolute cursor-pointer top-8 right-8 w-8 h-8 p-4 flex items-center justify-center text-xl hover:scale-105 active:scale-95 rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          aria-label="關閉"
-        >
-          ✕
-        </button>
-        <h2 className="text-center ">想偷懶？</h2>
-        <h2 className="text-h2 font-title text-center pb-8">
-          買點快樂遮羞布吧～
-        </h2>
+      <div className="flex flex-col  justify-center items-center relative">
+        <div className="w-4/5 p-6  bg-schema-surface-container relative rounded-xl ">
+          <button
+            onClick={handleClose}
+            disabled={isProcessing || showConfirm}
+            className="absolute cursor-pointer top-8 right-8 w-8 h-8 p-4 flex items-center justify-center text-xl hover:scale-105 active:scale-95 rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            aria-label="關閉"
+          >
+            ✕
+          </button>
+          <h2 className="text-center ">想偷懶？</h2>
+          <h2 className="text-h2 font-title text-center">買點快樂遮羞布吧～</h2>
+        </div>
 
         <ul className="flex gap-2 md:gap-4 w-full">
           {plan.map((item, index) => {
@@ -281,32 +280,27 @@ export default function BuyCheat({ onClose }: BuyCheatProps) {
             const isDisabled = !canAfford || isProcessing;
 
             return (
-              <li key={index} className="w-1/3">
-                <div
-                  onClick={() => handleSelectPlan(item)}
-                  className={`group p-2 md:p-4 flex flex-col relative items-center gap-2 h-auto border 
-                  shadow-lg rounded-4xl bg-schema-surface-container-high transition-all duration-200
+              <li
+                key={index}
+                onClick={() => handleSelectPlan(item)}
+                className={`w-1/3 min-w-10 group p-2 md:p-4 flex flex-col relative items-center gap-2 h-auto border 
+                  shadow-lg rounded-xl bg-schema-surface-container-high transition-all duration-200
                   hover:bg-schema-primary active:bg-schema-primary hover:-translate-y-2 hover:scale-105 active:scale-95 cursor-pointer"
                   
                   `}
-                >
-                  <h2 className="font-title md:text-xl">{item.num} 個</h2>
-                  <img src="./image/template/Ticket.png" alt="" />
+              >
+                <h2 className="font-title md:text-xl">{item.num} 個</h2>
+                <img src="./image/template/Ticket.png" alt="" />
 
-                  <p className="text-sm font-title">🥯{item.price}</p>
-                  <Button
-                    variant="secondary"
-                    className="hover:scale-105 active:scale-95 cursor-pointer disabled:cursor-not-allowed"
-                    disabled={isDisabled}
-                    onClick={isDisabled ? () => navigate("/shop") : undefined}
-                  >
-                    {isProcessing
-                      ? "處理中..."
-                      : canAfford
-                      ? "購買"
-                      : "貝果不足"}
-                  </Button>
-                </div>
+                <p className="text-sm font-title">🥯{item.price}</p>
+                <Button
+                  variant="secondary"
+                  className="hover:scale-105 active:scale-95 cursor-pointer disabled:cursor-not-allowed"
+                  disabled={isDisabled}
+                  onClick={isDisabled ? () => navigate("/shop") : undefined}
+                >
+                  {isProcessing ? "處理中..." : canAfford ? "購買" : "貝果不足"}
+                </Button>
               </li>
             );
           })}
@@ -330,9 +324,9 @@ export default function BuyCheat({ onClose }: BuyCheatProps) {
 
         {/* 通知组件 */}
         {noteContent && (
-          <Notificatioin time={3000}>
+          <Notification time={3000}>
             <p>{noteContent}</p>
-          </Notificatioin>
+          </Notification>
         )}
       </div>
     </div>
