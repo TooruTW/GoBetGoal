@@ -28,7 +28,9 @@ export default function ChallengeBox({
   } = currentChallenge;
 
   const [isShowCheckResult, setIsShowCheckResult] = useState(false);
-  const [checkingState, setCheckingState] = useState<"checking" | "pass" | "fail">("checking");
+  const [checkingState, setCheckingState] = useState<
+    "checking" | "pass" | "fail"
+  >("checking");
 
   const { checkImage } = useImageCheck();
 
@@ -74,7 +76,7 @@ export default function ChallengeBox({
       Promise.all(imageUrlArr.map((item) => checkImage(item))).then(
         (result) => {
           console.log("check result process is done", result);
-          
+
           const isPassTest = result.every((item) => item.result);
           const resultUrl = result.map((item) => item.imgUrl);
           setCheckingState(isPassTest ? "pass" : "fail");
@@ -168,43 +170,25 @@ export default function ChallengeBox({
   };
 
   return (
-    <div className="rounded-md p-6 h-full w-full flex flex-col justify-between gap-4 ">
-      <div className="flex justify-between items-center w-full min-h-10">
+    <div className="rounded-md  md:h-full w-full flex flex-col justify-between gap-6 ">
+      <div className="flex justify-between items-center w-full h-fit">
         <div>
           <p>{start_at}</p>
           <div> 關卡 {stage_index}</div>
         </div>
-
         {isPending && (
           <div className="text-schema-primary">正在上傳圖片...</div>
         )}
-        <Button
-          className="py-1 h-fit"
-          onClick={handleConfirmUpload}
-          disabled={isPending || status !== "pending"}
-        >
-          <span>
-            {status === "pending" && (
-              <>
-                <span className="text-p">上傳</span> <br />
-                <span className="text-label">剩餘 {chance_remain} 次機會</span>
-              </>
-            )}
-            {status === "pass" && <span className="text-p">通過</span>}
-            {status === "cheat" && <span className="text-p">資本主義</span>}
-            {status === "fail" && <span className="text-p">失敗</span>}
-          </span>
-        </Button>
       </div>
 
-      <div className="flex justify-center items-center rounded-md  gap-2 min-h-50 max-lg:flex-col">
+      <div className="flex justify-center items-center rounded-md h-full gap-2 min-h-50 max-md:flex-col">
         {challenge_stage.description.map((item, index) => {
           return (
             <div
               key={index}
-              className="border-2 border-schema-primary rounded-md h-40 aspect-4/3 lg:w-1/2 xl:w-1/3 "
+              className="border-1 border-schema-primary rounded-md h-full w-full max-md:max-h-60 max-md:aspect-4/3"
             >
-              <div className="w-full h-1/5 bg-schema-primary flex items-center justify-center text-schema-on-primary p-1 max-lg:text-label leading-3">
+              <div className="w-full h-1/5 bg-schema-primary text-p-small flex items-center justify-center text-schema-on-primary py-3 px-1 max-lg:text-label leading-5">
                 {item}
               </div>
               <div className="w-full h-4/5 flex items-center justify-center border-2 border-schema-primary relative">
@@ -228,14 +212,33 @@ export default function ChallengeBox({
                     index={index}
                   />
                 )}
-                {isShowCheckResult && (
-                  <ShowCheckResult state={checkingState} />
-                )}
+                {isShowCheckResult && <ShowCheckResult state={checkingState} />}
               </div>
             </div>
           );
         })}
       </div>
+
+      <div className="w-full">
+        <Button
+          className="py-1 w-full h-fit"
+          onClick={handleConfirmUpload}
+          disabled={isPending || status !== "pending"}
+        >
+          <span>
+            {status === "pending" && (
+              <>
+                <span className="text-p-small">上傳</span> <br />
+                <span className="text-label-small">剩餘 {chance_remain} 次機會</span>
+              </>
+            )}
+            {status === "pass" && <span className="text-p">通過</span>}
+            {status === "cheat" && <span className="text-p">資本主義</span>}
+            {status === "fail" && <span className="text-p">失敗</span>}
+          </span>
+        </Button>
+      </div>
+
     </div>
   );
 }

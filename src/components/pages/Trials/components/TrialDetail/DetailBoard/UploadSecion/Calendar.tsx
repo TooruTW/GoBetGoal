@@ -160,13 +160,13 @@ export default function Calendar(props: acceptProps) {
   return (
     <div className="w-full ">
       <div className="grid grid-cols-7 w-full">
-        <p className="text-label text-schema-on-surface-variant">Sun</p>
-        <p className="text-label text-schema-on-surface-variant">Mon</p>
-        <p className="text-label text-schema-on-surface-variant">Tue</p>
-        <p className="text-label text-schema-on-surface-variant">Wed</p>
-        <p className="text-label text-schema-on-surface-variant">Thu</p>
-        <p className="text-label text-schema-on-surface-variant">Fri</p>
-        <p className="text-label text-schema-on-surface-variant">Sat</p>
+        <p className="text-label text-schema-on-surface-variant text-center">Sun</p>
+        <p className="text-label text-schema-on-surface-variant text-center">Mon</p>
+        <p className="text-label text-schema-on-surface-variant text-center">Tue</p>
+        <p className="text-label text-schema-on-surface-variant text-center">Wed</p>
+        <p className="text-label text-schema-on-surface-variant text-center">Thu</p>
+        <p className="text-label text-schema-on-surface-variant text-center">Fri</p>
+        <p className="text-label text-schema-on-surface-variant text-center">Sat</p>
       </div>
       <div className={`grid grid-cols-7 w-full`}>
         {dateList.length > 0 &&

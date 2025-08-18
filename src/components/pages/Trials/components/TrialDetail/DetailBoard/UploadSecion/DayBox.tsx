@@ -39,7 +39,7 @@ export default function DayBox({ dateInfo, setCurrentIndex }: acceptProps) {
   return (
     <div
       onClick={handleClick}
-      className={`w-full min-h-11 flex items-center justify-center relative `}
+      className={`w-full min-h-9 flex items-center justify-center relative `}
     >
       {dateInfo.dayType === "middle" && (
         <div

@@ -29,9 +29,8 @@ export default function UploadCalendar(props: acceptProps) {
   const [failCount, setFailCount] = useState<number>(0);
   const [currentIndex, setCurrentIndex] = useState<number>(1);
 
-  dayjs.extend(isSameOrBefore)
-  dayjs.extend(isSameOrAfter)
-
+  dayjs.extend(isSameOrBefore);
+  dayjs.extend(isSameOrAfter);
 
   // redirect to right trial detail page
   useEffect(() => {
@@ -66,22 +65,26 @@ export default function UploadCalendar(props: acceptProps) {
     setFailCount(filteredTrial.filter((item) => item.status === "fail").length);
   }, [trial, playerId]);
   // finde nearest stage index
-  useEffect(()=>{
-    if(filteredTrial.length===0) return;
+  useEffect(() => {
+    if (filteredTrial.length === 0) return;
     console.log(filteredTrial[0].start_at);
     const today = dayjs();
-    const nearestStage = filteredTrial.find((stage)=>{return today.isSameOrAfter(stage.start_at) && today.isSameOrBefore(stage.end_at)})
-    if(nearestStage){
-      setCurrentIndex(nearestStage.stage_index)
-    }else{
-      setCurrentIndex(1)
+    const nearestStage = filteredTrial.find((stage) => {
+      return (
+        today.isSameOrAfter(stage.start_at) &&
+        today.isSameOrBefore(stage.end_at)
+      );
+    });
+    if (nearestStage) {
+      setCurrentIndex(nearestStage.stage_index);
+    } else {
+      setCurrentIndex(1);
     }
-
-  },[filteredTrial])
+  }, [filteredTrial]);
 
   return (
-    <div className="flex gap-6 w-full lg:max-h-120 h-full max-lg:flex-col-reverse ">
-      <div className="border-1 border-schema-outline rounded-md p-3 flex flex-col gap-3 items-center lg:w-2/5">
+    <div className="flex gap-6 w-full lg:max-h-110 h-full max-lg:flex-col-reverse lg:bg-schema-surface-container-high lg:p-9 rounded-[48px] ">
+      <div className="flex flex-col gap-6 items-center justify-between w-full lg:max-w-96">
         <div className="flex flex-col gap-3 w-full">
           <ul className="flex gap-3 w-full max-lg:text-label">
             <li className="border-1 border-[#85AC7C] rounded-md w-full grid grid-cols-2">
@@ -106,23 +109,25 @@ export default function UploadCalendar(props: acceptProps) {
             </li>
           </ul>
         </div>
-        {/* month selector */}
-        <MonthSelector
-          month={calendarRange.month}
-          year={calendarRange.year}
-          editCalendar={(key: "month" | "year", value: number) =>
-            setCalendarRange((prev) => ({ ...prev, [key]: value }))
-          }
-        />
-        {/* calendar */}
-        <Calendar
-          trial={filteredTrial}
-          month={calendarRange.month}
-          year={calendarRange.year}
-          setCurrentIndex={setCurrentIndex}
-        />
+        <div className="flex flex-col gap-3 w-full h-full justify-center items-center border-1 border-schema-outline rounded-md p-3">
+          {/* month selector */}
+          <MonthSelector
+            month={calendarRange.month}
+            year={calendarRange.year}
+            editCalendar={(key: "month" | "year", value: number) =>
+              setCalendarRange((prev) => ({ ...prev, [key]: value }))
+            }
+          />
+          {/* calendar */}
+          <Calendar
+            trial={filteredTrial}
+            month={calendarRange.month}
+            year={calendarRange.year}
+            setCurrentIndex={setCurrentIndex}
+          />
+        </div>
       </div>
-      <div className="border-2 border-schema-outline rounded-md h-full w-3/5 max-lg:w-full ">
+      <div className="h-full w-full ">
         <UploadArea
           trial={filteredTrial}
           currentIndex={currentIndex}
