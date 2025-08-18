@@ -6,6 +6,7 @@ import {
   useGetImageUrl,
   usePatchUploadToChallengeHistorySupa,
   usePatchChanceRemain,
+  usePostPostSupa,
 } from "@/api";
 import { useImageUpload } from "@/hooks/useImageUpload";
 import { useImageCheck } from "@/hooks/useImageCheck";
@@ -84,6 +85,7 @@ export default function ChallengeBox({
   // 更新剩餘次數
   const { mutate: patchChanceRemain } = usePatchChanceRemain();
   const queryClient = useQueryClient();
+  const { mutate: postPostSupa } = usePostPostSupa();
 const handleCheat = ()=>{
   patchUploadToChallengeHistorySupa({history_id: currentChallenge.id, imageUrlArr: [], isCheat: true}, {
     onSuccess: () => {
@@ -116,6 +118,7 @@ const handleCheat = ()=>{
               {
                 onSuccess: () => {
                   console.log("test pass, result is uploaded");
+                
                   queryClient.invalidateQueries({
                     queryKey: ["trial", currentChallenge.trial_id],
                   });
@@ -125,6 +128,7 @@ const handleCheat = ()=>{
                 },
               }
             );
+
           } else {
             patchChanceRemain(
               {
@@ -172,6 +176,9 @@ const handleCheat = ()=>{
     queryClient,
     currentChallenge.trial_id,
     checkImage,
+    postPostSupa,
+    userId,
+    stage_index,
   ]);
 
   // 確認上傳 - 組合壓縮和上傳
