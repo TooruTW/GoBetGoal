@@ -28,6 +28,7 @@ export default function UploadCalendar(props: acceptProps) {
   const [cheatCount, setCheatCount] = useState<number>(0);
   const [failCount, setFailCount] = useState<number>(0);
   const [currentIndex, setCurrentIndex] = useState<number>(1);
+  const [isChooseDate, setIsChooseDate] = useState<boolean>(false);
 
   dayjs.extend(isSameOrBefore);
   dayjs.extend(isSameOrAfter);
@@ -53,6 +54,8 @@ export default function UploadCalendar(props: acceptProps) {
   }, [calendarRange]);
   // 過濾trial
   useEffect(() => {
+    console.log("filter triggered");
+    
     const filteredTrial = trial.filter(
       (item) => item.participant_id === playerId
     );
@@ -67,7 +70,7 @@ export default function UploadCalendar(props: acceptProps) {
   // finde nearest stage index
   useEffect(() => {
     if (filteredTrial.length === 0) return;
-    console.log(filteredTrial[0].start_at);
+    if (isChooseDate) return;
     const today = dayjs();
     const nearestStage = filteredTrial.find((stage) => {
       return (
@@ -77,10 +80,8 @@ export default function UploadCalendar(props: acceptProps) {
     });
     if (nearestStage) {
       setCurrentIndex(nearestStage.stage_index);
-    } else {
-      setCurrentIndex(1);
     }
-  }, [filteredTrial]);
+    }, [filteredTrial,isChooseDate]);
 
   return (
     <div className="flex gap-6 w-full lg:max-h-110 h-full max-lg:flex-col-reverse lg:bg-schema-surface-container-high lg:p-9 rounded-[48px] ">
@@ -124,6 +125,7 @@ export default function UploadCalendar(props: acceptProps) {
             month={calendarRange.month}
             year={calendarRange.year}
             setCurrentIndex={setCurrentIndex}
+            setIsChooseDate={setIsChooseDate}
           />
         </div>
       </div>

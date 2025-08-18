@@ -10,9 +10,10 @@ type acceptProps = {
   month: number;
   year: number;
   setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
+  setIsChooseDate: React.Dispatch<React.SetStateAction<boolean>>;
 };
 export default function Calendar(props: acceptProps) {
-  const { trial, month, year, setCurrentIndex } = props;
+  const { trial, month, year, setCurrentIndex, setIsChooseDate } = props;
   const [dateList, setDateList] = useState<dayBoxType[]>([]);
   const makeBlankDateList = useCallback(() => {
     const lastDate = new Date(year, month + 1, 0).getDate();
@@ -176,6 +177,7 @@ export default function Calendar(props: acceptProps) {
                 key={index}
                 dateInfo={item}
                 setCurrentIndex={setCurrentIndex}
+                setIsChooseDate={setIsChooseDate}
               />
             );
           })}

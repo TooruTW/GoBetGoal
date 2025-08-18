@@ -44,7 +44,7 @@ export const useImageUpload = () => {
     await Promise.all(
       files.map(async (file) => {
         try {
-          const randomFileName = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
+          const randomFileName = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}6`;
           console.log(randomFileName, "randomFileName is going to upload");
           tempFileList.push(randomFileName);
 

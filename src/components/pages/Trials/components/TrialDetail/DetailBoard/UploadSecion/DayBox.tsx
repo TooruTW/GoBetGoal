@@ -3,8 +3,9 @@ import dayjs from "dayjs";
 type acceptProps = {
   dateInfo: dayBoxType;
   setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
+  setIsChooseDate: React.Dispatch<React.SetStateAction<boolean>>;
 };
-export default function DayBox({ dateInfo, setCurrentIndex }: acceptProps) {
+export default function DayBox({ dateInfo, setCurrentIndex, setIsChooseDate }: acceptProps) {
   const { date, isThisMonth, isThisDate, status } = dateInfo;
 
   // handle click effect
@@ -12,6 +13,7 @@ export default function DayBox({ dateInfo, setCurrentIndex }: acceptProps) {
     if (!isThisMonth) return;
     if (dateInfo.stageIndex) {
       setCurrentIndex(dateInfo.stageIndex);
+      setIsChooseDate(true);
     }
     console.log("clicked", date, dateInfo.stageIndex);
   };

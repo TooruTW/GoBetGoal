@@ -12,6 +12,10 @@ import { useImageCheck } from "@/hooks/useImageCheck";
 import RetryImage from "./RetryImg";
 import ShowCheckResult from "./ShowCheckResult";
 import { useQueryClient } from "@tanstack/react-query";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { useParams } from "react-router-dom";
+import PopupCard from "./PopupCard";
 
 export default function ChallengeBox({
   currentChallenge,
@@ -26,6 +30,18 @@ export default function ChallengeBox({
     upload_image,
     status,
   } = currentChallenge;
+  const [isUser, setIsUser] = useState(false);
+  const userId = useSelector((state: RootState) => state.account.user_id);
+  const { playerId } = useParams();
+
+  useEffect(() => {
+    if (!userId) return;
+    if (playerId === userId) {
+      setIsUser(true);
+    } else {
+      setIsUser(false);
+    }
+  }, [userId, playerId]);
 
   const [isShowCheckResult, setIsShowCheckResult] = useState(false);
   const [checkingState, setCheckingState] = useState<
@@ -45,14 +61,18 @@ export default function ChallengeBox({
     error: imageError,
   } = useGetImageUrl(uploadedFileName);
 
+  const [isShowPopup, setIsShowPopup] = useState(false);
+
   useEffect(() => {
     if (status === "pass" && currentChallenge.upload_image) {
       setPreviewImage(currentChallenge.upload_image);
       console.log(
         "challenge is pass, set result img",
-        currentChallenge.upload_image
+        currentChallenge.upload_image,currentChallenge.stage_index
       );
     } else {
+      console.log(currentChallenge.stage_index, "stage not pass");
+
       setPreviewImage(challenge_stage.sample_image);
       console.log("set sample img", challenge_stage.sample_image);
     }
@@ -120,6 +140,7 @@ export default function ChallengeBox({
 
             console.log("test fail, result is not uploaded");
           }
+          setIsShowPopup(true);
 
           setUploadedFileName([]);
           setSelectedFile([]);
@@ -219,26 +240,42 @@ export default function ChallengeBox({
         })}
       </div>
 
-      <div className="w-full">
-        <Button
-          className="py-1 w-full h-fit"
-          onClick={handleConfirmUpload}
-          disabled={isPending || status !== "pending"}
-        >
-          <span>
-            {status === "pending" && (
-              <>
-                <span className="text-p-small">上傳</span> <br />
-                <span className="text-label-small">剩餘 {chance_remain} 次機會</span>
-              </>
-            )}
-            {status === "pass" && <span className="text-p">通過</span>}
-            {status === "cheat" && <span className="text-p">資本主義</span>}
-            {status === "fail" && <span className="text-p">失敗</span>}
-          </span>
-        </Button>
-      </div>
-
+      {isUser && (
+        <div className="w-full">
+          {chance_remain > 0 && status === "pending" && (
+            <Button
+              className="py-1 w-full h-fit"
+              onClick={handleConfirmUpload}
+              disabled={isPending || status !== "pending"}
+            >
+              <span>
+                {status === "pending" && (
+                  <>
+                    <span className="text-p-small">上傳</span> <br />
+                    <span className="text-label-small">
+                      剩餘 {chance_remain} 次機會
+                    </span>
+                  </>
+                )}
+              </span>
+            </Button>
+          )}
+          {chance_remain === 0 && status === "pending" && (
+            <div className="flex justify-center gap-2 w-full">
+              <Button className="w-1/2">使用快樂遮羞布</Button>
+              <Button className="w-1/2">接受失敗</Button>
+            </div>
+          )}
+          {status !== "pending" && (
+            <div className="w-full h-fit bg-schema-primary text-schema-on-primary rounded-md p-2 flex justify-center items-center">
+              {status === "pass" && <span className="text-p">通過</span>}
+              {status === "cheat" && <span className="text-p">資本主義</span>}
+              {status === "fail" && <span className="text-p">失敗</span>}
+            </div>
+          )}
+        </div>
+      )}
+      {isShowPopup && <PopupCard chance_remain={chance_remain} status={status} handleClosePopup={setIsShowPopup}/>}
     </div>
   );
 }
