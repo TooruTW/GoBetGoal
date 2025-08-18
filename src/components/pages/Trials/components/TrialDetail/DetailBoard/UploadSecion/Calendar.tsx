@@ -15,6 +15,7 @@ type acceptProps = {
 export default function Calendar(props: acceptProps) {
   const { trial, month, year, setCurrentIndex, setIsChooseDate } = props;
   const [dateList, setDateList] = useState<dayBoxType[]>([]);
+
   const makeBlankDateList = useCallback(() => {
     const lastDate = new Date(year, month + 1, 0).getDate();
     const firstDay = new Date(year, month, 1).getDay();
@@ -64,6 +65,7 @@ export default function Calendar(props: acceptProps) {
     );
     return [...headList, ...currentList, ...tailList];
   }, [month, year]);
+
   const updateCurrentList = useCallback(
     (currentMonthDateList: dayBoxType[]) => {
       if (!trial || trial.length === 0) return;
@@ -79,6 +81,11 @@ export default function Calendar(props: acceptProps) {
       const firstDateOfTrial = startDateList[0];
       const lastDateOfTrial = endDateList[endDateList.length - 1];
       // 更新dateType
+
+      console.log(startDateList, "startDateList");
+      console.log(endDateList, "endDateList");
+      
+
       currentMonthDateList.forEach((item) => {
         if (
           dayjs(item.date).isBetween(firstDateOfTrial, lastDateOfTrial, "day")
@@ -102,14 +109,26 @@ export default function Calendar(props: acceptProps) {
         }
       });
       // 更新stageIndex
-      let stageIndex = 1;
       currentMonthDateList.forEach((item) => {
-        if (item.dayType !== "none") {
-          item.stageIndex = stageIndex;
-          if (item.dayType === "end" || item.dayType === "start-end") {
-            stageIndex++;
+        if (item.dayType === "none") return;
+        if(item.dayType === "middle"){
+          for(let i = 0; i < startDateList.length; i++){
+            if(dayjs(item.date).isBetween(startDateList[i], endDateList[i], "day")){
+              item.stageIndex = i + 1;
+              break;
+            }
           }
         }
+        if(item.dayType === "start"){
+          item.stageIndex = startDateList.indexOf(dayjs(item.date).format("l")) + 1;
+        }
+        if(item.dayType === "end"){
+          item.stageIndex = endDateList.indexOf(dayjs(item.date).format("l")) + 1;
+        }
+        if(item.dayType === "start-end"){
+          item.stageIndex = startDateList.indexOf(dayjs(item.date).format("l")) + 1;
+        }
+        
       });
       // 更新status
       const pendingList = trial
