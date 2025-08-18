@@ -64,7 +64,7 @@ export default function ChallengeBox({
   const [isShowPopup, setIsShowPopup] = useState(false);
 
   useEffect(() => {
-    if (status === "pass" && currentChallenge.upload_image) {
+    if (status !== "pending" && currentChallenge.upload_image) {
       setPreviewImage(currentChallenge.upload_image);
       console.log(
         "challenge is pass, set result img",
@@ -84,7 +84,16 @@ export default function ChallengeBox({
   // 更新剩餘次數
   const { mutate: patchChanceRemain } = usePatchChanceRemain();
   const queryClient = useQueryClient();
-
+const handleCheat = ()=>{
+  patchUploadToChallengeHistorySupa({history_id: currentChallenge.id, imageUrlArr: [], isCheat: true}, {
+    onSuccess: () => {
+      console.log("cheat success");
+      queryClient.invalidateQueries({
+        queryKey: ["trial", currentChallenge.trial_id],
+      });
+    },
+  });
+}
   useEffect(() => {
     if (
       imageUrlArr &&
@@ -262,7 +271,7 @@ export default function ChallengeBox({
           )}
           {chance_remain === 0 && status === "pending" && (
             <div className="flex justify-center gap-2 w-full">
-              <Button className="w-1/2">使用快樂遮羞布</Button>
+              <Button className="w-1/2" onClick={handleCheat}>使用快樂遮羞布</Button>
               <Button className="w-1/2">接受失敗</Button>
             </div>
           )}
@@ -275,7 +284,7 @@ export default function ChallengeBox({
           )}
         </div>
       )}
-      {isShowPopup && <PopupCard chance_remain={chance_remain} status={status} handleClosePopup={setIsShowPopup}/>}
+      {isShowPopup && <PopupCard chance_remain={chance_remain} status={status} handleClosePopup={setIsShowPopup} handleCheat={handleCheat}/>}
     </div>
   );
 }
