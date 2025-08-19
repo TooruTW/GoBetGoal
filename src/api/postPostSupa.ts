@@ -6,7 +6,7 @@ type postData = {
   publish_by: string;
   trial_id: string;
   image_url: string[];
-  trial_history_id: string;
+  trial_history_id: string | null;
 };
 
 const postPostSupa = async (postData: postData) => {
@@ -24,6 +24,9 @@ export function usePostPostSupa() {
     mutationFn: postPostSupa,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["postAll"] });
+    },
+    onError: (error) => {
+      console.log(error, "error");
     },
   });
 }

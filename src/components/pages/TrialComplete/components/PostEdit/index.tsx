@@ -4,17 +4,24 @@ import { IoClose } from "react-icons/io5";
 import { FaPlus } from "react-icons/fa";
 
 import { useImageUpload } from "@/hooks/useImageUpload";
+import { usePostPostSupa, getImageUrl } from "@/api";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 type PostEditProps = {
   defaultImgList: string[];
-  onNext: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onNext: (e?: React.MouseEvent<HTMLButtonElement>) => void;
+  trialId: string;
 };
 
 export default function PostEdit(props: PostEditProps) {
-  const { defaultImgList, onNext } = props;
+  const { defaultImgList, onNext, trialId } = props;
   const [previewImgList, setPreviewImgList] = useState<string[]>([]);
   const [uploadImage, setUploadImage] = useState<File | null>(null);
-  const { isPending, compressImages, uploadImages } = useImageUpload();
+  const { compressImages, uploadImages } = useImageUpload();
+  const [uploadContect, setUploadContect] = useState<string>("");
+  const { mutate: postPost } = usePostPostSupa();
+  const userId = useSelector((state: RootState) => state.account.user_id);
 
   useEffect(() => {
     setPreviewImgList(defaultImgList);
@@ -22,6 +29,41 @@ export default function PostEdit(props: PostEditProps) {
   const handleDeleteImg = (index: number) => {
     setPreviewImgList(previewImgList.filter((_, i) => i !== index));
   };
+
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    console.log(uploadContect, uploadImage, "uploadContect,uploadImage");
+
+    if (uploadImage) {
+      const compressedImages = await compressImages([uploadImage]);
+      const uploadedImages = await uploadImages(compressedImages);
+
+      // 等待圖片上傳完成後，獲取公開 URL
+      if (uploadedImages && uploadedImages.length > 0) {
+        // 直接調用 getImageUrl 函數獲取公開 URL
+        const publicUrls = await getImageUrl(uploadedImages);
+
+        // 使用公開 URL 發送貼文
+        postPost({
+          content: uploadContect,
+          publish_by: userId,
+          trial_id: trialId,
+          image_url: [...publicUrls, ...previewImgList],
+          trial_history_id: null,
+        });
+      }
+    } else {
+      // 如果沒有新上傳的圖片，直接發送現有的圖片
+      postPost({
+        content: uploadContect,
+        publish_by: userId,
+        trial_id: trialId,
+        image_url: [...previewImgList],
+        trial_history_id: null,
+      });
+    }
+  };
+
   return (
     <div className="flex flex-col gap-2 w-full px-8 max-w-200 items-center">
       <div
@@ -59,6 +101,8 @@ export default function PostEdit(props: PostEditProps) {
         <textarea
           placeholder="分享你的心路歷程"
           className="w-full rounded-md p-2 bg-schema-surface-container-highest"
+          value={uploadContect}
+          onChange={(e) => setUploadContect(e.target.value)}
         />
       </div>
       <div className="grid grid-cols-6 gap-2 ">
@@ -80,7 +124,7 @@ export default function PostEdit(props: PostEditProps) {
         ))}
       </div>
       <div className="w-full flex flex-col gap-2 items-center">
-        <Button className="w-full" onClick={(e) => onNext(e)}>
+        <Button className="w-full" onClick={(e) => handleSubmit(e)}>
           分享至社交平台
         </Button>
         <button

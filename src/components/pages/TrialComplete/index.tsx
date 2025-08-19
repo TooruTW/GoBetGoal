@@ -34,9 +34,7 @@ export default function TrialComplete() {
     null
   );
   const [images, setImages] = useState<string[][]>([]);
-
   const [selectedUserID, setSelectedUserID] = useState<string>("");
-
   const userID = useSelector((state: RootState) => state.account.user_id);
 
   // select id to show result
@@ -261,9 +259,10 @@ export default function TrialComplete() {
 
         {isPosting ? (
           <PostEdit
+            trialId={id?.toString() || ""}
             defaultImgList={images.flat()}
             onNext={(e) => {
-              e.stopPropagation();
+              e?.stopPropagation();
               setIsPosting(false);
             }}
           />
