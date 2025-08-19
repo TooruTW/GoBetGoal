@@ -39,3 +39,4 @@ export { usePatchUploadToChallengeHistorySupa } from "./patchUploadToChallengeHi
 export { usePatchChanceRemain } from "./patchChanceRemain";
 export { useDeleteAvatarSupa } from "./deleteAvatarSupa";
 export { usePostAvatarSupa } from "./postAvatarSupa";
+export { usePostPostSupa } from "./postPostSupa";

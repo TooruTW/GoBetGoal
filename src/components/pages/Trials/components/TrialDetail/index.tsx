@@ -21,8 +21,6 @@ export default function TrialDetail() {
         console.log("trial is over");
         navigate(`/trial-complete/${id}`);
       }
-    console.log(data, "useTrialSupa to get a detail info of a trial");
-
     }
   }, [data, id, navigate,playerId]);
 
