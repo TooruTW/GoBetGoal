@@ -31,18 +31,14 @@ export default function PostEdit(props: PostEditProps) {
   };
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
     console.log(uploadContect, uploadImage, "uploadContect,uploadImage");
-
     if (uploadImage) {
       const compressedImages = await compressImages([uploadImage]);
       const uploadedImages = await uploadImages(compressedImages);
-
       // 等待圖片上傳完成後，獲取公開 URL
       if (uploadedImages && uploadedImages.length > 0) {
         // 直接調用 getImageUrl 函數獲取公開 URL
         const publicUrls = await getImageUrl(uploadedImages);
-
         // 使用公開 URL 發送貼文
         postPost({
           content: uploadContect,
@@ -50,6 +46,10 @@ export default function PostEdit(props: PostEditProps) {
           trial_id: trialId,
           image_url: [...publicUrls, ...previewImgList],
           trial_history_id: null,
+        },{
+          onSuccess:()=>{
+            onNext(e);
+          }
         });
       }
     } else {
@@ -60,6 +60,10 @@ export default function PostEdit(props: PostEditProps) {
         trial_id: trialId,
         image_url: [...previewImgList],
         trial_history_id: null,
+      },{
+        onSuccess:()=>{
+          onNext(e);
+        }
       });
     }
   };
