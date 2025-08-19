@@ -4,16 +4,18 @@ import { FaFacebook } from "react-icons/fa";
 import { useMemo, useRef } from "react";
 import domtoimage from "dom-to-image-more";
 import { saveAs } from "file-saver";
+import { IoClose } from "react-icons/io5";
 
 type AcceptanceProps = {
   userImage: string;
   userName: string;
   trialName: string;
   trialReward: string;
+  onClose: () => void;
 };
 
 export default function SharePage(props: AcceptanceProps) {
-  const { userImage, userName, trialName, trialReward } = props;
+  const { userImage, userName, trialName, trialReward, onClose } = props;
 
   const certificateRef = useRef<HTMLDivElement>(null);
 
@@ -55,18 +57,20 @@ export default function SharePage(props: AcceptanceProps) {
   };
 
   return (
-    <div className="flex flex-col gap-8 items-center justify-center w-full max-w-200 rounded-t-4xl">
+    <div className="flex flex-col gap-8 items-center justify-center w-full max-w-200 rounded-t-4xl px-8">
+      <IoClose className="size-10 absolute top-10 right-10" onClick={onClose} />
       <h4 className="text-h4 font-semibold text-schema-on-surface-variant self-start">
         現在把成果分享給平台上其他迷途者吧
       </h4>
 
-      {/* 顯示用的證書（可變尺寸） */}
-      <div ref={certificateRef} className="p-8" style={{ border: "none" }}>
-        <div className="flex items-center justify-center w-200 border-2 border-schema-outline bg-schema-surface-container aspect-20/9">
+      <div ref={certificateRef} className="p-8 flex w-full justify-center" style={{ border: "none" }}>
+       
+        <div className="flex flex-col items-center justify-center w-full border-2 border-schema-outline bg-schema-surface-container aspect-20/10 p-4 min-w-150 max-md:scale-60">
+        <div className="flex items-center justify-center w-full h-full">
           {userImage && (
-            <img src={userImage} alt="user-avatar" className="w-1/2" />
+            <img src={userImage} alt="user-avatar" className="h-full" />
           )}
-          <div className="flex flex-col gap-4 items-center w-2/3 z-10">
+          <div className="flex flex-col gap-2 items-center w-2/3 z-10">
             <h3
               className="text-h3 w-40 flex justify-between"
               style={{ border: "none" }}
@@ -112,10 +116,12 @@ export default function SharePage(props: AcceptanceProps) {
                 <p style={{ border: "none" }}>5</p>
               </div>
             </div>
-            <p style={{ border: "none" }}>
+            </div>
+
+          </div>
+          <p style={{ border: "none" }}>
               一起來Flag or Bet，一邊玩一邊養成理想體態
             </p>
-          </div>
         </div>
       </div>
       <ul className="flex gap-15 justify-center items-center w-full ">
