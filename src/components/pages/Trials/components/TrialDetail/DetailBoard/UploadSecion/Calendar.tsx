@@ -82,10 +82,6 @@ export default function Calendar(props: acceptProps) {
       const lastDateOfTrial = endDateList[endDateList.length - 1];
       // 更新dateType
 
-      console.log(startDateList, "startDateList");
-      console.log(endDateList, "endDateList");
-      
-
       currentMonthDateList.forEach((item) => {
         if (
           dayjs(item.date).isBetween(firstDateOfTrial, lastDateOfTrial, "day")

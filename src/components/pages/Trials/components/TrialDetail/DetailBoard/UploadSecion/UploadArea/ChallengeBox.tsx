@@ -67,15 +67,8 @@ export default function ChallengeBox({
   useEffect(() => {
     if (status !== "pending" && currentChallenge.upload_image) {
       setPreviewImage(currentChallenge.upload_image);
-      console.log(
-        "challenge is pass, set result img",
-        currentChallenge.upload_image,currentChallenge.stage_index
-      );
     } else {
-      console.log(currentChallenge.stage_index, "stage not pass");
-
       setPreviewImage(challenge_stage.sample_image);
-      console.log("set sample img", challenge_stage.sample_image);
     }
   }, [currentChallenge, challenge_stage.sample_image, status]);
 
@@ -103,11 +96,8 @@ const handleCheat = ()=>{
       !isImageLoading &&
       !imageError
     ) {
-      console.log("url is ready", imageUrlArr);
       Promise.all(imageUrlArr.map((item) => checkImage(item))).then(
         (result) => {
-          console.log("check result process is done", result);
-
           const isPassTest = result.every((item) => item.result);
           const resultUrl = result.map((item) => item.imgUrl);
           setCheckingState(isPassTest ? "pass" : "fail");
@@ -118,7 +108,6 @@ const handleCheat = ()=>{
               {
                 onSuccess: () => {
                   console.log("test pass, result is uploaded");
-                
                   queryClient.invalidateQueries({
                     queryKey: ["trial", currentChallenge.trial_id],
                   });
@@ -150,8 +139,6 @@ const handleCheat = ()=>{
                 },
               }
             );
-
-            console.log("test fail, result is not uploaded");
           }
           setIsShowPopup(true);
 
@@ -218,12 +205,12 @@ const handleCheat = ()=>{
         )}
       </div>
 
-      <div className="flex justify-center items-center rounded-md h-full gap-2 min-h-50 max-md:flex-col">
+      <div className="flex justify-center items-center rounded-md gap-2 max-md:flex-col h-full md:max-h-55 ">
         {challenge_stage.description.map((item, index) => {
           return (
             <div
               key={index}
-              className="border-1 border-schema-primary rounded-md h-full w-full max-md:max-h-60 max-md:aspect-4/3"
+              className="border-1 border-schema-primary rounded-md h-full w-full max-lg:max-h-60 max-md:aspect-square max-w-2/3"
             >
               <div className="w-full h-1/5 bg-schema-primary text-p-small flex items-center justify-center text-schema-on-primary py-3 px-1 max-lg:text-label leading-5">
                 {item}

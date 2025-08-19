@@ -84,8 +84,8 @@ export default function UploadCalendar(props: acceptProps) {
     }, [filteredTrial,isChooseDate]);
 
   return (
-    <div className="flex gap-6 w-full lg:max-h-110 h-full max-lg:flex-col-reverse lg:bg-schema-surface-container-high lg:p-9 rounded-[48px] ">
-      <div className="flex flex-col gap-6 items-center justify-between w-full lg:max-w-96">
+    <div className="flex gap-6 w-full  h-full max-md:flex-col-reverse md:bg-schema-surface-container-high md:p-9 rounded-[48px] ">
+      <div className="flex flex-col gap-6 items-center justify-between w-full md:max-w-96">
         <div className="flex flex-col gap-3 w-full">
           <ul className="flex gap-3 w-full max-lg:text-label">
             <li className="border-1 border-[#85AC7C] rounded-md w-full grid grid-cols-2">
@@ -129,7 +129,7 @@ export default function UploadCalendar(props: acceptProps) {
           />
         </div>
       </div>
-      <div className="h-full w-full ">
+      <div className="h-full w-full min-w-96">
         <UploadArea
           trial={filteredTrial}
           currentIndex={currentIndex}
