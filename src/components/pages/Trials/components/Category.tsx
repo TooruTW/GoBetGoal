@@ -81,7 +81,7 @@ export default function Category() {
   const handleVideoChange = (video: string, index: number, id: string) => {
     setCurrentVideo(video);
     setCurrentIndex(index);
-    if(!category) return;
+    if (!category) return;
     const newPath = location.pathname.replace(category, id);
     navigate(newPath);
   };
@@ -124,44 +124,47 @@ export default function Category() {
   return (
     <div className="w-full flex justify-center gap-6 text-h2 font-semibold">
       <div
-        className={`rounded-4xl grid grid-cols-3 items-center w-full bg-gradient-to-r from-schema-${videoList[currentIndex].color} to-[#F2E4EE] relative`}
+        className={`rounded-3xl flex items-center w-full bg-gradient-to-r  relative`}
+        style={{
+          background: `linear-gradient(to right, var(--${videoList[currentIndex].color}) 0%,#F2E4EE 100%)`,
+        }}
       >
-        {/* 左側：點選圖示 */}
-        <div className="ml-auto relative flex flex-col items-end p-4 ">
-          <div className="flex gap-2">
-            {videoList.map((item, index) => (
-              <img
-                key={index}
-                src={item.src}
-                alt={item.title}
-                onClick={() => handleVideoChange(item.video, index, item.id)}
-                className={`w-24 object-cover cursor-pointer hover:scale-115 transition-all active:scale-90 ${
-                  currentIndex === index
-                    ? "scale-105  opacity-100 -translate-y-4"
-                    : "opacity-80"
-                }`}
-              />
-            ))}
+        <div className="md:flex md:flex-row-reverse  w-1/2 h-full relative items-center p-3">
+          {/* 中間：標題區 */}
+          <div className="text-center text-white z-20 md:w-1/2">
+            <h2 className="text-white text-h2">
+              {videoList[currentIndex].title}
+            </h2>
+            <h3 className="text-white mb-2 text-h3">試煉廣場</h3>
+          </div>
+          <div className="ml-auto relative flex flex-col items-end p-4 md:w-1/2">
+            <div className="flex gap-2">
+              {videoList.map((item, index) => (
+                <img
+                  key={index}
+                  src={item.src}
+                  alt={item.title}
+                  onClick={() => handleVideoChange(item.video, index, item.id)}
+                  className={`w-1/3 object-cover cursor-pointer hover:scale-115 transition-all active:scale-90 ${
+                    currentIndex === index
+                      ? "scale-105  opacity-100 -translate-y-4"
+                      : "opacity-80"
+                  }`}
+                />
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* 中間：標題區 */}
-        <div className="text-center text-white z-20">
-          <h2 className="text-white text-h2">
-            {videoList[currentIndex].title}
-          </h2>
-          <h3 className="text-white mb-2 text-h3">試煉廣場</h3>
-        </div>
-
         {/* 右側：影片 */}
-        <div className="relative z-10">
+        <div className="relative z-10 w-1/2">
           <div className="w-full flex justify-end">
             <video
               key={currentVideo}
               autoPlay
               loop
               muted
-              className="h-60 scale-160 -translate-x-1/3"
+              className="w-1/3 scale-160 -translate-x-1/3"
             >
               <source src={currentVideo} type="video/webm" />
               您的瀏覽器不支援 video 播放。

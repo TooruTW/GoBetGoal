@@ -11,7 +11,7 @@ import Candy from "@/components/layout/Header/Navigator/Candy";
 import { RootState } from "@/store";
 import { usePatchChangeUserInfo, usePostDeposit } from "@/api";
 import { useQueryClient } from "@tanstack/react-query";
-import Notificatioin from "@/components/pages/SocialPages/components/Notification";
+import Notification from "@/components/pages/SocialPages/components/Notification";
 
 type Plan = {
   src: MonsterImage;
@@ -120,31 +120,39 @@ export default function Shop() {
 
   return (
     <div
-      className={`w-full max-w-330 h-screen flex flex-col justify-center items-center relative ${
+      className={`w-full h-screen  flex flex-col justify-center items-center relative ${
         isFromNavigation ? "bg-background fixed z-20" : ""
       }`}
     >
-      {!isFromNavigation && (
-        <div className="w-full">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleGoBack}
-            className="flex items-center gap-2 hover:bg-schema-surface-container-high"
-          >
-            <ArrowLeft size={16} />
-            <span className="hidden sm:inline">返回</span>
-          </Button>
+      <div className="flex flex-col md:w-4/5 p-3 justify-center items-center  ">
+        <div className="relative w-full ">
+          {!isFromNavigation && (
+            <div className=" absolute top-1/2 -translate-y-1/2 left-0">
+              <Button
+                variant="ghost"
+                size="lg"
+                onClick={handleGoBack}
+                className="flex items-center gap-2 hover:bg-schema-surface-container-high"
+              >
+                <ArrowLeft size={132} />
+                <span className="hidden sm:inline">返回</span>
+              </Button>
+            </div>
+          )}
+          <h2 className="text-h2 font-title text-center ">貝果幣不夠了？</h2>
         </div>
-      )}
+        <p className="text-schema-on-surface-variant text-label">
+          兌換一些快樂吧？買爆酷炫角色形象、試煉模板，去跟朋友對戰贏獎金！
+        </p>
+        <p className="text-schema-on-surface-variant text-label">
+          現實中你也許還沒變成富翁，但在這裡花少少錢就能實現財富自由！
+        </p>
 
-      <div className="flex flex-col md:w-4/5 p-3 justify-center">
-        <h2 className="text-h2 font-title text-center pb-8">貝果不夠了？</h2>
-
-        <ul className="flex gap-2 md:gap-4">
+        <ul className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4 md:pt-8">
           {plan.map((item, index) => (
             <li
               onClick={() => depositSuccess(index)}
+              className="h-full"
               key={index}
               onMouseEnter={() => {
                 setShowAnime((prev) => {
@@ -172,9 +180,13 @@ export default function Shop() {
               >
                 <h2 className="font-title md:text-xl">🥯 &nbsp; {item.show}</h2>
                 <div className="relative flex flex-col items-center">
-                  <img src={item.src} alt={item.src} className="h-full" />
+                  <img
+                    src={item.src}
+                    alt={item.src}
+                    className="w-2/3 md:w-full "
+                  />
                   {showAnime[index] && (
-                    <CandyDrop className="w-full absolute bottom-0 left-0" />
+                    <CandyDrop className="w-full absolute bottom-0 left-0 scale-50 md:scale-100" />
                   )}
                 </div>
                 <p className="text-sm font-title">NTD {item.price}</p>
@@ -192,16 +204,11 @@ export default function Shop() {
 
       {showSuccess && (
         <div className="fixed w-full h-full top-0 left-0 flex items-end justify-end bg-black/50 z-50">
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-schema-surface-container-high p-6 rounded-lg shadow-lg z-30 flex flex-col items-center gap-4">
-            <h3 className="text-h3 font-bold mb-4">成功儲值！</h3>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-schema-surface-container-high p-6 rounded-lg shadow-lg z-30 flex flex-col items-center gap-2 md:gap-4 max-w-80">
+            <h3 className="text-h3 font-bold ">成功儲值！</h3>
             <p>現在你就是貝果富翁啦，盡情揮霍吧</p>
-            <video autoPlay loop className="h-30">
-              <source
-                src="/animation/monster/monsterCongrats.webm"
-                type="video/webm"
-              />
-            </video>
             <Candy amount={account.candy_count} />
+            <img src={monsterCongrats} alt="" className="w-2/3" />
             <div className="flex justify-center gap-4">
               <Button
                 className="mt-4"
@@ -219,9 +226,9 @@ export default function Shop() {
       )}
 
       {noteContent && (
-        <Notificatioin time={2000}>
+        <Notification time={2000}>
           <p>{noteContent}</p>
-        </Notificatioin>
+        </Notification>
       )}
     </div>
   );

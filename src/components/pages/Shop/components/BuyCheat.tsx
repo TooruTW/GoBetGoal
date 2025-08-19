@@ -260,21 +260,21 @@ export default function BuyCheat({ onClose }: BuyCheatProps) {
       className="absolute top-1/2 left-1/2 w-full h-screen flex flex-col justify-center items-center bg-black/50 mt-7 -translate-x-1/2"
       onClick={handleBackdropClick}
     >
-      <div className="flex flex-col  justify-center items-center relative">
-        <div className="w-4/5 p-6  bg-schema-surface-container relative rounded-xl ">
+      <div className="flex flex-col md:w-4/5 m-3 p-3 justify-center items-center bg-schema-surface-container rounded-xl relative">
+        <div className="w-4/5     rounded-xl ">
           <button
             onClick={handleClose}
             disabled={isProcessing || showConfirm}
-            className="absolute cursor-pointer top-8 right-8 w-8 h-8 p-4 flex items-center justify-center text-xl hover:scale-105 active:scale-95 rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="absolute cursor-pointer top-4 right-4 w-8 h-8 p-4 flex items-center justify-center text-xl hover:scale-105 active:scale-95 rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             aria-label="關閉"
           >
             ✕
           </button>
           <h2 className="text-center ">想偷懶？</h2>
-          <h2 className="text-h2 font-title text-center">買點快樂遮羞布吧～</h2>
+          <h2 className="text-h3 font-title text-center">買點快樂遮羞布吧</h2>
         </div>
 
-        <ul className="flex gap-2 md:gap-4 w-full">
+        <ul className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4 md:pt-8">
           {plan.map((item, index) => {
             const canAfford = userCandyCount >= item.price;
             const isDisabled = !canAfford || isProcessing;
@@ -283,7 +283,7 @@ export default function BuyCheat({ onClose }: BuyCheatProps) {
               <li
                 key={index}
                 onClick={() => handleSelectPlan(item)}
-                className={`w-1/3 min-w-10 group p-2 md:p-4 flex flex-col relative items-center gap-2 h-auto border 
+                className={`min-w-26 group p-2 md:p-4 flex flex-col relative items-center gap-2 h-auto border 
                   shadow-lg rounded-xl bg-schema-surface-container-high transition-all duration-200
                   hover:bg-schema-primary active:bg-schema-primary hover:-translate-y-2 hover:scale-105 active:scale-95 cursor-pointer"
                   
