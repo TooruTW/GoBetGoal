@@ -4,18 +4,16 @@ import { FaFacebook } from "react-icons/fa";
 import { useMemo, useRef } from "react";
 import domtoimage from "dom-to-image-more";
 import { saveAs } from "file-saver";
-import { IoClose } from "react-icons/io5";
 
 type AcceptanceProps = {
   userImage: string;
   userName: string;
   trialName: string;
   trialReward: string;
-  onClose: () => void;
 };
 
 export default function SharePage(props: AcceptanceProps) {
-  const { userImage, userName, trialName, trialReward, onClose } = props;
+  const { userImage, userName, trialName, trialReward } = props;
 
   const certificateRef = useRef<HTMLDivElement>(null);
 
@@ -58,7 +56,6 @@ export default function SharePage(props: AcceptanceProps) {
 
   return (
     <div className="flex flex-col gap-8 items-center justify-center w-full max-w-200 rounded-t-4xl px-8">
-      <IoClose className="size-10 absolute top-10 right-10" onClick={onClose} />
       <h4 className="text-h4 font-semibold text-schema-on-surface-variant self-start">
         現在把成果分享給平台上其他迷途者吧
       </h4>

@@ -16,12 +16,15 @@ import SharePage from "./components/SharePage";
 import { ParticipantsProps } from "./components/Participants";
 import { BriefInfoProps } from "./components/TrialBriefInfo";
 import { ResultProps } from "./components/MyTrialInfo";
+import PostEdit from "./components/PostEdit";
+import { IoClose } from "react-icons/io5";
 
 export default function TrialComplete() {
   const { id } = useParams();
   const { data, isLoading, error } = useTrialSupa(id?.toString() || "");
 
   const sharePageRef = useRef<HTMLDivElement>(null);
+  const [isPosting, setIsPosting] = useState(true);
 
   const userInfo = useSelector((state: RootState) => state.account);
   const [rewardRate, setRewardRate] = useState(1.5);
@@ -251,13 +254,27 @@ export default function TrialComplete() {
         ref={sharePageRef}
         className="w-full fixed bottom-0 max-h-4/5 z-10 bg-schema-surface-container flex justify-center items-center rounded-t-4xl border-2 border-t-schema-outline border-l-schema-outline border-r-schema-outline py-20"
       >
-        <SharePage
-          userImage={userInfo.character_img_link}
-          userName={userInfo.nick_name}
-          trialName={trialBrief?.trialName || ""}
-          trialReward={certification?.trialReward.toString() || "0"}
-          onClose={handleHideSharePage}
+        <IoClose
+          className="size-10 absolute top-10 right-10"
+          onClick={handleHideSharePage}
         />
+
+        {isPosting ? (
+          <PostEdit
+            defaultImgList={images.flat()}
+            onNext={(e) => {
+              e.stopPropagation();
+              setIsPosting(false);
+            }}
+          />
+        ) : (
+          <SharePage
+            userImage={userInfo.character_img_link}
+            userName={userInfo.nick_name}
+            trialName={trialBrief?.trialName || ""}
+            trialReward={certification?.trialReward.toString() || "0"}
+          />
+        )}
       </div>
     </div>
   );
