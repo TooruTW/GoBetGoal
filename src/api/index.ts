@@ -43,3 +43,4 @@ export { usePostPostSupa } from "./postPostSupa";
 export { useGetTrialLikeSupa } from "./getTrialLikeSupa";
 export { usePostTrialLikeSupa } from "./postTrialLikeSupa";
 export { useDeleteTrialLikeSupa } from "./deleteTrialLikeSupa";
+export { useDeletePostSupa } from "./deletePostSupa";
