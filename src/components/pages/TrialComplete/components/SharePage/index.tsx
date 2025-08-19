@@ -60,6 +60,16 @@ export default function SharePage(props: AcceptanceProps) {
     console.log("copy");
   };
 
+  const handleShareToFacebook = () => {
+    const url = window.location.href;
+    console.log(url,"share to fb");
+
+    const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+      url
+    )}`;
+    window.open(facebookUrl, "facebook-share-dialog", "width=800,height=600");
+  };
+
   return (
     <div className="flex flex-col gap-8 items-center justify-center w-full max-w-200 rounded-t-4xl px-8">
       <h4 className="text-h4 font-semibold text-schema-on-surface-variant self-start">
@@ -145,7 +155,7 @@ export default function SharePage(props: AcceptanceProps) {
           <LuDownload className="size-2/3" onClick={(e) => handleDownload(e)} />
         </li>
         <li className="size-15 bg-transparent text-white rounded-full flex justify-center items-center">
-          <FaFacebook className="size-full" />
+          <FaFacebook className="size-full" onClick={handleShareToFacebook} />
         </li>
         <li className="size-15 bg-schema-primary text-schema-on-primary rounded-full flex justify-center items-center">
           <RiLinkM className="size-2/3" onClick={handleCopyLink} />
