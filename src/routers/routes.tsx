@@ -121,17 +121,16 @@ export const routes: RouteObject[] = [
         element: <Trials />,
         children: [
           {
-            index: true,
+            path: "list/:scope/:category",
             element: <TrialsList />,
           },
           {
-            path: "detail/:id",
+            path: "detail/:id/:playerId",
             element: <TrialDetail />,
             errorElement: <TrialErrorPage />,
           },
         ],
       },
-
       // Create Trial routes
       {
         path: "create-trial",

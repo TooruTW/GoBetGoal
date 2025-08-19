@@ -9,10 +9,13 @@ type acceptProps = {
   trial: TrialDetailSupa[];
   month: number;
   year: number;
+  setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
+  setIsChooseDate: React.Dispatch<React.SetStateAction<boolean>>;
 };
 export default function Calendar(props: acceptProps) {
-  const { trial, month, year } = props;
+  const { trial, month, year, setCurrentIndex, setIsChooseDate } = props;
   const [dateList, setDateList] = useState<dayBoxType[]>([]);
+
   const makeBlankDateList = useCallback(() => {
     const lastDate = new Date(year, month + 1, 0).getDate();
     const firstDay = new Date(year, month, 1).getDay();
@@ -62,6 +65,7 @@ export default function Calendar(props: acceptProps) {
     );
     return [...headList, ...currentList, ...tailList];
   }, [month, year]);
+
   const updateCurrentList = useCallback(
     (currentMonthDateList: dayBoxType[]) => {
       if (!trial || trial.length === 0) return;
@@ -77,6 +81,7 @@ export default function Calendar(props: acceptProps) {
       const firstDateOfTrial = startDateList[0];
       const lastDateOfTrial = endDateList[endDateList.length - 1];
       // 更新dateType
+
       currentMonthDateList.forEach((item) => {
         if (
           dayjs(item.date).isBetween(firstDateOfTrial, lastDateOfTrial, "day")
@@ -100,14 +105,26 @@ export default function Calendar(props: acceptProps) {
         }
       });
       // 更新stageIndex
-      let stageIndex = 1;
       currentMonthDateList.forEach((item) => {
-        if (item.dayType !== "none") {
-          item.stageIndex = stageIndex;
-          if (item.dayType === "end" || item.dayType === "start-end") {
-            stageIndex++;
+        if (item.dayType === "none") return;
+        if(item.dayType === "middle"){
+          for(let i = 0; i < startDateList.length; i++){
+            if(dayjs(item.date).isBetween(startDateList[i], endDateList[i], "day")){
+              item.stageIndex = i + 1;
+              break;
+            }
           }
         }
+        if(item.dayType === "start"){
+          item.stageIndex = startDateList.indexOf(dayjs(item.date).format("l")) + 1;
+        }
+        if(item.dayType === "end"){
+          item.stageIndex = endDateList.indexOf(dayjs(item.date).format("l")) + 1;
+        }
+        if(item.dayType === "start-end"){
+          item.stageIndex = startDateList.indexOf(dayjs(item.date).format("l")) + 1;
+        }
+        
       });
       // 更新status
       const pendingList = trial
@@ -130,7 +147,6 @@ export default function Calendar(props: acceptProps) {
         .map((item) => {
           return item.stage_index;
         });
-
 
       currentMonthDateList.forEach((item) => {
         if (item.stageIndex === null) return;
@@ -160,18 +176,25 @@ export default function Calendar(props: acceptProps) {
   return (
     <div className="w-full ">
       <div className="grid grid-cols-7 w-full">
-        <p className="text-label text-schema-on-surface-variant">Sun</p>
-        <p className="text-label text-schema-on-surface-variant">Mon</p>
-        <p className="text-label text-schema-on-surface-variant">Tue</p>
-        <p className="text-label text-schema-on-surface-variant">Wed</p>
-        <p className="text-label text-schema-on-surface-variant">Thu</p>
-        <p className="text-label text-schema-on-surface-variant">Fri</p>
-        <p className="text-label text-schema-on-surface-variant">Sat</p>
+        <p className="text-label text-schema-on-surface-variant text-center">Sun</p>
+        <p className="text-label text-schema-on-surface-variant text-center">Mon</p>
+        <p className="text-label text-schema-on-surface-variant text-center">Tue</p>
+        <p className="text-label text-schema-on-surface-variant text-center">Wed</p>
+        <p className="text-label text-schema-on-surface-variant text-center">Thu</p>
+        <p className="text-label text-schema-on-surface-variant text-center">Fri</p>
+        <p className="text-label text-schema-on-surface-variant text-center">Sat</p>
       </div>
       <div className={`grid grid-cols-7 w-full`}>
         {dateList.length > 0 &&
           dateList.map((item, index) => {
-            return <DayBox key={index} dateInfo={item} />;
+            return (
+              <DayBox
+                key={index}
+                dateInfo={item}
+                setCurrentIndex={setCurrentIndex}
+                setIsChooseDate={setIsChooseDate}
+              />
+            );
           })}
       </div>
     </div>
