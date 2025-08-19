@@ -28,7 +28,6 @@ export default function PlayerCard({ participant, owner }: acceptProps) {
 
   useEffect(() => {
     if (!friendList[0]) return;
-    console.log(friendList, "friendList");
     const state = friendList.find(
       (item) => item.user_id === participant?.user_id
     )?.friend_state;
@@ -78,7 +77,6 @@ export default function PlayerCard({ participant, owner }: acceptProps) {
       },
       {
         onSuccess: () => {
-          console.log("add friend success");
           queryClient.invalidateQueries({ queryKey: ["friends"] });
         },
       }
@@ -101,7 +99,6 @@ export default function PlayerCard({ participant, owner }: acceptProps) {
       },
       {
         onSuccess: () => {
-          console.log("delete success");
           queryClient.invalidateQueries({
             queryKey: ["trial", trialId],
           });

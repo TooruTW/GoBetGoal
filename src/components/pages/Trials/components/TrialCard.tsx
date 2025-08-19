@@ -4,23 +4,54 @@ import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { TrialSupa } from "@/types/TrialSupa";
+import { usePostInviteFriend, usePostTrialLikeSupa, useDeleteTrialLikeSupa, useGetTrialLikeSupa } from "@/api";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 export default function TrialCard({ trial }: { trial: TrialSupa }) {
-  const { trial_participant, challenge, title, deposit } = trial;
+  const { trial_participant, challenge, title, deposit, trial_status } = trial;
   const [startAt, setStartAt] = useState("NOW");
   const [isLiked, setIsLiked] = useState(false);
+  const { mutate: joinTrial } = usePostInviteFriend();
+  const { mutate: postTrialLike } = usePostTrialLikeSupa();
+  const { mutate: deleteTrialLike } = useDeleteTrialLikeSupa();
+  const userID = useSelector((state: RootState) => state.account.user_id);
+  const isInTrial = trial_participant.some(
+    (participant) => participant.user_info.user_id === userID
+  );
 
   const cardRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
+
   const handleLike = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
+    if (isLiked) {
+      deleteTrialLike({ trialId: trial.id, userId: userID });
+    } else {
+      postTrialLike({ trialId: trial.id, userId: userID });
+    }
     setIsLiked(!isLiked);
   };
 
+  const { data: trialLike,isLoading } = useGetTrialLikeSupa({ userId: userID });
+
+  useEffect(()=>{
+    if(isLoading || !trialLike) return;
+    if(!trialLike || trialLike.length === 0)return;
+
+    const isInLikeList = trialLike.some((like)=>like.trial_id === trial.id);
+    setIsLiked(isInLikeList);
+
+  },[trialLike,isLoading,trial.id])
+
   const handleJoin = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    console.log("join");
+    joinTrial({
+      trial_id: trial.id,
+      participant_id: userID,
+      invite_by: userID,
+    });
   };
 
   const handleGetDetail = () => {
@@ -73,10 +104,11 @@ export default function TrialCard({ trial }: { trial: TrialSupa }) {
           </div>
           <Button
             variant="trialsJoin"
-            className="w-20 "
+            className={`w-20 ${isInTrial ? "bg-schema-container-height/20" : ""}`}
+            disabled={isInTrial || trial_status !== "pending"}
             onClick={(e) => handleJoin(e)}
           >
-            加入
+            {trial_status === "pending" ? (isInTrial ? "已加入" : "加入") : "已開始"}
           </Button>
         </div>
       </div>

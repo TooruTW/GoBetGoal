@@ -7,6 +7,8 @@ import { RootState } from "@/store";
 import dayjs from "dayjs";
 import UploadArea from "./UploadArea";
 import { useNavigate, useParams } from "react-router-dom";
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 
 type acceptProps = {
   trial: TrialDetailSupa[];
@@ -25,11 +27,15 @@ export default function UploadCalendar(props: acceptProps) {
   const [passCount, setPassCount] = useState<number>(0);
   const [cheatCount, setCheatCount] = useState<number>(0);
   const [failCount, setFailCount] = useState<number>(0);
+  const [currentIndex, setCurrentIndex] = useState<number>(1);
+  const [isChooseDate, setIsChooseDate] = useState<boolean>(false);
 
+  dayjs.extend(isSameOrBefore);
+  dayjs.extend(isSameOrAfter);
 
+  // redirect to right trial detail page
   useEffect(() => {
-  const isInTrial = trial.some((item) => item.participant_id === userId);
-
+    const isInTrial = trial.some((item) => item.participant_id === userId);
     if (playerId === "0") {
       if (isInTrial) {
         navigate(`/trials/detail/${id}/${userId}`);
@@ -38,7 +44,7 @@ export default function UploadCalendar(props: acceptProps) {
       }
     }
   }, [userId, trial, playerId, id, navigate]);
-
+  // handle calendar range
   useEffect(() => {
     if (calendarRange.month < 0) {
       setCalendarRange((prev) => ({ ...prev, month: 11, year: prev.year - 1 }));
@@ -46,9 +52,10 @@ export default function UploadCalendar(props: acceptProps) {
       setCalendarRange((prev) => ({ ...prev, month: 0, year: prev.year + 1 }));
     }
   }, [calendarRange]);
-
   // 過濾trial
   useEffect(() => {
+    console.log("filter triggered");
+    
     const filteredTrial = trial.filter(
       (item) => item.participant_id === playerId
     );
@@ -60,12 +67,27 @@ export default function UploadCalendar(props: acceptProps) {
     );
     setFailCount(filteredTrial.filter((item) => item.status === "fail").length);
   }, [trial, playerId]);
+  // finde nearest stage index
+  useEffect(() => {
+    if (filteredTrial.length === 0) return;
+    if (isChooseDate) return;
+    const today = dayjs();
+    const nearestStage = filteredTrial.find((stage) => {
+      return (
+        today.isSameOrAfter(stage.start_at) &&
+        today.isSameOrBefore(stage.end_at)
+      );
+    });
+    if (nearestStage) {
+      setCurrentIndex(nearestStage.stage_index);
+    }
+    }, [filteredTrial,isChooseDate]);
 
   return (
-    <div className="flex gap-6 w-full max-h-100 h-full">
-      <div className="border-1 border-schema-outline rounded-md p-3 flex flex-col gap-3 items-center w-2/5">
+    <div className="flex gap-6 w-full  h-full max-md:flex-col-reverse md:bg-schema-surface-container-high md:p-9 rounded-[48px] ">
+      <div className="flex flex-col gap-6 items-center justify-between w-full md:max-w-96">
         <div className="flex flex-col gap-3 w-full">
-          <ul className="flex gap-3 w-full">
+          <ul className="flex gap-3 w-full max-lg:text-label">
             <li className="border-1 border-[#85AC7C] rounded-md w-full grid grid-cols-2">
               <span className="text-center bg-[#85AC7C] text-white">通過</span>
               <span className="text-center">
@@ -88,23 +110,31 @@ export default function UploadCalendar(props: acceptProps) {
             </li>
           </ul>
         </div>
-        {/* month selector */}
-        <MonthSelector
-          month={calendarRange.month}
-          year={calendarRange.year}
-          editCalendar={(key: "month" | "year", value: number) =>
-            setCalendarRange((prev) => ({ ...prev, [key]: value }))
-          }
-        />
-        {/* calendar */}
-        <Calendar
-          trial={filteredTrial}
-          month={calendarRange.month}
-          year={calendarRange.year}
-        />
+        <div className="flex flex-col gap-3 w-full h-full justify-center items-center border-1 border-schema-outline rounded-md p-3">
+          {/* month selector */}
+          <MonthSelector
+            month={calendarRange.month}
+            year={calendarRange.year}
+            editCalendar={(key: "month" | "year", value: number) =>
+              setCalendarRange((prev) => ({ ...prev, [key]: value }))
+            }
+          />
+          {/* calendar */}
+          <Calendar
+            trial={filteredTrial}
+            month={calendarRange.month}
+            year={calendarRange.year}
+            setCurrentIndex={setCurrentIndex}
+            setIsChooseDate={setIsChooseDate}
+          />
+        </div>
       </div>
-      <div className="border-2 border-schema-outline rounded-md h-full w-3/5">
-        <UploadArea trial={filteredTrial} />
+      <div className="h-full w-full min-w-96">
+        <UploadArea
+          trial={filteredTrial}
+          currentIndex={currentIndex}
+          setCurrentIndex={setCurrentIndex}
+        />
       </div>
     </div>
   );

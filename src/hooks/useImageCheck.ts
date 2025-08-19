@@ -9,6 +9,7 @@ export const useImageCheck = () => {
     try {
       const lastChar = imgUrl.split("")[imgUrl.length - 1];
       const result = isNaN(Number(lastChar));
+      console.log(result, "result", lastChar);
 
       const answer = await new Promise<boolean>((resolve) => {
         setTimeout(() => {

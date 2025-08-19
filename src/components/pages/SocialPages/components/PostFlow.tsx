@@ -82,7 +82,7 @@ export default function PostFlow({ sortBy = "all" }: PostFlowProps) {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex gap-2 w-full h-16 max-w-140 fixed top-13 left-1/2 -translate-x-1/2 z-10 bg-schema-surface-container">
+      <div className="flex gap-2 w-full h-16 max-w-140 fixed top-20 left-1/2 -translate-x-1/2 z-10 bg-schema-surface-container">
         <div
           className="w-1/2 flex justify-center items-center py-2 hover:cursor-pointer"
           onClick={() => setIsRecommend(true)}
@@ -101,7 +101,7 @@ export default function PostFlow({ sortBy = "all" }: PostFlowProps) {
         ></div>
       </div>
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 pt-20">
         {postList ? (
           postList.map((post) => <PostCard {...post} key={post.id} />)
         ) : (

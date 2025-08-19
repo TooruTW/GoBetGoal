@@ -6,12 +6,17 @@ import {
   useGetImageUrl,
   usePatchUploadToChallengeHistorySupa,
   usePatchChanceRemain,
+  usePostPostSupa,
 } from "@/api";
 import { useImageUpload } from "@/hooks/useImageUpload";
 import { useImageCheck } from "@/hooks/useImageCheck";
 import RetryImage from "./RetryImg";
 import ShowCheckResult from "./ShowCheckResult";
 import { useQueryClient } from "@tanstack/react-query";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { useParams } from "react-router-dom";
+import PopupCard from "./PopupCard";
 
 export default function ChallengeBox({
   currentChallenge,
@@ -26,9 +31,23 @@ export default function ChallengeBox({
     upload_image,
     status,
   } = currentChallenge;
+  const [isUser, setIsUser] = useState(false);
+  const userId = useSelector((state: RootState) => state.account.user_id);
+  const { playerId } = useParams();
+
+  useEffect(() => {
+    if (!userId) return;
+    if (playerId === userId) {
+      setIsUser(true);
+    } else {
+      setIsUser(false);
+    }
+  }, [userId, playerId]);
 
   const [isShowCheckResult, setIsShowCheckResult] = useState(false);
-  const [checkingState, setCheckingState] = useState<"checking" | "pass" | "fail">("checking");
+  const [checkingState, setCheckingState] = useState<
+    "checking" | "pass" | "fail"
+  >("checking");
 
   const { checkImage } = useImageCheck();
 
@@ -43,16 +62,13 @@ export default function ChallengeBox({
     error: imageError,
   } = useGetImageUrl(uploadedFileName);
 
+  const [isShowPopup, setIsShowPopup] = useState(false);
+
   useEffect(() => {
-    if (status === "pass" && currentChallenge.upload_image) {
+    if (status !== "pending" && currentChallenge.upload_image) {
       setPreviewImage(currentChallenge.upload_image);
-      console.log(
-        "challenge is pass, set result img",
-        currentChallenge.upload_image
-      );
     } else {
       setPreviewImage(challenge_stage.sample_image);
-      console.log("set sample img", challenge_stage.sample_image);
     }
   }, [currentChallenge, challenge_stage.sample_image, status]);
 
@@ -62,7 +78,17 @@ export default function ChallengeBox({
   // 更新剩餘次數
   const { mutate: patchChanceRemain } = usePatchChanceRemain();
   const queryClient = useQueryClient();
-
+  const { mutate: postPostSupa } = usePostPostSupa();
+const handleCheat = ()=>{
+  patchUploadToChallengeHistorySupa({history_id: currentChallenge.id, imageUrlArr: [], isCheat: true}, {
+    onSuccess: () => {
+      console.log("cheat success");
+      queryClient.invalidateQueries({
+        queryKey: ["trial", currentChallenge.trial_id],
+      });
+    },
+  });
+}
   useEffect(() => {
     if (
       imageUrlArr &&
@@ -70,11 +96,8 @@ export default function ChallengeBox({
       !isImageLoading &&
       !imageError
     ) {
-      console.log("url is ready", imageUrlArr);
       Promise.all(imageUrlArr.map((item) => checkImage(item))).then(
         (result) => {
-          console.log("check result process is done", result);
-          
           const isPassTest = result.every((item) => item.result);
           const resultUrl = result.map((item) => item.imgUrl);
           setCheckingState(isPassTest ? "pass" : "fail");
@@ -94,6 +117,7 @@ export default function ChallengeBox({
                 },
               }
             );
+
           } else {
             patchChanceRemain(
               {
@@ -115,9 +139,8 @@ export default function ChallengeBox({
                 },
               }
             );
-
-            console.log("test fail, result is not uploaded");
           }
+          setIsShowPopup(true);
 
           setUploadedFileName([]);
           setSelectedFile([]);
@@ -140,6 +163,9 @@ export default function ChallengeBox({
     queryClient,
     currentChallenge.trial_id,
     checkImage,
+    postPostSupa,
+    userId,
+    stage_index,
   ]);
 
   // 確認上傳 - 組合壓縮和上傳
@@ -168,43 +194,25 @@ export default function ChallengeBox({
   };
 
   return (
-    <div className="border-1 border-schema-outline rounded-md p-6 h-full w-full flex flex-col justify-between gap-6">
-      <div className="flex justify-between w-full h-1/6 gap-6">
+    <div className="rounded-md  md:h-full w-full flex flex-col justify-between gap-6 ">
+      <div className="flex justify-between items-center w-full h-fit">
         <div>
           <p>{start_at}</p>
           <div> 關卡 {stage_index}</div>
         </div>
-
         {isPending && (
           <div className="text-schema-primary">正在上傳圖片...</div>
         )}
-        <Button
-          className="py-1 h-fit"
-          onClick={handleConfirmUpload}
-          disabled={isPending || status !== "pending"}
-        >
-          <span>
-            {status === "pending" && (
-              <>
-                <span className="text-p">上傳</span> <br />
-                <span className="text-label">剩餘 {chance_remain} 次機會</span>
-              </>
-            )}
-            {status === "pass" && <span className="text-p">通過</span>}
-            {status === "cheat" && <span className="text-p">資本主義</span>}
-            {status === "fail" && <span className="text-p">失敗</span>}
-          </span>
-        </Button>
       </div>
 
-      <div className="flex justify-center items-center rounded-md h-full gap-2 max-h-65">
+      <div className="flex justify-center items-center rounded-md gap-2 max-md:flex-col h-full md:max-h-55 ">
         {challenge_stage.description.map((item, index) => {
           return (
             <div
               key={index}
-              className="border-2 border-schema-primary rounded-md w-1/3 h-full "
+              className="border-1 border-schema-primary rounded-md h-full w-full max-lg:max-h-60 max-md:aspect-square max-w-2/3"
             >
-              <div className="w-full h-1/5 bg-schema-primary flex items-center justify-center text-schema-on-primary p-1">
+              <div className="w-full h-1/5 bg-schema-primary text-p-small flex items-center justify-center text-schema-on-primary py-3 px-1 max-lg:text-label leading-5">
                 {item}
               </div>
               <div className="w-full h-4/5 flex items-center justify-center border-2 border-schema-primary relative">
@@ -228,14 +236,49 @@ export default function ChallengeBox({
                     index={index}
                   />
                 )}
-                {isShowCheckResult && (
-                  <ShowCheckResult state={checkingState} />
-                )}
+                {isShowCheckResult && <ShowCheckResult state={checkingState} />}
               </div>
             </div>
           );
         })}
       </div>
+
+      {isUser && (
+        <div className="w-full">
+          {chance_remain > 0 && status === "pending" && (
+            <Button
+              className="py-1 w-full h-fit"
+              onClick={handleConfirmUpload}
+              disabled={isPending || status !== "pending"}
+            >
+              <span>
+                {status === "pending" && (
+                  <>
+                    <span className="text-p-small">上傳</span> <br />
+                    <span className="text-label-small">
+                      剩餘 {chance_remain} 次機會
+                    </span>
+                  </>
+                )}
+              </span>
+            </Button>
+          )}
+          {chance_remain === 0 && status === "pending" && (
+            <div className="flex justify-center gap-2 w-full">
+              <Button className="w-1/2" onClick={handleCheat}>使用快樂遮羞布</Button>
+              <Button className="w-1/2">接受失敗</Button>
+            </div>
+          )}
+          {status !== "pending" && (
+            <div className="w-full h-fit bg-schema-primary text-schema-on-primary rounded-md p-2 flex justify-center items-center">
+              {status === "pass" && <span className="text-p">通過</span>}
+              {status === "cheat" && <span className="text-p">資本主義</span>}
+              {status === "fail" && <span className="text-p">失敗</span>}
+            </div>
+          )}
+        </div>
+      )}
+      {isShowPopup && <PopupCard chance_remain={chance_remain} status={status} handleClosePopup={setIsShowPopup} handleCheat={handleCheat}/>}
     </div>
   );
 }

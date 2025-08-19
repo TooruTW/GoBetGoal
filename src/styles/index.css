@@ -56,7 +56,8 @@
   --text-p: 16px;
   --text-p-small: 14px;
   --text-label: 12px;
-  --text-small: 14px;
+  --text-label-small: 10px;
+
   --text-title: 24px;
 }
 
@@ -176,7 +177,7 @@
   --primaryContainer: #ffd9de;
   --onPrimaryContainer: #713341;
   
-  --secondary: #00dfa7;
+  --secondary: #0df0b8;
   --onSecondary: #ffffff;
   --secondaryContainer: #41FF14;
   --onSecondaryContainer: #265022;

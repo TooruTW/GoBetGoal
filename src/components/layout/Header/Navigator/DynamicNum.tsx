@@ -7,7 +7,7 @@ interface acceptProps {
 }
 
 export default function DynamicNumber(props: acceptProps) {
-  const { amount = 0, duration = 1.5 } = props;
+  const { amount = 0, duration = 0.7 } = props;
   const dynamicNumberRef: React.RefObject<HTMLSpanElement | null> =
     useRef(null);
   const digits = amount.toLocaleString().length;
@@ -21,7 +21,13 @@ export default function DynamicNumber(props: acceptProps) {
       ease: "pow2.out",
       onUpdate: () => {
         if (dynamicNumberRef.current) {
-          if (obj.val > 10000) {
+          if (obj.val > 10000000) {
+            dynamicNumberRef.current.textContent = `${Math.floor(
+              obj.val * 0.000001
+            )
+              .toLocaleString()
+              .padStart(digits - 7, "")}M`;
+          } else if (obj.val > 10000) {
             dynamicNumberRef.current.textContent = `${Math.floor(
               obj.val * 0.001
             )
