@@ -57,26 +57,39 @@ export default function ListContainer() {
     setFilteredData(tempFilteredData);
   }, [data, isLoading, error, scope, category, userId, trialLike]);
 
-  useGSAP(()=>{
-    if(filteredData.length === 0) return;
-    gsap.from(".trial-card",{
-      opacity: 0,
-      y: 100,
-      duration: 0.5,
-      stagger: 0.1,
-    })
-  },{dependencies:[filteredData],revertOnUpdate:true})
+  useGSAP(
+    () => {
+      if (filteredData.length === 0 || !userId) return;
+      gsap.from(".trial-card", {
+        opacity: 0,
+        y: 100,
+        duration: 0.5,
+        stagger: 0.1,
+      });
+    },
+    { dependencies: [filteredData], revertOnUpdate: true }
+  );
 
   return (
-    <div className="w-full grid md:grid-cols-2 gap-6 relative z-20">
-      {!userId && filteredData.length === 0 && (
+    <div>
+      {userId ? (
+        filteredData.length === 0 ? (
+          <div className="text-schema-on-surface-variant">目前沒有試煉</div>
+        ) : (
+          <div className="w-full grid md:grid-cols-2 gap-6 relative z-20">
+            {filteredData?.map((trial) => (
+              <GlareHover
+                key={trial.id}
+                className="bg-surface-container trial-card"
+              >
+                <TrialCard trial={trial} />
+              </GlareHover>
+            ))}
+          </div>
+        )
+      ) : (
         <div className="text-schema-on-surface-variant">請先登入</div>
       )}
-      {filteredData?.map((trial) => (
-        <GlareHover key={trial.id} className="bg-surface-container trial-card">
-          <TrialCard trial={trial} />
-        </GlareHover>
-      ))}
     </div>
   );
 }
