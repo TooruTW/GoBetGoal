@@ -14,34 +14,45 @@ export default function ListContainer() {
   const userId = useSelector((state: RootState) => state.account.user_id);
 
   useEffect(() => {
-    if (isLoading || !data ) return;
+    if (isLoading || !data) return;
     if (error) console.log(error);
-    let filteredData: TrialSupa[] = data
-    if(scope === "my"){
-      filteredData = data.filter((trial) => trial.trial_participant.some((participant) => participant.user_info.user_id === userId));      
+    let filteredData: TrialSupa[] = data;
+    if (scope === "my") {
+      filteredData = data.filter((trial) =>
+        trial.trial_participant.some(
+          (participant) => participant.user_info.user_id === userId
+        )
+      );
     }
-    
+
     switch (category) {
       case "sport":
-        filteredData = filteredData.filter((trial) => trial.challenge.category.includes("運動"));
+        filteredData = filteredData.filter((trial) =>
+          trial.challenge.category.includes("運動")
+        );
         break;
       case "eat":
-        filteredData = filteredData.filter((trial) => trial.challenge.category.includes("飲食"));
+        filteredData = filteredData.filter((trial) =>
+          trial.challenge.category.includes("飲食")
+        );
         break;
       case "sleep":
-        filteredData = filteredData.filter((trial) => trial.challenge.category.includes("作息"));
+        filteredData = filteredData.filter((trial) =>
+          trial.challenge.category.includes("作息")
+        );
         break;
       default:
         break;
     }
-    
-    setFilteredData(filteredData);
 
+    setFilteredData(filteredData);
   }, [data, isLoading, error, scope, category, userId]);
 
   return (
-    <div className="w-full px-3 grid md:grid-cols-2 gap-6 relative z-20">
-      {!userId && filteredData.length === 0 && <div className="text-schema-on-surface-variant">請先登入</div>}
+    <div className="w-full grid md:grid-cols-2 gap-6 relative z-20">
+      {!userId && filteredData.length === 0 && (
+        <div className="text-schema-on-surface-variant">請先登入</div>
+      )}
       {filteredData?.map((trial) => (
         <GlareHover key={trial.id} className="bg-surface-container">
           <TrialCard trial={trial} />

@@ -1,12 +1,9 @@
-
-
 interface ToggleProps {
   onClick?: () => void;
   isNight?: boolean; // 由外部控制是否為 night 模式
 }
 
 export default function ModeToggle({ onClick, isNight = false }: ToggleProps) {
-
   const handleToggle = () => {
     if (onClick) {
       onClick();
@@ -18,21 +15,14 @@ export default function ModeToggle({ onClick, isNight = false }: ToggleProps) {
       <style>{`
         .toggle-switch {
           background: linear-gradient(145deg, #357bb3, #2a6290);
-          box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.8),
-                      inset -2px -5px 5px rgba(0, 0, 0, 0.2), 
-                      4px 4px 4px rgba(255, 255, 255, 1);
+          
         }
         
         .toggle-switch.night-mode {
           background: linear-gradient(145deg, #1d1f2b, #16182a);
         }
 
-        .sun-moon {
-          // background: linear-gradient(145deg, #f1c428, #e6b623);
-          // box-shadow: inset 2px 5px 3px rgba(255, 255, 255, 0.5),
-          //             inset -2px -5px 3px rgba(0, 0, 0, 0.5), 
-          //             5px 5px 10px rgba(0, 0, 0, 0.5);
-        }
+        
 
         .sun-moon.night-mode {
           background: transparent;
@@ -62,27 +52,7 @@ export default function ModeToggle({ onClick, isNight = false }: ToggleProps) {
           left: 30%;
         }
 
-        .cloud::before {
-          content: "";
-          position: absolute;
-          background-color: #fbfbfb;
-          height: 20px;
-          width: 80px;
-          bottom: 18px;
-          left: 0;
-          border-radius: 100px 100px 0 0;
-        }
-
-        .cloud::after {
-          content: "";
-          position: absolute;
-          background-color: #fbfbfb;
-          height: 40px;
-          width: 40px;
-          bottom: 18px;
-          left: 10px;
-          border-radius: 50%;
-        }
+        
 
         .star::before {
           content: "";
@@ -153,94 +123,88 @@ export default function ModeToggle({ onClick, isNight = false }: ToggleProps) {
       `}</style>
 
       <div
-        className="cursor-pointer outline-none focus:outline-none"
+        className={`cursor-pointer h-8 w-24 rounded-full toggle-switch
+            overflow-hidden
+           toggle-switch  duration-900 ease-in-out relative  focus:outline-none hover:scale-105 transition-all active:scale-95 ${
+             isNight ? "night-mode" : ""
+           }
+        `}
         onClick={handleToggle}
       >
-        <div className={`
-          toggle-switch
-          relative h-8 w-24 rounded-full overflow-hidden
-          transition-all duration-900 ease-in-out
-          ${isNight ? 'night-mode' : ''}
-        `}>
-
-          {/* Clouds */}
-          {/* <div className={`
-            absolute inset-0 transition-all duration-300 ease-in-out  scale-[-0.8]
-            ${isNight ? 'translate-y-[100%]' : 'translate-y-0'}
-          `}>
-            <div className="absolute right-[10%] top-[50%] bg-gray-50 h-2.5 w-[100px] 
-                          rounded-t-none rounded-r-full rounded-b-full rounded-l-full 
-                          scale-x-[-0.8] scale-y-[0.8] cloud"></div>
-            <div className="absolute right-[12%] top-[45%] bg-gray-50 h-2.5 w-[100px] 
-                          rounded-t-none rounded-r-full rounded-b-full rounded-l-full 
-                          scale-x-[-0.6] scale-y-[0.6] opacity-50 cloud"></div>
-            <div className="absolute right-0 top-[20%] bg-gray-50 h-2.5 w-[100px] 
-                          rounded-t-none rounded-r-full rounded-b-full rounded-l-full 
-                          scale-x-[-0.6] scale-y-[0.6] opacity-50 cloud"></div>
-            <div className="absolute right-[25%] top-[92%] bg-gray-50 h-2.5 w-[100px] 
-                          rounded-t-none rounded-r-full rounded-b-full rounded-l-full 
-                          scale-x-[-0.8] scale-y-[0.8] cloud"></div>
-            <div className="absolute right-[10%] top-[85%] bg-gray-50 h-2.5 w-[100px] 
-                          rounded-t-none rounded-r-full rounded-b-full rounded-l-full 
-                          scale-x-[-1] scale-y-[1] cloud"></div>
-            <div className="absolute right-[-18%] top-[60%] bg-gray-50 h-2.5 w-[100px] 
-                          rounded-t-none rounded-r-full rounded-b-full rounded-l-full 
-                          rotate-[-50deg] scale-x-[-1] scale-y-[1] cloud"></div>
-          </div> */}
-
-          {/* Background circles */}
-          <div className={`
+        {/* Background circles */}
+        <div
+          className={`
             absolute -left-12 top-10 h-[10px] w-[10px]
             transition-all duration-500 ease-in-out
-            ${isNight ? 'translate-x-30' : 'translate-x-0'}
-          `}>
-            <div className="backdrop absolute left-[20%] top-[20%] h-[200px] w-[200px] 
+            ${isNight ? "translate-x-30" : "translate-x-0"}
+          `}
+        >
+          <div
+            className="backdrop absolute left-[20%] top-[20%] h-[200px] w-[200px] 
                           rounded-full transform -translate-x-1/2 -translate-y-1/2 
-                          transition-all duration-300 ease-in-out"></div>
-          </div>
+                          transition-all duration-300 ease-in-out"
+          ></div>
+        </div>
 
-          {/* Stars */}
-          <div className={`
+        {/* Stars */}
+        <div
+          className={`
             absolute inset-0 transition-all duration-500 ease-in-out
-            ${isNight ? 'translate-y-0' : '-translate-y-full'}
-          `}>
-            <div className="absolute left-[10%] top-[50%] h-1.5 w-1.5 rounded-full 
-                          bg-slate-300 shadow-[0_0_4px_#fff] twinkle star"></div>
-            <div className="absolute left-[40%] top-[10%] h-1.5 w-1.5 rounded-full 
+            ${isNight ? "translate-y-0" : "-translate-y-full"}
+          `}
+        >
+          <div
+            className="absolute left-[10%] top-[50%] h-1.5 w-1.5 rounded-full 
+                          bg-slate-300 shadow-[0_0_4px_#fff] twinkle star"
+          ></div>
+          <div
+            className="absolute left-[40%] top-[10%] h-1.5 w-1.5 rounded-full 
                           bg-slate-300 shadow-[0_0_4px_#fff] rotate-[75deg] scale-110 
-                          twinkle-delay-300 star"></div>
-            <div className="absolute left-[40%] top-[60%] h-1.5 w-1.5 rounded-full 
+                          twinkle-delay-300 star"
+          ></div>
+          <div
+            className="absolute left-[40%] top-[60%] h-1.5 w-1.5 rounded-full 
                           bg-slate-300 shadow-[0_0_4px_#fff] rotate-[150deg] scale-75 
-                          twinkle-delay-600 star"></div>
-          </div>
+                          twinkle-delay-600 star"
+          ></div>
+        </div>
 
-          {/* Sun/Moon */}
+        {/* Sun/Moon */}
 
-          <div className={`
+        <div
+          className={`
             sun-moon
-            absolute left-1 top-1 h-8 aspect-squares w-8 rounded-full
+            absolute left-1
+             top-0 h-8 aspect-squares w-8 rounded-full
             transition-all duration-300 ease-in-out
-            ${isNight ? 'night-mode' : ''}
-          `}>
-            <img src="./image/template/TrailWake.webp" alt="" className={`
+            ${isNight ? "night-mode" : ""}
+          `}
+        >
+          <img
+            src="./image/template/TemplateWake.webp"
+            alt=""
+            className={`
               absolute top-0 left-0 h-full 
                rounded-full transform 
               
               transition-all duration-300 ease-in-out
-              ${isNight ? 'hidden' : 'block'}
-            `} />
-            {/* Moon craters */}
-            <img src="./image/template/TemplateMoon.webp" alt="" className={`
+              ${isNight ? "hidden" : "block"}
+            `}
+          />
+          {/* Moon craters */}
+          <img
+            src="./image/template/TemplateMoon.webp"
+            alt=""
+            className={`
               absolute  h-full 
                rounded-full transform 
               
               transition-all duration-300 ease-in-out
-              ${isNight ? 'block' : 'hidden'}
-            `} />
-          </div>
+              ${isNight ? "block" : "hidden"}
+            `}
+          />
         </div>
       </div>
     </>
   );
-};
-
+}
