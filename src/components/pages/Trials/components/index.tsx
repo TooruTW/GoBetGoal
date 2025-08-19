@@ -4,7 +4,7 @@ import ScopeTab from "./ScopeTab";
 
 export default function TrialsList() {
   return (
-    <div className="flex flex-col max-w-330 gap-12 items-center py-20 w-full">
+    <div className="flex flex-col max-w-330 gap-12 items-center py-20 w-full px-3">
       <Category />
       <ScopeTab />
       <ListContainer />
