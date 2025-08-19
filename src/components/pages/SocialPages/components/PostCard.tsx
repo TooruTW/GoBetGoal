@@ -6,12 +6,13 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
-import { usePostLikeSupa } from "@/api";
+import { usePostLikeSupa, useDeletePostSupa } from "@/api";
 import { useDeletePostLikeSupa } from "@/api";
 import { useGSAP } from "@gsap/react";
 import { LuSendHorizontal } from "react-icons/lu";
 import Notificatioin from "@/components/ui/Notificatioin";
 import { Post } from "@/types/Post";
+import { SlOptionsVertical } from "react-icons/sl";
 
 export default function PostCard(props: Post) {
   const {
@@ -27,7 +28,7 @@ export default function PostCard(props: Post) {
   const userId = useSelector((state: RootState) => state.account.user_id);
 
   const [isShow, setIsShow] = useState(false);
-
+  const [isShowDeletePost, setIsShowDeletePost] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const postCardRef = useRef<HTMLDivElement>(null);
   const heartRef = useRef<HTMLDivElement>(null);
@@ -41,6 +42,7 @@ export default function PostCard(props: Post) {
     postId: id,
     userId,
   });
+  const { mutate: deletePost } = useDeletePostSupa();
 
   // handle double click
   useEffect(() => {
@@ -117,6 +119,39 @@ export default function PostCard(props: Post) {
     }, 3000);
     return () => clearTimeout(timer);
   }, [noteContent]);
+  const { contextSafe } = useGSAP();
+
+  useGSAP(()=>{
+    if(isShowDeletePost){
+      gsap.from(".delete-post-option",{
+        opacity: 0,
+        xPercent: 100,
+        duration: 0.25,
+      })
+    }
+  },{dependencies:[isShowDeletePost]})
+
+  const hideDeletePostAnimation = contextSafe(()=>{
+    gsap.to(".delete-post-option",{
+      opacity: 0,
+      xPercent: 100,
+      duration: 0.25,
+      onComplete:()=>{
+        setIsShowDeletePost(false)
+      }
+    })
+  })
+
+  const handleDeletePost = () => {
+    if(!isShowDeletePost){
+      setIsShowDeletePost(!isShowDeletePost);
+    }else{
+     hideDeletePostAnimation()
+    }
+  };
+  const handleConfirmDeletePost = () => {
+    deletePost(id);
+  };
 
   return (
     <div className="aspect-[140/212] w-full bg-schema-surface-container">
@@ -126,10 +161,18 @@ export default function PostCard(props: Post) {
         </Notificatioin>
       )}
       <div className="relative w-full h-full">
+        <div className="absolute top-5 right-5 z-10" onClick={handleDeletePost}>
+          <SlOptionsVertical className="size-5" />
+          {isShowDeletePost && (
+            <div className="absolute top-0 right-10 border-1 border-schema-outline rounded-md py-2 px-4 z-10 text-nowrap delete-post-option">
+              <p onClick={handleConfirmDeletePost}>刪除</p>
+            </div>
+          )}
+        </div>
         <PostCarousel
           onClick={handleClick}
           imgUrl={image_url}
-          className="absolute top-0 left-0 w-full h-full flex items-center justify-center"
+          className="absolute top-0 left-0 w-full h-full flex items-center justify-center z-0"
         />
         <div
           ref={postCardRef}

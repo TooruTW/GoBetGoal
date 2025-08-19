@@ -82,7 +82,14 @@ export default function Category() {
     setCurrentVideo(video);
     setCurrentIndex(index);
     if (!category) return;
-    const newPath = location.pathname.replace(category, id);
+
+    // 修改路由替換邏輯，確保只替換最後一個參數（category）
+    const pathSegments = location.pathname.split("/");
+    if (pathSegments.length !== 5) return;
+    // 路徑格式：/trials/list/:scope/:category
+    // 替換最後一個參數（category）
+    pathSegments[4] = id;
+    const newPath = pathSegments.join("/");
     navigate(newPath);
   };
 

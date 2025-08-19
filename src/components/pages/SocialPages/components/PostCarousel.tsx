@@ -31,7 +31,6 @@ export function PostCarousel(props: PostCarouselProps) {
 
   return (
     <Carousel setApi={setApi} className={`relative ${className}`} onClick={onClick}>
-
       <CarouselContent>
         {imgUrl.map((img, index) => (
           <CarouselItem

@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { TrialSupa } from "@/types/TrialSupa";
-import { usePostInviteFriend } from "@/api";
+import { usePostInviteFriend, usePostTrialLikeSupa, useDeleteTrialLikeSupa, useGetTrialLikeSupa } from "@/api";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 
@@ -13,6 +13,8 @@ export default function TrialCard({ trial }: { trial: TrialSupa }) {
   const [startAt, setStartAt] = useState("NOW");
   const [isLiked, setIsLiked] = useState(false);
   const { mutate: joinTrial } = usePostInviteFriend();
+  const { mutate: postTrialLike } = usePostTrialLikeSupa();
+  const { mutate: deleteTrialLike } = useDeleteTrialLikeSupa();
   const userID = useSelector((state: RootState) => state.account.user_id);
   const isInTrial = trial_participant.some(
     (participant) => participant.user_info.user_id === userID
@@ -21,10 +23,27 @@ export default function TrialCard({ trial }: { trial: TrialSupa }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
+
   const handleLike = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
+    if (isLiked) {
+      deleteTrialLike({ trialId: trial.id, userId: userID });
+    } else {
+      postTrialLike({ trialId: trial.id, userId: userID });
+    }
     setIsLiked(!isLiked);
   };
+
+  const { data: trialLike,isLoading } = useGetTrialLikeSupa({ userId: userID });
+
+  useEffect(()=>{
+    if(isLoading || !trialLike) return;
+    if(!trialLike || trialLike.length === 0)return;
+
+    const isInLikeList = trialLike.some((like)=>like.trial_id === trial.id);
+    setIsLiked(isInLikeList);
+
+  },[trialLike,isLoading,trial.id])
 
   const handleJoin = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();

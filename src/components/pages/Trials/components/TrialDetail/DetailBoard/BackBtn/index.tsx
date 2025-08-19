@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 export default function BackBtn() {
   const navigate = useNavigate();
   function handleBackToLastPage() {
-    navigate(-1);
+    navigate("/trials/list/all/all");
   }
   return (
     <div
