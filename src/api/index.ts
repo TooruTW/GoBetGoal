@@ -40,3 +40,6 @@ export { usePatchChanceRemain } from "./patchChanceRemain";
 export { useDeleteAvatarSupa } from "./deleteAvatarSupa";
 export { usePostAvatarSupa } from "./postAvatarSupa";
 export { usePostPostSupa } from "./postPostSupa";
+export { useGetTrialLikeSupa } from "./getTrialLikeSupa";
+export { usePostTrialLikeSupa } from "./postTrialLikeSupa";
+export { useDeleteTrialLikeSupa } from "./deleteTrialLikeSupa";
