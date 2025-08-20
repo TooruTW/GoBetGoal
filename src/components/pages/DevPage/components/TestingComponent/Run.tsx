@@ -2,8 +2,7 @@ import FaultyTerminal from "@/components/shared/reactBit/FaultyTerminal";
 
 export default function Run() {
   return (
-    <div className="w-full flex flex-col items-center relative bg-amber-500">
-      <img src="/image/machine.png" alt="" className="" />
+    <div className="w-full flex flex-col items-center absolute top-0">
       <div className=" overflow-hidden rounded-md absolute top-34 w-4/7 object-cover">
         <video autoPlay loop muted playsInline className="   h-full  ">
           {/* Safari 等瀏覽器可能讀 mov（但建議轉成 mp4） */}
@@ -21,13 +20,19 @@ export default function Run() {
         </video>
       </div>
 
-      <video autoPlay loop className=" w-1/4 absolute z-20 top-1/4">
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className=" w-1/4 absolute z-10 top-1/5"
+      >
         <source
           src="/animation/mainCharacter/character45.webm"
           type="video/webm"
         />
       </video>
-      <div className="w-2/3 h-auto aspect-video absolute z-10 top-1/4  rounded-md ">
+      <div className="w-2/3 h-auto aspect-video absolute z-0 top-1/4  rounded-md ">
         <FaultyTerminal
           scale={1.5}
           gridMul={[2, 1]}
