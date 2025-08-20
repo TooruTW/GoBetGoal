@@ -15,7 +15,11 @@ import { usePostLogOutSupa } from "@/api";
 import { setAccount } from "@/store/slices/accountSlice";
 import { Button } from "@/components/ui/button";
 
-export default function Navigator() {
+type NavigatorProps = {
+  setIsShowNotification:()=>void;
+}
+
+export default function Navigator({setIsShowNotification}:NavigatorProps) {
   const account = useSelector((state: RootState) => state.account);
   const dispatch = useDispatch();
   const { mutate: postLogOutSupa } = usePostLogOutSupa();
@@ -43,7 +47,7 @@ export default function Navigator() {
         {account.user_id && (
           <>
             <li className=" group relative">
-              <LuBellRing className="text-schema-primary size-6 cursor-pointer max-sm:hidden hover:scale-105 active:scale-95 transition-all" />
+              <LuBellRing onClick={()=>setIsShowNotification()} className="text-schema-primary size-6 cursor-pointer max-sm:hidden hover:scale-105 active:scale-95 transition-all" />
               <p className="text-label hidden group-hover:block absolute -bottom-2 translate-y-full bg-schema-surface-container-high/50 left-1/2 -translate-x-1/2 rounded-full px-4 py-1 text-nowrap">
                 通知
               </p>
