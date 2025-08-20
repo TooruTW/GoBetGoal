@@ -1,7 +1,7 @@
-import SlotMachine from "@/components/pages/Home/MainMachine/component/SlotMachine";
+import SlotMachine from "./component/SlotMachine";
 
-import Carousel from "@/components/pages/Home/MainMachine/component/Carousel";
-export default function DevComponent() {
+import Carousel from "./component/Carousel";
+export default function MainMachine() {
   return (
     <>
       <div className="relative flex flex-col items-center h-screen">

@@ -6,7 +6,7 @@ export default function Title() {
   const account = useSelector((state: RootState) => state.account);
   const isDarkMode = account.system_preference_color_mode === "dark";
   return (
-    <div className="w-3/5 flex flex-col items-center justify-center absolute top-2/7 ">
+    <div className="w-full flex flex-col items-center justify-center  ">
       <img
         src={
           isDarkMode

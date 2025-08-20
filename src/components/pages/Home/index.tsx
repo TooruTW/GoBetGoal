@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Character from "./Character";
+import MainMachine from "./MainMachine/index.tsx";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/store";
 
@@ -36,7 +37,7 @@ export default function Home() {
         {/* <Hero /> */}
         {/* <Fall /> */}
       </section>
-
+      <MainMachine />
       <Character />
     </div>
   );
