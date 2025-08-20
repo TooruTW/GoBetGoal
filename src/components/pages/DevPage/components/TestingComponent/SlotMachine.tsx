@@ -27,7 +27,7 @@ const SlotMachine = () => {
     if (data && Array.isArray(data)) {
       setAvatars(data);
     }
-  }, [data]);
+  }, [data, isLoading, error]);
 
   // 旋轉函數
   const spin = () => {
@@ -126,7 +126,7 @@ const SlotMachine = () => {
             <Button
               onClick={spin}
               disabled={isSpinning}
-              className={`px-12 py-4 text-2xl font-bold rounded-full transition-all duration-200 ${
+              className={`font-bold rounded-full transition-all duration-200 ${
                 isSpinning
                   ? "bg-gray-600 text-gray-400 cursor-not-allowed"
                   : " hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl"
