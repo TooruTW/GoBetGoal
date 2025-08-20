@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { useGetNotificationSupa, usePatchReadNotificationSupa } from "@/api";
 import MessageBox from "./MessageBox";
+import { useClickOutside } from "@/hooks/useClickOutside";
 
 type NotificationSectionProps = {
   isShow: boolean;
@@ -17,7 +18,7 @@ export type NotificationData = {
   id: string;
   content: string;
   created_at: string;
-  is_readed: boolean;
+  is_read: boolean;
   type:
     | "announcement"
     | "friend_request"
@@ -28,6 +29,8 @@ export type NotificationData = {
     | "trial_count_down"
     | "trial_close";
   user_id: string | null;
+  action_id: string | null;
+  from_id: string | null;
 };
 
 export default function NotificationSection({
@@ -35,7 +38,7 @@ export default function NotificationSection({
   closeNotification,
 }: NotificationSectionProps) {
   const notificationSectionRef = useRef<HTMLDivElement>(null);
-  const [isReadedShown, setIsReadedShown] = useState(true);
+  const [isReadShown, setIsReadShown] = useState(true);
   const [isUnreadShow, setIsUnreadShow] = useState(true);
   const [isAnnouncementShow, setIsAnnouncementShow] = useState(true);
   const userId = useSelector((state: RootState) => state.account.user_id);
@@ -44,32 +47,32 @@ export default function NotificationSection({
     []
   );
   const [unreadList, setUnreadList] = useState<NotificationData[]>([]);
-  const [readedList, setReadedList] = useState<NotificationData[]>([]);
+  const [readList, setReadList] = useState<NotificationData[]>([]);
   const [isFirst, setIsFirst] = useState(true);
-
-  const [beReaded, setBeReaded] = useState<string[]>([]);
+  const [beRead, setBeRead] = useState<string[]>([]);
+  const isClosable = useRef(false);
   const { mutate: patchReadNotification } = usePatchReadNotificationSupa();
-  const handleBeReaded = (id: string) => {
-    setBeReaded((prev) => [...prev, id]);
+  const handleBeRead = (id: string) => {
+    setBeRead((prev) => [...prev, id]);
   };
 
+  // 分類通知
   useEffect(() => {
     if (!notification) return;
-    console.log(notification);
     const announcementList = notification.filter(
       (item: NotificationData) => item.type === "announcement"
     );
     const unreadList = notification.filter(
       (item: NotificationData) =>
-        item.is_readed === false && item.type !== "announcement"
+        item.is_read === false && item.type !== "announcement"
     );
-    const readedList = notification.filter(
+    const readList = notification.filter(
       (item: NotificationData) =>
-        item.is_readed === true && item.type !== "announcement"
+        item.is_read === true && item.type !== "announcement"
     );
     setAnnouncementList(announcementList);
     setUnreadList(unreadList);
-    setReadedList(readedList);
+    setReadList(readList);
   }, [notification]);
 
   // 進場出場動畫
@@ -87,6 +90,9 @@ export default function NotificationSection({
           xPercent: 0,
           duration: 0.5,
           ease: "power2.inOut",
+          onComplete: () => {
+            isClosable.current = true;
+          },
         });
       } else {
         gsap.to(notificationSectionRef.current, {
@@ -94,8 +100,9 @@ export default function NotificationSection({
           duration: 0.5,
           ease: "power2.inOut",
           onComplete: () => {
-            console.log(beReaded, "beReaded");
-            patchReadNotification(beReaded);
+            console.log(beRead, "beRead");
+            patchReadNotification(beRead);
+            isClosable.current = false;
           },
         });
       }
@@ -105,14 +112,14 @@ export default function NotificationSection({
   // 收放動畫
   useGSAP(
     () => {
-      if (isReadedShown) {
-        gsap.to(".readed", {
+      if (isReadShown) {
+        gsap.to(".read", {
           duration: 0.5,
           height: "auto",
           ease: "power2.inOut",
         });
       } else {
-        gsap.to(".readed", {
+        gsap.to(".read", {
           duration: 0.5,
           height: 0,
           ease: "power2.inOut",
@@ -120,7 +127,7 @@ export default function NotificationSection({
         });
       }
     },
-    { dependencies: [isReadedShown] }
+    { dependencies: [isReadShown] }
   );
   useGSAP(
     () => {
@@ -166,10 +173,15 @@ export default function NotificationSection({
     closeNotification();
   };
 
+  useClickOutside(notificationSectionRef, () => {
+    if (!isClosable.current) return;
+    closeNotification();
+  });
+
   return (
     <div
       ref={notificationSectionRef}
-      className="fixed top-20 right-0 w-1/2 h-200 rounded-l-4xl min-w-90 flex flex-col bg-schema-surface-container-high p-10 gap-10 z-50"
+      className="fixed top-20 right-0 w-full h-200 rounded-l-4xl min-w-[375px] max-w-150 flex flex-col bg-schema-surface-container-high p-10 gap-10 z-50 overflow-y-scroll"
     >
       <IoClose
         onClick={(e) => handleClose(e)}
@@ -193,7 +205,7 @@ export default function NotificationSection({
               <MessageBox
                 key={item.id}
                 notification={item}
-                onReaded={handleBeReaded}
+                onRead={handleBeRead}
               />
             ))}
           </ul>
@@ -213,7 +225,7 @@ export default function NotificationSection({
               <MessageBox
                 key={item.id}
                 notification={item}
-                onReaded={handleBeReaded}
+                onRead={handleBeRead}
               />
             ))}
           </ul>
@@ -222,18 +234,18 @@ export default function NotificationSection({
           <h3 className="text-h2 sticky top-0 left-0 bg-schema-surface-container-high flex items-center gap-2 max-md:text-h3">
             已讀
             <IoIosArrowDown
-              onClick={() => setIsReadedShown(!isReadedShown)}
+              onClick={() => setIsReadShown(!isReadShown)}
               className={`${
-                isReadedShown ? "-rotate-180" : ""
+                isReadShown ? "-rotate-180" : ""
               } cursor-pointer transition duration-200`}
             />
           </h3>
-          <ul className="readed flex flex-col gap-2">
-            {readedList.map((item: NotificationData) => (
+          <ul className="read flex flex-col gap-2">
+            {readList.map((item: NotificationData) => (
               <MessageBox
                 key={item.id}
                 notification={item}
-                onReaded={handleBeReaded}
+                onRead={handleBeRead}
               />
             ))}
           </ul>

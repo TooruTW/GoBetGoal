@@ -47,3 +47,4 @@ export { useDeletePostSupa } from "./deletePostSupa";
 export { useGetNotificationSupa } from "./getNotificationSupa";
 export { usePatchReadNotificationSupa } from "./patchReadNotificationSupa";
 export { useDeleteNotificationSupa } from "./deleteNotificationSupa";
+export { usePatchAcceptTrialInvite } from "./patchAcceptTrialInvite";
