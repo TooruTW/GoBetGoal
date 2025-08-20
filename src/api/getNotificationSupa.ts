@@ -11,7 +11,7 @@ const getNotificationSupa = async (userId: string) => {
 
 export function useGetNotificationSupa(userId: string) {
   return useQuery({
-    queryKey: ["notification", userId],
+    queryKey: ["notification"],
     queryFn: () => getNotificationSupa(userId),
     enabled: !!userId,
   });

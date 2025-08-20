@@ -29,6 +29,8 @@ const buttonVariants = cva(
           "border-2 border-outline hover:scale-105 transition-all duration-300 active:scale-95",
         trialDetail:
           "rounded-md bg-schema-inverse-surface text-schema-inverse-on-surface py-2",
+        notification:
+          "rounded-sm text-schema-inverse-on-surface bg-schema-inverse-surface/80 hover:bg-schema-inverse-surface active:scale-90",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
