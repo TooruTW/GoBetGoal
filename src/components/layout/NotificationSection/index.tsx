@@ -6,7 +6,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { useGetNotificationSupa, usePatchReadNotificationSupa } from "@/api";
-import MessageBox from "./MessangeBox";
+import MessageBox from "./MessageBox";
 
 type NotificationSectionProps = {
   isShow: boolean;
@@ -50,7 +50,7 @@ export default function NotificationSection({
   const [beReaded, setBeReaded] = useState<string[]>([]);
   const { mutate: patchReadNotification } = usePatchReadNotificationSupa();
   const handleBeReaded = (id: string) => {
-    setBeReaded(prev => [...prev, id]);
+    setBeReaded((prev) => [...prev, id]);
   };
 
   useEffect(() => {
@@ -75,7 +75,7 @@ export default function NotificationSection({
   // 進場出場動畫
   useGSAP(
     () => {
-      if(isFirst){
+      if (isFirst) {
         gsap.set(notificationSectionRef.current, {
           xPercent: 100,
         });
@@ -93,6 +93,10 @@ export default function NotificationSection({
           xPercent: 100,
           duration: 0.5,
           ease: "power2.inOut",
+          onComplete: () => {
+            console.log(beReaded, "beReaded");
+            patchReadNotification(beReaded);
+          },
         });
       }
     },
@@ -160,8 +164,6 @@ export default function NotificationSection({
   const handleClose = (e: React.MouseEvent<SVGElement>) => {
     e.stopPropagation();
     closeNotification();
-    console.log(beReaded,"beReaded");
-    patchReadNotification(beReaded);
   };
 
   return (
@@ -188,7 +190,11 @@ export default function NotificationSection({
           </h3>
           <ul className="announcement flex flex-col gap-2">
             {announcementList.map((item: NotificationData) => (
-              <MessageBox key={item.id} notification={item} onReaded={handleBeReaded}/>
+              <MessageBox
+                key={item.id}
+                notification={item}
+                onReaded={handleBeReaded}
+              />
             ))}
           </ul>
         </div>
@@ -204,7 +210,11 @@ export default function NotificationSection({
           </h3>
           <ul className="unread flex flex-col gap-2">
             {unreadList.map((item: NotificationData) => (
-              <MessageBox key={item.id} notification={item} onReaded={handleBeReaded}/>
+              <MessageBox
+                key={item.id}
+                notification={item}
+                onReaded={handleBeReaded}
+              />
             ))}
           </ul>
         </div>
@@ -220,7 +230,11 @@ export default function NotificationSection({
           </h3>
           <ul className="readed flex flex-col gap-2">
             {readedList.map((item: NotificationData) => (
-              <MessageBox key={item.id} notification={item} onReaded={handleBeReaded}/>
+              <MessageBox
+                key={item.id}
+                notification={item}
+                onReaded={handleBeReaded}
+              />
             ))}
           </ul>
         </div>

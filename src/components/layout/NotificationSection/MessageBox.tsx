@@ -1,10 +1,11 @@
 import dayjs from "dayjs";
 import { NotificationData } from ".";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { IoIosArrowDown } from "react-icons/io";
+import { useDeleteNotificationSupa } from "@/api";
 
 export default function MessageBox({
   notification,
@@ -17,7 +18,9 @@ export default function MessageBox({
   const [hasOption, setHasOption] = useState(false);
   const [isShowOption, setIsShowOption] = useState(false);
   const [isReaded, setIsReaded] = useState(is_readed);
-
+  const isMarked = useRef(false);
+  const { mutate: deleteNotification } = useDeleteNotificationSupa();
+  const listRef = useRef<HTMLLIElement>(null);
   useEffect(() => {
     switch (type) {
       case "friend_request":
@@ -50,29 +53,50 @@ export default function MessageBox({
     },
     { dependencies: [isShowOption] }
   );
+  const { contextSafe } = useGSAP();
+
+  const leaveAnimation =  contextSafe(() => {
+    gsap.to(listRef.current, {
+      xPercent: 100,
+      scale: 0,
+      height: 0,
+      duration: 0.5,
+      ease: "power2.inOut",
+      onComplete: () => {
+        console.log("delete");
+        deleteNotification(id);
+      },
+    });
+  });
+
+
 
   const handleAccept = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     console.log("accept");
+    leaveAnimation();
   };
   const handleReject = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     console.log("reject");
+    leaveAnimation();
   };
   const handleReaded = () => {
     setIsReaded(true);
     setIsShowOption(!isShowOption);
-    if (!is_readed) {
+    if (!is_readed && !isMarked.current) {
+      isMarked.current = true;
       onReaded(id);
     }
   };
 
   return (
     <li
+      ref={listRef}
       key={id}
-      className={`flex justify-between gap-4 items-center flex-col max-md:gap-2 max-md:text-label ${
+      className={`flex justify-between gap-4 items-center flex-col px-2 py-1 max-md:gap-2 max-md:text-label ${
         isReaded ? "" : "bg-schema-surface-container-highest"
-      } py-1`}
+      }`}
       onClick={handleReaded}
     >
       <div className="flex justify-between gap-4 items-center w-full max-md:flex-col">
