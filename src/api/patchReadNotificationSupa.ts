@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 const patchReadNotificationSupa = async (id: string[]) => {
   const { data, error } = await supabase
     .from("notification")
-    .update({ is_readed: true })
+    .update({ is_read: true })
     .in("id", id);
   if (error) {
     throw error;
