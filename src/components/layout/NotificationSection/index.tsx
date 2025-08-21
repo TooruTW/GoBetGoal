@@ -22,9 +22,9 @@ export type NotificationData = {
   type:
     | "announcement"
     | "friend_request"
-    | "friend_request_accepted"
+    | "friend_request_accept"
     | "trial_invite"
-    | "trial_invite_accepted"
+    | "trial_invite_accept"
     | "post_liked"
     | "trial_count_down"
     | "trial_close";

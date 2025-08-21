@@ -86,17 +86,20 @@ const getFriendSupa = async (id: string): Promise<UserRelation[]> => {
   if (id === "") return [];
 
   const { data, error } = await supabase
-    .from("fried_relationship")
+    .from("friend_relationship")
     .select(
       `
       *,
-      request_user:user_info!fried_relationship_request_id_fkey(*),
-      address_user:user_info!fried_relationship_address_id_fkey(*)
+      request_user:user_info!friend_relationship_request_id_fkey(*),
+      address_user:user_info!friend_relationship_address_id_fkey(*)
     `
     )
     .or(`request_id.eq.${id},address_id.eq.${id}`);
 
-  if (error) throw error;
+  if (error) {
+    console.error("Supabase 查詢錯誤:", error);
+    throw error;
+  }
 
   // 驗證資料結構
   const validatedData: UserRelation[] = [];

@@ -45,7 +45,7 @@ export default function Invitition({ className, onClick }: acceptProps) {
     if (!trial) return;
     const playerSet = new Set(trial.map((item) => item.user_info.user_id));
     const friendNotInPlayerSet = friendList.filter(
-      (item) => !playerSet.has(item.user_id) && item.friend_state === "accepted"
+      (item) => !playerSet.has(item.user_id) && item.friend_state === "accept"
     );
     const listWithStatus: InvititionList[] = friendNotInPlayerSet.map(
       (friend) => {
