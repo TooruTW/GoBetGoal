@@ -12,7 +12,7 @@ import {
   Mousewheel,
   Keyboard,
 } from "swiper/modules";
-import { Button } from "@/components/ui/button";
+import SlotMachine from "./SlotMachine";
 
 // import Title from "./Title";
 
@@ -22,7 +22,7 @@ export default function App() {
   const [showGame, setShowGame] = useState("");
 
   return (
-    <div className=" w-2/5 aspect-video  text-white border-2 border-blue-500 overflow-hidden absolute top-1/2 -translate-y-1/2">
+    <div className=" w-3/5 aspect-video  text-white  overflow-hidden absolute top-1/6 text-[4px]">
       <Swiper
         spaceBetween={1000}
         direction={"vertical"}
@@ -38,7 +38,7 @@ export default function App() {
         modules={[EffectFade, Navigation, Pagination, Mousewheel, Keyboard]}
         className="w-full h-full"
       >
-        <SwiperSlide className="flex items-center justify-center bg-center bg-cover relative">
+        <SwiperSlide className="flex items-center justify-center bg-center bg-cover relative ">
           <div className="relative z-10">
             <img
               src={
@@ -73,8 +73,8 @@ export default function App() {
           </div>
         </SwiperSlide>
         <SwiperSlide className="flex items-center justify-center bg-center bg-cover relative">
-          <div className="relative z-10 ">
-            <p>你覺得自己夠自律嗎？</p>
+          <div className="relative z-10  ">
+            <p>你覺得是一個自律的人嗎？</p>
           </div>
           <div className="w-full h-auto aspect-video absolute z-0  ">
             <FaultyTerminal
@@ -99,7 +99,7 @@ export default function App() {
           </div>
         </SwiperSlide>
         <SwiperSlide className="flex items-center justify-center bg-center bg-cover relative">
-          <div className="relative z-10">
+          <div className="relative z-10 p-4">
             <p>不是你不夠自律</p>
             <p>是你沒有把人生當成遊戲！</p>
           </div>
@@ -126,11 +126,15 @@ export default function App() {
           </div>
         </SwiperSlide>
         <SwiperSlide className="flex flex-col items-center justify-center bg-center bg-cover relative">
-          <div className="relative z-10 flex flex-col items-center gap-4">
-            <p className="font-bold text-h4">
-              跟朋友一起來場改變人生的遊戲嗎？
-            </p>
-            <Button onClick={() => setShowGame("開始遊戲")}>開始遊戲</Button>
+          <div className="relative z-10 flex flex-col items-center   ">
+            <p>跟朋友一起來場</p>
+            <p>改變人生的遊戲嗎？</p>
+            <button
+              onClick={() => setShowGame("開始遊戲")}
+              className="rounded-full bg-schema-primary p-[5%] text-schema-inverse-on-surface"
+            >
+              開始遊戲
+            </button>
           </div>
           <div className="w-full h-auto aspect-video absolute z-0  ">
             <FaultyTerminal
@@ -156,6 +160,9 @@ export default function App() {
         </SwiperSlide>
         <SwiperSlide className="flex flex-col items-center justify-center bg-center bg-cover relative">
           <GameComponent />
+        </SwiperSlide>
+        <SwiperSlide className="flex flex-col items-center justify-center bg-center bg-cover relative">
+          <SlotMachine />
         </SwiperSlide>
       </Swiper>
 
