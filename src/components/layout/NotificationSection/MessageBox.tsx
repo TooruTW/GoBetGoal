@@ -64,10 +64,10 @@ export default function MessageBox({
       case "trial_close":
         setButtonType("navigate");
         break;
-      case "trial_invite_accepted":
+      case "trial_invite_accept":
         setButtonType("navigate");
         break;
-      case "friend_request_accepted":
+      case "friend_request_accept":
         setButtonType("navigate");
         break;
       default:
@@ -133,10 +133,10 @@ export default function MessageBox({
       case "trial_close":
         url = `/trials/detail/${action_id}/0`;
         break;
-      case "trial_invite_accepted":
+      case "trial_invite_accept":
         url = `/trials/detail/${action_id}/0`;
         break;
-      case "friend_request_accepted":
+      case "friend_request_accept":
         url = `/user/${action_id}`;
         break;
 

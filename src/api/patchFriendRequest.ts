@@ -13,7 +13,7 @@ const patchFriendRequest = async ({
   const { data, error } = await supabase
     .from("friend_relationship")
     .update({
-      state: isAccept ? "accepted" : "rejected",
+      state: isAccept ? "accept" : "rejected",
       last_update: new Date().toISOString(),
     })
     .eq("request_id", request_id)
