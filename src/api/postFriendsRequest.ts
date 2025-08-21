@@ -10,13 +10,13 @@ const postFriendsRequest = async ({
   address_id: string;
   note: string;
 }) => {
-  if (!request_id || !address_id ) {
+  if (!request_id || !address_id) {
     console.log("請輸入完整資料");
     return;
   }
 
   const { data, error } = await supabase
-    .from("fried_relationship")
+    .from("friend_relationship")
     .insert([{ request_id, address_id, note }])
     .select();
   if (error) throw error;

@@ -11,7 +11,7 @@ const patchFriendRequest = async ({
   isAccept: boolean;
 }) => {
   const { data, error } = await supabase
-    .from("fried_relationship")
+    .from("friend_relationship")
     .update({
       state: isAccept ? "accepted" : "rejected",
       last_update: new Date().toISOString(),
