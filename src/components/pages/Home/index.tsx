@@ -22,7 +22,6 @@ export default function Home() {
   const isDarkMode = account.system_preference_color_mode === "dark";
   const imageRef = useRef<HTMLImageElement>(null);
 
-
   useGSAP(() => {
     gsap.timeline().to(mainMachineRef.current, {
       keyframes: [
@@ -85,10 +84,8 @@ export default function Home() {
           ref={imageRef}
           src={monsterDefault}
           alt="monster"
-          className="w-40  m-auto"
+          className="w-1/18  m-auto absolute top-1/3 left-1/2 -translate-x-1/2 z-20"
         />
-
-       
 
         <MainMachine />
       </div>
