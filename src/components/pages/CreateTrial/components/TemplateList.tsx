@@ -32,7 +32,7 @@ export default function TemplateList({ className }: { className?: string }) {
           challengeName: template.title,
           isLocked: !purchasedChallenges.includes(template.id),
           challengeId: template.id.toString(),
-          imageUrl: `/image${template.img}`,
+          imageUrl: `${template.img}`,
           color: template.color,
         };
       }) || []
