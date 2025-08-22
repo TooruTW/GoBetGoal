@@ -13,6 +13,8 @@ import Run from "./MainMachine/component/Run.tsx";
 import AwardList from "./MainMachine/component/AwardList.tsx";
 import Footer from "./MainMachine/component/Footer.tsx";
 import Post from "./MainMachine/component/Post.tsx";
+import Achievement from "./MainMachine/component/AchievementLoop.tsx";
+import TemplateLoop from "./MainMachine/component/TemplateLoop.tsx";
 
 // 註冊 ScrollTrigger 插件
 gsap.registerPlugin(ScrollTrigger);
@@ -115,7 +117,7 @@ export default function Home() {
             ref={imageRef}
             src={monsterDefault}
             alt="monster"
-            className="w-1/18  m-auto absolute top-1/3 left-1/2 -translate-x-1/2 z-20"
+            className="w-1/18  m-auto absolute top-1/3 left-1/2 -translate-x-1/2 z-20 "
           />
           <MainMachine />
         </div>
@@ -126,6 +128,30 @@ export default function Home() {
       </div>
 
       <Character />
+      <div className=" w-full ">
+        <div className="flex justify-evenly items-center">
+          {" "}
+          <video autoPlay loop muted playsInline className=" w-1/5 ">
+            <source
+              src="/animation/mainCharacter/character45.webm"
+              type="video/webm"
+            />
+          </video>
+          <h3 className="text-h3">多樣試煉</h3>
+        </div>
+
+        <TemplateLoop />
+      </div>
+      <div className=" w-full flex flex-col items-end">
+        <video autoPlay loop muted playsInline className=" w-1/5 scale-x-[-1] ">
+          <source
+            src="/animation/mainCharacter/character45.webm"
+            type="video/webm"
+          />
+        </video>
+        <Achievement />
+      </div>
+
       <Post />
 
       {/* RunRef 區域 - 獨立的滾動觸發區域 */}
