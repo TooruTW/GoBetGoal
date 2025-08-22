@@ -7,6 +7,7 @@ import { TrialSupa } from "@/types/TrialSupa";
 import { usePostInviteFriend, usePostTrialLikeSupa, useDeleteTrialLikeSupa, useGetTrialLikeSupa } from "@/api";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
+import dayjs from "dayjs";
 
 export default function TrialCard({ trial }: { trial: TrialSupa }) {
   const { trial_participant, challenge, title, deposit, trial_status } = trial;
@@ -59,11 +60,8 @@ export default function TrialCard({ trial }: { trial: TrialSupa }) {
   };
 
   useEffect(() => {
-    const time = new Date(trial.start_at);
-    const date = time.getDate();
-    const month = time.getMonth();
-    const year = time.getFullYear();
-    setStartAt(`${year}-${month}-${date}`);
+    const yyyymmdd = dayjs(trial.start_at).format("YYYY-MM-DD");
+    setStartAt(yyyymmdd);
   }, [trial]);
 
   return (
