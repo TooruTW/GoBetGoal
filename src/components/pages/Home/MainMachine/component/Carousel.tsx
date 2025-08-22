@@ -77,7 +77,7 @@ export default function App() {
             <p>你覺得是一個自律的人嗎？</p>
           </div>
           <div className="w-full h-auto aspect-video absolute z-0  ">
-            <FaultyTerminal
+            {/* <FaultyTerminal
               scale={1.5}
               gridMul={[2, 1]}
               digitSize={1.2}
@@ -95,7 +95,7 @@ export default function App() {
               mouseStrength={0.5}
               pageLoadAnimation={false}
               brightness={0.5}
-            />
+            /> */}
           </div>
         </SwiperSlide>
         <SwiperSlide className="flex items-center justify-center bg-center bg-cover relative">
@@ -137,7 +137,7 @@ export default function App() {
             </button>
           </div>
           <div className="w-full h-auto aspect-video absolute z-0  ">
-            <FaultyTerminal
+            {/* <FaultyTerminal
               scale={1.5}
               gridMul={[2, 1]}
               digitSize={1.2}
@@ -155,7 +155,7 @@ export default function App() {
               mouseStrength={0.5}
               pageLoadAnimation={false}
               brightness={0.5}
-            />
+            /> */}
           </div>
         </SwiperSlide>
         <SwiperSlide className="flex flex-col items-center justify-center bg-center bg-cover relative">

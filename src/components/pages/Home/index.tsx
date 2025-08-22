@@ -12,6 +12,7 @@ import { monsterDefault } from "@/assets/monster";
 import Run from "./MainMachine/component/Run.tsx";
 import AwardList from "./MainMachine/component/AwardList.tsx";
 import Footer from "./MainMachine/component/Footer.tsx";
+import Post from "./MainMachine/component/Post.tsx";
 
 // 註冊 ScrollTrigger 插件
 gsap.registerPlugin(ScrollTrigger);
@@ -125,6 +126,7 @@ export default function Home() {
       </div>
 
       <Character />
+      <Post />
 
       {/* RunRef 區域 - 獨立的滾動觸發區域 */}
       {/* <div className="relative">
