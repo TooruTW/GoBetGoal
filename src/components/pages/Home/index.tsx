@@ -8,13 +8,14 @@ import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
+
 import { monsterDefault } from "@/assets/monster";
 import Run from "./MainMachine/component/Run.tsx";
+import Progress from "./MainMachine/component/Progress.tsx";
 import AwardList from "./MainMachine/component/AwardList.tsx";
 import Footer from "./MainMachine/component/Footer.tsx";
 import Post from "./MainMachine/component/Post.tsx";
-import Achievement from "./MainMachine/component/AchievementLoop.tsx";
-import TemplateLoop from "./MainMachine/component/TemplateLoop.tsx";
+import RunField from "./MainMachine/component/RunField.tsx";
 
 // 註冊 ScrollTrigger 插件
 gsap.registerPlugin(ScrollTrigger);
@@ -88,10 +89,7 @@ export default function Home() {
   });
 
   return (
-    <div className="w-full min-h-screen flex flex-col items-center justify-center snap-y ">
-      <div className="relative"></div>
-      <div className="relative"></div>
-
+    <div className="w-full min-h-screen flex flex-col items-center justify-center ">
       {/* MainMachine 區域 */}
       <div
         ref={mainMachineRef}
@@ -128,31 +126,9 @@ export default function Home() {
       </div>
 
       <Character />
-      <div className=" w-full ">
-        <div className="flex justify-evenly items-center">
-          {" "}
-          <video autoPlay loop muted playsInline className=" w-1/5 ">
-            <source
-              src="/animation/mainCharacter/character45.webm"
-              type="video/webm"
-            />
-          </video>
-          <h3 className="text-h3">多樣試煉</h3>
-        </div>
-
-        <TemplateLoop />
-      </div>
-      <div className=" w-full flex flex-col items-end">
-        <video autoPlay loop muted playsInline className=" w-1/5 scale-x-[-1] ">
-          <source
-            src="/animation/mainCharacter/character45.webm"
-            type="video/webm"
-          />
-        </video>
-        <Achievement />
-      </div>
-
+      <RunField />
       <Post />
+      <Progress />
 
       {/* RunRef 區域 - 獨立的滾動觸發區域 */}
       {/* <div className="relative">

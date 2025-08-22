@@ -4,7 +4,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useAchievementSupa } from "@/api";
 
-export default function Achievement() {
+export default function AchievementLoop() {
   const { data } = useAchievementSupa();
   const AchievementRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -24,7 +24,7 @@ export default function Achievement() {
         repeat: -1,
         ease: "none",
         modifiers: {
-          x: (x) => `-${parseFloat(x) % distance}px`,
+          x: (x) => `${parseFloat(x) % distance}px`,
         },
       });
     },
