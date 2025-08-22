@@ -4,17 +4,17 @@ import gsap from "gsap";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { monsterCongrats, monsterCry } from "@/assets/monster";
 
-type NotificatioinProps = {
+type NotificationProps = {
   children: React.ReactNode;
   time?: number;
   type?: "default" | "bad";
 };
 
-export default function Notificatioin({
+export default function Notification({
   children,
   time = 3000,
   type = "default",
-}: NotificatioinProps) {
+}: NotificationProps) {
   const [isOpen, setIsOpen] = useState(true);
 
   const noteCardRef = useRef<HTMLDivElement>(null);

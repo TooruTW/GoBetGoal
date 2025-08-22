@@ -70,6 +70,12 @@ export default function MessageBox({
       case "friend_request_accept":
         setButtonType("navigate");
         break;
+      case "trial_start":
+        setButtonType("navigate");
+        break;
+      case "post_liked":
+        setButtonType("navigate");
+        break;
       default:
         break;
     }
@@ -138,6 +144,12 @@ export default function MessageBox({
         break;
       case "friend_request_accept":
         url = `/user/${action_id}`;
+        break;
+      case "trial_start":
+        url = `/trials/detail/${action_id}/0`;
+        break;
+      case "post_liked":
+        url = `/social-pages/post/${action_id}`;
         break;
 
       default:

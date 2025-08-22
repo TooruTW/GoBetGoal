@@ -27,7 +27,8 @@ export type NotificationData = {
     | "trial_invite_accept"
     | "post_liked"
     | "trial_count_down"
-    | "trial_close";
+    | "trial_close"
+    | "trial_start";
   user_id: string | null;
   action_id: string | null;
   from_id: string | null;
@@ -116,12 +117,16 @@ export default function NotificationSection({
         gsap.to(".read", {
           duration: 0.5,
           height: "auto",
+          scaleY: 1,
           ease: "power2.inOut",
+          opacity: 1,
         });
       } else {
         gsap.to(".read", {
           duration: 0.5,
           height: 0,
+          scaleY: 0,
+          opacity: 0,
           ease: "power2.inOut",
           transformOrigin: "top",
         });
@@ -135,14 +140,18 @@ export default function NotificationSection({
         gsap.to(".unread", {
           duration: 0.5,
           height: "auto",
+          scaleY: 1,
           ease: "power2.inOut",
+          opacity: 1,
         });
       } else {
         gsap.to(".unread", {
           duration: 0.5,
           height: 0,
+          scaleY: 0,
           ease: "power2.inOut",
           transformOrigin: "top",
+          opacity: 0,
         });
       }
     },
@@ -155,13 +164,17 @@ export default function NotificationSection({
           duration: 0.5,
           height: "auto",
           ease: "power2.inOut",
+          scaleY: 1,
+          opacity: 1,
         });
       } else {
         gsap.to(".announcement", {
           duration: 0.5,
           height: 0,
+          scaleY: 0,
           ease: "power2.inOut",
           transformOrigin: "top",
+          opacity: 0,
         });
       }
     },
@@ -185,22 +198,22 @@ export default function NotificationSection({
     >
       <IoClose
         onClick={(e) => handleClose(e)}
-        className="absolute top-5 left-5 text-2xl"
+        className="absolute top-5 left-5 text-2xl hover:scale-120 transition duration-200 active:scale-90 hover:cursor-pointer"
       />
       <h2 className="text-h2 font-bold">通知中心</h2>
 
       <div className="flex flex-col gap-2 h-full">
-        <div className=" overflow-scroll pr-5 relative">
+        <div className="pr-5 relative">
           <h3 className="text-h2 sticky top-0 left-0 bg-schema-surface-container-high flex items-center gap-2 max-md:text-h3">
             公告{" "}
             <IoIosArrowDown
               onClick={() => setIsAnnouncementShow(!isAnnouncementShow)}
               className={`${
-                isAnnouncementShow ? "-rotate-180" : ""
-              } cursor-pointer transition duration-200`}
+                isAnnouncementShow ? "-rotate-180" : "animate-bounce"
+              } cursor-pointer transition duration-200 `}
             />
           </h3>
-          <ul className="announcement flex flex-col gap-2">
+          <ul className="announcement flex flex-col gap-2 bg-schema-surface-container-high">
             {announcementList.map((item: NotificationData) => (
               <MessageBox
                 key={item.id}
@@ -210,17 +223,17 @@ export default function NotificationSection({
             ))}
           </ul>
         </div>
-        <div className="overflow-scroll pr-5 relative ">
+        <div className=" pr-5 relative ">
           <h3 className="text-h2 sticky top-0 left-0 bg-schema-surface-container-high flex items-center gap-2 max-md:text-h3">
             未讀
             <IoIosArrowDown
               onClick={() => setIsUnreadShow(!isUnreadShow)}
               className={`${
-                isUnreadShow ? "-rotate-180" : ""
-              } cursor-pointer transition duration-200`}
+                isUnreadShow ? "-rotate-180" : "animate-bounce"
+              } cursor-pointer transition duration-200 `}
             />
           </h3>
-          <ul className="unread flex flex-col gap-2">
+          <ul className="unread flex flex-col gap-2 bg-schema-surface-container-high">
             {unreadList.map((item: NotificationData) => (
               <MessageBox
                 key={item.id}
@@ -228,19 +241,24 @@ export default function NotificationSection({
                 onRead={handleBeRead}
               />
             ))}
+            {unreadList.length === 0 && (
+              <li className="text-h3 text-schema-on-surface-variant text-center">
+                沒人找你 別再重新整理了
+              </li>
+            )}
           </ul>
         </div>
-        <div className="overflow-scroll pr-5 relative ">
+        <div className=" pr-5 relative ">
           <h3 className="text-h2 sticky top-0 left-0 bg-schema-surface-container-high flex items-center gap-2 max-md:text-h3">
             已讀
             <IoIosArrowDown
               onClick={() => setIsReadShown(!isReadShown)}
               className={`${
-                isReadShown ? "-rotate-180" : ""
-              } cursor-pointer transition duration-200`}
+                isReadShown ? "-rotate-180" : "animate-bounce"
+              } cursor-pointer transition duration-200 `}
             />
           </h3>
-          <ul className="read flex flex-col gap-2">
+          <ul className="read flex flex-col gap-2 bg-schema-surface-container-high">
             {readList.map((item: NotificationData) => (
               <MessageBox
                 key={item.id}
@@ -248,6 +266,11 @@ export default function NotificationSection({
                 onRead={handleBeRead}
               />
             ))}
+            {readList.length === 0 && (
+              <li className="text-h3 text-schema-on-surface-variant text-center">
+                沒人找你 別再重新整理了
+              </li>
+            )}
           </ul>
         </div>
       </div>
