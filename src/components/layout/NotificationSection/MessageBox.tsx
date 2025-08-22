@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-// import { useDeleteNotificationSupa } from "@/api";
+import { useDeleteNotificationSupa } from "@/api";
 import { monsterDefault } from "@/assets/monster";
 import { useGetUserInfoSupa } from "@/api/getUserInfoSupa";
 import {
@@ -30,7 +30,7 @@ export default function MessageBox({
   >("announcement");
   const [isRead, setIsRead] = useState(is_read);
   const isMarked = useRef(false);
-  // const { mutate: deleteNotification } = useDeleteNotificationSupa();
+  const { mutate: deleteNotification } = useDeleteNotificationSupa();
   const listRef = useRef<HTMLLIElement>(null);
   const dayDiff = dayjs(created_at).diff(dayjs(), "day");
   const [avatar, setAvatar] = useState<string>(monsterDefault);
@@ -92,7 +92,7 @@ export default function MessageBox({
       ease: "power2.inOut",
       onComplete: () => {
         console.log("delete");
-        // deleteNotification(id);
+        deleteNotification(id);
       },
     });
   });

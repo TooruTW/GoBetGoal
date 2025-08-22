@@ -202,10 +202,14 @@ export default function NotificationSection({
       />
       <h2 className="text-h2 font-bold">通知中心</h2>
 
-      <div className="flex flex-col gap-2 h-full">
-        <div className="pr-5 relative">
+      <div className="flex flex-col gap-2 h-full ">
+        <div
+          className={`pr-5 relative border-b-1 ${
+            isAnnouncementShow ? "" : "border-schema-outline"
+          }`}
+        >
           <h3 className="text-h2 sticky top-0 left-0 bg-schema-surface-container-high flex items-center gap-2 max-md:text-h3">
-            公告{" "}
+            公告
             <IoIosArrowDown
               onClick={() => setIsAnnouncementShow(!isAnnouncementShow)}
               className={`${
@@ -223,7 +227,11 @@ export default function NotificationSection({
             ))}
           </ul>
         </div>
-        <div className=" pr-5 relative ">
+        <div
+          className={`pr-5 relative border-b-1 ${
+            isUnreadShow ? "" : "border-schema-outline"
+          }`}
+        >
           <h3 className="text-h2 sticky top-0 left-0 bg-schema-surface-container-high flex items-center gap-2 max-md:text-h3">
             未讀
             <IoIosArrowDown
@@ -248,7 +256,11 @@ export default function NotificationSection({
             )}
           </ul>
         </div>
-        <div className=" pr-5 relative ">
+        <div
+          className={`pr-5 relative border-b-1 ${
+            isReadShown ? "" : "border-schema-outline"
+          }`}
+        >
           <h3 className="text-h2 sticky top-0 left-0 bg-schema-surface-container-high flex items-center gap-2 max-md:text-h3">
             已讀
             <IoIosArrowDown

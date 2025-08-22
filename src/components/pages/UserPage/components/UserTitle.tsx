@@ -2,12 +2,17 @@ import Aurora from "@/components/shared/reactBit/Aurora";
 import { Skeleton } from "@/components/ui/skeleton";
 import { UserInfoSupa } from "@/types/UserInfoSupa";
 import { Button } from "@/components/ui/button";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 type acceptProps = {
   userInfo?: UserInfoSupa;
+  isSelf: boolean;
 };
 
-export default function UserTitle({ userInfo }: acceptProps) {
+export default function UserTitle({ userInfo, isSelf }: acceptProps) {
   const {
     nick_name,
     character_img_link,
@@ -15,6 +20,21 @@ export default function UserTitle({ userInfo }: acceptProps) {
     liked_posts_count,
     friend_count,
   } = userInfo || {};
+  const friendList = useSelector((state: RootState) => state.friends.friends);
+  const { id } = useParams();
+  const [isAddFriendAble, setIsAddFriendAble] = useState(true);
+
+  useEffect(() => {
+    if ( !id) return;
+    if (friendList.length <= 0) return;
+    const isAdded = friendList.some((friend) => {
+      const isInclude = friend.user_id === id;
+      return isInclude;
+    });
+    console.log(isAdded);
+
+    setIsAddFriendAble(!isAdded);
+  }, [friendList, id]);
 
   return (
     <div className="flex flex-col sm:flex-row w-full md:px-6 relative h-[320px] sm:h-auto ">
@@ -50,7 +70,11 @@ export default function UserTitle({ userInfo }: acceptProps) {
             <p>{liked_posts_count || 0}</p>
           </div>
         </div>
-        <Button className="w-1/2">加好友</Button>
+        {isAddFriendAble && !isSelf ? (
+          <Button className="w-1/2">加好友</Button>
+        ) : (
+          <></>
+        )}
       </div>
       <div className="opacity-50 fixed z-0 top-15 left-0 w-screen h-full pointer-events-none">
         <Aurora
