@@ -351,7 +351,10 @@ export default function Form({ challenge }: FormProps) {
           試煉開始
           <DatePicker
             value={trialStartValue}
-            onChange={(date) => setValue("trialStart", date)}
+            onChange={(date) => {
+              setValue("trialStart", date);
+              console.log("trialStartValue", date);
+            }}
             placeholder="請選擇日期"
           />
           {errors.trialStart && (
