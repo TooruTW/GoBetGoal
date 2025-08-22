@@ -10,6 +10,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { monsterDefault } from "@/assets/monster";
 import Run from "./MainMachine/component/Run.tsx";
+import AwardList from "./MainMachine/component/AwardList.tsx";
+import Footer from "./MainMachine/component/Footer.tsx";
 
 // 註冊 ScrollTrigger 插件
 gsap.registerPlugin(ScrollTrigger);
@@ -83,13 +85,14 @@ export default function Home() {
   });
 
   return (
-    <div className="w-full min-h-screen flex flex-col items-center justify-center ">
+    <div className="w-full min-h-screen flex flex-col items-center justify-center snap-y ">
+      <div className="relative"></div>
       <div className="relative"></div>
 
       {/* MainMachine 區域 */}
       <div
         ref={mainMachineRef}
-        className="w-full min-h-screen flex flex-col items-center justify-center relative"
+        className="w-full min-h-screen flex flex-col items-center justify-center relative snap-auto snap-center snap-always"
       >
         <img
           src={
@@ -98,7 +101,7 @@ export default function Home() {
               : "/src/assets/logo/LogoImgTxtLight.svg"
           }
           alt="Logo"
-          className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 z-20 pointer-events-none absolute top-1/4 left-1/2 -translate-x-1/2"
+          className="animate-pulse w-full sm:w-1/2 md:w-1/3 lg:w-1/4 z-20 pointer-events-none absolute top-1/4 left-1/2 -translate-x-1/2"
         />
         <img
           src="/src/assets/main/mainBack.webp"
@@ -116,7 +119,7 @@ export default function Home() {
           <MainMachine />
         </div>
 
-        <div className="absolute h-2/3 right-0 translate-x-full">
+        <div className="absolute h-2/3 right-0 translate-x-full snap-auto snap-center snap-always">
           <Run />
         </div>
       </div>
@@ -124,7 +127,7 @@ export default function Home() {
       <Character />
 
       {/* RunRef 區域 - 獨立的滾動觸發區域 */}
-      <div className="relative">
+      {/* <div className="relative">
         <div
           ref={runContainerRef}
           className="rounded-2xl px-3 overflow-hidden w-3000 h-svh flex items-center justify-center relative bg-amber-400"
@@ -136,7 +139,11 @@ export default function Home() {
             <Run />
           </div>
         </div>
+      </div> */}
+      <div className="snap-auto snap-center snap-always">
+        <AwardList />
       </div>
+      <Footer />
     </div>
   );
 }

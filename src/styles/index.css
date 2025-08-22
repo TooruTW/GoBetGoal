@@ -1,9 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-img{
-  pointer-events: none;
-}
+
 
 @theme {
   --font-title: "Bungee", sans-serif;
