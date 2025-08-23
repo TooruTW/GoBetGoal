@@ -20,7 +20,7 @@ export default function Progress() {
   const filledBlocks = Math.round((progress / 100) * totalBlocks);
 
   return (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 text-center  font-mono">
+    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 text-center  font-mono z-50">
       <div className="mb-2">loading...</div>
       <div className="flex gap-0.5 border border-schema-primary px-1 py-1 ">
         {Array.from({ length: totalBlocks }).map((_, i) => (

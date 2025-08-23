@@ -16,6 +16,7 @@ import AwardList from "./MainMachine/component/AwardList.tsx";
 import Footer from "./MainMachine/component/Footer.tsx";
 import Post from "./MainMachine/component/Post.tsx";
 import RunField from "./MainMachine/component/RunField.tsx";
+import Ball from "./MainMachine/component/Ball.tsx";
 
 // 註冊 ScrollTrigger 插件
 gsap.registerPlugin(ScrollTrigger);
@@ -148,6 +149,7 @@ export default function Home() {
         <AwardList />
       </div>
       <Footer />
+      <Ball />
     </div>
   );
 }
