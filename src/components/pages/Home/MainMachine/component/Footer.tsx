@@ -1,34 +1,54 @@
-import FlowingMenu from "@/components/shared/reactBit/FlowingMenu";
+import Ballpit from "@/components/shared/reactBit/Ballpit";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+import Machine2 from "./Machine2.tsx";
+import BottomNav from "./BottomNav.tsx";
 
-const data = [
-  {
-    link: "#",
-    text: "我的試煉",
-    image: "/image/template/Template50.webp",
-  },
-  {
-    link: "#",
-    text: "社交平台",
-    image: "/image/template/TemplateHeart.webp",
-  },
-  {
-    link: "#",
-    text: "Monterey",
-    image: "https://picsum.photos/600/400?random=3",
-  },
-  {
-    link: "#",
-    text: "Sequoia",
-    image: "https://picsum.photos/600/400?random=4",
-  },
-];
+import { monsterCongrats, monsterSleep, monsterSport } from "@/assets/monster";
 
-export default function Title() {
+export default function Footer() {
+  const account = useSelector((state: RootState) => state.account);
+  const isDarkMode = account.system_preference_color_mode === "dark";
   return (
-    <div className="w-full flex flex-col items-center justify-center  ">
-      <div className="h-150px w-full relative">
-        <FlowingMenu items={data} />
+    <div className="h-screen relative overflow-hidden w-screen flex flex-col items-center justify-end">
+      <img
+        src={
+          isDarkMode
+            ? "/src/assets/logo/LogoImgTxtDark.svg"
+            : "/src/assets/logo/LogoImgTxtLight.svg"
+        }
+        alt="Logo"
+        className="animate-pulse w-full sm:w-1/2 md:w-1/3 lg:w-1/4 z-30 pointer-events-none absolute top-1/4 left-1/2 -translate-x-1/2"
+      />
+
+      <img
+        src={monsterCongrats}
+        alt=""
+        className="animate-bounce w-30 absolute top-1/6 md:top-1/3  right-3"
+      />
+      <img
+        src={monsterSleep}
+        alt=""
+        className="animate-bounce  w-40 absolute top-4 md:top-1/2  right-1/3 rotate-9"
+      />
+      <img
+        src={monsterSport}
+        alt=""
+        className="animate-bounce  w-30 absolute top-1/6 md:top-1/3  right-1/2 -rotate-12"
+      />
+      <div className="z-20 w-full h-full">
+        {" "}
+        <Ballpit
+          count={200}
+          gravity={0.3}
+          friction={1}
+          wallBounce={1.5}
+          followCursor={true}
+        />
       </div>
+
+      <BottomNav />
+      <Machine2 />
     </div>
   );
 }
