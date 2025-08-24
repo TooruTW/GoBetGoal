@@ -49,7 +49,7 @@ export default function App() {
   ];
 
   return (
-    <div className="h-screen flex justify-center items-center ">
+    <div className=" flex justify-center items-center ">
       <div className="flex justify-center items-center  relative rotate-6">
         <Swiper
           effect="cards"
