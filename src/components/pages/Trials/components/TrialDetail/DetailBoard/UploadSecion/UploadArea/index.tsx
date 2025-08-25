@@ -55,7 +55,6 @@ export default function UploadArea({
     () => {
       // 根據前一個數字決定動畫方向
       const isNext = currentIndex > previousIndex;
-      console.log(isNext);
       const startX = isNext ? 100 : -100; // 如果是下一個，從右邊進入；如果是上一個，從左邊進入
       gsap.fromTo(containerRef.current, {
         x: startX,

@@ -1,12 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { TrialDetailSupa } from "@/types/TrialDetailSupa";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import UploadImageInput from "./UploadImageInput";
 import {
   useGetImageUrl,
   usePatchUploadToChallengeHistorySupa,
   usePatchChanceRemain,
-  usePostPostSupa,
 } from "@/api";
 import { useImageUpload } from "@/hooks/useImageUpload";
 import { useImageCheck } from "@/hooks/useImageCheck";
@@ -18,6 +17,7 @@ import { RootState } from "@/store";
 import { useParams } from "react-router-dom";
 import PopupCard from "./PopupCard";
 import CheckBox from "./CheckBox";
+import  goodJob from "@/assets/mortalCheck/goodJob.png";
 
 export default function ChallengeBox({
   currentChallenge,
@@ -26,7 +26,6 @@ export default function ChallengeBox({
   currentChallenge: TrialDetailSupa;
   isAIChecking: boolean;
 }) {
-
   const {
     stage_index,
     start_at,
@@ -45,7 +44,18 @@ export default function ChallengeBox({
     "checking" | "pass" | "fail"
   >("checking");
   const [isShowPopup, setIsShowPopup] = useState(false);
+  const [mortalResult, setMortalResult] = useState<(boolean | "pending")[]>([
+    "pending",
+  ]);
   const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if (isAIChecking) return;
+    const checkNodeCount = challenge_stage.description.length;
+    const checkNodeResult = Array(checkNodeCount).fill("pending");
+
+    setMortalResult(checkNodeResult);
+  }, [challenge_stage.description, isAIChecking]);
 
   // check if user is the player
   useEffect(() => {
@@ -73,8 +83,8 @@ export default function ChallengeBox({
     error: imageError,
   } = useGetImageUrl(uploadedFileName);
 
-// if there is upload image, set preview image to upload image
-// if there is no upload image, set preview image to sample image
+  // if there is upload image, set preview image to upload image
+  // if there is no upload image, set preview image to sample image
   useEffect(() => {
     if (status !== "pending" && currentChallenge.upload_image) {
       setPreviewImage(currentChallenge.upload_image);
@@ -88,8 +98,6 @@ export default function ChallengeBox({
     usePatchUploadToChallengeHistorySupa();
   // update chance remain
   const { mutate: patchChanceRemain } = usePatchChanceRemain();
-  // auto post to social media
-  const { mutate: postPostSupa } = usePostPostSupa();
 
   // handle cheat
   const handleCheat = () => {
@@ -105,6 +113,47 @@ export default function ChallengeBox({
       }
     );
   };
+
+  const handlePass = useCallback((id:string,imageUrlArr:string[]) => {
+    patchUploadToChallengeHistorySupa(
+      { history_id: id, imageUrlArr: imageUrlArr },
+      {
+        onSuccess: () => {
+          console.log("test pass, result is uploaded");
+          queryClient.invalidateQueries({
+            queryKey: ["trial", currentChallenge.trial_id],
+          });
+        },
+        onError: (error) => {
+          console.error(error, "test pass, result is not uploaded");
+        },
+      }
+    );
+  }, [patchUploadToChallengeHistorySupa, currentChallenge.trial_id, queryClient]);
+
+  const handleFail =useCallback( () => {
+    patchChanceRemain(
+      {
+        history_id: currentChallenge.id,
+        chance_remain: chance_remain - 1,
+      },
+      {
+        onSuccess: () => {
+          console.log("test fail, chance_remain is updated");
+          queryClient.invalidateQueries({
+            queryKey: ["trial", currentChallenge.trial_id],
+          });
+        },
+        onError: (error) => {
+          console.error(error, "test fail, chance_remain is not updated");
+        },
+      }
+    );
+  }, [chance_remain, currentChallenge.id, patchChanceRemain, queryClient, currentChallenge.trial_id]);
+
+
+
+  // check image when image url array(from supabase storage) is ready
   useEffect(() => {
     if (
       imageUrlArr &&
@@ -119,41 +168,9 @@ export default function ChallengeBox({
           setCheckingState(isPassTest ? "pass" : "fail");
 
           if (isPassTest) {
-            patchUploadToChallengeHistorySupa(
-              { history_id: currentChallenge.id, imageUrlArr: resultUrl },
-              {
-                onSuccess: () => {
-                  console.log("test pass, result is uploaded");
-                  queryClient.invalidateQueries({
-                    queryKey: ["trial", currentChallenge.trial_id],
-                  });
-                },
-                onError: (error) => {
-                  console.error(error, "test pass but upload fail");
-                },
-              }
-            );
+            handlePass(currentChallenge.id, resultUrl);
           } else {
-            patchChanceRemain(
-              {
-                history_id: currentChallenge.id,
-                chance_remain: chance_remain - 1,
-              },
-              {
-                onSuccess: () => {
-                  console.log("test fail, chance_remain is updated");
-                  queryClient.invalidateQueries({
-                    queryKey: ["trial", currentChallenge.trial_id],
-                  });
-                },
-                onError: (error) => {
-                  console.error(
-                    error,
-                    "test fail, chance_remain is not updated"
-                  );
-                },
-              }
-            );
+            handleFail();
           }
           setIsShowPopup(true);
 
@@ -168,44 +185,50 @@ export default function ChallengeBox({
     }
   }, [
     imageUrlArr,
-    challenge_stage.sample_image,
     isImageLoading,
     imageError,
-    patchUploadToChallengeHistorySupa,
     currentChallenge.id,
-    patchChanceRemain,
     chance_remain,
     queryClient,
-    currentChallenge.trial_id,
     checkImage,
-    postPostSupa,
-    userId,
-    stage_index,
+    handleFail,
+    handlePass,
   ]);
-
-  // 確認上傳 - 組合壓縮和上傳
-  const handleConfirmUpload = async () => {
-    if (!selectedFile || selectedFile.length === 0) return;
-    setUploadedFileName([]);
-    try {
-      // 1. 先壓縮圖片
-      const compressedFiles = await compressImages(selectedFile);
-      // 2. 再上傳壓縮後的圖片
-      const fileNames = await uploadImages(compressedFiles);
-      setUploadedFileName(fileNames);
-      setCheckingState("checking");
-      setIsShowCheckResult(true);
-    } catch (error) {
-      console.error("上傳流程失敗:", error);
-    }
-  };
-
+  // confirm upload - compress and upload to supabase storage
+  // set selected file
   const handleSetSelectedFile = (file: File, index: number) => {
     setSelectedFile((prev) => {
       const newSelectedFile = [...prev];
       newSelectedFile[index] = file;
       return newSelectedFile;
     });
+  };
+  const handleConfirmUpload = async () => {
+    if (isAIChecking) {
+      if (!selectedFile || selectedFile.length === 0) return;
+      setUploadedFileName([]);
+      try {
+        // 1. 先壓縮圖片
+        const compressedFiles = await compressImages(selectedFile);
+        // 2. 再上傳壓縮後的圖片
+        const fileNames = await uploadImages(compressedFiles);
+        setUploadedFileName(fileNames);
+        setCheckingState("checking");
+        setIsShowCheckResult(true);
+      } catch (error) {
+        console.error("上傳流程失敗:", error);
+      }
+    } else {
+      console.log("mortal check");
+      console.log(mortalResult);
+      const isAllPass = mortalResult.every((item) => item === true);
+      if (isAllPass) {
+        const goodJobList = challenge_stage.description.map(() => goodJob);
+        handlePass(currentChallenge.id, goodJobList);
+      } else {
+        handleFail();
+      }
+    }
   };
 
   return (
@@ -219,9 +242,9 @@ export default function ChallengeBox({
           <div className="text-schema-primary">正在上傳圖片...</div>
         )}
       </div>
-
       <div className="flex justify-center items-center rounded-md gap-2 max-md:flex-col h-full md:max-h-55 ">
         {challenge_stage.description.map((item, index) => {
+          // upload area AI checking
           if (isAIChecking) {
             return (
               <div
@@ -259,6 +282,7 @@ export default function ChallengeBox({
               </div>
             );
           } else {
+            // upload area user checking
             return (
               <div
                 key={`${index}-noAiCheck`}
@@ -280,9 +304,12 @@ export default function ChallengeBox({
                     />
                   )}
 
-                  {!imageUrlArr && status === "pending" && <CheckBox />}
-                  {isShowCheckResult && (
-                    <ShowCheckResult state={checkingState} />
+                  {!imageUrlArr && status === "pending" && (
+                    <CheckBox
+                      result={mortalResult?.[index]}
+                      setResult={setMortalResult}
+                      index={index}
+                    />
                   )}
                 </div>
               </div>
@@ -290,7 +317,7 @@ export default function ChallengeBox({
           }
         })}
       </div>
-
+      {/* if user is the player, show upload button and check result */}
       {isUser && (
         <div className="w-full">
           {chance_remain > 0 && status === "pending" && (

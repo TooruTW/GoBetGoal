@@ -1,8 +1,20 @@
-import { useRef, useState } from "react";
+import { Dispatch, SetStateAction, useRef } from "react";
 
-export default function CheckBox() {
+type acceptProps = {
+  result: boolean | "pending";
+  setResult: Dispatch<SetStateAction<(boolean | "pending")[]>>;
+  index: number;
+};
+
+export default function CheckBox({ result, setResult, index }: acceptProps) {
   const checkBoxRef = useRef<HTMLDivElement>(null);
-  const [isPass, setIsPass] = useState<boolean | null>(null);
+  const handleClick = (isPass: boolean) => {
+    setResult((prev) => {
+      const newResult = [...prev];
+      newResult[index] = isPass;
+      return newResult;
+    });
+  };
   return (
     <div
       ref={checkBoxRef}
@@ -10,11 +22,11 @@ export default function CheckBox() {
     >
       <div className="w-full h-full flex items-center justify-center">
         <div
-          onClick={() => setIsPass(false)}
+          onClick={() => handleClick(false)}
           className={`fail size-30 rounded-full bg-schema-surface-container transition-all duration-200 relative ${
-            isPass === false ? "scale-120 translate-x-15 z-20" : ""
+            result === false ? "scale-120 translate-x-15 z-20" : ""
           }${
-            isPass === true ? "scale-80 -translate-x-10 brightness-50 z-0" : ""
+            result === true ? "scale-80 -translate-x-10 brightness-50 z-0" : ""
           }`}
         >
           <div
@@ -25,11 +37,11 @@ export default function CheckBox() {
           </div>
         </div>
         <div
-          onClick={() => setIsPass(true)}
+          onClick={() => handleClick(true)}
           className={`pass size-30 rounded-full outline-8 outline-schema-primary -outline-offset-16 bg-schema-surface-container transition-all duration-200 relative ${
-            isPass === true ? "scale-120 -translate-x-15 z-20" : ""
+            result === true ? "scale-120 -translate-x-15 z-20" : ""
           }${
-            isPass === false ? "scale-80 translate-x-10 brightness-50 z-0" : ""
+            result === false ? "scale-80 translate-x-10 brightness-50 z-0" : ""
           }`}
         ></div>
       </div>

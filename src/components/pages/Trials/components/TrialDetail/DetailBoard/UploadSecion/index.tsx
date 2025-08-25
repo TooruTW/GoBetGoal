@@ -61,8 +61,7 @@ export default function UploadCalendar(props: acceptProps) {
   }, [calendarRange]);
   // 過濾trial
   useEffect(() => {
-    console.log("filter triggered");
-    
+    // filter trial by player id
     const filteredTrial = trial.filter(
       (item) => item.participant_id === playerId
     );
