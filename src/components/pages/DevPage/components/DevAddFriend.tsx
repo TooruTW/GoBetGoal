@@ -103,7 +103,7 @@ export default function DevAddFriend() {
                       alt=""
                     />
                     {friend.state === "pending" && <p>等待回應</p>}
-                    {friend.state === "accepted" && <p>已接受</p>}
+                    {friend.state === "accept" && <p>已接受</p>}
                     {friend.state === "rejected" && <p>已拒絕</p>}
                   </>
                 )}

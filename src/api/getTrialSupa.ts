@@ -12,7 +12,6 @@ const getTrialSupa = async (id: string): Promise<TrialDetailSupa[]> => {
 
   if (error) throw error;
 
-  console.log("trial data", data);
 
   return data;
 };

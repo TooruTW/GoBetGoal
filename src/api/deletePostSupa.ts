@@ -1,32 +1,25 @@
 import { supabase } from "@/supabaseClient";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-type postData = {
-  content: string;
-  publish_by: string;
-  trial_id: string;
-  image_url: string[];
-  trial_history_id: string | null;
-};
-
-const postPostSupa = async (postData: postData) => {
+const deletePostSupa = async (postId: string) => {
   const { data, error } = await supabase
     .from("post")
-    .insert([postData])
-    .select();
+    .delete()
+    .eq("id", postId);
+
   if (error) throw error;
   return { data, error };
 };
 
-export function usePostPostSupa() {
+export function useDeletePostSupa() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: postPostSupa,
+    mutationFn: deletePostSupa,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["postAll"] });
     },
     onError: (error) => {
-      console.log(error, "error");
+      console.log("delete post error", error);
     },
   });
 }

@@ -31,10 +31,10 @@ interface FriendItem {
 }
 
 interface FriendProps {
-  showState?: "accepted" | "pending";
+  showState?: "accept" | "pending";
 }
 
-export default function Friend({ showState = "accepted" }: FriendProps) {
+export default function Friend({ showState = "accept" }: FriendProps) {
   const { mutate: patchFriendRequest } = usePatchFriendRequest();
   const queryClient = useQueryClient();
   const { mutate: deleteFriend } = useDeleteFriendSupa();
@@ -45,8 +45,8 @@ export default function Friend({ showState = "accepted" }: FriendProps) {
     data?.filter((friend: FriendItem) => {
       if (showState === "pending") {
         return friend.state === "pending" && friend.address_id === userID;
-      } else if (showState === "accepted") {
-        return friend.state === "accepted";
+      } else if (showState === "accept") {
+        return friend.state === "accept";
       }
       return false;
     }) ?? [];

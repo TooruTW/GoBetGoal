@@ -1,5 +1,6 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import Header from "./Header";
+import NotificationSection from "./NotificationSection";
 
 interface LayoutProps {
   children: ReactNode;
@@ -7,11 +8,12 @@ interface LayoutProps {
 }
 
 export default function Layout({ children, className }: LayoutProps) {
-
+  const [isShowNotification, setIsShowNotification] = useState(false);
   return (
     <div className={`min-h-screen bg-background text-schema-on-surface ${className}`}>
-      <Header />
-      <main className="pt-14 min-h-screen">{children}</main>
+      <Header setIsShowNotification={()=>setIsShowNotification(!isShowNotification)} />
+      <NotificationSection isShow={isShowNotification} closeNotification={()=>setIsShowNotification(false)} />
+      <main className="pt-20 min-h-screen">{children}</main>
     </div>
   );
 }

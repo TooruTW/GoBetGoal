@@ -16,12 +16,15 @@ import SharePage from "./components/SharePage";
 import { ParticipantsProps } from "./components/Participants";
 import { BriefInfoProps } from "./components/TrialBriefInfo";
 import { ResultProps } from "./components/MyTrialInfo";
+import PostEdit from "./components/PostEdit";
+import { IoClose } from "react-icons/io5";
 
 export default function TrialComplete() {
   const { id } = useParams();
   const { data, isLoading, error } = useTrialSupa(id?.toString() || "");
 
   const sharePageRef = useRef<HTMLDivElement>(null);
+  const [isPosting, setIsPosting] = useState(true);
 
   const userInfo = useSelector((state: RootState) => state.account);
   const [rewardRate, setRewardRate] = useState(1.5);
@@ -31,9 +34,7 @@ export default function TrialComplete() {
     null
   );
   const [images, setImages] = useState<string[][]>([]);
-
   const [selectedUserID, setSelectedUserID] = useState<string>("");
-
   const userID = useSelector((state: RootState) => state.account.user_id);
 
   // select id to show result
@@ -119,6 +120,8 @@ export default function TrialComplete() {
     const filteredData = data.filter(
       (item) => item.participant_id === selectedUserID
     );
+
+    console.log(filteredData, "filteredData");
 
     const imageArray = filteredData.map((data) => data.upload_image || []);
     setImages(imageArray);
@@ -247,14 +250,30 @@ export default function TrialComplete() {
 
       <div
         ref={sharePageRef}
-        className="w-full fixed bottom-0 max-h-5/4 z-10 bg-schema-surface-container flex justify-center items-center rounded-t-4xl border-2 border-t-schema-outline border-l-schema-outline border-r-schema-outline py-20"
+        className="w-full fixed bottom-0 max-h-4/5 z-10 bg-schema-surface-container flex justify-center items-center rounded-t-4xl border-2 border-t-schema-outline border-l-schema-outline border-r-schema-outline py-20"
       >
-        <SharePage
-          userImage={userInfo.character_img_link}
-          userName={userInfo.nick_name}
-          trialName={trialBrief?.trialName || ""}
-          trialReward={certification?.trialReward.toString() || "0"}
+        <IoClose
+          className="size-10 absolute top-10 right-10"
+          onClick={handleHideSharePage}
         />
+
+        {isPosting ? (
+          <PostEdit
+            trialId={id?.toString() || ""}
+            defaultImgList={images.flat()}
+            onNext={(e) => {
+              e?.stopPropagation();
+              setIsPosting(false);
+            }}
+          />
+        ) : (
+          <SharePage
+            userImage={userInfo.character_img_link}
+            userName={userInfo.nick_name}
+            trialName={trialBrief?.trialName || ""}
+            trialReward={certification?.trialReward.toString() || "0"}
+          />
+        )}
       </div>
     </div>
   );
