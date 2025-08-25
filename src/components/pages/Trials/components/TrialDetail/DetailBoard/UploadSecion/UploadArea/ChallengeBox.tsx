@@ -17,7 +17,8 @@ import { RootState } from "@/store";
 import { useParams } from "react-router-dom";
 import PopupCard from "./PopupCard";
 import CheckBox from "./CheckBox";
-import  goodJob from "@/assets/mortalCheck/goodJob.png";
+import  goodJob from "@/assets/resultNoImg/goodJob.png";
+import  cheat from "@/assets/resultNoImg/cheat.jpg";
 
 export default function ChallengeBox({
   currentChallenge,
@@ -101,8 +102,9 @@ export default function ChallengeBox({
 
   // handle cheat
   const handleCheat = () => {
+    const cheatImgList = challenge_stage.description.map(() => cheat);
     patchUploadToChallengeHistorySupa(
-      { history_id: currentChallenge.id, imageUrlArr: [], isCheat: true },
+      { history_id: currentChallenge.id, imageUrlArr: cheatImgList, isCheat: true },
       {
         onSuccess: () => {
           console.log("cheat success");
