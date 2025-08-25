@@ -7,7 +7,7 @@ export default function Machine2() {
           <img
             src="/src/assets/machine/mainMachine2.webp"
             alt=""
-            className="relative z-0 h-full pointer-events-none"
+            className="relative z-10 h-full pointer-events-none"
           />
           <Carousel />
         </div>
