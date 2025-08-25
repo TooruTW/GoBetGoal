@@ -6,7 +6,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
 import { useClickOutside } from "@/hooks/useClickOutside";
-import { useTrialSupa } from "@/api/index";
+import { useTrialSupa, useGetTrialParticipantsSupa, usePatchReciveReward } from "@/api/index";
 
 import { Button } from "@/components/ui/button";
 import OthersTrialInfo from "./components/OthersTrialInfo";
@@ -18,6 +18,7 @@ import { BriefInfoProps } from "./components/TrialBriefInfo";
 import { ResultProps } from "./components/MyTrialInfo";
 import PostEdit from "./components/PostEdit";
 import { IoClose } from "react-icons/io5";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function TrialComplete() {
   const { id } = useParams();
@@ -35,17 +36,51 @@ export default function TrialComplete() {
   );
   const [images, setImages] = useState<string[][]>([]);
   const [selectedUserID, setSelectedUserID] = useState<string>("");
+  const [isRewardTaken, setIsRewardTaken] = useState(false);
   const userID = useSelector((state: RootState) => state.account.user_id);
+
+  const { data: participantData } = useGetTrialParticipantsSupa(
+    id?.toString() || ""
+  );
+  // check if user has taken reward
+  useEffect(() => {
+    if (participantData?.length === 0 || !userID || !participantData) return;
+    const isRewardTaken = participantData.some(
+      (item) => item.participant_id === userID && item.is_close === true
+    );
+    setIsRewardTaken(isRewardTaken);
+  }, [participantData, userID]);
+
+  const { mutate: patchReciveReward } = usePatchReciveReward();
+  const queryClient = useQueryClient();
+  const handleTakeReward = () => {
+    if(isRewardTaken || !data || !certification || !id) return;
+    console.log("take reward");
+    console.log(certification.trialReward, "certification.trialReward");
+
+    patchReciveReward({
+      userID: userID,
+      trialID: id?.toString() || "",
+      reward: certification.trialReward,
+    },{
+      onSuccess:()=>{
+        queryClient.invalidateQueries({ queryKey: ["trial",id,"participants"], exact: false });
+      }
+    });
+
+  };
 
   // select id to show result
   useEffect(() => {
     if (isLoading || !participants) return;
-
-    if (userID) {
+    if (participants.length === 0) return;
+    const isUserInParticipants = participants.some(
+      (item) => item.id === userID
+    );
+    if (isUserInParticipants) {
       setSelectedUserID(userID);
     } else {
-      const userID = participants[0].id;
-      setSelectedUserID(userID);
+      setSelectedUserID(participants[0].id);
     }
   }, [userID, isLoading, participants]);
 
@@ -56,11 +91,15 @@ export default function TrialComplete() {
     const passCount = data.filter(
       (item) => item.status === "pass" || item.status === "cheat"
     ).length;
-
-    if (passCount / totalHistory < 0.7) {
+    if (passCount / totalHistory < 0.8) {
       setRewardRate(0);
-    } else {
+    } else if (passCount / totalHistory < 0.9) {
       setRewardRate(totalHistory >= 28 ? 1.5 : 1.2);
+    }
+     else if (passCount / totalHistory < 1) {
+      setRewardRate(totalHistory >= 28 ? 1.5 : 1.2);
+    } else {
+      setRewardRate(2);
     }
   }, [data, isLoading]);
 
@@ -69,7 +108,6 @@ export default function TrialComplete() {
     if (isLoading || !data) return;
 
     const participantMap = new Map<string, ParticipantsProps>();
-
     data.forEach((history) => {
       if (!participantMap.has(history.participant_id)) {
         participantMap.set(history.participant_id, {
@@ -116,13 +154,11 @@ export default function TrialComplete() {
   // set trial brief info
   useEffect(() => {
     if (isLoading || !data || !selectedUserID) return;
-
+    console.log(selectedUserID, "selectedUserID");
     const filteredData = data.filter(
       (item) => item.participant_id === selectedUserID
     );
-
     console.log(filteredData, "filteredData");
-
     const imageArray = filteredData.map((data) => data.upload_image || []);
     setImages(imageArray);
 
@@ -174,7 +210,6 @@ export default function TrialComplete() {
       cheatCount: cheatCount,
     });
   }, [data, isLoading, rewardRate, selectedUserID]);
-
   // share page animation
   const { contextSafe } = useGSAP({ scope: sharePageRef });
   // 先隱藏元素
@@ -241,10 +276,13 @@ export default function TrialComplete() {
         )}
         <Button
           className="w-full rounded-md text-p font-bold text-schema-on-primary cursor-pointer disabled:opacity-0 disabled:cursor-none"
-          onClick={(e) => handleShowSharePage(e)}
+          onClick={(e) => {
+            handleTakeReward();
+            handleShowSharePage(e);
+          }}
           disabled={selectedUserID !== userID || !userID}
         >
-          結算結果並分享到大平台
+          {isRewardTaken ? "分享到社交平台" : "結算結果並分享到社交平台"}
         </Button>
       </div>
 

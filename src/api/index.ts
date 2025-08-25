@@ -48,3 +48,4 @@ export { useGetNotificationSupa } from "./getNotificationSupa";
 export { usePatchReadNotificationSupa } from "./patchReadNotificationSupa";
 export { useDeleteNotificationSupa } from "./deleteNotificationSupa";
 export { usePatchAcceptTrialInvite } from "./patchAcceptTrialInvite";
+export { usePatchReciveReward } from "./patchReciveReward";
