@@ -25,7 +25,7 @@ export default function DevSideBar() {
             </p>
           </li>
         </Link>
-        <Link to="add-friend">
+        <Link to="dev-template">
           <li className="hover:bg-schema-surface-container-highest  p-4 h-20 flex items-center gap-4 ">
             <HiTemplate />
             <p className="hidden group-hover:block transform transition duration-300">
@@ -33,7 +33,7 @@ export default function DevSideBar() {
             </p>
           </li>
         </Link>
-        <Link to="delete-friend">
+        <Link to="dev-trial">
           <li className="hover:bg-schema-surface-container-highest  p-4 h-20 flex items-center gap-4 ">
             <FaFlag />
             <p className="hidden group-hover:block transform transition duration-300">
@@ -41,7 +41,7 @@ export default function DevSideBar() {
             </p>
           </li>
         </Link>
-        <Link to="component-testing">
+        <Link to="dev-avatar">
           <li className="hover:bg-schema-surface-container-highest  p-4 h-20 flex items-center gap-4 ">
             <FaUserCircle />
             <p className="hidden group-hover:block transform transition duration-300">

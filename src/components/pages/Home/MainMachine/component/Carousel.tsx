@@ -1,0 +1,109 @@
+import { Swiper, SwiperSlide } from "swiper/react";
+import FaultyTerminal from "@/components/shared/reactBit/FaultyTerminal";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { useState } from "react";
+import GameComponent from "./GameComponent";
+
+import {
+  EffectFade,
+  Navigation,
+  Pagination,
+  Mousewheel,
+  Keyboard,
+} from "swiper/modules";
+import SlotMachine from "./SlotMachine";
+
+// import Title from "./Title";
+
+export default function App() {
+  const account = useSelector((state: RootState) => state.account);
+  const isDarkMode = account.system_preference_color_mode === "dark";
+  const [showGame, setShowGame] = useState("");
+
+  return (
+    <div className=" w-3/5 aspect-video  text-white  overflow-hidden absolute top-1/6 text-[4px]">
+      <Swiper
+        spaceBetween={1000}
+        direction={"vertical"}
+        mousewheel={{
+          forceToAxis: true, // 只允許單方向（垂直）滾動
+          releaseOnEdges: true, // 到邊界才釋放滾動事件
+          sensitivity: 0.3, // 調低靈敏度（預設是 1）
+        }}
+        effect="fade"
+        navigation
+        keyboard={true}
+        pagination={{ clickable: true }}
+        modules={[EffectFade, Navigation, Pagination, Mousewheel, Keyboard]}
+        className="w-full h-full"
+      >
+        <SwiperSlide className="flex items-center justify-center bg-schema-surface-container w-full h-full relative ">
+          <div className="absolute top-1/2 left-1/2 -translate-1/2 z-10">
+            <img
+              src={
+                isDarkMode
+                  ? "/src/assets/logo/LogoImgTxtDark.svg"
+                  : "/src/assets/logo/LogoImgTxtLight.svg"
+              }
+              alt="Logo"
+              className=" w-2/3 relative z-20 pointer-events-none"
+            />
+          </div>
+          <div className="w-full h-auto aspect-video absolute z-0  ">
+            <FaultyTerminal
+              scale={1.5}
+              gridMul={[2, 1]}
+              digitSize={1.2}
+              timeScale={1}
+              pause={false}
+              scanlineIntensity={1}
+              glitchAmount={1}
+              flickerAmount={1}
+              noiseAmp={1}
+              chromaticAberration={0}
+              dither={0}
+              curvature={0}
+              tint="#eba7e4"
+              mouseReact={true}
+              mouseStrength={0.5}
+              pageLoadAnimation={false}
+              brightness={0.5}
+            />
+          </div>
+        </SwiperSlide>
+        <SwiperSlide className="flex items-center justify-center  w-full h-full relative bg-schema-surface-container">
+          <div className="absolute top-1/2 left-1/2 -translate-1/2 z-10 ">
+            <p>你是一個自律的人嗎？</p>
+          </div>
+        </SwiperSlide>
+        <SwiperSlide className="flex items-center justify-center bg-schema-surface-container w-full h-full relative ">
+          <div className="absolute top-1/2 left-1/2 -translate-1/2 z-10">
+            <p>不是你不夠自律</p>
+            <p>是你沒有把人生當成遊戲！</p>
+          </div>
+        </SwiperSlide>
+        <SwiperSlide className="flex flex-col items-center justify-center bg-schema-surface-container w-full h-full relative border">
+          <div className="absolute top-1/2 left-1/2 -translate-1/2  z-10 flex flex-col items-center   py-auto">
+            <p>跟朋友一起來場</p>
+            <p>改變人生的遊戲嗎？</p>
+            <button
+              onClick={() => setShowGame("開始遊戲")}
+              className="rounded-full bg-schema-primary px-[5%] py-[1%] text-schema-inverse-on-surface"
+            >
+              開始遊戲
+            </button>
+          </div>
+        </SwiperSlide>
+        <SwiperSlide className="flex flex-col items-center justify-center bg-schema-surface-container w-full h-full relative">
+          <GameComponent />
+        </SwiperSlide>
+        <SwiperSlide className="flex flex-col items-center justify-center bg-schema-surface-container w-full h-full relative">
+          <SlotMachine />
+        </SwiperSlide>
+      </Swiper>
+
+      {showGame && <GameComponent />}
+    </div>
+  );
+}
