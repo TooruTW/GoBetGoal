@@ -1,5 +1,5 @@
 import { supabase } from "@/supabaseClient";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const patchAcceptTrialInvite = async ({
   trial_id,
@@ -25,10 +25,14 @@ const patchAcceptTrialInvite = async ({
 };
 
 export const usePatchAcceptTrialInvite = () => {
+  const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: patchAcceptTrialInvite,
     onError: (error) => {
       console.log(error);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["user_info"],exact:false });
     },
   });
 

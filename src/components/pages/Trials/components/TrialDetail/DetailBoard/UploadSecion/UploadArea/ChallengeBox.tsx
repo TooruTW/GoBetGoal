@@ -17,11 +17,14 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { useParams } from "react-router-dom";
 import PopupCard from "./PopupCard";
+import CheckBox from "./CheckBox";
 
 export default function ChallengeBox({
   currentChallenge,
+  isAIChecking,
 }: {
   currentChallenge: TrialDetailSupa;
+  isAIChecking: boolean;
 }) {
   const {
     stage_index,
@@ -34,6 +37,8 @@ export default function ChallengeBox({
   const [isUser, setIsUser] = useState(false);
   const userId = useSelector((state: RootState) => state.account.user_id);
   const { playerId } = useParams();
+
+
 
   useEffect(() => {
     if (!userId) return;
@@ -79,16 +84,20 @@ export default function ChallengeBox({
   const { mutate: patchChanceRemain } = usePatchChanceRemain();
   const queryClient = useQueryClient();
   const { mutate: postPostSupa } = usePostPostSupa();
-const handleCheat = ()=>{
-  patchUploadToChallengeHistorySupa({history_id: currentChallenge.id, imageUrlArr: [], isCheat: true}, {
-    onSuccess: () => {
-      console.log("cheat success");
-      queryClient.invalidateQueries({
-        queryKey: ["trial", currentChallenge.trial_id],
-      });
-    },
-  });
-}
+
+  const handleCheat = () => {
+    patchUploadToChallengeHistorySupa(
+      { history_id: currentChallenge.id, imageUrlArr: [], isCheat: true },
+      {
+        onSuccess: () => {
+          console.log("cheat success");
+          queryClient.invalidateQueries({
+            queryKey: ["trial", currentChallenge.trial_id],
+          });
+        },
+      }
+    );
+  };
   useEffect(() => {
     if (
       imageUrlArr &&
@@ -117,7 +126,6 @@ const handleCheat = ()=>{
                 },
               }
             );
-
           } else {
             patchChanceRemain(
               {
@@ -207,39 +215,74 @@ const handleCheat = ()=>{
 
       <div className="flex justify-center items-center rounded-md gap-2 max-md:flex-col h-full md:max-h-55 ">
         {challenge_stage.description.map((item, index) => {
-          return (
-            <div
-              key={index}
-              className="border-1 border-schema-primary rounded-md h-full w-full max-lg:max-h-60 max-md:aspect-square max-w-2/3"
-            >
-              <div className="w-full h-1/5 bg-schema-primary text-p-small flex items-center justify-center text-schema-on-primary py-3 px-1 max-lg:text-label leading-5">
-                {item}
-              </div>
-              <div className="w-full h-4/5 flex items-center justify-center border-2 border-schema-primary relative">
-                {previewImage.length > 0 && (
-                  <RetryImage
-                    maxRetries={3}
-                    retryDelay={1500}
-                    src={previewImage?.[index]}
-                    alt="preview"
-                    className={`w-full h-full object-cover opacity-50 ${
-                      upload_image ? "opacity-100" : "opacity-50"
-                    }`}
-                  />
-                )}
+          if (isAIChecking) {
+            return (
+              <div
+                key={index}
+                className="border-1 border-schema-primary rounded-md h-full w-full max-lg:max-h-60 max-md:aspect-square max-w-2/3"
+              >
+                <div className="w-full h-1/5 bg-schema-primary text-p-small flex items-center justify-center text-schema-on-primary py-3 px-1 max-lg:text-label leading-5">
+                  {item}
+                </div>
+                <div className="w-full h-4/5 flex items-center justify-center border-2 border-schema-primary relative">
+                  {previewImage.length > 0 && (
+                    <RetryImage
+                      maxRetries={3}
+                      retryDelay={1500}
+                      src={previewImage?.[index]}
+                      alt="preview"
+                      className={`w-full h-full object-cover opacity-50 ${
+                        upload_image ? "opacity-100" : "opacity-50"
+                      }`}
+                    />
+                  )}
 
-                {!imageUrlArr && status === "pending" && (
-                  <UploadImageInput
-                    className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-full h-full"
-                    selectedFile={selectedFile?.[index]}
-                    setSelectedFile={handleSetSelectedFile}
-                    index={index}
-                  />
-                )}
-                {isShowCheckResult && <ShowCheckResult state={checkingState} />}
+                  {!imageUrlArr && status === "pending" && (
+                    <UploadImageInput
+                      className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-full h-full"
+                      selectedFile={selectedFile?.[index]}
+                      setSelectedFile={handleSetSelectedFile}
+                      index={index}
+                    />
+                  )}
+                  {isShowCheckResult && (
+                    <ShowCheckResult state={checkingState} />
+                  )}
+                </div>
               </div>
-            </div>
-          );
+            );
+          } else {
+            return (
+              <div
+                key={`${index}-noAiCheck`}
+                className="border-1 border-schema-primary rounded-md h-full w-full max-lg:max-h-60 max-md:aspect-square max-w-2/3"
+              >
+                <div className="w-full h-1/5 bg-schema-primary text-p-small flex items-center justify-center text-schema-on-primary py-3 px-1 max-lg:text-label leading-5">
+                  {item}
+                </div>
+                <div className="w-full h-4/5 flex items-center justify-center border-2 border-schema-primary relative">
+                  {previewImage.length > 0 && (
+                    <RetryImage
+                      maxRetries={3}
+                      retryDelay={1500}
+                      src={previewImage?.[index]}
+                      alt="preview"
+                      className={`w-full h-full object-cover opacity-50 ${
+                        upload_image ? "opacity-100" : "opacity-50"
+                      }`}
+                    />
+                  )}
+
+                  {!imageUrlArr && status === "pending" && (
+                    <CheckBox />
+                  )}
+                  {isShowCheckResult && (
+                    <ShowCheckResult state={checkingState} />
+                  )}
+                </div>
+              </div>
+            );
+          }
         })}
       </div>
 
@@ -265,7 +308,9 @@ const handleCheat = ()=>{
           )}
           {chance_remain === 0 && status === "pending" && (
             <div className="flex justify-center gap-2 w-full">
-              <Button className="w-1/2" onClick={handleCheat}>使用快樂遮羞布</Button>
+              <Button className="w-1/2" onClick={handleCheat}>
+                使用快樂遮羞布
+              </Button>
               <Button className="w-1/2">接受失敗</Button>
             </div>
           )}
@@ -278,7 +323,14 @@ const handleCheat = ()=>{
           )}
         </div>
       )}
-      {isShowPopup && <PopupCard chance_remain={chance_remain} status={status} handleClosePopup={setIsShowPopup} handleCheat={handleCheat}/>}
+      {isShowPopup && (
+        <PopupCard
+          chance_remain={chance_remain}
+          status={status}
+          handleClosePopup={setIsShowPopup}
+          handleCheat={handleCheat}
+        />
+      )}
     </div>
   );
 }

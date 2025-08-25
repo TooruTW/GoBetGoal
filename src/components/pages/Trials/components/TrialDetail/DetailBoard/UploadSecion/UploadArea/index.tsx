@@ -10,12 +10,14 @@ type acceptProps = {
   trial: TrialDetailSupa[];
   currentIndex: number;
   setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
+  isAIChecking: boolean;
 };
 
 export default function UploadArea({
   trial,
   currentIndex,
   setCurrentIndex,
+  isAIChecking,
 }: acceptProps) {
   const [currentChallenge, setCurrentChallenge] =
     useState<TrialDetailSupa | null>(null);
@@ -84,7 +86,10 @@ export default function UploadArea({
     <div className="h-full w-full relative max-xl:bg-schema-surface-container-high max-xl:p-2 max-xl:rounded-2xl overflow-hidden">
       <div className="w-full h-full" ref={containerRef}>
         {currentChallenge && (
-          <ChallengeBox currentChallenge={currentChallenge} />
+          <ChallengeBox
+            currentChallenge={currentChallenge}
+            isAIChecking={isAIChecking}
+          />
         )}
       </div>
       <GrFormNext

@@ -29,6 +29,13 @@ export default function UploadCalendar(props: acceptProps) {
   const [failCount, setFailCount] = useState<number>(0);
   const [currentIndex, setCurrentIndex] = useState<number>(1);
   const [isChooseDate, setIsChooseDate] = useState<boolean>(false);
+  const [isAIChecking, setIsAIChecking] = useState<boolean>(true);
+
+  useEffect(()=>{
+    if(trial.length > 0){
+      setIsAIChecking(trial[0].trial.challenge.check_by_ai);
+    }
+  },[trial])
 
   dayjs.extend(isSameOrBefore);
   dayjs.extend(isSameOrAfter);
@@ -134,6 +141,7 @@ export default function UploadCalendar(props: acceptProps) {
           trial={filteredTrial}
           currentIndex={currentIndex}
           setCurrentIndex={setCurrentIndex}
+          isAIChecking={isAIChecking}
         />
       </div>
     </div>
