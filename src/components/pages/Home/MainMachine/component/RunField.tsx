@@ -1,7 +1,6 @@
 import AchievementLoop from "./AchievementLoop.tsx";
 import TemplateLoop from "./TemplateLoop.tsx";
 import Candy from "@/components/layout/Header/Navigator/Candy.tsx";
-import Keyboard from "./Keyboard.tsx";
 
 export default function RunField() {
   const candy = 999;
@@ -10,7 +9,7 @@ export default function RunField() {
       <div className="  h-full">
         <div className="flex justify-evenly items-center">
           {" "}
-          <video autoPlay loop muted playsInline className=" w-50 ">
+          <video autoPlay loop muted playsInline className="w-30 md:w-50 ">
             <source
               src="/animation/mainCharacter/character45.webm"
               type="video/webm"
@@ -40,16 +39,19 @@ export default function RunField() {
               </video>
             </div>
           </div>
-          <h3 className="text-h2 font-bold">多樣試煉</h3>
-          <Keyboard />
+          <h3 className="text-h5 md:text-h2 font-bold">
+            AI小怪獸陪你達成多樣試煉
+          </h3>
         </div>
 
         <TemplateLoop />
       </div>
       <div className=" w-full h-full flex flex-col items-end">
-        <div className="flex items-center justify-evenly w-full">
+        <div className="flex items-center justify-evenly w-full px-3 max-w-330">
           <div>
-            <h3 className="text-h2 font-bold  w-1/3 ">贏取豐厚貝果幣、成就</h3>
+            <h3 className="text-h5 md:text-h2 font-bold  w-1/3 ">
+              贏取豐厚貝果幣、成就
+            </h3>
             <Candy amount={candy} />
           </div>
 
@@ -76,14 +78,14 @@ export default function RunField() {
             />
           </div>
 
-          <div className="flex justify-evenly items-center  w-1/3">
+          <div className="flex justify-evenly items-center  ">
             {" "}
             <video
               autoPlay
               loop
               muted
               playsInline
-              className=" w-50 scale-x-[-1] "
+              className=" w-30 md:w-50 scale-x-[-1] "
             >
               <source
                 src="/animation/mainCharacter/character45.webm"

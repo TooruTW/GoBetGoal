@@ -13,10 +13,12 @@ import { monsterDefault } from "@/assets/monster";
 import Run from "./MainMachine/component/Run.tsx";
 import Progress from "./MainMachine/component/Progress.tsx";
 import AwardList from "./MainMachine/component/AwardList.tsx";
-import Footer from "./MainMachine/component/Footer.tsx";
-import Post from "./MainMachine/component/Post.tsx";
+import PostSection from "./MainMachine/component/PostSection.tsx";
 import RunField from "./MainMachine/component/RunField.tsx";
-import Ball from "./MainMachine/component/Ball.tsx";
+import Ball from "./MainMachine/component/Footer.tsx";
+import CTA from "./MainMachine/component/CTA.tsx";
+import Plan from "../Shop/components/Plan.tsx";
+import { Button } from "@/components/ui/button.tsx";
 
 // 註冊 ScrollTrigger 插件
 gsap.registerPlugin(ScrollTrigger);
@@ -37,8 +39,8 @@ export default function Home() {
         { scale: 1, opacity: 0 },
         { scale: 1, opacity: 1 },
         { scale: 7, opacity: 1, x: 0 },
-        { scale: 7, opacity: 1, x: -1000 },
-        { scale: 1, opacity: 1, x: -2000 },
+        { scale: 4, opacity: 1, x: -600 },
+        { scale: 1, opacity: 1, x: -1220 },
       ],
       duration: 1,
       scrollTrigger: {
@@ -120,6 +122,7 @@ export default function Home() {
           />
           <MainMachine />
         </div>
+        <Button>立即體驗</Button>
 
         <div className="absolute h-2/3 right-0 translate-x-full snap-auto snap-center snap-always">
           <Run />
@@ -128,7 +131,7 @@ export default function Home() {
 
       <Character />
       <RunField />
-      <Post />
+      <PostSection />
       <Progress />
 
       {/* RunRef 區域 - 獨立的滾動觸發區域 */}
@@ -145,10 +148,14 @@ export default function Home() {
           </div>
         </div>
       </div> */}
-      <div className="snap-auto snap-center snap-always">
-        <AwardList />
+
+      <AwardList />
+      <div className="py-30 px-3">
+        <h2 className="text-h2">一個貝果的錢，讓你有肆意的資本</h2>
+        <Plan />
       </div>
-      <Footer />
+
+      <CTA />
       <Ball />
     </div>
   );

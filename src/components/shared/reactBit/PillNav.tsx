@@ -334,7 +334,13 @@ const PillNav: React.FC<PillNavProps> = ({
                       to={item.href}
                       className={basePillClasses}
                       style={pillStyle}
-                      aria-label={item.ariaLabel || item.label}
+                      aria-label={
+                        typeof item.ariaLabel === "string"
+                          ? item.ariaLabel
+                          : typeof item.label === "string"
+                          ? item.label
+                          : undefined
+                      }
                       onMouseEnter={() => handleEnter(i)}
                       onMouseLeave={() => handleLeave(i)}
                     >
@@ -346,7 +352,13 @@ const PillNav: React.FC<PillNavProps> = ({
                       href={item.href}
                       className={basePillClasses}
                       style={pillStyle}
-                      aria-label={item.ariaLabel || item.label}
+                      aria-label={
+                        typeof item.ariaLabel === "string"
+                          ? item.ariaLabel
+                          : typeof item.label === "string"
+                          ? item.label
+                          : undefined
+                      }
                       onMouseEnter={() => handleEnter(i)}
                       onMouseLeave={() => handleLeave(i)}
                     >

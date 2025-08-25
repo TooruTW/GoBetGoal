@@ -6,6 +6,8 @@ import monsterSleep from "./monsterSleep.webp";
 import monsterCry from "./monsterCry.webp";
 import monsterCongrats from "./monsterCongrats.webp";
 import monsterDefault from "./monsterDefault.webp";
+import monsterLook from "./monsterLook.webp";
+
 
 export {
   monsterRun,
@@ -15,6 +17,7 @@ export {
   monsterCry,
   monsterCongrats,
   monsterDefault,
+  monsterLook,
 };
 
 export type MonsterImage = typeof monsterDefault;
