@@ -93,9 +93,7 @@ export default function TrialComplete() {
     ).length;
     if (passCount / totalHistory < 0.8) {
       setRewardRate(0);
-    } else if (passCount / totalHistory < 0.9) {
-      setRewardRate(totalHistory >= 28 ? 1.5 : 1.2);
-    }
+    } 
      else if (passCount / totalHistory < 1) {
       setRewardRate(totalHistory >= 28 ? 1.5 : 1.2);
     } else {

@@ -26,6 +26,7 @@ export default function ChallengeBox({
   currentChallenge: TrialDetailSupa;
   isAIChecking: boolean;
 }) {
+
   const {
     stage_index,
     start_at,
@@ -34,12 +35,19 @@ export default function ChallengeBox({
     upload_image,
     status,
   } = currentChallenge;
-  const [isUser, setIsUser] = useState(false);
-  const userId = useSelector((state: RootState) => state.account.user_id);
+
   const { playerId } = useParams();
+  const userId = useSelector((state: RootState) => state.account.user_id);
+  const [isUser, setIsUser] = useState(false);
+  const [isShowCheckResult, setIsShowCheckResult] = useState(false);
+  const { checkImage } = useImageCheck();
+  const [checkingState, setCheckingState] = useState<
+    "checking" | "pass" | "fail"
+  >("checking");
+  const [isShowPopup, setIsShowPopup] = useState(false);
+  const queryClient = useQueryClient();
 
-
-
+  // check if user is the player
   useEffect(() => {
     if (!userId) return;
     if (playerId === userId) {
@@ -49,26 +57,24 @@ export default function ChallengeBox({
     }
   }, [userId, playerId]);
 
-  const [isShowCheckResult, setIsShowCheckResult] = useState(false);
-  const [checkingState, setCheckingState] = useState<
-    "checking" | "pass" | "fail"
-  >("checking");
-
-  const { checkImage } = useImageCheck();
-
   // 管理上傳圖片狀態
+  // preview image
   const [previewImage, setPreviewImage] = useState<string[]>([]);
+  // selected upload file
   const [selectedFile, setSelectedFile] = useState<File[]>([]);
+  // uploaded file name
   const [uploadedFileName, setUploadedFileName] = useState<string[]>([]);
+  // image upload
   const { isPending, compressImages, uploadImages } = useImageUpload();
+  // image url array from supabase storage
   const {
     data: imageUrlArr,
     isLoading: isImageLoading,
     error: imageError,
   } = useGetImageUrl(uploadedFileName);
 
-  const [isShowPopup, setIsShowPopup] = useState(false);
-
+// if there is upload image, set preview image to upload image
+// if there is no upload image, set preview image to sample image
   useEffect(() => {
     if (status !== "pending" && currentChallenge.upload_image) {
       setPreviewImage(currentChallenge.upload_image);
@@ -77,14 +83,15 @@ export default function ChallengeBox({
     }
   }, [currentChallenge, challenge_stage.sample_image, status]);
 
-  // 更新資料庫
+  // upload challenge result to database
   const { mutate: patchUploadToChallengeHistorySupa } =
     usePatchUploadToChallengeHistorySupa();
-  // 更新剩餘次數
+  // update chance remain
   const { mutate: patchChanceRemain } = usePatchChanceRemain();
-  const queryClient = useQueryClient();
+  // auto post to social media
   const { mutate: postPostSupa } = usePostPostSupa();
 
+  // handle cheat
   const handleCheat = () => {
     patchUploadToChallengeHistorySupa(
       { history_id: currentChallenge.id, imageUrlArr: [], isCheat: true },
@@ -273,9 +280,7 @@ export default function ChallengeBox({
                     />
                   )}
 
-                  {!imageUrlArr && status === "pending" && (
-                    <CheckBox />
-                  )}
+                  {!imageUrlArr && status === "pending" && <CheckBox />}
                   {isShowCheckResult && (
                     <ShowCheckResult state={checkingState} />
                   )}
