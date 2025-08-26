@@ -18,7 +18,7 @@ export default function Overview() {
       <section className="flex md:flex-row flex-col gap-4">
         <section className="w-full md:w-1/2 ">
           <h3 className="text-xl font-bold">年度總覽</h3>
-          <div className="w-full bg-schema-surface-container rounded-xl px-4 py-8 h-120">
+          <div className="w-full bg-schema-surface-container rounded-xl px-4 py-8 h-120 flex flex-col justify-between">
             <p className="text-xl font-bold">關卡數</p>
             <ReviewDashboard />
           </div>
