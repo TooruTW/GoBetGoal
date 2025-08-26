@@ -8,12 +8,13 @@ import {
   useNavigate,
   useParams,
 } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setAccount } from "@/store/slices/accountSlice";
 import LogOut from "./components/LogOut";
 import { useGetUserInfoSupa } from "@/api/getUserInfoSupa";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { RootState } from "@/store";
 
 export default function UserPage() {
   const dispatch = useDispatch();
@@ -22,12 +23,12 @@ export default function UserPage() {
   const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
   const { id } = useParams();
   const location = useLocation();
+  const userID = useSelector((state: RootState) => state.account.user_id);
 
+  // 選擇tab
   useEffect(() => {
     const pathname = location.pathname.split("/");
     const tab = pathname[pathname.length - 1];
-    console.log(tab, "tab");
-
     switch (tab) {
       case "overview":
         setSelectedTabIndex(0);
@@ -46,6 +47,7 @@ export default function UserPage() {
     }
   }, [location, id, navigate]);
 
+  // 登出
   const handleLogout = () => {
     postLogOutSupa(undefined, {
       onSuccess: () => {
@@ -56,13 +58,10 @@ export default function UserPage() {
     });
   };
 
+  // 取得用戶資訊
   const { data: userInfo } = useGetUserInfoSupa(id || "");
-  useEffect(() => {
-    if (userInfo) {
-      console.log(userInfo, "userInfo", id, "id");
-    }
-  }, [userInfo, id]);
 
+  // 選擇tab的動畫
   useGSAP(() => {
     let position = 1;
     let widthScale = 1;
@@ -97,7 +96,7 @@ export default function UserPage() {
 
   return (
     <div className="w-full min-h-screen p-6 flex flex-col gap-4 items-center ">
-      <UserTitle userInfo={userInfo?.[0] || undefined} />
+      <UserTitle userInfo={userInfo?.[0] || undefined} isSelf={id === userID} />
       <nav className="w-55 px-4 py-2 rounded-lg bg-schema-surface-container flex justify-between text-p-small relative self-start">
         <div className="absolute left-1 top-0 w-12.5 rounded-lg h-full scale-y-80 border-1 border-schema-outline pointer-events-none select-box"></div>
         <Link to={`overview`}>

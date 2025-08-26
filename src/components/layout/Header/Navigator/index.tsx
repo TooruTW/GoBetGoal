@@ -134,7 +134,7 @@ export default function Navigator({setIsShowNotification}:NavigatorProps) {
                       </div>
                     </Link>
 
-                    <Link to="trials" className="block">
+                    <Link to="trials/list/my/all" className="block">
                       <div className="transition-all hover:scale-105 active:scale-95 px-8 py-4 hover:bg-schema-surface-container-highest">
                         我的試煉
                       </div>
@@ -146,18 +146,14 @@ export default function Navigator({setIsShowNotification}:NavigatorProps) {
                       </div>
                     </Link>
 
-                    <Link
-                      to={{
-                        pathname: account.user_id
-                          ? `/user/${account.user_id}`
-                          : "/auth",
-                      }}
+                    <div
                       className="sm:hidden block"
+                      onClick={()=>setIsShowNotification()}
                     >
                       <div className="cursor-pointer px-8 py-4 transition-all hover:scale-105 active:scale-95 hover:bg-schema-surface-container-highest">
                         通知中心
                       </div>
-                    </Link>
+                    </div>
 
                     <Link
                       to={{

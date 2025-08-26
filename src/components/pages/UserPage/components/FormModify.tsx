@@ -4,7 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { Button } from "@/components/ui/button";
-import Notificatioin from "@/components/pages/SocialPages/components/Notification";
+import Notification from "@/components/pages/SocialPages/components/Notification";
 
 export default function FormModify() {
   const { mutate: patchChangePassword } = usePatchChangePassword();
@@ -78,9 +78,9 @@ export default function FormModify() {
         </div>
 
         {noteContent && (
-          <Notificatioin time={2000}>
+          <Notification time={2000}>
             <p>{noteContent}</p>
-          </Notificatioin>
+          </Notification>
         )}
       </div>
     </div>

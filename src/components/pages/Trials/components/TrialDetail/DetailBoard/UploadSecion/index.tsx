@@ -29,6 +29,13 @@ export default function UploadCalendar(props: acceptProps) {
   const [failCount, setFailCount] = useState<number>(0);
   const [currentIndex, setCurrentIndex] = useState<number>(1);
   const [isChooseDate, setIsChooseDate] = useState<boolean>(false);
+  const [isAIChecking, setIsAIChecking] = useState<boolean>(true);
+
+  useEffect(()=>{
+    if(trial.length > 0){
+      setIsAIChecking(trial[0].trial.challenge.check_by_ai);
+    }
+  },[trial])
 
   dayjs.extend(isSameOrBefore);
   dayjs.extend(isSameOrAfter);
@@ -54,8 +61,7 @@ export default function UploadCalendar(props: acceptProps) {
   }, [calendarRange]);
   // 過濾trial
   useEffect(() => {
-    console.log("filter triggered");
-    
+    // filter trial by player id
     const filteredTrial = trial.filter(
       (item) => item.participant_id === playerId
     );
@@ -88,13 +94,13 @@ export default function UploadCalendar(props: acceptProps) {
       <div className="flex flex-col gap-6 items-center justify-between w-full md:max-w-96">
         <div className="flex flex-col gap-3 w-full">
           <ul className="flex gap-3 w-full max-lg:text-label">
-            <li className="border-1 border-[#85AC7C] rounded-md w-full grid grid-cols-2">
+            <li className="border-1 border-[#85AC7C] rounded-md w-full grid grid-cols-2 overflow-hidden">
               <span className="text-center bg-[#85AC7C] text-white">通過</span>
               <span className="text-center">
                 {passCount}/{filteredTrial.length}
               </span>
             </li>
-            <li className="border-1 border-[#D8B747] rounded-md w-full grid grid-cols-2">
+            <li className="border-1 border-[#D8B747] rounded-md w-full grid grid-cols-2 overflow-hidden">
               <span className="text-center bg-[#D8B747] text-white">
                 遮羞布
               </span>
@@ -102,7 +108,7 @@ export default function UploadCalendar(props: acceptProps) {
                 {cheatCount}/{filteredTrial.length}
               </span>
             </li>
-            <li className="border-1 border-[#D98AD1] rounded-md w-full grid grid-cols-2">
+            <li className="border-1 border-[#D98AD1] rounded-md w-full grid grid-cols-2 overflow-hidden">
               <span className="text-center bg-[#D98AD1] text-white">失敗</span>
               <span className="text-center">
                 {failCount}/{filteredTrial.length}
@@ -134,6 +140,7 @@ export default function UploadCalendar(props: acceptProps) {
           trial={filteredTrial}
           currentIndex={currentIndex}
           setCurrentIndex={setCurrentIndex}
+          isAIChecking={isAIChecking}
         />
       </div>
     </div>

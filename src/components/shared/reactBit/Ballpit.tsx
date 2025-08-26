@@ -21,8 +21,6 @@ import {
   ACESFilmicToneMapping,
   Raycaster,
   Plane,
-  Shader,
-  Material,
 } from "three";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 import { Observer } from "gsap/Observer";
@@ -245,12 +243,19 @@ class X {
 
   private onIntersection(entries: IntersectionObserverEntry[]): void {
     this.isAnimating = entries[0].isIntersecting;
-    this.isAnimating ? this.startAnimation() : this.stopAnimation();
+    if (this.isAnimating) {
+      this.startAnimation();
+    } else {
+      this.stopAnimation();
+    }
   }
-
   private onVisibilityChange(): void {
     if (this.isAnimating) {
-      document.hidden ? this.stopAnimation() : this.startAnimation();
+      if (document.hidden) {
+        this.stopAnimation();
+      } else {
+        this.startAnimation();
+      }
     }
   }
 
@@ -492,12 +497,14 @@ class Y extends MeshPhysicalMaterial {
     thicknessScale: { value: 10 },
   };
 
-  onBeforeCompile2?: (shader: Shader) => void;
+  defines: { [key: string]: string } = { USE_UV: "" };
+
+  onBeforeCompile2?: (shader: any) => void;
 
   constructor(params: YMaterialParams) {
     super(params);
     this.defines = { USE_UV: "" };
-    this.onBeforeCompile = (shader: Shader) => {
+    this.onBeforeCompile = (shader: any) => {
       Object.assign(shader.uniforms, this.uniforms);
       shader.fragmentShader =
         `
@@ -524,8 +531,8 @@ class Y extends MeshPhysicalMaterial {
         void main() {
         `
       );
-      const lightsChunk = ShaderChunk.lights_fragment_begin.replaceAll(
-        "RE_Direct( directLight, geometryPosition, geometryNormal, geometryViewDir, geometryClearcoatNormal, material, reflectedLight );",
+      const lightsChunk = ShaderChunk.lights_fragment_begin.replace(
+        /RE_Direct\( directLight, geometryPosition, geometryNormal, geometryViewDir, geometryClearcoatNormal, material, reflectedLight \);/g,
         `
           RE_Direct( directLight, geometryPosition, geometryNormal, geometryViewDir, geometryClearcoatNormal, material, reflectedLight );
           RE_Direct_Scattering(directLight, vUv, geometryPosition, geometryNormal, geometryViewDir, geometryClearcoatNormal, reflectedLight);

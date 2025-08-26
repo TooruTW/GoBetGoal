@@ -7,6 +7,7 @@ type TrialParticipant = {
   participant_id: string;
   invite_status: "pending" | "accept" | "reject";
   created_at: string;
+  is_close: boolean;
 };
 
 // 類型守衛函數
@@ -31,7 +32,7 @@ function isTrialParticipant(obj: unknown): obj is TrialParticipant {
     String(item.trial_id).length > 0 &&
     String(item.invite_by).length > 0 &&
     String(item.participant_id).length > 0 &&
-    String(item.created_at).length > 0
+    String(item.created_at).length > 0 
   );
 }
 

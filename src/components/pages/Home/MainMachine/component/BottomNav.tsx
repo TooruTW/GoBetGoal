@@ -12,7 +12,7 @@ export default function ButtonNav() {
       items={[
         { label: "Home", href: "/" },
         { label: "創建試煉", href: "/create-trial" },
-        { label: "試煉廣場", href: "/trials/all/all" },
+        { label: "試煉廣場", href: "/trials/list/all/all" },
         { label: "社交平台", href: "/social-pages" },
         { label: <IoMail />, href: "/about" },
         {

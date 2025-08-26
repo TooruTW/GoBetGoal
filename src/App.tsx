@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, ScrollRestoration } from "react-router-dom";
 import Layout from "./components/layout/Layout";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -57,6 +57,7 @@ function App() {
   return (
     <Layout className={isDarkMode === "dark" ? "dark" : ""}>
       <Outlet />
+      <ScrollRestoration />
     </Layout>
   );
 }

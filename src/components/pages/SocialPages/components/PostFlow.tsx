@@ -6,6 +6,7 @@ import { usePostAllSupa } from "@/api";
 import { Post } from "@/types/Post";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type PostFlowProps = {
   sortBy?: "likeCount" | "sport" | "sleep" | "diet" | "all";
@@ -15,20 +16,20 @@ export default function PostFlow({ sortBy = "all" }: PostFlowProps) {
   const switchRef = useRef<HTMLDivElement>(null);
   const [isRecommend, setIsRecommend] = useState(true);
   const [postList, setPostList] = useState<Post[] | null>(null);
-  const { data, isLoading, error } = usePostAllSupa();
+  const { data, isLoading } = usePostAllSupa();
   const userId = useSelector((state: RootState) => state.account.user_id);
 
-  useEffect(() => {
-    if (isLoading || error || !data) return;
-  }, [data, isLoading, error, isRecommend, userId]);
-
+  // post filter
   useEffect(() => {
     let newList = [];
     if (isLoading || !data) return;
     switch (sortBy) {
       case "all":
         newList = [...data];
-        newList.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+        newList.sort(
+          (a, b) =>
+            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        );
         break;
       case "sport":
         newList = [...data].filter((post) =>
@@ -61,6 +62,7 @@ export default function PostFlow({ sortBy = "all" }: PostFlowProps) {
     setPostList(newList);
   }, [data, isLoading, sortBy, isRecommend, userId]);
 
+  // switch animation
   useGSAP(
     () => {
       if (isRecommend) {
@@ -82,7 +84,7 @@ export default function PostFlow({ sortBy = "all" }: PostFlowProps) {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex gap-2 w-full h-16 max-w-140 fixed top-20 left-1/2 -translate-x-1/2 z-10 bg-schema-surface-container">
+      <div className="flex gap-2 w-full h-16 max-w-140 sticky top-20 z-10 bg-schema-surface-container">
         <div
           className="w-1/2 flex justify-center items-center py-2 hover:cursor-pointer"
           onClick={() => setIsRecommend(true)}
@@ -95,18 +97,25 @@ export default function PostFlow({ sortBy = "all" }: PostFlowProps) {
         >
           我的追蹤
         </div>
+        {/* switch animation */}
         <div
           ref={switchRef}
           className="w-1/2 h-0.5 flex justify-center items-center absolute bottom-0 left-0 bg-schema-on-background"
         ></div>
       </div>
 
-      <div className="flex flex-col gap-4 pt-20">
+      <div className="flex flex-col gap-4">
         {postList ? (
-          postList.map((post) => <PostCard {...post} key={post.id} />)
+          postList.length > 0 ? (
+            postList.map((post) => <PostCard {...post} key={post.id} />)
+          ) : (
+            <div className="flex justify-center items-center h-screen">
+              <h1 className="text-h1">沒有任何貼文</h1>
+            </div>
+          )
         ) : (
           <div className="flex justify-center items-center h-screen">
-            <h1 className="text-h1">Loading...</h1>
+            <Skeleton className="w-full h-full" />
           </div>
         )}
       </div>

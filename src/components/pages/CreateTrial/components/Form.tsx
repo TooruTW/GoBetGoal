@@ -1,7 +1,7 @@
 import { monsterDefault } from "@/assets/monster";
 import { DatePicker } from "@/components/shared/reactBit/DatePicker";
 import ConfirmModal from "@/components/ui/ConfirmModal";
-import Notificatioin from "@/components/pages/SocialPages/components/Notification";
+import Notification from "@/components/pages/SocialPages/components/Notification";
 
 import { useForm } from "react-hook-form";
 
@@ -300,7 +300,7 @@ export default function Form({ challenge }: FormProps) {
         price: challenge.price,
         item_type: "challenge",
         type: "challenge",
-        image: challenge.img ? `/image${challenge.img}` : undefined,
+        image: challenge.img ? `${challenge.img}` : undefined,
       });
       setShowConfirm(true);
     }
@@ -351,7 +351,10 @@ export default function Form({ challenge }: FormProps) {
           試煉開始
           <DatePicker
             value={trialStartValue}
-            onChange={(date) => setValue("trialStart", date)}
+            onChange={(date) => {
+              setValue("trialStart", date);
+              console.log("trialStartValue", date);
+            }}
             placeholder="請選擇日期"
           />
           {errors.trialStart && (
@@ -429,9 +432,9 @@ export default function Form({ challenge }: FormProps) {
         />
       )}
       {note.content && (
-        <Notificatioin key={note.key} time={3000} type={note.type}>
+        <Notification key={note.key} time={3000} type={note.type}>
           <p>{note.content}</p>
-        </Notificatioin>
+        </Notification>
       )}
     </div>
   );

@@ -1,5 +1,5 @@
 import gsap from "gsap";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface acceptProps {
   amount?: number;
@@ -10,10 +10,12 @@ export default function DynamicNumber(props: acceptProps) {
   const { amount = 0, duration = 0.7 } = props;
   const dynamicNumberRef: React.RefObject<HTMLSpanElement | null> =
     useRef(null);
+    const [previousAmount, setPreviousAmount] = useState(amount);
+
   const digits = amount.toLocaleString().length;
 
   useEffect(() => {
-    const obj = { val: 0 };
+    const obj = { val: previousAmount };
 
     gsap.to(obj, {
       val: amount,
@@ -40,8 +42,11 @@ export default function DynamicNumber(props: acceptProps) {
           }
         }
       },
+      onComplete: () => {
+        setPreviousAmount(amount);
+      },
     });
-  }, [amount, duration, digits]);
+  }, [amount, duration, digits, previousAmount]);
 
   return (
     <>

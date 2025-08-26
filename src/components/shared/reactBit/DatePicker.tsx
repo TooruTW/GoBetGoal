@@ -10,6 +10,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import dayjs from "dayjs";
 
 interface DatePickerProps {
   value?: string;
@@ -30,7 +31,8 @@ export function DatePicker({
   const handleDateSelect = (selectedDate: Date | undefined) => {
     if (selectedDate) {
       // 將日期轉換為 YYYY-MM-DD 格式的字串
-      const dateString = selectedDate.toISOString().split("T")[0];
+      const dateString = dayjs(selectedDate).format("YYYY-MM-DD");
+
       onChange?.(dateString);
     }
     setOpen(false);

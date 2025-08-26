@@ -1,12 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { TrialDetailSupa } from "@/types/TrialDetailSupa";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import UploadImageInput from "./UploadImageInput";
 import {
   useGetImageUrl,
   usePatchUploadToChallengeHistorySupa,
   usePatchChanceRemain,
-  usePostPostSupa,
 } from "@/api";
 import { useImageUpload } from "@/hooks/useImageUpload";
 import { useImageCheck } from "@/hooks/useImageCheck";
@@ -17,11 +16,16 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { useParams } from "react-router-dom";
 import PopupCard from "./PopupCard";
+import CheckBox from "./CheckBox";
+import  goodJob from "@/assets/resultNoImg/goodJob.png";
+import  cheat from "@/assets/resultNoImg/cheat.jpg";
 
 export default function ChallengeBox({
   currentChallenge,
+  isAIChecking,
 }: {
   currentChallenge: TrialDetailSupa;
+  isAIChecking: boolean;
 }) {
   const {
     stage_index,
@@ -31,10 +35,30 @@ export default function ChallengeBox({
     upload_image,
     status,
   } = currentChallenge;
-  const [isUser, setIsUser] = useState(false);
-  const userId = useSelector((state: RootState) => state.account.user_id);
-  const { playerId } = useParams();
 
+  const { playerId } = useParams();
+  const userId = useSelector((state: RootState) => state.account.user_id);
+  const [isUser, setIsUser] = useState(false);
+  const [isShowCheckResult, setIsShowCheckResult] = useState(false);
+  const { checkImage } = useImageCheck();
+  const [checkingState, setCheckingState] = useState<
+    "checking" | "pass" | "fail"
+  >("checking");
+  const [isShowPopup, setIsShowPopup] = useState(false);
+  const [mortalResult, setMortalResult] = useState<(boolean | "pending")[]>([
+    "pending",
+  ]);
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if (isAIChecking) return;
+    const checkNodeCount = challenge_stage.description.length;
+    const checkNodeResult = Array(checkNodeCount).fill("pending");
+
+    setMortalResult(checkNodeResult);
+  }, [challenge_stage.description, isAIChecking]);
+
+  // check if user is the player
   useEffect(() => {
     if (!userId) return;
     if (playerId === userId) {
@@ -44,26 +68,24 @@ export default function ChallengeBox({
     }
   }, [userId, playerId]);
 
-  const [isShowCheckResult, setIsShowCheckResult] = useState(false);
-  const [checkingState, setCheckingState] = useState<
-    "checking" | "pass" | "fail"
-  >("checking");
-
-  const { checkImage } = useImageCheck();
-
   // 管理上傳圖片狀態
+  // preview image
   const [previewImage, setPreviewImage] = useState<string[]>([]);
+  // selected upload file
   const [selectedFile, setSelectedFile] = useState<File[]>([]);
+  // uploaded file name
   const [uploadedFileName, setUploadedFileName] = useState<string[]>([]);
+  // image upload
   const { isPending, compressImages, uploadImages } = useImageUpload();
+  // image url array from supabase storage
   const {
     data: imageUrlArr,
     isLoading: isImageLoading,
     error: imageError,
   } = useGetImageUrl(uploadedFileName);
 
-  const [isShowPopup, setIsShowPopup] = useState(false);
-
+  // if there is upload image, set preview image to upload image
+  // if there is no upload image, set preview image to sample image
   useEffect(() => {
     if (status !== "pending" && currentChallenge.upload_image) {
       setPreviewImage(currentChallenge.upload_image);
@@ -72,23 +94,68 @@ export default function ChallengeBox({
     }
   }, [currentChallenge, challenge_stage.sample_image, status]);
 
-  // 更新資料庫
+  // upload challenge result to database
   const { mutate: patchUploadToChallengeHistorySupa } =
     usePatchUploadToChallengeHistorySupa();
-  // 更新剩餘次數
+  // update chance remain
   const { mutate: patchChanceRemain } = usePatchChanceRemain();
-  const queryClient = useQueryClient();
-  const { mutate: postPostSupa } = usePostPostSupa();
-const handleCheat = ()=>{
-  patchUploadToChallengeHistorySupa({history_id: currentChallenge.id, imageUrlArr: [], isCheat: true}, {
-    onSuccess: () => {
-      console.log("cheat success");
-      queryClient.invalidateQueries({
-        queryKey: ["trial", currentChallenge.trial_id],
-      });
-    },
-  });
-}
+
+  // handle cheat
+  const handleCheat = () => {
+    const cheatImgList = challenge_stage.description.map(() => cheat);
+    patchUploadToChallengeHistorySupa(
+      { history_id: currentChallenge.id, imageUrlArr: cheatImgList, isCheat: true },
+      {
+        onSuccess: () => {
+          console.log("cheat success");
+          queryClient.invalidateQueries({
+            queryKey: ["trial", currentChallenge.trial_id],
+          });
+        },
+      }
+    );
+  };
+
+  const handlePass = useCallback((id:string,imageUrlArr:string[]) => {
+    patchUploadToChallengeHistorySupa(
+      { history_id: id, imageUrlArr: imageUrlArr },
+      {
+        onSuccess: () => {
+          console.log("test pass, result is uploaded");
+          queryClient.invalidateQueries({
+            queryKey: ["trial", currentChallenge.trial_id],
+          });
+        },
+        onError: (error) => {
+          console.error(error, "test pass, result is not uploaded");
+        },
+      }
+    );
+  }, [patchUploadToChallengeHistorySupa, currentChallenge.trial_id, queryClient]);
+
+  const handleFail =useCallback( () => {
+    patchChanceRemain(
+      {
+        history_id: currentChallenge.id,
+        chance_remain: chance_remain - 1,
+      },
+      {
+        onSuccess: () => {
+          console.log("test fail, chance_remain is updated");
+          queryClient.invalidateQueries({
+            queryKey: ["trial", currentChallenge.trial_id],
+          });
+        },
+        onError: (error) => {
+          console.error(error, "test fail, chance_remain is not updated");
+        },
+      }
+    );
+  }, [chance_remain, currentChallenge.id, patchChanceRemain, queryClient, currentChallenge.trial_id]);
+
+
+
+  // check image when image url array(from supabase storage) is ready
   useEffect(() => {
     if (
       imageUrlArr &&
@@ -103,42 +170,9 @@ const handleCheat = ()=>{
           setCheckingState(isPassTest ? "pass" : "fail");
 
           if (isPassTest) {
-            patchUploadToChallengeHistorySupa(
-              { history_id: currentChallenge.id, imageUrlArr: resultUrl },
-              {
-                onSuccess: () => {
-                  console.log("test pass, result is uploaded");
-                  queryClient.invalidateQueries({
-                    queryKey: ["trial", currentChallenge.trial_id],
-                  });
-                },
-                onError: (error) => {
-                  console.error(error, "test pass but upload fail");
-                },
-              }
-            );
-
+            handlePass(currentChallenge.id, resultUrl);
           } else {
-            patchChanceRemain(
-              {
-                history_id: currentChallenge.id,
-                chance_remain: chance_remain - 1,
-              },
-              {
-                onSuccess: () => {
-                  console.log("test fail, chance_remain is updated");
-                  queryClient.invalidateQueries({
-                    queryKey: ["trial", currentChallenge.trial_id],
-                  });
-                },
-                onError: (error) => {
-                  console.error(
-                    error,
-                    "test fail, chance_remain is not updated"
-                  );
-                },
-              }
-            );
+            handleFail();
           }
           setIsShowPopup(true);
 
@@ -153,44 +187,50 @@ const handleCheat = ()=>{
     }
   }, [
     imageUrlArr,
-    challenge_stage.sample_image,
     isImageLoading,
     imageError,
-    patchUploadToChallengeHistorySupa,
     currentChallenge.id,
-    patchChanceRemain,
     chance_remain,
     queryClient,
-    currentChallenge.trial_id,
     checkImage,
-    postPostSupa,
-    userId,
-    stage_index,
+    handleFail,
+    handlePass,
   ]);
-
-  // 確認上傳 - 組合壓縮和上傳
-  const handleConfirmUpload = async () => {
-    if (!selectedFile || selectedFile.length === 0) return;
-    setUploadedFileName([]);
-    try {
-      // 1. 先壓縮圖片
-      const compressedFiles = await compressImages(selectedFile);
-      // 2. 再上傳壓縮後的圖片
-      const fileNames = await uploadImages(compressedFiles);
-      setUploadedFileName(fileNames);
-      setCheckingState("checking");
-      setIsShowCheckResult(true);
-    } catch (error) {
-      console.error("上傳流程失敗:", error);
-    }
-  };
-
+  // confirm upload - compress and upload to supabase storage
+  // set selected file
   const handleSetSelectedFile = (file: File, index: number) => {
     setSelectedFile((prev) => {
       const newSelectedFile = [...prev];
       newSelectedFile[index] = file;
       return newSelectedFile;
     });
+  };
+  const handleConfirmUpload = async () => {
+    if (isAIChecking) {
+      if (!selectedFile || selectedFile.length === 0) return;
+      setUploadedFileName([]);
+      try {
+        // 1. 先壓縮圖片
+        const compressedFiles = await compressImages(selectedFile);
+        // 2. 再上傳壓縮後的圖片
+        const fileNames = await uploadImages(compressedFiles);
+        setUploadedFileName(fileNames);
+        setCheckingState("checking");
+        setIsShowCheckResult(true);
+      } catch (error) {
+        console.error("上傳流程失敗:", error);
+      }
+    } else {
+      console.log("mortal check");
+      console.log(mortalResult);
+      const isAllPass = mortalResult.every((item) => item === true);
+      if (isAllPass) {
+        const goodJobList = challenge_stage.description.map(() => goodJob);
+        handlePass(currentChallenge.id, goodJobList);
+      } else {
+        handleFail();
+      }
+    }
   };
 
   return (
@@ -204,45 +244,82 @@ const handleCheat = ()=>{
           <div className="text-schema-primary">正在上傳圖片...</div>
         )}
       </div>
-
       <div className="flex justify-center items-center rounded-md gap-2 max-md:flex-col h-full md:max-h-55 ">
         {challenge_stage.description.map((item, index) => {
-          return (
-            <div
-              key={index}
-              className="border-1 border-schema-primary rounded-md h-full w-full max-lg:max-h-60 max-md:aspect-square max-w-2/3"
-            >
-              <div className="w-full h-1/5 bg-schema-primary text-p-small flex items-center justify-center text-schema-on-primary py-3 px-1 max-lg:text-label leading-5">
-                {item}
-              </div>
-              <div className="w-full h-4/5 flex items-center justify-center border-2 border-schema-primary relative">
-                {previewImage.length > 0 && (
-                  <RetryImage
-                    maxRetries={3}
-                    retryDelay={1500}
-                    src={previewImage?.[index]}
-                    alt="preview"
-                    className={`w-full h-full object-cover opacity-50 ${
-                      upload_image ? "opacity-100" : "opacity-50"
-                    }`}
-                  />
-                )}
+          // upload area AI checking
+          if (isAIChecking) {
+            return (
+              <div
+                key={index}
+                className="border-1 border-schema-primary rounded-md h-full w-full max-lg:max-h-60 max-md:aspect-square max-w-2/3"
+              >
+                <div className="w-full h-1/5 bg-schema-primary text-p-small flex items-center justify-center text-schema-on-primary py-3 px-1 max-lg:text-label leading-5">
+                  {item}
+                </div>
+                <div className="w-full h-4/5 flex items-center justify-center border-2 border-schema-primary relative">
+                  {previewImage.length > 0 && (
+                    <RetryImage
+                      maxRetries={3}
+                      retryDelay={1500}
+                      src={previewImage?.[index]}
+                      alt="preview"
+                      className={`w-full h-full object-cover opacity-50 ${
+                        upload_image ? "opacity-100" : "opacity-50"
+                      }`}
+                    />
+                  )}
 
-                {!imageUrlArr && status === "pending" && (
-                  <UploadImageInput
-                    className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-full h-full"
-                    selectedFile={selectedFile?.[index]}
-                    setSelectedFile={handleSetSelectedFile}
-                    index={index}
-                  />
-                )}
-                {isShowCheckResult && <ShowCheckResult state={checkingState} />}
+                  {!imageUrlArr && status === "pending" && (
+                    <UploadImageInput
+                      className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-full h-full"
+                      selectedFile={selectedFile?.[index]}
+                      setSelectedFile={handleSetSelectedFile}
+                      index={index}
+                    />
+                  )}
+                  {isShowCheckResult && (
+                    <ShowCheckResult state={checkingState} />
+                  )}
+                </div>
               </div>
-            </div>
-          );
+            );
+          } else {
+            // upload area user checking
+            return (
+              <div
+                key={`${index}-noAiCheck`}
+                className="border-1 border-schema-primary rounded-md h-full w-full max-lg:max-h-60 max-md:aspect-square max-w-2/3"
+              >
+                <div className="w-full h-1/5 bg-schema-primary text-p-small flex items-center justify-center text-schema-on-primary py-3 px-1 max-lg:text-label leading-5">
+                  {item}
+                </div>
+                <div className="w-full h-4/5 flex items-center justify-center border-2 border-schema-primary relative">
+                  {previewImage.length > 0 && (
+                    <RetryImage
+                      maxRetries={3}
+                      retryDelay={1500}
+                      src={previewImage?.[index]}
+                      alt="preview"
+                      className={`w-full h-full object-cover opacity-50 ${
+                        upload_image ? "opacity-100" : "opacity-50"
+                      }`}
+                    />
+                  )}
+
+                  {!imageUrlArr && status === "pending" && (
+                    <CheckBox
+                      result={mortalResult?.[index]}
+                      setResult={setMortalResult}
+                      index={index}
+                    />
+                  )}
+                </div>
+              </div>
+            );
+          }
         })}
       </div>
-
+      {/* if user is the player, show upload button and check result */}
       {isUser && (
         <div className="w-full">
           {chance_remain > 0 && status === "pending" && (
@@ -265,7 +342,9 @@ const handleCheat = ()=>{
           )}
           {chance_remain === 0 && status === "pending" && (
             <div className="flex justify-center gap-2 w-full">
-              <Button className="w-1/2" onClick={handleCheat}>使用快樂遮羞布</Button>
+              <Button className="w-1/2" onClick={handleCheat}>
+                使用快樂遮羞布
+              </Button>
               <Button className="w-1/2">接受失敗</Button>
             </div>
           )}
@@ -278,7 +357,14 @@ const handleCheat = ()=>{
           )}
         </div>
       )}
-      {isShowPopup && <PopupCard chance_remain={chance_remain} status={status} handleClosePopup={setIsShowPopup} handleCheat={handleCheat}/>}
+      {isShowPopup && (
+        <PopupCard
+          chance_remain={chance_remain}
+          status={status}
+          handleClosePopup={setIsShowPopup}
+          handleCheat={handleCheat}
+        />
+      )}
     </div>
   );
 }
