@@ -5,7 +5,7 @@ type inviteFriend = {
   trial_id: string;
   participant_id: string;
   invite_by: string;
-}
+};
 
 const postInviteFriend = async (inviteFriend: inviteFriend) => {
   const { data, error } = await supabase
@@ -23,10 +23,10 @@ export function usePostInviteFriend() {
     onSuccess: () => {
       console.log("新增成功");
       queryClient.invalidateQueries({ queryKey: ["trial", "all"] });
+      queryClient.invalidateQueries({ queryKey: ["user_info"], exact: false });
     },
     onError: () => {
       console.error("新增失敗");
     },
-
   });
 }

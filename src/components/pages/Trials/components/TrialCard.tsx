@@ -24,7 +24,6 @@ export default function TrialCard({ trial }: { trial: TrialSupa }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
-
   const handleLike = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     if (isLiked) {
@@ -52,7 +51,8 @@ export default function TrialCard({ trial }: { trial: TrialSupa }) {
       trial_id: trial.id,
       participant_id: userID,
       invite_by: userID,
-    });
+    }
+    );
   };
 
   const handleGetDetail = () => {
