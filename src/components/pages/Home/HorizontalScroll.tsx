@@ -1,17 +1,17 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const HorizontalScroll = () => {
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const container = containerRef.current;
     const sections = gsap.utils.toArray(".panel");
-
+    if (!container) return;
     gsap.to(sections, {
       xPercent: -100 * (sections.length - 1),
       ease: "none",
@@ -40,22 +40,9 @@ const HorizontalScroll = () => {
         Panel 4
       </section>
 
-      <style jsx>{`
-        .horizontal-scroll {
-          display: flex;
-          height: 100vh;
-          width: 3000px; /* 4 panels */
-        }
-        .panel {
-          flex: 0 0 100%;
-          height: 100vh;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          font-size: 3rem;
-          color: white;
-        }
-      `}</style>
+
+
+      
     </div>
   );
 };
