@@ -105,7 +105,7 @@ export default function Achievement(props: AcceptProps) {
   }
 
   return (
-    <div>
+    <div className="w-full">
       {showType === "user" && allAchievement && (
         <div className="text-sm text-schema-on-surface-variant">
           已獲得成就：{displayAchievements.length} / {allAchievement.length}個

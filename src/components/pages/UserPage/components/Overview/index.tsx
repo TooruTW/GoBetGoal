@@ -1,5 +1,6 @@
 // import TrialHistoryCardList from "@/components/pages/UserPage/components/Overview/TrialHistoryCardList";
 import Achievement from "../Achievement";
+import ReviewDashboard from "./reviewDashboard";
 
 // import { useTrialAllSupa } from "@/api";
 // import { useEffect } from "react";
@@ -14,13 +15,17 @@ export default function Overview() {
 
   return (
     <section className="w-full">
-      <section className="md:flex  ">
-        <section className="w-full md:w-1/2 mt-4 ">
+      <section className="flex md:flex-row flex-col gap-4">
+        <section className="w-full md:w-1/2 ">
           <h3 className="text-xl font-bold">年度總覽</h3>
+          <div className="w-full bg-schema-surface-container rounded-xl px-4 py-8 h-120">
+            <p className="text-xl font-bold">關卡數</p>
+            <ReviewDashboard />
+          </div>
         </section>
-        <section className="w-full  overflow-hidden md:w-1/2 my-10">
-          <h3 className="text-xl font-bold my-2">成就</h3>
-          <div className="p-2 bg-schema-surface-container rounded-xl">
+        <section className="w-full md:w-1/2">
+          <h3 className="text-xl font-bold">成就</h3>
+          <div className="p-4 bg-schema-surface-container rounded-xl h-120">
             <Achievement
               gridCols="grid-cols-3 lg:grid-cols-4"
               showType="user"
