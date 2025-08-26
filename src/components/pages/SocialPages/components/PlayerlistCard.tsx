@@ -16,7 +16,7 @@ export default function PlayerlistCard({
   likeCount,
 }: PlayerlistCardProps) {
   return (
-    <Link to={`/social-pages/friend/${id}`}>
+    <Link to={`/user/${id}`}>
       <div className="flex items-center gap-3 bg-schema-surface-container rounded-lg p-2 w-full">
         <img
           src={imageUrl}

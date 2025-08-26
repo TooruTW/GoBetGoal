@@ -1,10 +1,9 @@
 import { useAchievementSupa, useUserAchievementSupa } from "@/api";
 import { useEffect, useRef, useState, useMemo } from "react";
 import gsap from "gsap";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store";
 import SpotlightCard from "@/components/shared/reactBit/SpotlightCard";
 import { monsterCry } from "@/assets/monster";
+import { useParams } from "react-router-dom";
 
 type Achievement = {
   id?: string;
@@ -23,7 +22,7 @@ interface AcceptProps {
 
 export default function Achievement(props: AcceptProps) {
   const { gridCols = "grid-cols-2 md:grid-cols-4 lg:grid-cols-5", showType = "all" } = props;
-  const userId = useSelector((state: RootState) => state.account.user_id);
+  const { id } = useParams();
   const [userAchiSet, setUserAchiSet] = useState<Set<string>>(new Set());
 
   const {
@@ -36,7 +35,7 @@ export default function Achievement(props: AcceptProps) {
     data: userAchievement,
     error: userError,
     isLoading: isUserLoading,
-  } = useUserAchievementSupa(userId);
+  } = useUserAchievementSupa(id || "");
 
   const cardContainerRef = useRef<HTMLDivElement | null>(null);
 
