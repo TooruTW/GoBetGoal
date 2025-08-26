@@ -1,5 +1,5 @@
 import { supabase } from "@/supabaseClient";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type inviteFriend = {
   trial_id: string;
@@ -17,8 +17,13 @@ const postInviteFriend = async (inviteFriend: inviteFriend) => {
 };
 
 export function usePostInviteFriend() {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: postInviteFriend,
+    onSuccess: () => {
+      console.log("新增成功");
+      queryClient.invalidateQueries({ queryKey: ["trial", "all"] });
+    },
     onError: () => {
       console.error("新增失敗");
     },
