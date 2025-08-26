@@ -48,6 +48,9 @@ import DevAddFriend from "@/components/pages/DevPage/components/DevAddFriend";
 import DevDeleteFriend from "@/components/pages/DevPage/components/DevDeleteFriend";
 import DevComponent from "@/components/pages/DevPage/components/DevComponent";
 import Dashboard from "@/components/pages/DevPage/components/Dashboard";
+import DevAvatar from "@/components/pages/DevPage/components/DevAvatar";
+import DevTrial from "@/components/pages/DevPage/components/DevTrial";
+import DevTemplate from "@/components/pages/DevPage/components/DevTemplate";
 
 export const routes: RouteObject[] = [
   {
@@ -200,6 +203,18 @@ export const routes: RouteObject[] = [
           {
             path: "dashboard",
             element: <Dashboard />,
+          },
+          {
+            path: "dev-avatar",
+            element: <DevAvatar />,
+          },
+          {
+            path: "dev-template",
+            element: <DevTemplate />,
+          },
+          {
+            path: "dev-trial",
+            element: <DevTrial />,
           },
         ],
       },

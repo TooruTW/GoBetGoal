@@ -6,7 +6,7 @@ export default function DevPage() {
     <div className="w-full min-h-screen">
       <div className="flex">
         <DevSideBar />
-        <section className="w-full flex flex-col gap-10 justify-center items-center py-20 pe-10 ps-22">
+        <section className="w-full flex flex-col gap-10 justify-center items-center  ps-15 pe-3">
           <Outlet />
         </section>
       </div>
