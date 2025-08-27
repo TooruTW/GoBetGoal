@@ -1,15 +1,18 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
 type TrialPostNavigationProps = {
   className?: string;
+  selectedTab: "trial" | "post";
+  setSelectedTab: (tab: "trial" | "post") => void;
 };
 
 export default function TrialPostNavigation({
   className = "",
+  selectedTab,
+  setSelectedTab,
 }: TrialPostNavigationProps) {
-  const [selectedTab, setSelectedTab] = useState<"trial" | "post">("trial");
   const navRef = useRef<HTMLDivElement>(null);
   // 選擇tab的動畫
   useGSAP(
