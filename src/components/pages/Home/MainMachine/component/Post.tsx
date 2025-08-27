@@ -1,6 +1,9 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectCards } from "swiper/modules";
 
+import "swiper/css";
+import "swiper/css/effect-cards";
+
 export default function App() {
   const slides = [
     {

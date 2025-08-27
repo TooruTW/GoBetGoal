@@ -39,7 +39,7 @@ export default function Home() {
         { scale: 1, opacity: 0 },
         { scale: 1, opacity: 1 },
         { scale: 7, opacity: 1, x: 0 },
-        { scale: 4, opacity: 1, x: -600 },
+        { scale: 4, opacity: 1, x: -100 },
         { scale: 1, opacity: 1, x: -1220 },
       ],
       duration: 1,
@@ -98,15 +98,19 @@ export default function Home() {
         ref={mainMachineRef}
         className="w-full min-h-screen flex flex-col items-center justify-center relative snap-auto snap-center snap-always"
       >
-        <img
-          src={
-            isDarkMode
-              ? "/src/assets/logo/LogoImgTxtDark.svg"
-              : "/src/assets/logo/LogoImgTxtLight.svg"
-          }
-          alt="Logo"
-          className="animate-pulse w-full sm:w-1/2 md:w-1/3 lg:w-1/4 z-20 pointer-events-none absolute top-1/4 left-1/2 -translate-x-1/2"
-        />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 flex flex-col items-center">
+          <img
+            src={
+              isDarkMode
+                ? "/src/assets/logo/LogoImgTxtDark.svg"
+                : "/src/assets/logo/LogoImgTxtLight.svg"
+            }
+            alt="Logo"
+            className="animate-pulse  z-20 pointer-events-none mb-2"
+          />
+          <Button>立即體驗</Button>
+        </div>
+
         <img
           src="/src/assets/main/mainBack.webp"
           alt="mc"
@@ -122,7 +126,6 @@ export default function Home() {
           />
           <MainMachine />
         </div>
-        <Button>立即體驗</Button>
 
         <div className="absolute h-2/3 right-0 translate-x-full snap-auto snap-center snap-always">
           <Run />

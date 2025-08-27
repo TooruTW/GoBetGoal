@@ -74,19 +74,19 @@ export default function App() {
         </SwiperSlide>
         <SwiperSlide className="flex items-center justify-center  w-full h-full relative bg-schema-surface-container">
           <div className="absolute top-1/2 left-1/2 -translate-1/2 z-10 ">
-            <p>你是一個自律的人嗎？</p>
+            <p>想減重總是行動不起來？</p>
           </div>
         </SwiperSlide>
         <SwiperSlide className="flex items-center justify-center bg-schema-surface-container w-full h-full relative ">
           <div className="absolute top-1/2 left-1/2 -translate-1/2 z-10">
             <p>不是你不夠自律</p>
-            <p>是你沒有把人生當成遊戲！</p>
+            <p>是你沒有把減重當成遊戲！</p>
           </div>
         </SwiperSlide>
         <SwiperSlide className="flex flex-col items-center justify-center bg-schema-surface-container w-full h-full relative border">
           <div className="absolute top-1/2 left-1/2 -translate-1/2  z-10 flex flex-col items-center   py-auto">
-            <p>跟朋友一起來場</p>
-            <p>改變人生的遊戲嗎？</p>
+            <p>跟朋友來場遊戲</p>
+            <p>一起輕鬆瘦身嗎？</p>
             <button
               onClick={() => setShowGame("開始遊戲")}
               className="rounded-full bg-schema-primary px-[5%] py-[1%] text-schema-inverse-on-surface"
