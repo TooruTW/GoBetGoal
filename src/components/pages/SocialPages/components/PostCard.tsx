@@ -164,14 +164,19 @@ export default function PostCard(props: Post) {
         </Notification>
       )}
       <div className="relative w-full h-full">
-        <div className="absolute top-5 right-5 z-10" onClick={handleDeletePost}>
-          <SlOptionsVertical className="size-5" />
-          {isShowDeletePost && (
-            <div className="absolute top-0 right-10 border-1 border-schema-outline rounded-md py-2 px-4 z-10 text-nowrap delete-post-option">
-              <p onClick={handleConfirmDeletePost}>刪除</p>
-            </div>
-          )}
-        </div>
+        {publish_by === userId && (
+          <div
+            className="absolute top-5 right-5 z-10"
+            onClick={handleDeletePost}
+          >
+            <SlOptionsVertical className="size-5" />
+            {isShowDeletePost && (
+              <div className="absolute top-0 right-10 border-1 border-schema-outline rounded-md py-2 px-4 z-10 text-nowrap delete-post-option">
+                <p onClick={handleConfirmDeletePost}>刪除</p>
+              </div>
+            )}
+          </div>
+        )}
         <PostCarousel
           onClick={handleClick}
           imgUrl={image_url}
@@ -187,7 +192,7 @@ export default function PostCard(props: Post) {
           onClick={() => setIsShow(!isShow)}
         >
           <div className="flex items-center w-full justify-between gap-2">
-            <div className="flex items-center gap-2 pointer-events-auto">
+            <div className="flex items-center gap-2 pointer-events-auto w-full">
               <Link
                 to={`/user/${publish_by}`}
                 className="w-10 h-10 rounded-full bg-white"
@@ -198,12 +203,12 @@ export default function PostCard(props: Post) {
                   className="w-10 h-10 rounded-full object-cover object-top"
                 />
               </Link>
-              <div>
+              <div className="w-full">
                 <p>{user_info.nick_name}</p>
-                <p className="flex gap-2">
-                  <span>{trial.title}</span>
+                <p className="flex max-md:flex-col max-md:text-label max-md:items-end">
+                  <span className="max-md:self-start">{trial.title}</span>
                   <Link to={`/create-trial/${trial_id}`}>
-                    <span># {trial.challenge.title}</span>
+                    # {trial.challenge.title}
                   </Link>
                 </p>
               </div>

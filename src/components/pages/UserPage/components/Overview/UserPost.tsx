@@ -1,3 +1,9 @@
+import PostFlow from "./PostFlow";
+
 export default function UserPost() {
-  return <div>UserPost</div>;
+  return (
+    <div className="w-full flex flex-col items-center gap-4">
+      <PostFlow  />
+    </div>
+  );
 }
