@@ -26,13 +26,13 @@ export default function DayBox({ dateInfo, setCurrentIndex, setIsChooseDate }: a
       color = "bg-schema-surface-variant";
       break;
     case "pass":
-      color = "bg-[#BEF0B2]";
+      color = "bg-schema-secondary";
       break;
     case "fail":
-      color = "bg-[#EBA7E4]";
+      color = "bg-schema-primary";
       break;
     case "cheat":
-      color = "bg-[#FFE08B]";
+      color = "bg-schema-tertiary";
       break;
     default:
       break;
@@ -67,8 +67,8 @@ export default function DayBox({ dateInfo, setCurrentIndex, setIsChooseDate }: a
         className={`${
           isThisMonth
             ? isThisDate
-              ? "text-schema-on-surface font-bold cursor-pointer scale-110 rounded-full bg-schema-inverse-surface size-7.5"
-              : "text-schema-on-surface-variant cursor-pointer"
+              ? "text-black font-bold cursor-pointer scale-110 rounded-full bg-schema-surface-container-highest size-7.5"
+              : ` ${status ? "text-black" : "text-schema-on-surface-variant"} cursor-pointer`
             : "text-schema-on-surface opacity-50"
         } 
     

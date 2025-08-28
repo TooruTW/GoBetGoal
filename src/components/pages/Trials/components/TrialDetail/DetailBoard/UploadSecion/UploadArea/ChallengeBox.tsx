@@ -16,7 +16,6 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { useParams } from "react-router-dom";
 import PopupCard from "./PopupCard";
-import CheckBox from "./CheckBox";
 import goodJob from "@/assets/resultNoImg/goodJob.png";
 import cheat from "@/assets/resultNoImg/cheat.jpg";
 import dayjs from "dayjs";
@@ -47,20 +46,11 @@ export default function ChallengeBox({
     "checking" | "pass" | "fail"
   >("checking");
   const [isShowPopup, setIsShowPopup] = useState(false);
-  const [mortalResult, setMortalResult] = useState<(boolean | "pending")[]>([
-    "pending",
-  ]);
+
   const queryClient = useQueryClient();
 
   const isChallengeStart = dayjs(start_at).isSameOrBefore(dayjs(), "day");
   const isChallengeEnd = dayjs(end_at).isBefore(dayjs(), "day");
-
-  useEffect(() => {
-    if (isAIChecking) return;
-    const checkNodeCount = challenge_stage.description.length;
-    const checkNodeResult = Array(checkNodeCount).fill("pending");
-    setMortalResult(checkNodeResult);
-  }, [challenge_stage.description, isAIChecking]);
 
   // check if user is the player
   useEffect(() => {
@@ -171,6 +161,15 @@ export default function ChallengeBox({
       !isImageLoading &&
       !imageError
     ) {
+      if (!isAIChecking) {
+        const diffcount = challenge_stage.description.length - imageUrlArr.length;
+        const defaultImg = new Array(diffcount).fill(goodJob);
+        const resultArr = [...imageUrlArr, ...defaultImg];
+        handlePass(currentChallenge.id, resultArr);
+        setUploadedFileName([]);
+        setSelectedFile([]);
+        return;
+      }
       Promise.all(imageUrlArr.map((item) => checkImage(item))).then(
         (result) => {
           const isPassTest = result.every((item) => item.result);
@@ -203,6 +202,8 @@ export default function ChallengeBox({
     checkImage,
     handleFail,
     handlePass,
+    isAIChecking,
+    challenge_stage.description,
   ]);
   // confirm upload - compress and upload to supabase storage
   // set selected file
@@ -229,15 +230,23 @@ export default function ChallengeBox({
         console.error("上傳流程失敗:", error);
       }
     } else {
-      console.log("mortal check");
-      console.log(mortalResult);
-      const isAllPass = mortalResult.every((item) => item === true);
-      if (isAllPass) {
+      if (selectedFile && selectedFile.length > 0) {
+        setUploadedFileName([]);
+        try {
+          // 1. 先壓縮圖片
+          const compressedFiles = await compressImages(selectedFile);
+          // 2. 再上傳壓縮後的圖片
+          const fileNames = await uploadImages(compressedFiles);
+          setUploadedFileName(fileNames);
+        } catch (error) {
+          console.error("上傳流程失敗:", error);
+        }
+        return
+      }
+
         const goodJobList = challenge_stage.description.map(() => goodJob);
         handlePass(currentChallenge.id, goodJobList);
-      } else {
-        handleFail();
-      }
+
     }
   };
 
@@ -252,19 +261,19 @@ export default function ChallengeBox({
           <div className="text-schema-primary">正在上傳圖片...</div>
         )}
       </div>
-      <div className="flex justify-center items-center rounded-md gap-2 max-md:flex-col h-full md:max-h-55 ">
+      <div className="flex justify-center items-center rounded-md gap-2 max-md:flex-col h-full  ">
         {challenge_stage.description.map((item, index) => {
           // upload area AI checking
           if (isAIChecking) {
             return (
               <div
                 key={index}
-                className="border-1 border-schema-primary rounded-md h-full w-full max-lg:max-h-60 max-md:aspect-square max-w-2/3"
+                className="border-1 border-schema-primary rounded-md max-lg:max-h-60 w-50 overflow-hidden h-full max-h-80"
               >
-                <div className="w-full h-1/5 bg-schema-primary text-p-small flex items-center justify-center text-schema-on-primary py-3 px-1 max-lg:text-label leading-5">
+                <div className="w-full h-1/4 bg-schema-primary text-p-small flex items-center justify-center text-schema-on-primary py-3 px-1 max-lg:text-label leading-5">
                   {item}
                 </div>
-                <div className="w-full h-4/5 flex items-center justify-center border-2 border-schema-primary relative">
+                <div className="h-3/4 w-full flex items-center justify-center border-2 border-schema-primary relative">
                   {previewImage.length > 0 && (
                     <RetryImage
                       maxRetries={3}
@@ -296,12 +305,12 @@ export default function ChallengeBox({
             return (
               <div
                 key={`${index}-noAiCheck`}
-                className="border-1 border-schema-primary rounded-md h-full w-full max-lg:max-h-60 max-md:aspect-square max-w-2/3"
+                className="border-1 border-schema-primary rounded-md max-lg:max-h-60 w-50 overflow-hidden h-full max-h-80"
               >
-                <div className="w-full h-1/5 bg-schema-primary text-p-small flex items-center justify-center text-schema-on-primary py-3 px-1 max-lg:text-label leading-5">
+                <div className="w-full h-1/4 bg-schema-primary text-p-small flex items-center justify-center text-schema-on-primary py-3 px-1 max-lg:text-label leading-5">
                   {item}
                 </div>
-                <div className="w-full h-4/5 flex items-center justify-center border-2 border-schema-primary relative">
+                <div className="w-full h-3/4 flex items-center justify-center border-2 border-schema-primary relative">
                   {previewImage.length > 0 && (
                     <RetryImage
                       maxRetries={3}
@@ -315,9 +324,10 @@ export default function ChallengeBox({
                   )}
 
                   {!imageUrlArr && status === "pending" && (
-                    <CheckBox
-                      result={mortalResult?.[index]}
-                      setResult={setMortalResult}
+                    <UploadImageInput
+                      className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-full h-full"
+                      selectedFile={selectedFile?.[index]}
+                      setSelectedFile={handleSetSelectedFile}
                       index={index}
                     />
                   )}

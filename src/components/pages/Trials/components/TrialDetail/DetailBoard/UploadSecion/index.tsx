@@ -94,22 +94,22 @@ export default function UploadCalendar(props: acceptProps) {
       <div className="flex flex-col gap-6 items-center justify-between w-full md:max-w-96">
         <div className="flex flex-col gap-3 w-full">
           <ul className="flex gap-3 w-full max-lg:text-label">
-            <li className="border-1 border-[#85AC7C] rounded-md w-full grid grid-cols-2 overflow-hidden">
-              <span className="text-center bg-[#85AC7C] text-white">通過</span>
+            <li className="border-1 border-schema-secondary rounded-md w-full grid grid-cols-2 overflow-hidden">
+              <span className="text-center bg-schema-secondary text-schema-inverse-on-surface">通過</span>
               <span className="text-center">
                 {passCount}/{filteredTrial.length}
               </span>
             </li>
-            <li className="border-1 border-[#D8B747] rounded-md w-full grid grid-cols-2 overflow-hidden">
-              <span className="text-center bg-[#D8B747] text-white">
+            <li className="border-1 border-schema-tertiary rounded-md w-full grid grid-cols-2 overflow-hidden">
+              <span className="text-center bg-schema-tertiary text-schema-inverse-on-surface">
                 遮羞布
               </span>
               <span className="text-center">
                 {cheatCount}/{filteredTrial.length}
               </span>
             </li>
-            <li className="border-1 border-[#D98AD1] rounded-md w-full grid grid-cols-2 overflow-hidden">
-              <span className="text-center bg-[#D98AD1] text-white">失敗</span>
+            <li className="border-1 border-schema-primary rounded-md w-full grid grid-cols-2 overflow-hidden">
+              <span className="text-center bg-schema-primary text-schema-inverse-on-surface">失敗</span>
               <span className="text-center">
                 {failCount}/{filteredTrial.length}
               </span>
