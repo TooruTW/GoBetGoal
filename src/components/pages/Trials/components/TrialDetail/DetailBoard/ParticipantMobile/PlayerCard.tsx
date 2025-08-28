@@ -173,7 +173,7 @@ export default function PlayerCard({ participant, owner }: acceptProps) {
           <ul className="col-span-3 text-h4 max-md:text-label flex items-center w-full justify-between">
             <li className="flex flex-col items-center">
               <span>成功試煉</span>
-              <span>{participant?.total_trial_count}</span>
+              <span>{participant?.trial_pass_count}</span>
             </li>
             <li className="flex flex-col items-center">
               <span>朋友</span>

@@ -37,7 +37,7 @@ export default function PostCard(props: Post) {
 
   const [noteContent, setNoteContent] = useState("");
 
-  const { mutate: postLike } = usePostLikeSupa({ postId: id, userId });
+  const { mutate: postLike } = usePostLikeSupa({ postId: id, userId, authorId: publish_by });
   const { mutate: deletePostLike } = useDeletePostLikeSupa({
     postId: id,
     userId,
