@@ -1,6 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@import 'swiper/css';
+@import 'swiper/css/effect-cards';
+
 @theme {
   --font-title: "Bungee", sans-serif;
 

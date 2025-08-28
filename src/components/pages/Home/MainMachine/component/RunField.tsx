@@ -5,7 +5,7 @@ import Candy from "@/components/layout/Header/Navigator/Candy.tsx";
 export default function RunField() {
   const candy = 999;
   return (
-    <div className="h-screen w-screen flex flex-col justify-between text-center text-nowrap">
+    <div className="h-screen w-screen my-auto flex flex-col justify-between text-center text-nowrap">
       <div className="  h-full">
         <div className="flex justify-evenly items-center">
           {" "}

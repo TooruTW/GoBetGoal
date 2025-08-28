@@ -1,8 +1,9 @@
 import { Swiper, SwiperSlide } from "swiper/react";
+import type { Swiper as SwiperType } from "swiper";
 import FaultyTerminal from "@/components/shared/reactBit/FaultyTerminal";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import GameComponent from "./GameComponent";
 
 import {
@@ -14,31 +15,56 @@ import {
 } from "swiper/modules";
 import SlotMachine from "./SlotMachine";
 
-// import Title from "./Title";
+interface CarouselProps {
+  isCarouselMode?: boolean;
+}
 
-export default function App() {
+export default function Carousel({ isCarouselMode }: CarouselProps) {
   const account = useSelector((state: RootState) => state.account);
   const isDarkMode = account.system_preference_color_mode === "dark";
   const [showGame, setShowGame] = useState("");
+  const [swiperRef, setSwiperRef] = useState<SwiperType | null>(null);
+
+  // 當 Swiper 初始化時儲存實例
+  const handleSwiperInit = (swiper: SwiperType) => {
+    setSwiperRef(swiper);
+  };
+
+  // 根據 carousel 模式動態調整 Swiper 配置
+  useEffect(() => {
+    if (swiperRef && isCarouselMode) {
+      // 確保在 carousel 模式下滾輪功能正常
+      swiperRef.mousewheel.enable();
+      swiperRef.keyboard.enable();
+
+      // 確保所有滑塊都可以正常滑動
+      swiperRef.allowSlideNext = true;
+      swiperRef.allowSlidePrev = true;
+      swiperRef.allowTouchMove = true;
+    }
+  }, [isCarouselMode, swiperRef]);
 
   return (
-    <div className=" w-3/5 aspect-video  text-white  overflow-hidden absolute top-1/6 text-[4px]">
+    <div className="w-3/5 aspect-video text-white overflow-hidden absolute top-1/6 text-[4px]">
       <Swiper
-        spaceBetween={1000}
+        onSwiper={handleSwiperInit}
+        spaceBetween={0} // 減少間距
         direction={"vertical"}
         mousewheel={{
-          forceToAxis: true, // 只允許單方向（垂直）滾動
-          releaseOnEdges: true, // 到邊界才釋放滾動事件
-          sensitivity: 0.3, // 調低靈敏度（預設是 1）
+          forceToAxis: true,
+          releaseOnEdges: true, // 改為 false，讓滾輪完全由 Swiper 控制
+          sensitivity: 1, // 提高靈敏度
+          thresholdDelta: 50, // 設定滾動閾值
+          thresholdTime: 500, // 設定時間閾值
         }}
         effect="fade"
-        navigation
+        navigation={isCarouselMode}
         keyboard={true}
         pagination={{ clickable: true }}
         modules={[EffectFade, Navigation, Pagination, Mousewheel, Keyboard]}
         className="w-full h-full"
       >
-        <SwiperSlide className="flex items-center justify-center bg-schema-surface-container w-full h-full relative ">
+        <SwiperSlide className="flex items-center justify-center bg-schema-surface-container w-full h-full relative">
           <div className="absolute top-1/2 left-1/2 -translate-1/2 z-10">
             <img
               src={
@@ -47,10 +73,10 @@ export default function App() {
                   : "/src/assets/logo/LogoImgTxtLight.svg"
               }
               alt="Logo"
-              className=" w-2/3 relative z-20 pointer-events-none"
+              className="w-2/3 relative z-20 pointer-events-none"
             />
           </div>
-          <div className="w-full h-auto aspect-video absolute z-0  ">
+          <div className="w-full h-auto aspect-video absolute z-0">
             <FaultyTerminal
               scale={1.5}
               gridMul={[2, 1]}
@@ -72,19 +98,22 @@ export default function App() {
             />
           </div>
         </SwiperSlide>
-        <SwiperSlide className="flex items-center justify-center  w-full h-full relative bg-schema-surface-container">
-          <div className="absolute top-1/2 left-1/2 -translate-1/2 z-10 ">
+
+        <SwiperSlide className="flex items-center justify-center w-full h-full relative bg-schema-surface-container">
+          <div className="absolute top-1/2 left-1/2 -translate-1/2 z-10">
             <p>想減重總是行動不起來？</p>
           </div>
         </SwiperSlide>
-        <SwiperSlide className="flex items-center justify-center bg-schema-surface-container w-full h-full relative ">
+
+        <SwiperSlide className="flex items-center justify-center bg-schema-surface-container w-full h-full relative">
           <div className="absolute top-1/2 left-1/2 -translate-1/2 z-10">
             <p>不是你不夠自律</p>
             <p>是你沒有把減重當成遊戲！</p>
           </div>
         </SwiperSlide>
+
         <SwiperSlide className="flex flex-col items-center justify-center bg-schema-surface-container w-full h-full relative border">
-          <div className="absolute top-1/2 left-1/2 -translate-1/2  z-10 flex flex-col items-center   py-auto">
+          <div className="absolute top-1/2 left-1/2 -translate-1/2 z-10 flex flex-col items-center py-auto">
             <p>跟朋友來場遊戲</p>
             <p>一起輕鬆瘦身嗎？</p>
             <button
@@ -95,9 +124,11 @@ export default function App() {
             </button>
           </div>
         </SwiperSlide>
+
         <SwiperSlide className="flex flex-col items-center justify-center bg-schema-surface-container w-full h-full relative">
           <GameComponent />
         </SwiperSlide>
+
         <SwiperSlide className="flex flex-col items-center justify-center bg-schema-surface-container w-full h-full relative">
           <SlotMachine />
         </SwiperSlide>
