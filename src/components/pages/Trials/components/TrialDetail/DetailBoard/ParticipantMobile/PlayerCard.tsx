@@ -20,6 +20,7 @@ export default function PlayerCard({ participant, owner }: acceptProps) {
   const friendList = useSelector((state: RootState) => state.friends.friends);
 
   const { id: trialId } = useParams();
+  const { playerId } = useParams();
 
   const [isYourself, setIsYourself] = useState(false);
   const [isOwner, setIsOwner] = useState(false);
@@ -62,6 +63,8 @@ export default function PlayerCard({ participant, owner }: acceptProps) {
 
   const handleTap = () => {
     if (position !== 0) setPosition(0);
+    if (playerId === participant?.user_id) return;
+    navigate(`/trials/detail/${trialId}/${participant?.user_id}`);
   };
 
   const queryClient = useQueryClient();

@@ -52,10 +52,8 @@ export default function ChallengeBox({
   ]);
   const queryClient = useQueryClient();
 
-  const isChallengeStart = dayjs(start_at).isBefore(dayjs());
-  const isChallengeEnd = dayjs(end_at).isBefore(dayjs());
-
-  console.log(isChallengeStart, isChallengeEnd);
+  const isChallengeStart = dayjs(start_at).isSameOrBefore(dayjs(), "day");
+  const isChallengeEnd = dayjs(end_at).isBefore(dayjs(), "day");
 
   useEffect(() => {
     if (isAIChecking) return;
@@ -354,9 +352,7 @@ export default function ChallengeBox({
                     </>
                   ) : (
                     <>
-                      <p className="text-p-small">
-                        我知道你很急 
-                      </p>
+                      <p className="text-p-small">我知道你很急</p>
                       <p>但你先別急</p>
                     </>
                   ))}
