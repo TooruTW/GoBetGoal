@@ -15,6 +15,8 @@ function isUserInfoSupa(obj: unknown): obj is UserInfoSupa {
     typeof item.nick_name === "string" &&
     typeof item.system_preference_color_mode === "string" &&
     typeof item.total_trial_count === "number" &&
+    typeof item.trial_count === "number" &&
+    typeof item.trial_pass_count === "number" &&
     typeof item.liked_posts_count === "number" &&
     typeof item.friend_count === "number" &&
     typeof item.user_id === "string" &&
@@ -26,6 +28,8 @@ function isUserInfoSupa(obj: unknown): obj is UserInfoSupa {
     item.nick_name !== undefined &&
     item.system_preference_color_mode !== undefined &&
     item.total_trial_count !== undefined &&
+    item.trial_count !== undefined &&
+    item.trial_pass_count !== undefined &&
     item.liked_posts_count !== undefined &&
     item.friend_count !== undefined &&
     item.user_id !== undefined &&
@@ -38,6 +42,8 @@ function isUserInfoSupa(obj: unknown): obj is UserInfoSupa {
     Number(item.candy_count) >= 0 &&
     Number(item.cheat_blanket) >= 0 &&
     Number(item.total_trial_count) >= 0 &&
+    Number(item.trial_count) >= 0 &&
+    Number(item.trial_pass_count) >= 0 &&
     Number(item.liked_posts_count) >= 0 &&
     Number(item.friend_count) >= 0 &&
     item.purchase_challenge.every(

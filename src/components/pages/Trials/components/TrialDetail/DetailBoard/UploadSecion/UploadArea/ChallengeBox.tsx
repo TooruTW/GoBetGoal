@@ -17,8 +17,9 @@ import { RootState } from "@/store";
 import { useParams } from "react-router-dom";
 import PopupCard from "./PopupCard";
 import CheckBox from "./CheckBox";
-import  goodJob from "@/assets/resultNoImg/goodJob.png";
-import  cheat from "@/assets/resultNoImg/cheat.jpg";
+import goodJob from "@/assets/resultNoImg/goodJob.png";
+import cheat from "@/assets/resultNoImg/cheat.jpg";
+import dayjs from "dayjs";
 
 export default function ChallengeBox({
   currentChallenge,
@@ -30,6 +31,7 @@ export default function ChallengeBox({
   const {
     stage_index,
     start_at,
+    end_at,
     challenge_stage,
     chance_remain,
     upload_image,
@@ -50,11 +52,15 @@ export default function ChallengeBox({
   ]);
   const queryClient = useQueryClient();
 
+  const isChallengeStart = dayjs(start_at).isBefore(dayjs());
+  const isChallengeEnd = dayjs(end_at).isBefore(dayjs());
+
+  console.log(isChallengeStart, isChallengeEnd);
+
   useEffect(() => {
     if (isAIChecking) return;
     const checkNodeCount = challenge_stage.description.length;
     const checkNodeResult = Array(checkNodeCount).fill("pending");
-
     setMortalResult(checkNodeResult);
   }, [challenge_stage.description, isAIChecking]);
 
@@ -67,7 +73,6 @@ export default function ChallengeBox({
       setIsUser(false);
     }
   }, [userId, playerId]);
-
   // 管理上傳圖片狀態
   // preview image
   const [previewImage, setPreviewImage] = useState<string[]>([]);
@@ -83,7 +88,6 @@ export default function ChallengeBox({
     isLoading: isImageLoading,
     error: imageError,
   } = useGetImageUrl(uploadedFileName);
-
   // if there is upload image, set preview image to upload image
   // if there is no upload image, set preview image to sample image
   useEffect(() => {
@@ -93,18 +97,20 @@ export default function ChallengeBox({
       setPreviewImage(challenge_stage.sample_image);
     }
   }, [currentChallenge, challenge_stage.sample_image, status]);
-
   // upload challenge result to database
   const { mutate: patchUploadToChallengeHistorySupa } =
     usePatchUploadToChallengeHistorySupa();
   // update chance remain
   const { mutate: patchChanceRemain } = usePatchChanceRemain();
-
   // handle cheat
   const handleCheat = () => {
     const cheatImgList = challenge_stage.description.map(() => cheat);
     patchUploadToChallengeHistorySupa(
-      { history_id: currentChallenge.id, imageUrlArr: cheatImgList, isCheat: true },
+      {
+        history_id: currentChallenge.id,
+        imageUrlArr: cheatImgList,
+        isCheat: true,
+      },
       {
         onSuccess: () => {
           console.log("cheat success");
@@ -115,25 +121,26 @@ export default function ChallengeBox({
       }
     );
   };
-
-  const handlePass = useCallback((id:string,imageUrlArr:string[]) => {
-    patchUploadToChallengeHistorySupa(
-      { history_id: id, imageUrlArr: imageUrlArr },
-      {
-        onSuccess: () => {
-          console.log("test pass, result is uploaded");
-          queryClient.invalidateQueries({
-            queryKey: ["trial", currentChallenge.trial_id],
-          });
-        },
-        onError: (error) => {
-          console.error(error, "test pass, result is not uploaded");
-        },
-      }
-    );
-  }, [patchUploadToChallengeHistorySupa, currentChallenge.trial_id, queryClient]);
-
-  const handleFail =useCallback( () => {
+  const handlePass = useCallback(
+    (id: string, imageUrlArr: string[]) => {
+      patchUploadToChallengeHistorySupa(
+        { history_id: id, imageUrlArr: imageUrlArr },
+        {
+          onSuccess: () => {
+            console.log("test pass, result is uploaded");
+            queryClient.invalidateQueries({
+              queryKey: ["trial", currentChallenge.trial_id],
+            });
+          },
+          onError: (error) => {
+            console.error(error, "test pass, result is not uploaded");
+          },
+        }
+      );
+    },
+    [patchUploadToChallengeHistorySupa, currentChallenge.trial_id, queryClient]
+  );
+  const handleFail = useCallback(() => {
     patchChanceRemain(
       {
         history_id: currentChallenge.id,
@@ -151,10 +158,13 @@ export default function ChallengeBox({
         },
       }
     );
-  }, [chance_remain, currentChallenge.id, patchChanceRemain, queryClient, currentChallenge.trial_id]);
-
-
-
+  }, [
+    chance_remain,
+    currentChallenge.id,
+    patchChanceRemain,
+    queryClient,
+    currentChallenge.trial_id,
+  ]);
   // check image when image url array(from supabase storage) is ready
   useEffect(() => {
     if (
@@ -326,17 +336,30 @@ export default function ChallengeBox({
             <Button
               className="py-1 w-full h-fit"
               onClick={handleConfirmUpload}
-              disabled={isPending || status !== "pending"}
+              disabled={
+                isPending ||
+                status !== "pending" ||
+                !isChallengeStart ||
+                isChallengeEnd
+              }
             >
               <span>
-                {status === "pending" && (
-                  <>
-                    <span className="text-p-small">上傳</span> <br />
-                    <span className="text-label-small">
-                      剩餘 {chance_remain} 次機會
-                    </span>
-                  </>
-                )}
+                {status === "pending" &&
+                  (isChallengeStart ? (
+                    <>
+                      <span className="text-p-small">上傳</span> <br />
+                      <span className="text-label-small">
+                        剩餘 {chance_remain} 次機會
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <p className="text-p-small">
+                        我知道你很急 
+                      </p>
+                      <p>但你先別急</p>
+                    </>
+                  ))}
               </span>
             </Button>
           )}
