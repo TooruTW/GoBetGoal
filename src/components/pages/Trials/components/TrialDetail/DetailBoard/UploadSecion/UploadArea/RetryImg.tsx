@@ -1,3 +1,5 @@
+import { monsterDefault } from "@/assets/monster";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useState, useCallback, useEffect } from "react";
 
 function RetryImage({
@@ -15,8 +17,10 @@ function RetryImage({
 }) {
   const [retryCount, setRetryCount] = useState(0);
   const [currentSrc, setCurrentSrc] = useState(src);
+  const [showSkeleton, setShowSkeleton] = useState(true);
 
   const handleError = useCallback(() => {
+    setShowSkeleton(true);
     if (retryCount < maxRetries) {
       const nextCount = retryCount + 1;
       setRetryCount(nextCount);
@@ -28,21 +32,30 @@ function RetryImage({
       }, retryDelay);
     } else {
       console.warn("已達最大重試次數，停止嘗試");
+      setCurrentSrc(monsterDefault);
     }
   }, [retryCount, maxRetries, retryDelay, src]);
 
   useEffect(() => {
+    console.log("src", src);
     setCurrentSrc(src);
     setRetryCount(0);
+    setShowSkeleton(true);
   }, [src]);
 
   return (
-    <img
-      src={currentSrc}
-      alt={alt}
-      onError={handleError}
-      className={className}
-    />
+    <div className={`${className} relative`}>
+      {showSkeleton && (
+        <Skeleton className="rounded-sm animate-pulse w-full h-full absolute top-0 left-0" />
+      )}
+      <img
+        src={currentSrc}
+        alt={alt}
+        onError={handleError}
+        onLoad={() => setShowSkeleton(false)}
+        className={className}
+      />
+    </div>
   );
 }
 

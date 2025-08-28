@@ -90,7 +90,7 @@ export default function PlayerCard(props: acceptProps) {
     user_id = "",
     nick_name = "unknown",
     character_img_link = "noImg",
-    total_trial_count = 0,
+    trial_pass_count = 0,
     liked_posts_count = 0,
     friend_count = 0,
   } = participant || {};
@@ -151,7 +151,7 @@ export default function PlayerCard(props: acceptProps) {
             <p className=" font-bold text-h4 ">{nick_name}</p>
             <div className="flex flex-col gap-4">
               <p className="flex justify-between">
-                <span>成功試煉數</span> <span> {total_trial_count}</span>
+                <span>成功試煉數</span> <span> {trial_pass_count}</span>
               </p>
               <p className="flex justify-between">
                 <span>朋友數</span> <span>{friend_count}</span>
