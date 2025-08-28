@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Achievement from "../Achievement";
-import ReviewDashboard from "./ReviewDashboard";
+import ReviewDashboard from "./TempReviewDashboard";
 import UserPost from "./UserPost";
 import TrialHistory from "./TrialHistory";
 import TrialPostNavigation from "./TrialPostNavigation";
