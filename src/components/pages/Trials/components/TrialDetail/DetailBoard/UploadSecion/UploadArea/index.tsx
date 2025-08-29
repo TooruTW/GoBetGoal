@@ -11,6 +11,8 @@ type acceptProps = {
   currentIndex: number;
   setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
   isAIChecking: boolean;
+  challengeRules: string[];
+  challengeType: "FitnessOCR" | "FoodCombination" | "ExclusiveDiet" | "NegativeList";
 };
 
 export default function UploadArea({
@@ -18,6 +20,8 @@ export default function UploadArea({
   currentIndex,
   setCurrentIndex,
   isAIChecking,
+  challengeRules,
+  challengeType,
 }: acceptProps) {
   const [currentChallenge, setCurrentChallenge] =
     useState<TrialDetailSupa | null>(null);
@@ -89,6 +93,8 @@ export default function UploadArea({
           <ChallengeBox
             currentChallenge={currentChallenge}
             isAIChecking={isAIChecking}
+            challengeRules = {challengeRules}
+            challengeType = {challengeType}
           />
         )}
       </div>
