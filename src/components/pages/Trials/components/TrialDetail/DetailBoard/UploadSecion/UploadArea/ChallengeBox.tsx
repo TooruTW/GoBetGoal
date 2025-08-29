@@ -308,7 +308,7 @@ export default function ChallengeBox({
         <div className="w-full">
           {chance_remain > 0 && status === "pending" && (
             <Button
-              className="py-1 w-full h-fit"
+              className="py-2 w-full h-fit"
               onClick={handleConfirmUpload}
               disabled={
                 isPending ||
@@ -320,16 +320,22 @@ export default function ChallengeBox({
               <span>
                 {status === "pending" &&
                   (isChallengeStart ? (
-                    <>
-                      <span className="text-p-small">上傳</span> <br />
-                      <span className="text-label-small">
-                        剩餘 {chance_remain} 次機會
-                      </span>
-                    </>
+                    isAIChecking ? (
+                      <>
+                        <span className="text-p-small">上傳</span> <br />
+                        <span className="text-label-small">
+                          剩餘 {chance_remain} 次機會
+                        </span>
+                      </>
+                    ) : (
+                        <span className="text-p-small">挑戰完成</span>
+                    )
                   ) : (
                     <>
-                      <p className="text-p-small">我知道你很急</p>
-                      <p>但你先別急</p>
+                      <p className="text-p-small flex gap-2">
+                        <span>我知道你很急</span>
+                        <span>但你先別急</span>
+                      </p>
                     </>
                   ))}
               </span>
@@ -344,7 +350,10 @@ export default function ChallengeBox({
             </div>
           )}
           {status !== "pending" && (
-            <div className="w-full h-fit bg-schema-primary text-schema-on-primary rounded-md p-2 flex justify-center items-center">
+            <div
+              className="w-full h-fit bg-schema-primary text-schema-on-primary rounded-md p-2 flex justify-center items-center"
+              text-p-small
+            >
               {status === "pass" && <span className="text-p">通過</span>}
               {status === "cheat" && <span className="text-p">資本主義</span>}
               {status === "fail" && <span className="text-p">失敗</span>}
