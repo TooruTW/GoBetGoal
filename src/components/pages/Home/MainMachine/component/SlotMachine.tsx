@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import { Button } from "@/components/ui/button";
 import { useGetAvatar } from "@/api";
 
 // 定義 Avatar 型別
@@ -16,11 +15,15 @@ const SlotMachine = () => {
   const [isSpinning, setIsSpinning] = useState<boolean>(false);
   const [results, setResults] = useState<number[]>([0, 0, 0]);
   const [showWin, setShowWin] = useState<boolean>(false);
+  const [itemHeight, setItemHeight] = useState<number>(160); // 動態項目高度
 
   const slotRef1 = useRef<HTMLDivElement>(null);
   const slotRef2 = useRef<HTMLDivElement>(null);
   const slotRef3 = useRef<HTMLDivElement>(null);
   const slotRefs = [slotRef1, slotRef2, slotRef3];
+
+  // 容器參考，用來計算高度
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // 處理 API 資料
   useEffect(() => {
@@ -28,6 +31,21 @@ const SlotMachine = () => {
       setAvatars(data);
     }
   }, [data, isLoading, error]);
+
+  // 計算項目高度
+  useEffect(() => {
+    const updateItemHeight = () => {
+      if (containerRef.current) {
+        const containerHeight = containerRef.current.clientHeight;
+        setItemHeight(containerHeight);
+      }
+    };
+
+    updateItemHeight();
+    window.addEventListener("resize", updateItemHeight);
+
+    return () => window.removeEventListener("resize", updateItemHeight);
+  }, [avatars]);
 
   // 旋轉函數
   const spin = () => {
@@ -45,11 +63,12 @@ const SlotMachine = () => {
 
     setResults(newResults);
 
-    // 動畫效果
+    // 動畫效果 - 使用動態計算的高度
     slotRefs.forEach((ref, index) => {
       if (ref.current) {
+        // 計算最終位置：3圈旋轉 + 最終結果位置
         const finalPosition =
-          avatars.length * 100 * 3 + newResults[index] * 100;
+          avatars.length * itemHeight * 3 + newResults[index] * itemHeight;
         ref.current.style.transform = `translateY(-${finalPosition}px)`;
       }
     });
@@ -77,19 +96,23 @@ const SlotMachine = () => {
 
   return (
     <div className="w-full h-full bg-schema-surface-container-high">
-      <div className=" px-4 py-16 rounded-2xl  flex flex-col items-center  gap-2 md:gap-4 h-full  ">
-        <div className="flex justify-center gap-2 md:gap-4  w-2/3 h-full">
+      <div className="rounded-2xl flex flex-col items-center gap-2 md:gap-1 h-full py-2">
+        <div className="flex justify-center gap-2 md:gap-1 w-2/3 h-full">
           {[0, 1, 2].map((slotIndex) => (
             <div
               key={slotIndex}
-              className="w-full h-full  bg-white rounded border-1 border-gray-300 overflow-hidden relative shadow-inner"
+              ref={slotIndex === 0 ? containerRef : null} // 使用第一個容器來測量高度
+              className="w-full h-full bg-white rounded border-1 border-gray-300 overflow-hidden relative shadow-inner"
             >
               {/* 旋轉滾輪 */}
               <div
                 ref={slotRefs[slotIndex]}
                 className="absolute w-full top-0 transition-transform duration-500 ease-out"
                 style={{
-                  transform: `translateY(-${results[slotIndex] * 160}px)`,
+                  // 使用動態計算的 itemHeight
+                  transform: `translateY(-${
+                    results[slotIndex] * itemHeight
+                  }px)`,
                 }}
               >
                 {/* 重複圖片來創造滾動效果 */}
@@ -97,7 +120,8 @@ const SlotMachine = () => {
                   avatars.map((avatar, imgIndex) => (
                     <div
                       key={`${repeatIndex}-${imgIndex}`}
-                      className="h-40 flex items-center justify-center bg-white border-b border-gray-200 py-2"
+                      className="flex items-center justify-center bg-white border-b border-gray-200 py-2"
+                      style={{ height: `${itemHeight}px` }} // 動態設置高度
                     >
                       <img
                         src={avatar.character_img_link}
@@ -108,25 +132,23 @@ const SlotMachine = () => {
                   ))
                 )}
               </div>
-
-              {/* 中央指示線 */}
             </div>
           ))}
         </div>
 
         {/* 拉桿按鈕 */}
         <div className="text-center">
-          <Button
+          <button
             onClick={spin}
             disabled={isSpinning}
-            className={`font-bold rounded-full transition-all duration-200 ${
+            className={`font-bold rounded-full cursor-pointer transition-all duration-200 bg-schema-primary py-[6%] px-1 ${
               isSpinning
                 ? "bg-gray-600 text-gray-400 cursor-not-allowed"
-                : " hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl"
+                : "hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl"
             }`}
           >
             {isSpinning ? "旋轉中..." : "邀請隊友"}
-          </Button>
+          </button>
         </div>
       </div>
 

@@ -1,28 +1,14 @@
 import React, { useRef, useEffect } from "react";
-import {
-  Clock,
-  PerspectiveCamera,
-  Scene,
-  WebGLRenderer,
-  WebGLRendererParameters,
-  SRGBColorSpace,
-  MathUtils,
-  Vector2,
-  Vector3,
-  MeshPhysicalMaterial,
-  ShaderChunk,
-  Color,
-  Object3D,
-  InstancedMesh,
-  PMREMGenerator,
-  SphereGeometry,
-  AmbientLight,
-  PointLight,
-  ACESFilmicToneMapping,
-  Raycaster,
-  Plane,
-} from "three";
-import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
+import * as THREE from "three";
+// Note: You'll need to install @types/three: npm i --save-dev @types/three
+
+// Declare module for RoomEnvironment if types are not available
+declare module "three/examples/jsm/environments/RoomEnvironment.js" {
+  export class RoomEnvironment extends THREE.Scene {
+    constructor();
+  }
+}
+
 import { Observer } from "gsap/Observer";
 import { gsap } from "gsap";
 
@@ -31,7 +17,7 @@ gsap.registerPlugin(Observer);
 interface XConfig {
   canvas?: HTMLCanvasElement;
   id?: string;
-  rendererOptions?: Partial<WebGLRendererParameters>;
+  rendererOptions?: Partial<THREE.WebGLRendererParameters>;
   size?: "parent" | { width: number; height: number };
 }
 
@@ -62,20 +48,20 @@ class X {
   private intersectionObserver?: IntersectionObserver;
   private resizeTimer?: number;
   private animationFrameId: number = 0;
-  private clock: Clock = new Clock();
+  private clock: THREE.Clock = new THREE.Clock();
   private animationState: AnimationState = { elapsed: 0, delta: 0 };
   private isAnimating: boolean = false;
   private isVisible: boolean = false;
 
   canvas!: HTMLCanvasElement;
-  camera!: PerspectiveCamera;
+  camera!: THREE.PerspectiveCamera;
   cameraMinAspect?: number;
   cameraMaxAspect?: number;
   cameraFov!: number;
   maxPixelRatio?: number;
   minPixelRatio?: number;
-  scene!: Scene;
-  renderer!: WebGLRenderer;
+  scene!: THREE.Scene;
+  renderer!: THREE.WebGLRenderer;
   size: SizeData = {
     width: 0,
     height: 0,
@@ -101,12 +87,12 @@ class X {
   }
 
   private initCamera(): void {
-    this.camera = new PerspectiveCamera();
+    this.camera = new THREE.PerspectiveCamera();
     this.cameraFov = this.camera.fov;
   }
 
   private initScene(): void {
-    this.scene = new Scene();
+    this.scene = new THREE.Scene();
   }
 
   private initRenderer(): void {
@@ -125,13 +111,13 @@ class X {
       return;
     }
     this.canvas.style.display = "block";
-    const rendererOptions: WebGLRendererParameters = {
+    const rendererOptions: THREE.WebGLRendererParameters = {
       canvas: this.canvas,
       powerPreference: "high-performance",
       ...(this.config.rendererOptions ?? {}),
     };
-    this.renderer = new WebGLRenderer(rendererOptions);
-    this.renderer.outputColorSpace = SRGBColorSpace;
+    this.renderer = new THREE.WebGLRenderer(rendererOptions);
+    this.renderer.outputColorSpace = THREE.SRGBColorSpace;
   }
 
   private initObservers(): void {
@@ -197,9 +183,9 @@ class X {
   }
 
   private adjustFov(aspect: number): void {
-    const tanFov = Math.tan(MathUtils.degToRad(this.cameraFov / 2));
+    const tanFov = Math.tan(THREE.MathUtils.degToRad(this.cameraFov / 2));
     const newTan = tanFov / (this.camera.aspect / aspect);
-    this.camera.fov = 2 * MathUtils.radToDeg(Math.atan(newTan));
+    this.camera.fov = 2 * THREE.MathUtils.radToDeg(Math.atan(newTan));
   }
 
   updateWorldSize(): void {
@@ -249,6 +235,7 @@ class X {
       this.stopAnimation();
     }
   }
+
   private onVisibilityChange(): void {
     if (this.isAnimating) {
       if (document.hidden) {
@@ -287,7 +274,7 @@ class X {
   }
 
   clear(): void {
-    this.scene.traverse((obj) => {
+    this.scene.traverse((obj: THREE.Object3D) => {
       if (
         (obj as any).isMesh &&
         typeof (obj as any).material === "object" &&
@@ -351,14 +338,14 @@ class W {
   positionData: Float32Array;
   velocityData: Float32Array;
   sizeData: Float32Array;
-  center: Vector3 = new Vector3();
+  center: THREE.Vector3 = new THREE.Vector3();
 
   constructor(config: WConfig) {
     this.config = config;
     this.positionData = new Float32Array(3 * config.count).fill(0);
     this.velocityData = new Float32Array(3 * config.count).fill(0);
     this.sizeData = new Float32Array(config.count).fill(1);
-    this.center = new Vector3();
+    this.center = new THREE.Vector3();
     this.initializePositions();
     this.setSizes();
   }
@@ -368,9 +355,9 @@ class W {
     this.center.toArray(positionData, 0);
     for (let i = 1; i < config.count; i++) {
       const idx = 3 * i;
-      positionData[idx] = MathUtils.randFloatSpread(2 * config.maxX);
-      positionData[idx + 1] = MathUtils.randFloatSpread(2 * config.maxY);
-      positionData[idx + 2] = MathUtils.randFloatSpread(2 * config.maxZ);
+      positionData[idx] = THREE.MathUtils.randFloatSpread(2 * config.maxX);
+      positionData[idx + 1] = THREE.MathUtils.randFloatSpread(2 * config.maxY);
+      positionData[idx + 2] = THREE.MathUtils.randFloatSpread(2 * config.maxZ);
     }
   }
 
@@ -378,7 +365,7 @@ class W {
     const { config, sizeData } = this;
     sizeData[0] = config.size0;
     for (let i = 1; i < config.count; i++) {
-      sizeData[i] = MathUtils.randFloat(config.minSize, config.maxSize);
+      sizeData[i] = THREE.MathUtils.randFloat(config.minSize, config.maxSize);
     }
   }
 
@@ -387,14 +374,14 @@ class W {
     let startIdx = 0;
     if (config.controlSphere0) {
       startIdx = 1;
-      const firstVec = new Vector3().fromArray(positionData, 0);
+      const firstVec = new THREE.Vector3().fromArray(positionData, 0);
       firstVec.lerp(center, 0.1).toArray(positionData, 0);
-      new Vector3(0, 0, 0).toArray(velocityData, 0);
+      new THREE.Vector3(0, 0, 0).toArray(velocityData, 0);
     }
     for (let idx = startIdx; idx < config.count; idx++) {
       const base = 3 * idx;
-      const pos = new Vector3().fromArray(positionData, base);
-      const vel = new Vector3().fromArray(velocityData, base);
+      const pos = new THREE.Vector3().fromArray(positionData, base);
+      const vel = new THREE.Vector3().fromArray(velocityData, base);
       vel.y -= deltaInfo.delta * config.gravity * sizeData[idx];
       vel.multiplyScalar(config.friction);
       vel.clampLength(0, config.maxVelocity);
@@ -404,14 +391,14 @@ class W {
     }
     for (let idx = startIdx; idx < config.count; idx++) {
       const base = 3 * idx;
-      const pos = new Vector3().fromArray(positionData, base);
-      const vel = new Vector3().fromArray(velocityData, base);
+      const pos = new THREE.Vector3().fromArray(positionData, base);
+      const vel = new THREE.Vector3().fromArray(velocityData, base);
       const radius = sizeData[idx];
       for (let jdx = idx + 1; jdx < config.count; jdx++) {
         const otherBase = 3 * jdx;
-        const otherPos = new Vector3().fromArray(positionData, otherBase);
-        const otherVel = new Vector3().fromArray(velocityData, otherBase);
-        const diff = new Vector3().copy(otherPos).sub(pos);
+        const otherPos = new THREE.Vector3().fromArray(positionData, otherBase);
+        const otherVel = new THREE.Vector3().fromArray(velocityData, otherBase);
+        const diff = new THREE.Vector3().copy(otherPos).sub(pos);
         const dist = diff.length();
         const sumRadius = radius + sizeData[jdx];
         if (dist < sumRadius) {
@@ -433,8 +420,8 @@ class W {
         }
       }
       if (config.controlSphere0) {
-        const diff = new Vector3()
-          .copy(new Vector3().fromArray(positionData, 0))
+        const diff = new THREE.Vector3()
+          .copy(new THREE.Vector3().fromArray(positionData, 0))
           .sub(pos);
         const d = diff.length();
         const sumRadius0 = radius + sizeData[0];
@@ -484,12 +471,12 @@ interface YMaterialParams {
   roughness?: number;
   clearcoat?: number;
   clearcoatRoughness?: number;
-  envMap?: any;
+  envMap?: THREE.Texture;
   [key: string]: any;
 }
 
-class Y extends MeshPhysicalMaterial {
-  uniforms: YUniforms = {
+class Y extends THREE.MeshPhysicalMaterial {
+  public uniforms: YUniforms = {
     thicknessDistortion: { value: 0.1 },
     thicknessAmbient: { value: 0 },
     thicknessAttenuation: { value: 0.1 },
@@ -497,13 +484,12 @@ class Y extends MeshPhysicalMaterial {
     thicknessScale: { value: 10 },
   };
 
-  defines: { [key: string]: string } = { USE_UV: "" };
-
-  onBeforeCompile2?: (shader: any) => void;
+  public defines: { [key: string]: string } = { USE_UV: "" };
 
   constructor(params: YMaterialParams) {
     super(params);
     this.defines = { USE_UV: "" };
+
     this.onBeforeCompile = (shader: any) => {
       Object.assign(shader.uniforms, this.uniforms);
       shader.fragmentShader =
@@ -531,7 +517,7 @@ class Y extends MeshPhysicalMaterial {
         void main() {
         `
       );
-      const lightsChunk = ShaderChunk.lights_fragment_begin.replace(
+      const lightsChunk = THREE.ShaderChunk.lights_fragment_begin.replace(
         /RE_Direct\( directLight, geometryPosition, geometryNormal, geometryViewDir, geometryClearcoatNormal, material, reflectedLight \);/g,
         `
           RE_Direct( directLight, geometryPosition, geometryNormal, geometryViewDir, geometryClearcoatNormal, material, reflectedLight );
@@ -542,7 +528,6 @@ class Y extends MeshPhysicalMaterial {
         "#include <lights_fragment_begin>",
         lightsChunk
       );
-      if (this.onBeforeCompile2) this.onBeforeCompile2(shader);
     };
   }
 }
@@ -609,14 +594,14 @@ const defaultConfig: BallpitConfig = {
   followCursor: true,
 };
 
-const U = new Object3D();
+const U = new THREE.Object3D();
 
 let globalPointerActive = false;
-const pointerPosition = new Vector2();
+const pointerPosition = new THREE.Vector2();
 
 interface PointerData {
-  position: Vector2;
-  nPosition: Vector2;
+  position: THREE.Vector2;
+  nPosition: THREE.Vector2;
   hover: boolean;
   touching: boolean;
   onEnter: (data: PointerData) => void;
@@ -634,8 +619,8 @@ interface CreatePointerDataOptions extends Partial<PointerData> {
 
 function createPointerData(options: CreatePointerDataOptions): PointerData {
   const defaultData: PointerData = {
-    position: new Vector2(),
-    nPosition: new Vector2(),
+    position: new THREE.Vector2(),
+    nPosition: new THREE.Vector2(),
     hover: false,
     touching: false,
     onEnter: () => {},
@@ -834,20 +819,39 @@ function isInside(rect: DOMRect): boolean {
   );
 }
 
-class Z extends InstancedMesh {
+// Custom InstancedMesh class that properly extends THREE.InstancedMesh
+class Z extends THREE.InstancedMesh<THREE.SphereGeometry, Y> {
   config: BallpitConfig;
   physics: W;
-  ambientLight: AmbientLight | undefined;
-  light: PointLight | undefined;
+  ambientLight: THREE.AmbientLight | undefined;
+  light: THREE.PointLight | undefined;
 
-  constructor(renderer: WebGLRenderer, params: Partial<BallpitConfig> = {}) {
+  constructor(
+    renderer: THREE.WebGLRenderer,
+    params: Partial<BallpitConfig> = {}
+  ) {
     const config = { ...defaultConfig, ...params };
-    const roomEnv = new RoomEnvironment();
-    const pmrem = new PMREMGenerator(renderer);
-    const envTexture = pmrem.fromScene(roomEnv).texture;
-    const geometry = new SphereGeometry();
-    const material = new Y({ envMap: envTexture, ...config.materialParams });
-    material.envMapRotation.x = -Math.PI / 2;
+
+    // Create environment texture
+    let envTexture: THREE.Texture | undefined;
+    try {
+      // Create a simple room environment or use a fallback
+      const pmrem = new THREE.PMREMGenerator(renderer);
+      // Create a basic environment scene
+      const envScene = new THREE.Scene();
+      envScene.background = new THREE.Color(0xffffff);
+      envTexture = pmrem.fromScene(envScene).texture;
+      pmrem.dispose();
+    } catch (error) {
+      console.warn("Could not create environment texture:", error);
+    }
+
+    const geometry = new THREE.SphereGeometry(1, 32, 32);
+    const material = new Y({
+      envMap: envTexture,
+      ...config.materialParams,
+    });
+
     super(geometry, material, config.count);
     this.config = config;
     this.physics = new W(config);
@@ -859,7 +863,7 @@ class Z extends InstancedMesh {
     const ambientColorValue = getCSSCustomProperty(
       this.config.ambientColor.replace("var(", "").replace(")", "")
     );
-    this.ambientLight = new AmbientLight(
+    this.ambientLight = new THREE.AmbientLight(
       ambientColorValue,
       this.config.ambientIntensity
     );
@@ -868,28 +872,35 @@ class Z extends InstancedMesh {
     const lightColorValue = getCSSCustomProperty(
       this.config.colors[0].replace("var(", "").replace(")", "")
     );
-    this.light = new PointLight(lightColorValue, this.config.lightIntensity);
+    this.light = new THREE.PointLight(
+      lightColorValue,
+      this.config.lightIntensity
+    );
     this.add(this.light);
   }
 
   setColors(colors: string[]): void {
-    if (Array.isArray(colors) && colors.length > 1) {
+    if (Array.isArray(colors) && colors.length >= 1) {
       const colorUtils = this.createColorUtils(colors);
       for (let idx = 0; idx < this.count; idx++) {
-        this.setColorAt(idx, colorUtils.getColorAt(idx / this.count));
-        if (idx === 0) {
-          this.light!.color.copy(colorUtils.getColorAt(idx / this.count));
+        const color = colorUtils.getColorAt(
+          colors.length > 1 ? idx / this.count : 0
+        );
+        this.setColorAt(idx, color);
+        if (idx === 0 && this.light) {
+          this.light.color.copy(color);
         }
       }
 
-      if (!this.instanceColor) return;
-      this.instanceColor.needsUpdate = true;
+      if (this.instanceColor) {
+        this.instanceColor.needsUpdate = true;
+      }
     }
   }
 
   private createColorUtils(colorsArr: string[]) {
     let baseColors: string[] = colorsArr;
-    let colorObjects: Color[] = [];
+    let colorObjects: THREE.Color[] = [];
 
     const updateColorObjects = () => {
       colorObjects = [];
@@ -897,7 +908,7 @@ class Z extends InstancedMesh {
         const colorValue = col.startsWith("var(")
           ? getCSSCustomProperty(col.replace("var(", "").replace(")", ""))
           : col;
-        colorObjects.push(new Color(colorValue));
+        colorObjects.push(new THREE.Color(colorValue));
       });
     };
 
@@ -908,7 +919,10 @@ class Z extends InstancedMesh {
         baseColors = cols;
         updateColorObjects();
       },
-      getColorAt: (ratio: number, out: Color = new Color()) => {
+      getColorAt: (ratio: number, out: THREE.Color = new THREE.Color()) => {
+        if (baseColors.length === 1) {
+          return colorObjects[0].clone();
+        }
         const clamped = Math.max(0, Math.min(1, ratio));
         const scaled = clamped * (baseColors.length - 1);
         const idx = Math.floor(scaled);
@@ -935,7 +949,9 @@ class Z extends InstancedMesh {
       }
       U.updateMatrix();
       this.setMatrixAt(idx, U.matrix);
-      if (idx === 0) this.light!.position.copy(U.position);
+      if (idx === 0 && this.light) {
+        this.light.position.copy(U.position);
+      }
     }
     this.instanceMatrix.needsUpdate = true;
   }
@@ -959,15 +975,15 @@ function createBallpit(
     rendererOptions: { antialias: true, alpha: true },
   });
   let spheres: Z;
-  threeInstance.renderer.toneMapping = ACESFilmicToneMapping;
+  threeInstance.renderer.toneMapping = THREE.ACESFilmicToneMapping;
   threeInstance.camera.position.set(0, 0, 20);
   threeInstance.camera.lookAt(0, 0, 0);
   threeInstance.cameraMaxAspect = 1.5;
   threeInstance.resize();
   initialize(config);
-  const raycaster = new Raycaster();
-  const plane = new Plane(new Vector3(0, 0, 1), 0);
-  const intersectionPoint = new Vector3();
+  const raycaster = new THREE.Raycaster();
+  const plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
+  const intersectionPoint = new THREE.Vector3();
   let isPaused = false;
 
   canvas.style.touchAction = "none";

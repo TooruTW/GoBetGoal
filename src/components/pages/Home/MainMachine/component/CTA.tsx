@@ -1,7 +1,13 @@
 import { monsterRun } from "@/assets/monster";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+
+import { RootState } from "@/store";
 
 export default function CTA() {
+  const account = useSelector((state: RootState) => state.account);
+
   return (
     <section className="px-3 w-full relative  max-w-330 ">
       <div className="overflow-hidden h-36 sm:h-52 md:h-60 lg:h-66 z-0 w-full object-cover rounded-2xl flex items-center ">
@@ -31,10 +37,19 @@ export default function CTA() {
         <img src={monsterRun} alt="" className=" w-1/6 " />
 
         <div className="ps-5">
-          <h3 className="text-black sm:text-h3 text-bold">
+          <h3 className="text-black sm:text-h3 text-bold pb-2">
             一起奔向更美好的自己
           </h3>
-          <Button className=" py-2  px-8 rounded-full text-h3">Go!</Button>
+          <Link
+            to={{
+              pathname: account.user_id ? `/trials/list/all/all` : "/auth",
+            }}
+            className="block"
+          >
+            <Button className="  text-schema-inverse-on-surface">
+              立即體驗
+            </Button>
+          </Link>
         </div>
       </div>
     </section>
