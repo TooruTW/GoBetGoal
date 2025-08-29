@@ -23,8 +23,7 @@ const TextDrop = ({ className }: { className?: string }) => {
   const [containerOpacity, setContainerOpacity] = useState(0);
   const engineRef = useRef<Matter.Engine | null>(null);
   const bodiesRef = useRef<Matter.Body[]>([]);
-  const animationFrameRef = useRef<number>();
-  const hasTriggeredRef = useRef<boolean>(false); // 追蹤是否已經觸發過
+  const animationFrameRef = useRef<number | undefined>(undefined);
   const [textElements, setTextElements] = useState<
     Array<{
       text: string;
