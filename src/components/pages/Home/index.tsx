@@ -51,8 +51,8 @@ export default function Home() {
       keyframes: [
         { scale: 1, opacity: 0 },
         { scale: 1, opacity: 1 },
-        { scale: 10, opacity: 1, y: 0 },
-        { scale: 10, opacity: 1, y: 100 },
+        { scale: 12, opacity: 1, y: 0 },
+        { scale: 12, opacity: 1, y: 100 },
         { scale: 1, opacity: 1, y: 400 },
       ],
       duration: 1,
@@ -66,7 +66,7 @@ export default function Home() {
         onUpdate: (self) => {
           const progress = self.progress;
 
-          // 當動畫進度在 scale: 7 階段時啟用 carousel 模式
+          // 當動畫進度在 scale: 12 階段時啟用 carousel 模式
           if (progress >= 0.4 && progress <= 0.6) {
             if (!isCarouselMode) {
               setIsCarouselMode(true);
@@ -78,20 +78,15 @@ export default function Home() {
           }
 
           // 控制文字掉落效果
-          // 當動畫剛開始時（scale: 1, opacity: 0 階段）
           if (progress >= 0.05 && progress <= 0.15) {
             if (textFallTrigger !== "falling") {
               setTextFallTrigger("falling");
             }
-          }
-          // 當回滾到開始位置時重置文字
-          else if (progress < 0.05) {
+          } else if (progress < 0.05) {
             if (textFallTrigger !== "reset") {
               setTextFallTrigger("reset");
             }
-          }
-          // 當滾動超過掉落階段時，保持文字在地面
-          else if (progress > 0.15) {
+          } else if (progress > 0.15) {
             if (textFallTrigger === "falling") {
               setTextFallTrigger("idle");
             }
@@ -188,7 +183,7 @@ export default function Home() {
             draggable="false"
             style={{ userSelect: "none", pointerEvents: "none" }}
           />
-          {/* 傳遞 carousel 模式狀態給 MainMachine */}
+          {/* 保持原本簡單的傳遞方式 */}
           <MainMachine isCarouselMode={isCarouselMode} />
         </div>
       </div>

@@ -32,15 +32,28 @@ export default function Carousel({ isCarouselMode }: CarouselProps) {
 
   // 根據 carousel 模式動態調整 Swiper 配置
   useEffect(() => {
-    if (swiperRef && isCarouselMode) {
-      // 確保在 carousel 模式下滾輪功能正常
-      swiperRef.mousewheel.enable();
-      swiperRef.keyboard.enable();
+    if (swiperRef) {
+      if (isCarouselMode) {
+        // 啟用滾輪控制
+        swiperRef.mousewheel.enable();
+        swiperRef.keyboard.enable();
+        swiperRef.allowSlideNext = true;
+        swiperRef.allowSlidePrev = true;
+        swiperRef.allowTouchMove = true;
 
-      // 確保所有滑塊都可以正常滑動
-      swiperRef.allowSlideNext = true;
-      swiperRef.allowSlidePrev = true;
-      swiperRef.allowTouchMove = true;
+        // 阻止滾輪事件冒泡到父元素
+        const swiperEl = swiperRef.el;
+        if (swiperEl) {
+          swiperEl.style.pointerEvents = "auto";
+        }
+      } else {
+        // 禁用滾輪控制
+        swiperRef.mousewheel.disable();
+        const swiperEl = swiperRef.el;
+        if (swiperEl) {
+          swiperEl.style.pointerEvents = "none";
+        }
+      }
     }
   }, [isCarouselMode, swiperRef]);
 
@@ -50,36 +63,13 @@ export default function Carousel({ isCarouselMode }: CarouselProps) {
         onSwiper={handleSwiperInit}
         spaceBetween={0}
         direction={"vertical"}
-        mousewheel={{
-          forceToAxis: true,
-          releaseOnEdges: false, // 改為 false，讓滾輪完全由 Swiper 控制
-          sensitivity: 0.5, // 降低靈敏度，避免太敏感
-          thresholdDelta: 10, // 降低滾動閾值，更容易觸發
-          thresholdTime: 100, // 降低時間閾值
-          eventsTarget: "container", // 確保事件綁定到容器
-        }}
+        mousewheel={true} // 簡化設定
         effect="fade"
-        navigation={isCarouselMode}
-        keyboard={{
-          enabled: true,
-          onlyInViewport: true, // 只有在視窗內時才響應鍵盤
-        }}
-        pagination={{
-          clickable: true,
-          dynamicBullets: true, // 動態分頁點
-        }}
-        // 添加觸控手勢支援
-        touchRatio={1}
-        touchAngle={45}
-        grabCursor={true}
-        // 確保在非 carousel 模式下也能正常運作
-        allowTouchMove={true}
-        // 滑動阻力設定
-        resistance={true}
-        resistanceRatio={0.85}
+        navigation={false} // 先關閉導航按鈕
+        keyboard={true}
+        pagination={{ clickable: true }}
         modules={[EffectFade, Navigation, Pagination, Mousewheel, Keyboard]}
         className="w-full h-full"
-        // 添加事件監聽器來除錯
         onSlideChange={(swiper) => {
           console.log("Slide changed to:", swiper.activeIndex);
         }}
