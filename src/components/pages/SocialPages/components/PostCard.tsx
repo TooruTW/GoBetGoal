@@ -10,7 +10,7 @@ import { usePostLikeSupa, useDeletePostSupa } from "@/api";
 import { useDeletePostLikeSupa } from "@/api";
 import { useGSAP } from "@gsap/react";
 import { LuSendHorizontal } from "react-icons/lu";
-import Notificatioin from "@/components/ui/Notificatioin";
+import Notification from "@/components/ui/Notification";
 import { Post } from "@/types/Post";
 import { SlOptionsVertical } from "react-icons/sl";
 
@@ -37,7 +37,7 @@ export default function PostCard(props: Post) {
 
   const [noteContent, setNoteContent] = useState("");
 
-  const { mutate: postLike } = usePostLikeSupa({ postId: id, userId });
+  const { mutate: postLike } = usePostLikeSupa({ postId: id, userId, authorId: publish_by });
   const { mutate: deletePostLike } = useDeletePostLikeSupa({
     postId: id,
     userId,
@@ -121,32 +121,35 @@ export default function PostCard(props: Post) {
   }, [noteContent]);
   const { contextSafe } = useGSAP();
 
-  useGSAP(()=>{
-    if(isShowDeletePost){
-      gsap.from(".delete-post-option",{
-        opacity: 0,
-        xPercent: 100,
-        duration: 0.25,
-      })
-    }
-  },{dependencies:[isShowDeletePost]})
+  useGSAP(
+    () => {
+      if (isShowDeletePost) {
+        gsap.from(".delete-post-option", {
+          opacity: 0,
+          xPercent: 100,
+          duration: 0.25,
+        });
+      }
+    },
+    { dependencies: [isShowDeletePost] }
+  );
 
-  const hideDeletePostAnimation = contextSafe(()=>{
-    gsap.to(".delete-post-option",{
+  const hideDeletePostAnimation = contextSafe(() => {
+    gsap.to(".delete-post-option", {
       opacity: 0,
       xPercent: 100,
       duration: 0.25,
-      onComplete:()=>{
-        setIsShowDeletePost(false)
-      }
-    })
-  })
+      onComplete: () => {
+        setIsShowDeletePost(false);
+      },
+    });
+  });
 
   const handleDeletePost = () => {
-    if(!isShowDeletePost){
+    if (!isShowDeletePost) {
       setIsShowDeletePost(!isShowDeletePost);
-    }else{
-     hideDeletePostAnimation()
+    } else {
+      hideDeletePostAnimation();
     }
   };
   const handleConfirmDeletePost = () => {
@@ -156,19 +159,24 @@ export default function PostCard(props: Post) {
   return (
     <div className="aspect-[140/212] w-full bg-schema-surface-container">
       {noteContent && (
-        <Notificatioin time={2000}>
+        <Notification time={2000}>
           <p>{noteContent}</p>
-        </Notificatioin>
+        </Notification>
       )}
       <div className="relative w-full h-full">
-        <div className="absolute top-5 right-5 z-10" onClick={handleDeletePost}>
-          <SlOptionsVertical className="size-5" />
-          {isShowDeletePost && (
-            <div className="absolute top-0 right-10 border-1 border-schema-outline rounded-md py-2 px-4 z-10 text-nowrap delete-post-option">
-              <p onClick={handleConfirmDeletePost}>刪除</p>
-            </div>
-          )}
-        </div>
+        {publish_by === userId && (
+          <div
+            className="absolute top-5 right-5 z-10"
+            onClick={handleDeletePost}
+          >
+            <SlOptionsVertical className="size-5" />
+            {isShowDeletePost && (
+              <div className="absolute top-0 right-10 border-1 border-schema-outline rounded-md py-2 px-4 z-10 text-nowrap delete-post-option">
+                <p onClick={handleConfirmDeletePost}>刪除</p>
+              </div>
+            )}
+          </div>
+        )}
         <PostCarousel
           onClick={handleClick}
           imgUrl={image_url}
@@ -184,7 +192,7 @@ export default function PostCard(props: Post) {
           onClick={() => setIsShow(!isShow)}
         >
           <div className="flex items-center w-full justify-between gap-2">
-            <div className="flex items-center gap-2 pointer-events-auto">
+            <div className="flex items-center gap-2 pointer-events-auto w-full">
               <Link
                 to={`/user/${publish_by}`}
                 className="w-10 h-10 rounded-full bg-white"
@@ -195,12 +203,12 @@ export default function PostCard(props: Post) {
                   className="w-10 h-10 rounded-full object-cover object-top"
                 />
               </Link>
-              <div>
+              <div className="w-full">
                 <p>{user_info.nick_name}</p>
-                <p className="flex gap-2">
-                  <span>{trial.title}</span>
+                <p className="flex max-md:flex-col max-md:text-label max-md:items-end">
+                  <span className="max-md:self-start">{trial.title}</span>
                   <Link to={`/create-trial/${trial_id}`}>
-                    <span># {trial.challenge.title}</span>
+                    # {trial.challenge.title}
                   </Link>
                 </p>
               </div>

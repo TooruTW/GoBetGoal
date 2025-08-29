@@ -11,6 +11,8 @@ const initialState: UserInfoSupa = {
   purchase_challenge: [],
   purchase_avatar: [],
   total_trial_count: 0,
+  trial_count: 0,
+  trial_pass_count: 0,
   liked_posts_count: 0,
   friend_count: 0,
 };
@@ -31,6 +33,8 @@ export const accountSlice = createSlice({
         state.purchase_challenge = [];
         state.purchase_avatar = [];
         state.total_trial_count = 0;
+        state.trial_count = 0;
+        state.trial_pass_count = 0;
         state.liked_posts_count = 0;
         state.friend_count = 0;
         return;
@@ -45,6 +49,8 @@ export const accountSlice = createSlice({
       state.purchase_challenge = action.payload.purchase_challenge;
       state.purchase_avatar = action.payload.purchase_avatar;
       state.total_trial_count = action.payload.total_trial_count;
+      state.trial_count = action.payload.trial_count;
+      state.trial_pass_count = action.payload.trial_pass_count;
       state.liked_posts_count = action.payload.liked_posts_count;
       state.friend_count = action.payload.friend_count;
     },

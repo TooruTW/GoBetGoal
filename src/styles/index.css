@@ -1,6 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@import 'swiper/css';
+@import 'swiper/css/effect-cards';
+
 @theme {
   --font-title: "Bungee", sans-serif;
 
@@ -104,20 +107,20 @@
 
   --color-schema-inverse-surface: var(--inverseSurface);
   --color-schema-inverse-on-surface: var(--inverseOnSurface);
-  
+
   --color-schema-outline: var(--outline);
 
   --color-schema-primary: var(--primary);
   --color-schema-on-primary: var(--onPrimary);
   --color-schema-primary-container: var(--PrimaryContainer);
   --color-schema-on-primary-container: var(--onPrimaryContainer);
-  
+
   --color-schema-surface: var(--surface);
   --color-schema-surface-variant: var(--surfaceVariant);
   --color-schema-on-surface: var(--onSurface);
   --color-schema-on-surface-variant: var(--onSurfaceVariant);
   --color-schema-on-background: var(--onBackground);
-  
+
   --color-schema-surface-container: var(--surfaceContainer);
   --color-schema-surface-container-low: var(--surfaceContainerLow);
   --color-schema-surface-container-high: var(--surfaceContainerHigh);
@@ -176,18 +179,18 @@
   --onPrimary: #ffffff;
   --primaryContainer: #ffd9de;
   --onPrimaryContainer: #713341;
-  
+
   --secondary: #0df0b8;
   --onSecondary: #ffffff;
-  --secondaryContainer: #41FF14;
+  --secondaryContainer: #41ff14;
   --onSecondaryContainer: #265022;
 
-  --tertiary: #FFBF00;
+  --tertiary: #ffbf00;
   --onTertiary: #ffffff;
   --tertiaryContainer: #ffe08b;
   --onTertiaryContainer: #584400;
 
-  --quaternary: #51BBFE;
+  --quaternary: #51bbfe;
 
   --error: #ba1a1a;
   --onError: #ffffff;
@@ -204,7 +207,7 @@
   --shadow: #000000;
   --scrim: #000000;
   --inverseSurface: rgb(51, 51, 54);
-  --inverseOnSurface: rgb(214, 214, 215);
+  --inverseOnSurface: rgb(246, 246, 246);
   --inversePrimary: #ffb1c0;
   --primaryFixed: #ffd9de;
   --onPrimaryFixed: #3a0717;
@@ -214,7 +217,7 @@
   --onSecondaryFixed: #002202;
   --secondaryFixedDim: #a3d397;
   --onSecondaryFixedVariant: #265022;
-  --tertiary: #FFAE03;
+  --tertiary: #ffae03;
   --onTertiary: #3d2f00;
   --tertiaryContainer: #ffe08b;
   --onTertiaryContainer: #584400;
@@ -231,6 +234,24 @@
 
   --surfaceContainerHigh: rgb(232, 232, 237);
   --surfaceContainerHighest: rgb(222, 222, 227);
+
+
+  /* from horizontal scroll */
+  .horizontal-scroll {
+    display: flex;
+    height: 100vh;
+    width: 3000px; /* 4 panels */
+  }
+  .panel {
+    flex: 0 0 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    color: white;
+  }
+  /* from horizontal scroll */
 }
 
 .dark {
@@ -272,9 +293,9 @@
   --primaryContainer: #713341;
   --onPrimaryContainer: #ffd9de;
 
-  --secondary: #C1FF9B;
+  --secondary: #c1ff9b;
   --onSecondary: #0e380d;
-  --secondaryContainer: #41FF14;
+  --secondaryContainer: #41ff14;
   --onSecondaryContainer: #265022;
 
   --tertiary: #e3c46d;
@@ -282,7 +303,7 @@
   --tertiaryContainer: #ffe08b;
   --onTertiaryContainer: #584400;
 
-  --quaternary: #ACECF7;
+  --quaternary: #acecf7;
 
   --error: #ffb4ab;
   --onError: #690005;
@@ -336,7 +357,6 @@
 
 /* 霓虹特效類別 */
 @layer components {
-
   /* 基礎霓虹效果 */
   .neon-red {
     color: var(--neon-red);
@@ -405,9 +425,11 @@
 
   /* 漸層效果 */
   .bg-gradient-set-1 {
-    background: linear-gradient(135deg,
-        var(--color-gradient-set-1-1) 0%,
-        var(--color-gradient-set-1-2) 100%);
+    background: linear-gradient(
+      135deg,
+      var(--color-gradient-set-1-1) 0%,
+      var(--color-gradient-set-1-2) 100%
+    );
   }
 
   .error {
@@ -452,7 +474,6 @@
 }
 
 @keyframes neon-flicker {
-
   0%,
   18%,
   22%,

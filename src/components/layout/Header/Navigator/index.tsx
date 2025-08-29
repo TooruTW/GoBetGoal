@@ -15,7 +15,11 @@ import { usePostLogOutSupa } from "@/api";
 import { setAccount } from "@/store/slices/accountSlice";
 import { Button } from "@/components/ui/button";
 
-export default function Navigator() {
+type NavigatorProps = {
+  setIsShowNotification: () => void;
+};
+
+export default function Navigator({ setIsShowNotification }: NavigatorProps) {
   const account = useSelector((state: RootState) => state.account);
   const dispatch = useDispatch();
   const { mutate: postLogOutSupa } = usePostLogOutSupa();
@@ -43,7 +47,10 @@ export default function Navigator() {
         {account.user_id && (
           <>
             <li className=" group relative">
-              <LuBellRing className="text-schema-primary size-6 cursor-pointer max-sm:hidden hover:scale-105 active:scale-95 transition-all" />
+              <LuBellRing
+                onClick={() => setIsShowNotification()}
+                className="text-schema-primary size-6 cursor-pointer max-sm:hidden hover:scale-105 active:scale-95 transition-all"
+              />
               <p className="text-label hidden group-hover:block absolute -bottom-2 translate-y-full bg-schema-surface-container-high/50 left-1/2 -translate-x-1/2 rounded-full px-4 py-1 text-nowrap">
                 通知
               </p>
@@ -75,7 +82,7 @@ export default function Navigator() {
           </>
         ) : (
           <>
-            <Link className=" max-lg:hidden " to="trials">
+            <Link className=" max-lg:hidden " to="trials/list/all/all">
               <li className="text-label transition-all hover:scale-105 active:scale-95 ">
                 我的試煉
               </li>
@@ -130,7 +137,7 @@ export default function Navigator() {
                       </div>
                     </Link>
 
-                    <Link to="trials" className="block">
+                    <Link to="trials/list/all/all" className="block">
                       <div className="transition-all hover:scale-105 active:scale-95 px-8 py-4 hover:bg-schema-surface-container-highest">
                         我的試煉
                       </div>
@@ -142,18 +149,14 @@ export default function Navigator() {
                       </div>
                     </Link>
 
-                    <Link
-                      to={{
-                        pathname: account.user_id
-                          ? `/user/${account.user_id}`
-                          : "/auth",
-                      }}
+                    <div
                       className="sm:hidden block"
+                      onClick={() => setIsShowNotification()}
                     >
                       <div className="cursor-pointer px-8 py-4 transition-all hover:scale-105 active:scale-95 hover:bg-schema-surface-container-highest">
                         通知中心
                       </div>
-                    </Link>
+                    </div>
 
                     <Link
                       to={{

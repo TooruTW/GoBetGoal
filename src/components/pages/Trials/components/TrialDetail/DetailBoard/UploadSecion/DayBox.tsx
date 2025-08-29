@@ -5,7 +5,11 @@ type acceptProps = {
   setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
   setIsChooseDate: React.Dispatch<React.SetStateAction<boolean>>;
 };
-export default function DayBox({ dateInfo, setCurrentIndex, setIsChooseDate }: acceptProps) {
+export default function DayBox({
+  dateInfo,
+  setCurrentIndex,
+  setIsChooseDate,
+}: acceptProps) {
   const { date, isThisMonth, isThisDate, status } = dateInfo;
 
   // handle click effect
@@ -20,19 +24,19 @@ export default function DayBox({ dateInfo, setCurrentIndex, setIsChooseDate }: a
   let color: string = "";
   switch (status) {
     case "pending":
-      color = "bg-schema-surface-variant";
+      color = "bg-schema-surface-container-high";
       break;
     case null:
-      color = "bg-schema-surface-variant";
+      color = "bg-schema-surface-container-high";
       break;
     case "pass":
-      color = "bg-[#BEF0B2]";
+      color = "bg-schema-secondary";
       break;
     case "fail":
-      color = "bg-[#EBA7E4]";
+      color = "bg-schema-primary";
       break;
     case "cheat":
-      color = "bg-[#FFE08B]";
+      color = "bg-schema-tertiary";
       break;
     default:
       break;
@@ -67,9 +71,21 @@ export default function DayBox({ dateInfo, setCurrentIndex, setIsChooseDate }: a
         className={`${
           isThisMonth
             ? isThisDate
-              ? "text-schema-on-surface font-bold cursor-pointer scale-110 rounded-full bg-schema-inverse-surface size-7.5"
-              : "text-schema-on-surface-variant cursor-pointer"
-            : "text-schema-on-surface opacity-50"
+              ? `${
+                  status
+                    ? status === "pending"
+                      ? "text-schema-inverse-on-surface bg-schema-inverse-surface  border-schema-inverse-surface"
+                      : `text-schema-inverse-on-surface border-none ${color}`
+                    : "text-schema-on-surface border-schema-on-surface"
+                } border-2 font-bold cursor-pointer scale-110 size-7.5`
+              : ` ${
+                  status
+                    ? status === "pending"
+                      ? "text-schema-on-surface"
+                      : "text-schema-inverse-on-surface"
+                    : "text-schema-on-surface"
+                } cursor-pointer`
+            : "text-schema-on-surface opacity-30"
         } 
     
         flex items-center justify-center z-10 relative`}

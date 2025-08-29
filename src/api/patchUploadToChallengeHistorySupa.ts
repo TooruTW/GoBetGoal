@@ -8,11 +8,10 @@ type uploadToChallengeHistorySupa = {
 }
 
 const patchUploadToChallengeHistorySupa = async ({history_id,imageUrlArr,isCheat = false}: uploadToChallengeHistorySupa) => {
-  const cheatImg = ["https://www.niusnews.com/upload/imgs/default/2020JULYYY_ARENAAA/mei/0i4wCxN.jpg"]
   const { data, error } = await supabase
     .from("trial_participant_stage_history")
     .update({
-      upload_image: isCheat ? cheatImg : imageUrlArr,
+      upload_image: imageUrlArr,
       status: isCheat ? "cheat" : "pass",
       upload_at: new Date().toISOString(),
     })

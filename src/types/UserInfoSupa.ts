@@ -1,14 +1,16 @@
 export type UserInfoSupa = {
-    candy_count: number;
-    character_img_link: string;
-    cheat_blanket: number;
-    nick_name: string;
-    system_preference_color_mode: string;
-    total_trial_count: number;
-    liked_posts_count: number;
-    friend_count: number;
-    user_id: string;
-    purchase_challenge: string[];
-    purchase_avatar: string[];
-    friend_state?: "pending" | "accepted" | "rejected" ;
-}
+  candy_count: number;
+  character_img_link: string;
+  cheat_blanket: number;
+  nick_name: string;
+  system_preference_color_mode: string;
+  total_trial_count: number;
+  liked_posts_count: number;
+  friend_count: number;
+  user_id: string;
+  purchase_challenge: string[];
+  purchase_avatar: string[];
+  trial_count: number;
+  trial_pass_count: number;
+  friend_state?: "pending" | "accept" | "rejected";
+};

@@ -45,17 +45,22 @@
     "react-swipeable": "^7.0.2",
     "reactjs-flip-card": "^2.0.3",
     "recharts": "^3.1.2",
+    "swiper": "^11.2.10",
     "tailwind-merge": "^3.3.1",
-    "tailwindcss": "^4.1.10"
+    "tailwindcss": "^4.1.10",
+    "three": "^0.167.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
+    "@playwright/test": "^1.55.0",
     "@tanstack/eslint-plugin-query": "^5.81.2",
     "@types/file-saver": "^2.0.7",
     "@types/matter-js": "^0.19.8",
     "@types/node": "^24.0.3",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
+    "@types/swiper": "^5.4.3",
+    "@types/three": "^0.179.0",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.19.0",
     "eslint-plugin-react-hooks": "^5.0.0",

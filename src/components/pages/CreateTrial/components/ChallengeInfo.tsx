@@ -47,7 +47,7 @@ export default function ChallengeInfo({ challenge }: ChallengeInfoProps) {
     >
       <img
         ref={imageRef}
-        src={challenge?.img ? `/image${challenge?.img}` : bagels[Math.floor(Math.random() * bagels.length)]}
+        src={challenge?.img ? `${challenge?.img}` : bagels[Math.floor(Math.random() * bagels.length)]}
         alt=""
         className="size-35 max-lg:size-30 max-md:size-25 absolute -top-15   right-8 rotate-9"
       />

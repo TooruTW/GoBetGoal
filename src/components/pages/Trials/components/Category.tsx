@@ -1,4 +1,9 @@
-import { monsterSport, monsterEat, monsterSleep } from "@/assets/monster";
+import {
+  monsterSport,
+  monsterEat,
+  monsterSleep,
+  monsterCongrats,
+} from "@/assets/monster";
 import { useState, useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -27,7 +32,7 @@ const videoList: VideoItem[] = [
     video: "/animation/monster/monsterBeep.webm",
     decor: [
       "/image/template/TemplateDance.webp",
-      "/image/template/Template50.webp",
+      "/image/template/TemplateStrong.webp",
       "/image/template/TemplateRun.webp",
     ],
     color: "primary",
@@ -40,7 +45,7 @@ const videoList: VideoItem[] = [
     decor: [
       "/image/template/TemplateSalat.webp",
       "/image/template/TemplateVegan.webp",
-      "/image/template/TemplateHeart.webp",
+      "/image/template/challengeimg.png",
     ],
     color: "secondary",
   },
@@ -55,6 +60,18 @@ const videoList: VideoItem[] = [
       "/image/template/TemplateSleep.webp",
     ],
     color: "tertiary",
+  },
+  {
+    id: "all",
+    title: "全部",
+    src: monsterCongrats,
+    video: "/animation/monster/monsterCongrats.webm",
+    decor: [
+      "/image/template/Ticket.png",
+      "/image/template/Template50.webp",
+      "/image/template/TemplateHeart.webp",
+    ],
+    color: "quaternary",
   },
 ];
 
@@ -139,10 +156,12 @@ export default function Category() {
         <div className="md:flex md:flex-row-reverse  w-1/2 h-full relative items-center p-3">
           {/* 中間：標題區 */}
           <div className="text-center text-white z-20 md:w-1/2">
-            <h2 className="text-white text-h2">
+            <h2 className="text-schema-inverse-on-surface text-h2">
               {videoList[currentIndex].title}
             </h2>
-            <h3 className="text-white mb-2 text-h3">試煉廣場</h3>
+            <h3 className="text-schema-inverse-on-surface mb-2 text-h3">
+              試煉廣場
+            </h3>
           </div>
           <div className="ml-auto relative flex flex-col items-end p-4 md:w-1/2">
             <div className="flex gap-2">
@@ -152,7 +171,7 @@ export default function Category() {
                   src={item.src}
                   alt={item.title}
                   onClick={() => handleVideoChange(item.video, index, item.id)}
-                  className={`w-1/3 object-cover cursor-pointer hover:scale-115 transition-all active:scale-90 ${
+                  className={`w-1/4 object-cover cursor-pointer hover:scale-115 transition-all active:scale-90 ${
                     currentIndex === index
                       ? "scale-105  opacity-100 -translate-y-4"
                       : "opacity-80"

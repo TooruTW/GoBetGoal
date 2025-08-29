@@ -18,7 +18,7 @@ export default function ParticipantMobile(props: acceptProps) {
   const [participantListArray, setParticipantListArray] = useState<
     [string, UserInfoSupa][]
   >([]);
-  const {trial_status}=trial[0].trial
+  const { trial_status } = trial[0].trial;
 
   const [owner, setOwner] = useState<string>("");
 
@@ -73,9 +73,12 @@ export default function ParticipantMobile(props: acceptProps) {
           frontComponent={<BackSideCard />}
         />
       ))}
-      {participantListArray.length < 6 && trial_status==="pending" && (
+      {participantListArray.length < 6 && trial_status === "pending" && (
         <div className="flex justify-center items-center">
-          <button className="bg-schema-primary text-schema-on-primary px-4 py-2 rounded-md" onClick={handleInvite}>
+          <button
+            className="bg-schema-primary text-schema-on-primary px-4 py-2 rounded-md"
+            onClick={handleInvite}
+          >
             邀請好友
           </button>
         </div>
