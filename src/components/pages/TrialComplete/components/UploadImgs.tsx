@@ -1,22 +1,24 @@
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { useRef, useState, MouseEvent } from "react";
+import { useRef, useState, MouseEvent, useEffect } from "react";
 
 export default function UploadImgs({ images }: { images: string[][] }) {
   const uploadImgsRef = useRef<HTMLDivElement>(null);
   const [isReady, setIsReady] = useState(false);
   const lodaingCountRef = useRef(0);
-
   const [hoverIndex, setHoverIndex] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (images.length === 0) return;
+    console.log(images);
+  }, [images]);
 
   const handleLoad = () => {
     lodaingCountRef.current++;
     if (lodaingCountRef.current === images.length) {
       setIsReady(true);
     }
-    
   };
-
   useGSAP(
     () => {
       if (!uploadImgsRef.current) return;
@@ -72,9 +74,7 @@ export default function UploadImgs({ images }: { images: string[][] }) {
 
   return (
     <div
-      className={`grid grid-cols-4 gap-2 w-1/2 max-xl:w-full max-xl:flex max-xl:overflow-x-scroll max-xl:h-30 max-lg:snap-x max-xl:pt-6 ${
-        isReady ? "opacity-100" : "opacity-0"
-      }`}
+      className={`grid grid-cols-4 gap-2 w-1/2 max-xl:w-full max-xl:flex max-xl:overflow-x-scroll max-xl:h-30 max-lg:snap-x max-xl:pt-6 `}
       ref={uploadImgsRef}
     >
       {images.map((image, day) => {

@@ -30,10 +30,14 @@ export default function UploadCalendar(props: acceptProps) {
   const [currentIndex, setCurrentIndex] = useState<number>(1);
   const [isChooseDate, setIsChooseDate] = useState<boolean>(false);
   const [isAIChecking, setIsAIChecking] = useState<boolean>(true);
+  const [challengeRules, setChallengeRules] = useState<string[]>([]);
+  const [challengeType, setChallengeType] = useState<"FitnessOCR" | "FoodCombination" | "ExclusiveDiet" | "NegativeList">("FoodCombination");
 
   useEffect(()=>{
     if(trial.length > 0){
       setIsAIChecking(trial[0].trial.challenge.check_by_ai);
+      setChallengeType("FoodCombination");
+      setChallengeRules(trial[0].trial.challenge.rule);
     }
   },[trial])
 
@@ -141,6 +145,8 @@ export default function UploadCalendar(props: acceptProps) {
           currentIndex={currentIndex}
           setCurrentIndex={setCurrentIndex}
           isAIChecking={isAIChecking}
+          challengeRules={challengeRules}
+          challengeType={challengeType}
         />
       </div>
     </div>

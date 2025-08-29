@@ -23,9 +23,17 @@ import dayjs from "dayjs";
 export default function ChallengeBox({
   currentChallenge,
   isAIChecking,
+  challengeRules,
+  challengeType,
 }: {
   currentChallenge: TrialDetailSupa;
   isAIChecking: boolean;
+  challengeRules: string[];
+  challengeType:
+    | "FitnessOCR"
+    | "FoodCombination"
+    | "ExclusiveDiet"
+    | "NegativeList";
 }) {
   const {
     stage_index,
@@ -46,9 +54,7 @@ export default function ChallengeBox({
     "checking" | "pass" | "fail"
   >("checking");
   const [isShowPopup, setIsShowPopup] = useState(false);
-
   const queryClient = useQueryClient();
-
   const isChallengeStart = dayjs(start_at).isSameOrBefore(dayjs(), "day");
   const isChallengeEnd = dayjs(end_at).isBefore(dayjs(), "day");
 
@@ -167,6 +173,8 @@ export default function ChallengeBox({
       !isImageLoading &&
       !imageError
     ) {
+      console.log(imageUrlArr, "imageUrlArr");
+
       if (!isAIChecking) {
         const diffcount =
           challenge_stage.description.length - imageUrlArr.length;
@@ -177,27 +185,31 @@ export default function ChallengeBox({
         setSelectedFile([]);
         return;
       }
-      Promise.all(imageUrlArr.map((item) => checkImage(item))).then(
-        (result) => {
-          const isPassTest = result.every((item) => item.result);
-          const resultUrl = result.map((item) => item.imgUrl);
-          setCheckingState(isPassTest ? "pass" : "fail");
+      Promise.resolve(
+        checkImage({
+          imageUrls: imageUrlArr,
+          challengeType: challengeType,
+          stageDescriptions: challenge_stage.description,
+          trialRules: challengeRules,
+        })
+      ).then((result) => {
+        const isPassTest = result.result;
+        const passedImgUrl = result.imgUrl;
+        console.log(isPassTest, passedImgUrl, "result");
 
-          if (isPassTest) {
-            handlePass(currentChallenge.id, resultUrl);
-          } else {
-            handleFail();
-          }
-          setIsShowPopup(true);
-
-          setUploadedFileName([]);
-          setSelectedFile([]);
-
-          setTimeout(() => {
-            setIsShowCheckResult(false);
-          }, 2000);
+        if(isPassTest){
+          handlePass(currentChallenge.id, passedImgUrl);
+        }else{
+          handleFail();
         }
-      );
+        setCheckingState(isPassTest ? "pass" : "fail");
+        setUploadedFileName([]);
+        setSelectedFile([]);
+        // 關掉夭壽
+        setIsShowCheckResult(false);
+        // 開啟彈窗
+        setIsShowPopup(true);
+      });
     }
   }, [
     imageUrlArr,
@@ -211,11 +223,21 @@ export default function ChallengeBox({
     handlePass,
     isAIChecking,
     challenge_stage.description,
+    challengeType,
+    challengeRules,
   ]);
 
   // confirm upload - compress and upload to supabase storage
   // set selected file
   const handleSetSelectedFile = (file: File, index: number) => {
+    if(selectedFile.length < challenge_stage.description.length){
+      const fakeFile = new File([], "fake.jpg", { type: "image/jpeg" });
+      const fakeList = new Array(challenge_stage.description.length).fill(fakeFile);
+      setSelectedFile(fakeList);
+      console.log(fakeList, "create fakeFilelist");
+    }
+    console.log(index, "index");
+    
     setSelectedFile((prev) => {
       const newSelectedFile = [...prev];
       newSelectedFile[index] = file;
@@ -227,6 +249,7 @@ export default function ChallengeBox({
   const handleConfirmUpload = async () => {
     // 如果有選擇檔案，先處理上傳
     if (selectedFile && selectedFile.length > 0) {
+      console.log(selectedFile, "selectedFile");
       setUploadedFileName([]);
       try {
         // 1. 先壓縮圖片
@@ -234,7 +257,6 @@ export default function ChallengeBox({
         // 2. 再上傳壓縮後的圖片
         const fileNames = await uploadImages(compressedFiles);
         setUploadedFileName(fileNames);
-
         // 如果是 AI 檢查模式，顯示檢查狀態
         if (isAIChecking) {
           setCheckingState("checking");
@@ -245,7 +267,6 @@ export default function ChallengeBox({
       }
       return;
     }
-
     // 如果沒有選擇檔案且不是 AI 檢查模式，使用預設圖片
     if (!isAIChecking) {
       const goodJobList = challenge_stage.description.map(() => goodJob);
@@ -328,7 +349,7 @@ export default function ChallengeBox({
                         </span>
                       </>
                     ) : (
-                        <span className="text-p-small">挑戰完成</span>
+                      <span className="text-p-small">挑戰完成</span>
                     )
                   ) : (
                     <>
