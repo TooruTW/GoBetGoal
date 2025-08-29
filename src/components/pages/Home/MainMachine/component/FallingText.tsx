@@ -44,7 +44,7 @@ const TextDrop = ({ className }: { className?: string }) => {
     // 創建地面 (距離底部120px)
     const ground = Matter.Bodies.rectangle(
       window.innerWidth / 2,
-      window.innerHeight - 60, // 地面位置在距離底部120px的地方
+      window.innerHeight - 30, // 地面位置在距離底部120px的地方
       window.innerWidth,
       120,
       { isStatic: true }

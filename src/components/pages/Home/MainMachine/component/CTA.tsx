@@ -37,7 +37,7 @@ export default function CTA() {
         <img src={monsterRun} alt="" className=" w-1/6 " />
 
         <div className="ps-5">
-          <h3 className="text-black sm:text-h3 text-bold">
+          <h3 className="text-black sm:text-h3 text-bold pb-2">
             一起奔向更美好的自己
           </h3>
           <Link

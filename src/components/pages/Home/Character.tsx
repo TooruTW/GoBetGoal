@@ -148,9 +148,9 @@ export default function VideoGallery() {
   }, []);
 
   return (
-    <div className="md:flex items-center gap-4 py-20 justify-center">
+    <div className="md:flex items-center gap-4 py-20 justify-center ps-12">
       {/* 影片播放區 */}
-      <h2 className="text-h2 mb-12">多樣角色陪你冒險</h2>
+      <h2 className="text-h2 mb-16">多樣角色陪你冒險</h2>
 
       <div className="relative">
         <h3 className="absolute -left-4 -top-14 text-h3 font-bold pb-8">
@@ -159,7 +159,7 @@ export default function VideoGallery() {
         <p className="bg-schema-primary text-schema-on-primary absolute -left-2 -top-4 px-4 py-2 transform -skew-x-12 inline-block z-10">
           {currentP}
         </p>
-        <div className="transform -skew-x-12 ms-12 inline-block border-3 border-schema-primary h-100 overflow-hidden">
+        <div className="transform -skew-x-12 ms-12 inline-block border-3 border-schema-primary w-1/2 md:w-2/3 overflow-hidden">
           <video
             key={currentVideo} // 每次變更重新載入
             autoPlay
