@@ -23,13 +23,15 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
+  
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     // baseURL: 'http://localhost:3000',
-
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+    // 單個操作（click / fill 等）的最大時間（預設 30 秒）
+    actionTimeout: 60000, // 單位毫秒 → 1 分鐘
     trace: 'on-first-retry',
+    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
   },
 
   /* Configure projects for major browsers */
