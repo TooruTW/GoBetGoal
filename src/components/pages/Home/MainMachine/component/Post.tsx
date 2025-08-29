@@ -46,50 +46,56 @@ export default function App() {
   ];
 
   return (
-    <div className=" flex justify-center items-center ">
-      <div className="flex justify-center items-center  relative rotate-6">
+    <div className="flex justify-center items-center py-auto  ">
+      <div className="flex justify-center items-center relative rotate-6">
         <Swiper
-          effect="cards"
+          effect={"cards"}
           grabCursor={true}
           modules={[EffectCards, Autoplay]}
           className="w-60 h-80"
+          style={{ overflow: "visible" }}
           autoplay={{
-            delay: 2000, // 每 2 秒換一次
-            disableOnInteraction: false, // 使用者手動滑動後仍然自動播放
+            delay: 2000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
           }}
+          cardsEffect={{
+            perSlideOffset: 8, // 卡片間的偏移
+            perSlideRotate: 2, // 卡片的旋轉角度
+            rotate: true,
+            slideShadows: true,
+          }}
+          loop={true}
         >
           {slides.map((item, idx) => (
             <SwiperSlide
               key={idx}
-              className={`flex items-center justify-center rounded-2xl text-2xl font-bold relative  bg-[url(${item.img})]`}
+              className="flex items-center justify-center rounded-2xl relative overflow-hidden shadow-xl bg-white"
+              style={{
+                transformOrigin: "center bottom",
+                backfaceVisibility: "hidden",
+              }}
             >
               <img
                 src={item.img}
                 alt={`Slide ${idx + 1}`}
-                className="w-full h-full object-cover "
+                className="w-full h-full object-cover rounded-2xl"
               />
-              <div className="h-10 w-10 overflow-hidden object-cover rounded-full absolute top-2 left-2 border border-white">
+
+              {/* User Avatar */}
+              <div className="h-10 w-10 overflow-hidden rounded-full absolute top-3 left-3 border-2 border-white shadow-lg bg-white">
                 <img
                   src={item.user}
-                  alt={`user ${idx + 1}`}
-                  className=" h-20 w-auto"
+                  alt={`User ${idx + 1}`}
+                  className="w-full h-full object-cover"
                 />
               </div>
+
+              {/* Optional overlay for better text visibility */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl pointer-events-none"></div>
             </SwiperSlide>
           ))}
         </Swiper>
-        <div className="  z-30   ">
-          <img
-            src="/image/template/TemplateHeart.webp"
-            alt=""
-            className="h-10 animate-bounce rotate-2 top-1 -right-4 absolute"
-          />
-          <img
-            src="/image/template/TemplateHeart.webp"
-            alt=""
-            className="h-10  animate-ping -rotate-2 bottom-0 -left-4 absolute"
-          />
-        </div>
       </div>
     </div>
   );
