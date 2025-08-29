@@ -94,7 +94,7 @@ export default function UploadCalendar(props: acceptProps) {
     }, [filteredTrial,isChooseDate]);
 
   return (
-    <div className="flex gap-6 w-full  h-full max-md:flex-col-reverse md:bg-schema-surface-container-high md:p-9 rounded-[48px] ">
+    <div className="flex gap-6 w-full  h-full max-md:flex-col-reverse md:bg-schema-surface-container md:p-9 rounded-[48px] ">
       <div className="flex flex-col gap-6 items-center justify-between w-full md:max-w-96">
         <div className="flex flex-col gap-3 w-full">
           <ul className="flex gap-3 w-full max-lg:text-label">

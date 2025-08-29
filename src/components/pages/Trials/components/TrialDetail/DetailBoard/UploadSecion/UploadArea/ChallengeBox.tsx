@@ -372,8 +372,8 @@ export default function ChallengeBox({
           )}
           {status !== "pending" && (
             <div
-              className="w-full h-fit bg-schema-primary text-schema-on-primary rounded-md p-2 flex justify-center items-center"
-              text-p-small
+              className="w-full h-fit bg-schema-primary text-schema-on-primary rounded-md p-2 flex justify-center items-center text-p-small"
+              
             >
               {status === "pass" && <span className="text-p">通過</span>}
               {status === "cheat" && <span className="text-p">資本主義</span>}
