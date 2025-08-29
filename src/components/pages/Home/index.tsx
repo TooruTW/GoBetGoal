@@ -31,8 +31,6 @@ export default function Home() {
 
   const mainMachineRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
-  const runRef = useRef<HTMLDivElement>(null);
-  const runContainerRef = useRef<HTMLDivElement>(null);
 
   // 控制 carousel 模式的狀態
   const [isCarouselMode, setIsCarouselMode] = useState(false);
@@ -51,8 +49,8 @@ export default function Home() {
       keyframes: [
         { scale: 1, opacity: 0 },
         { scale: 1, opacity: 1 },
-        { scale: 12, opacity: 1, y: 0 },
-        { scale: 12, opacity: 1, y: 100 },
+        { scale: 10, opacity: 1, y: 0 },
+        { scale: 10, opacity: 1, y: 100 },
         { scale: 1, opacity: 1, y: 400 },
       ],
       duration: 1,
@@ -97,26 +95,6 @@ export default function Home() {
   });
 
   // RunRef 的獨立動畫 - 當滑動到 runContainer 時觸發
-  useGSAP(() => {
-    if (!runRef.current || !runContainerRef.current) return;
-
-    gsap.timeline().to(runRef.current, {
-      keyframes: [
-        { scale: 0.5, opacity: 1, x: 0 },
-        { scale: 0.5, opacity: 1, x: -1200 },
-        { scale: 1.5, opacity: 1, x: -800 },
-        { scale: 0.8, opacity: 1, x: -1200 },
-        { scale: 0.3, opacity: 0.8, x: -1600 },
-      ],
-      duration: 1,
-      scrollTrigger: {
-        trigger: runContainerRef.current,
-        start: "top bottom",
-        end: "+=500%",
-        scrub: 1,
-      },
-    });
-  });
 
   // Monster 浮動動畫
   useGSAP(() => {
