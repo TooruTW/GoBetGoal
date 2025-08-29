@@ -11,7 +11,6 @@ import { RootState } from "@/store";
 import { Link } from "react-router-dom";
 
 import { monsterDefault } from "@/assets/monster";
-import Run from "./MainMachine/component/Run.tsx";
 import Progress from "./MainMachine/component/Progress.tsx";
 import AwardList from "./MainMachine/component/AwardList.tsx";
 import PostSection from "./MainMachine/component/PostSection.tsx";
@@ -20,6 +19,8 @@ import Ball from "./MainMachine/component/Footer.tsx";
 import CTA from "./MainMachine/component/CTA.tsx";
 import Plan from "../Shop/components/Plan.tsx";
 import { Button } from "@/components/ui/button.tsx";
+
+import FallingText from "./MainMachine/component/FallingText.tsx";
 
 // 註冊 ScrollTrigger 插件
 gsap.registerPlugin(ScrollTrigger);
@@ -35,6 +36,10 @@ export default function Home() {
 
   // 控制 carousel 模式的狀態
   const [isCarouselMode, setIsCarouselMode] = useState(false);
+  // 控制文字掉落效果的狀態
+  const [textFallTrigger, setTextFallTrigger] = useState<
+    "idle" | "falling" | "reset"
+  >("idle");
 
   // MainMachine 的動畫
   useGSAP(() => {
@@ -46,9 +51,9 @@ export default function Home() {
       keyframes: [
         { scale: 1, opacity: 0 },
         { scale: 1, opacity: 1 },
-        { scale: 12, opacity: 1, x: 0 },
-        { scale: 4, opacity: 1, x: -100 },
-        { scale: 1, opacity: 1, x: -1220 },
+        { scale: 10, opacity: 1, y: 0 },
+        { scale: 10, opacity: 1, y: 100 },
+        { scale: 1, opacity: 1, y: 400 },
       ],
       duration: 1,
       scrollTrigger: {
@@ -60,6 +65,7 @@ export default function Home() {
         pinSpacing: true,
         onUpdate: (self) => {
           const progress = self.progress;
+
           // 當動畫進度在 scale: 7 階段時啟用 carousel 模式
           if (progress >= 0.4 && progress <= 0.6) {
             if (!isCarouselMode) {
@@ -68,6 +74,26 @@ export default function Home() {
           } else {
             if (isCarouselMode) {
               setIsCarouselMode(false);
+            }
+          }
+
+          // 控制文字掉落效果
+          // 當動畫剛開始時（scale: 1, opacity: 0 階段）
+          if (progress >= 0.05 && progress <= 0.15) {
+            if (textFallTrigger !== "falling") {
+              setTextFallTrigger("falling");
+            }
+          }
+          // 當回滾到開始位置時重置文字
+          else if (progress < 0.05) {
+            if (textFallTrigger !== "reset") {
+              setTextFallTrigger("reset");
+            }
+          }
+          // 當滾動超過掉落階段時，保持文字在地面
+          else if (progress > 0.15) {
+            if (textFallTrigger === "falling") {
+              setTextFallTrigger("idle");
             }
           }
         },
@@ -117,19 +143,13 @@ export default function Home() {
   });
 
   return (
-    <div
-      className="w-full min-h-screen flex flex-col items-center justify-center"
-      style={{
-        userSelect: "none",
-        pointerEvents: "none",
-      }}
-    >
+    <div className="w-full min-h-screen flex flex-col items-center justify-center">
       {/* MainMachine 區域 */}
       <div
         ref={mainMachineRef}
         className="w-full min-h-screen flex flex-col items-center justify-center relative snap-auto snap-center snap-always"
       >
-        <div className="absolute top-10 left-1/2 -translate-x-1/2 w-full mx-3 flex flex-col items-center">
+        <div className="absolute z-40 top-10 left-1/2 -translate-x-1/2 w-full mx-3 flex flex-col items-center">
           <img
             src={
               isDarkMode
@@ -156,23 +176,24 @@ export default function Home() {
         <img
           src="/src/assets/main/mainBack.webp"
           alt="mc"
-          className="h-1/3 z-20 pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2"
+          className="h-1/3 z-10 pointer-events-none absolute bottom-10 left-1/2 -translate-x-1/2"
         />
-        <div className="w-full overflow-x-hidden aspect-[5/3] flex justify-center items-center relative my-auto">
+        <div className="w-full overflow-x-hidden aspect-[5/3] flex justify-center items-center relative my-auto z-0">
           <GameSurround />
           <img
             ref={imageRef}
             src={monsterDefault}
             alt="monster"
-            className="w-1/18 m-auto absolute top-1/3 left-1/2 -translate-x-1/2 z-20"
+            className="w-1/18 m-auto absolute top-1/3 left-1/2 -translate-x-1/2 z-20 "
+            draggable="false"
+            style={{ userSelect: "none", pointerEvents: "none" }}
           />
           {/* 傳遞 carousel 模式狀態給 MainMachine */}
           <MainMachine isCarouselMode={isCarouselMode} />
         </div>
-
-        <div className="absolute h-2/3 right-0 translate-x-full snap-auto snap-center snap-always">
-          <Run />
-        </div>
+      </div>
+      <div className="absolute inset-0 w-full h-full z-30 pointer-events-none">
+        <FallingText />
       </div>
 
       <Character />

@@ -1,6 +1,10 @@
 export default function GameSurround() {
   return (
-    <div className="w-full flex flex-col items-center opacity-50 ">
+    <div
+      className="w-full flex flex-col items-center opacity-50 "
+      draggable="false"
+      style={{ userSelect: "none", pointerEvents: "none" }}
+    >
       <img
         src="/src/assets/machine/game4.webp"
         alt=""

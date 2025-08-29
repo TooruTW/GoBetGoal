@@ -48,21 +48,41 @@ export default function Carousel({ isCarouselMode }: CarouselProps) {
     <div className="w-3/5 aspect-video text-white overflow-hidden absolute top-1/6 text-[4px]">
       <Swiper
         onSwiper={handleSwiperInit}
-        spaceBetween={0} // 減少間距
+        spaceBetween={0}
         direction={"vertical"}
         mousewheel={{
           forceToAxis: true,
-          releaseOnEdges: true, // 改為 false，讓滾輪完全由 Swiper 控制
-          sensitivity: 1, // 提高靈敏度
-          thresholdDelta: 50, // 設定滾動閾值
-          thresholdTime: 500, // 設定時間閾值
+          releaseOnEdges: false, // 改為 false，讓滾輪完全由 Swiper 控制
+          sensitivity: 0.5, // 降低靈敏度，避免太敏感
+          thresholdDelta: 10, // 降低滾動閾值，更容易觸發
+          thresholdTime: 100, // 降低時間閾值
+          eventsTarget: "container", // 確保事件綁定到容器
         }}
         effect="fade"
         navigation={isCarouselMode}
-        keyboard={true}
-        pagination={{ clickable: true }}
+        keyboard={{
+          enabled: true,
+          onlyInViewport: true, // 只有在視窗內時才響應鍵盤
+        }}
+        pagination={{
+          clickable: true,
+          dynamicBullets: true, // 動態分頁點
+        }}
+        // 添加觸控手勢支援
+        touchRatio={1}
+        touchAngle={45}
+        grabCursor={true}
+        // 確保在非 carousel 模式下也能正常運作
+        allowTouchMove={true}
+        // 滑動阻力設定
+        resistance={true}
+        resistanceRatio={0.85}
         modules={[EffectFade, Navigation, Pagination, Mousewheel, Keyboard]}
         className="w-full h-full"
+        // 添加事件監聽器來除錯
+        onSlideChange={(swiper) => {
+          console.log("Slide changed to:", swiper.activeIndex);
+        }}
       >
         <SwiperSlide className="flex items-center justify-center bg-schema-surface-container w-full h-full relative">
           <div className="absolute top-1/2 left-1/2 -translate-1/2 z-10">
