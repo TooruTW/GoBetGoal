@@ -90,6 +90,7 @@ export default function ChallengeBox({
     usePatchUploadToChallengeHistorySupa();
   // update chance remain
   const { mutate: patchChanceRemain } = usePatchChanceRemain();
+
   // handle cheat
   const handleCheat = () => {
     const cheatImgList = challenge_stage.description.map(() => cheat);
@@ -109,6 +110,8 @@ export default function ChallengeBox({
       }
     );
   };
+
+  // handle pass
   const handlePass = useCallback(
     (id: string, imageUrlArr: string[]) => {
       patchUploadToChallengeHistorySupa(
@@ -128,6 +131,8 @@ export default function ChallengeBox({
     },
     [patchUploadToChallengeHistorySupa, currentChallenge.trial_id, queryClient]
   );
+
+  // handle fail
   const handleFail = useCallback(() => {
     patchChanceRemain(
       {
@@ -153,6 +158,7 @@ export default function ChallengeBox({
     queryClient,
     currentChallenge.trial_id,
   ]);
+
   // check image when image url array(from supabase storage) is ready
   useEffect(() => {
     if (
@@ -162,7 +168,8 @@ export default function ChallengeBox({
       !imageError
     ) {
       if (!isAIChecking) {
-        const diffcount = challenge_stage.description.length - imageUrlArr.length;
+        const diffcount =
+          challenge_stage.description.length - imageUrlArr.length;
         const defaultImg = new Array(diffcount).fill(goodJob);
         const resultArr = [...imageUrlArr, ...defaultImg];
         handlePass(currentChallenge.id, resultArr);
@@ -205,6 +212,7 @@ export default function ChallengeBox({
     isAIChecking,
     challenge_stage.description,
   ]);
+
   // confirm upload - compress and upload to supabase storage
   // set selected file
   const handleSetSelectedFile = (file: File, index: number) => {
@@ -214,9 +222,11 @@ export default function ChallengeBox({
       return newSelectedFile;
     });
   };
+
+  // handle confirm upload
   const handleConfirmUpload = async () => {
-    if (isAIChecking) {
-      if (!selectedFile || selectedFile.length === 0) return;
+    // 如果有選擇檔案，先處理上傳
+    if (selectedFile && selectedFile.length > 0) {
       setUploadedFileName([]);
       try {
         // 1. 先壓縮圖片
@@ -224,29 +234,22 @@ export default function ChallengeBox({
         // 2. 再上傳壓縮後的圖片
         const fileNames = await uploadImages(compressedFiles);
         setUploadedFileName(fileNames);
-        setCheckingState("checking");
-        setIsShowCheckResult(true);
+
+        // 如果是 AI 檢查模式，顯示檢查狀態
+        if (isAIChecking) {
+          setCheckingState("checking");
+          setIsShowCheckResult(true);
+        }
       } catch (error) {
         console.error("上傳流程失敗:", error);
       }
-    } else {
-      if (selectedFile && selectedFile.length > 0) {
-        setUploadedFileName([]);
-        try {
-          // 1. 先壓縮圖片
-          const compressedFiles = await compressImages(selectedFile);
-          // 2. 再上傳壓縮後的圖片
-          const fileNames = await uploadImages(compressedFiles);
-          setUploadedFileName(fileNames);
-        } catch (error) {
-          console.error("上傳流程失敗:", error);
-        }
-        return
-      }
+      return;
+    }
 
-        const goodJobList = challenge_stage.description.map(() => goodJob);
-        handlePass(currentChallenge.id, goodJobList);
-
+    // 如果沒有選擇檔案且不是 AI 檢查模式，使用預設圖片
+    if (!isAIChecking) {
+      const goodJobList = challenge_stage.description.map(() => goodJob);
+      handlePass(currentChallenge.id, goodJobList);
     }
   };
 
@@ -262,80 +265,43 @@ export default function ChallengeBox({
         )}
       </div>
       <div className="flex justify-center items-center rounded-md gap-2 max-md:flex-col h-full  ">
-        {challenge_stage.description.map((item, index) => {
-          // upload area AI checking
-          if (isAIChecking) {
-            return (
-              <div
-                key={index}
-                className="border-1 border-schema-primary rounded-md max-lg:max-h-60 w-50 overflow-hidden h-full max-h-80"
-              >
-                <div className="w-full h-1/4 bg-schema-primary text-p-small flex items-center justify-center text-schema-on-primary py-3 px-1 max-lg:text-label leading-5">
-                  {item}
-                </div>
-                <div className="h-3/4 w-full flex items-center justify-center border-2 border-schema-primary relative">
-                  {previewImage.length > 0 && (
-                    <RetryImage
-                      maxRetries={3}
-                      retryDelay={1500}
-                      src={previewImage?.[index]}
-                      alt="preview"
-                      className={`w-full h-full object-cover opacity-50 ${
-                        upload_image ? "opacity-100" : "opacity-50"
-                      }`}
-                    />
-                  )}
+        {challenge_stage.description.map((item, index) => (
+          <div
+            key={isAIChecking ? index : `${index}-noAiCheck`}
+            className="border-1 border-schema-primary rounded-md w-50 overflow-hidden h-60"
+          >
+            <div className="w-full h-1/4 bg-schema-primary text-p-small flex items-center justify-center text-schema-on-primary py-3 px-1 max-lg:text-label leading-5">
+              {item}
+            </div>
+            <div className="h-3/4 w-full flex items-center justify-center border-2 border-schema-primary relative">
+              {previewImage.length > 0 && (
+                <RetryImage
+                  maxRetries={3}
+                  retryDelay={1500}
+                  src={previewImage?.[index]}
+                  alt="preview"
+                  className={`w-full h-full object-cover opacity-50 ${
+                    upload_image ? "opacity-100" : "opacity-50"
+                  }`}
+                />
+              )}
 
-                  {!imageUrlArr && status === "pending" && (
-                    <UploadImageInput
-                      className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-full h-full"
-                      selectedFile={selectedFile?.[index]}
-                      setSelectedFile={handleSetSelectedFile}
-                      index={index}
-                    />
-                  )}
-                  {isShowCheckResult && (
-                    <ShowCheckResult state={checkingState} />
-                  )}
-                </div>
-              </div>
-            );
-          } else {
-            // upload area user checking
-            return (
-              <div
-                key={`${index}-noAiCheck`}
-                className="border-1 border-schema-primary rounded-md max-lg:max-h-60 w-50 overflow-hidden h-full max-h-80"
-              >
-                <div className="w-full h-1/4 bg-schema-primary text-p-small flex items-center justify-center text-schema-on-primary py-3 px-1 max-lg:text-label leading-5">
-                  {item}
-                </div>
-                <div className="w-full h-3/4 flex items-center justify-center border-2 border-schema-primary relative">
-                  {previewImage.length > 0 && (
-                    <RetryImage
-                      maxRetries={3}
-                      retryDelay={1500}
-                      src={previewImage?.[index]}
-                      alt="preview"
-                      className={`w-full h-full object-cover opacity-50 ${
-                        upload_image ? "opacity-100" : "opacity-50"
-                      }`}
-                    />
-                  )}
+              {!imageUrlArr && status === "pending" && (
+                <UploadImageInput
+                  className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-full h-full"
+                  selectedFile={selectedFile?.[index]}
+                  setSelectedFile={handleSetSelectedFile}
+                  index={index}
+                />
+              )}
 
-                  {!imageUrlArr && status === "pending" && (
-                    <UploadImageInput
-                      className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-full h-full"
-                      selectedFile={selectedFile?.[index]}
-                      setSelectedFile={handleSetSelectedFile}
-                      index={index}
-                    />
-                  )}
-                </div>
-              </div>
-            );
-          }
-        })}
+              {/* 只在 AI 檢查模式時顯示檢查結果 */}
+              {isAIChecking && isShowCheckResult && (
+                <ShowCheckResult state={checkingState} />
+              )}
+            </div>
+          </div>
+        ))}
       </div>
       {/* if user is the player, show upload button and check result */}
       {isUser && (
