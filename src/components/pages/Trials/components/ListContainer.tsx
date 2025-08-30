@@ -72,9 +72,11 @@ export default function ListContainer() {
 
   return (
     <div>
-      {userId ? (
+      {
         filteredData.length === 0 ? (
-          <div className="text-schema-on-surface-variant">目前沒有試煉</div>
+          <div className="text-schema-on-surface-variant">
+            {userId ? "目前沒有試煉" : "請先登入"}
+          </div>
         ) : (
           <div className="w-full grid md:grid-cols-2 gap-6 relative z-20">
             {filteredData?.map((trial) => (
@@ -87,9 +89,7 @@ export default function ListContainer() {
             ))}
           </div>
         )
-      ) : (
-        <div className="text-schema-on-surface-variant">請先登入</div>
-      )}
+      }
     </div>
   );
 }

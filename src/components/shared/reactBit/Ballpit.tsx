@@ -2,12 +2,7 @@ import React, { useRef, useEffect } from "react";
 import * as THREE from "three";
 // Note: You'll need to install @types/three: npm i --save-dev @types/three
 
-// Declare module for RoomEnvironment if types are not available
-declare module "three/examples/jsm/environments/RoomEnvironment.js" {
-  export class RoomEnvironment extends THREE.Scene {
-    constructor();
-  }
-}
+
 
 import { Observer } from "gsap/Observer";
 import { gsap } from "gsap";

@@ -7,6 +7,9 @@ import {
   CarouselPrevious,
   CarouselNext,
 } from "@/components/ui/carousel";
+import goodJob from "@/assets/resultNoImg/goodJob.png";
+import cheat from "@/assets/resultNoImg/cheat.jpg";
+import { monsterCry } from "@/assets/monster";
 
 type PostCarouselProps = {
   imgUrl: string[];
@@ -32,14 +35,30 @@ export function PostCarousel(props: PostCarouselProps) {
   return (
     <Carousel setApi={setApi} className={`relative ${className}`} onClick={onClick}>
       <CarouselContent>
-        {imgUrl.map((img, index) => (
+        {imgUrl.map((img, index) => {
+          let realSrc = img;
+          switch(img){
+            case "goodJob":
+              realSrc = goodJob;
+              break;
+            case "cheat":
+              realSrc = cheat;
+              break;
+            case "fail":
+              realSrc = monsterCry;
+              break;
+            default:
+              realSrc = img;
+          }
+        return (
           <CarouselItem
             key={index}
             className="flex justify-center items-center w-full "
           >
-            <img src={img} alt="post" className="w-full h-auto object-cover" />
+            <img src={realSrc} alt="post" className="w-full h-auto object-cover" />
           </CarouselItem>
-        ))}
+        );
+      })}
       </CarouselContent>
 
       <CarouselPrevious

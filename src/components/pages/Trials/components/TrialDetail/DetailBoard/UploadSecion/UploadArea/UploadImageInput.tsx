@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { IoAddOutline } from "react-icons/io5";
 
-export default function DevUploadImage({
+export default function UploadImageInput({
   className,
   selectedFile,
   setSelectedFile,

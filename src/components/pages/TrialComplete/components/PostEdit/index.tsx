@@ -2,7 +2,9 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { FaPlus } from "react-icons/fa";
-
+import goodJob from "@/assets/resultNoImg/goodJob.png";
+import cheat from "@/assets/resultNoImg/cheat.jpg";
+import { monsterCry } from "@/assets/monster";
 import { useImageUpload } from "@/hooks/useImageUpload";
 import { usePostPostSupa, getImageUrl } from "@/api";
 import { useSelector } from "react-redux";
@@ -110,22 +112,38 @@ export default function PostEdit(props: PostEditProps) {
         />
       </div>
       <div className="grid grid-cols-6 gap-2 ">
-        {previewImgList.map((img, index) => (
+        {previewImgList.map((img, index) => {
+          let realSrc = img;
+          switch(img){
+            case "goodJob":
+              realSrc = goodJob;
+              break;
+            case "cheat":
+              realSrc = cheat;
+              break;
+            case "fail":
+              realSrc = monsterCry;
+              break;
+            default:
+              realSrc = img;
+          }
+          return (
           <div
             key={index}
             className="relative size-30 flex items-center justify-center bg-schema-surface-container-highest group rounded-b-md overflow-hidden"
           >
             <img
-              src={img}
+              src={realSrc}
               alt="preview"
               className="w-full h-full object-cover"
             />
             <IoClose
               className="size-5 absolute top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:cursor-pointer active:scale-80"
               onClick={() => handleDeleteImg(index)}
-            />
-          </div>
-        ))}
+              />
+            </div>
+          );
+})}
       </div>
       <div className="w-full flex flex-col gap-2 items-center">
         <Button className="w-full" onClick={(e) => handleSubmit(e)}>

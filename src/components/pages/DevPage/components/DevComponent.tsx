@@ -1,4 +1,5 @@
 import SlotMachine from "@/components/pages/Home/MainMachine/component/SlotMachine";
+import mainMachine1 from "@/assets/machine/mainMachine1.webp";
 
 import Carousel from "@/components/pages/Home/MainMachine/component/Carousel";
 export default function DevComponent() {
@@ -6,7 +7,7 @@ export default function DevComponent() {
     <>
       <div className="relative flex flex-col items-center h-screen">
         <img
-          src="/src/assets/machine/mainMachine1.webp"
+          src={mainMachine1}
           alt=""
           className="relative z-20 w-full pointer-events-none"
         />

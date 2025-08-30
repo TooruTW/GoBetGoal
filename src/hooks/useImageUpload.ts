@@ -13,21 +13,22 @@ export const useImageUpload = () => {
       fileType: "image/webp",
     };
 
-    const compressedFiles: File[] = [];
-
+    const compressedFiles: File[] = files;
+    console.log(files, "files in compressImages");
+    
     await Promise.all(
-      files.map(async (file) => {
+      files.map(async (file,index) => {
         try {
           const compressedFile = await imageCompression(file, options);
           console.log(
             "compressedFile instanceof Blob",
-            compressedFile instanceof Blob
+            compressedFile 
           ); // true
           console.log(
             `compressedFile size ${compressedFile.size / 1024 / 1024} MB`
           ); // smaller than maxSizeMB
 
-          compressedFiles.push(compressedFile);
+          compressedFiles[index] = compressedFile;
         } catch (error) {
           console.log("圖片壓縮失敗:", error);
         }
@@ -42,9 +43,9 @@ export const useImageUpload = () => {
     const tempFileList: string[] = [];
 
     await Promise.all(
-      files.map(async (file) => {
+      files.map(async (file,index) => {
         try {
-          const randomFileName = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
+          const randomFileName = `${Math.random().toString(36).substring(2, 15)}-${Date.now()}-${index}`;
           console.log(randomFileName, "randomFileName is going to upload");
           tempFileList.push(randomFileName);
 

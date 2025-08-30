@@ -19,8 +19,10 @@ import Ball from "./MainMachine/component/Footer.tsx";
 import CTA from "./MainMachine/component/CTA.tsx";
 import Plan from "../Shop/components/Plan.tsx";
 import { Button } from "@/components/ui/button.tsx";
-
+import LogoImgTxtDark from "@/assets/logo/LogoImgTxtDark.svg";
+import LogoImgTxtLight from "@/assets/logo/LogoImgTxtLight.svg";
 import FallingText from "./MainMachine/component/FallingText.tsx";
+import mainBack from "@/assets/main/mainBack.webp";
 
 // 註冊 ScrollTrigger 插件
 gsap.registerPlugin(ScrollTrigger);
@@ -126,8 +128,8 @@ export default function Home() {
           <img
             src={
               isDarkMode
-                ? "/src/assets/logo/LogoImgTxtDark.svg"
-                : "/src/assets/logo/LogoImgTxtLight.svg"
+                ? LogoImgTxtDark
+                : LogoImgTxtLight
             }
             alt="Logo"
             className="animate-pulse z-20 pointer-events-none mb-2 w-90"
@@ -147,7 +149,7 @@ export default function Home() {
         </div>
 
         <img
-          src="/src/assets/main/mainBack.webp"
+          src={mainBack}
           alt="mc"
           className="h-1/3 z-10 pointer-events-none absolute bottom-10 left-1/2 -translate-x-1/2"
         />

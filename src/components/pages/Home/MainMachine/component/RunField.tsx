@@ -1,6 +1,7 @@
 import AchievementLoop from "./AchievementLoop.tsx";
 import TemplateLoop from "./TemplateLoop.tsx";
 import Candy from "@/components/layout/Header/Navigator/Candy.tsx";
+import { bagel1, bagel2, bagel3, bagel4 } from "@/assets/bagel";
 
 export default function RunField() {
   const candy = 999;
@@ -57,28 +58,27 @@ export default function RunField() {
               </h3>
               <Candy amount={candy} />
             </div>
+            <div className="grid grid-cols-4 gap-6 md:gap-12 md:px-3">
+              <img src={bagel1} alt="" className="w-full animate-bounce" />
+              <img src={bagel3} alt="" className="w-full animate-bounce" />
+              <img src={bagel2} alt="" className="w-full animate-bounce" />
+              <img src={bagel4} alt="" className="w-full animate-bounce" />
+            </div>
 
-            <div className="grid grid-cols-4 gap-6 md:gap-12 md:px-4">
-              <img
-                src="/src/assets/bagel/bagel1.webp"
-                alt=""
-                className="w-full animate-bounce"
-              />
-              <img
-                src="/src/assets/bagel/bagel3.webp"
-                alt=""
-                className="w-full animate-bounce"
-              />
-              <img
-                src="/src/assets/bagel/bagel2.webp"
-                alt=""
-                className="w-full animate-bounce"
-              />
-              <img
-                src="/src/assets/bagel/bagel4.webp"
-                alt=""
-                className="w-full animate-bounce"
-              />
+            <div className="flex justify-evenly items-center  ">
+              {" "}
+              <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                className=" w-30 md:w-50 scale-x-[-1] "
+              >
+                <source
+                  src="/animation/mainCharacter/character45.webm"
+                  type="video/webm"
+                />
+              </video>
             </div>
           </div>
 

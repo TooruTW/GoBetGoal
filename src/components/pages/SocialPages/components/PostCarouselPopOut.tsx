@@ -7,6 +7,9 @@ import {
   CarouselPrevious,
   CarouselNext,
 } from "@/components/ui/carousel";
+import goodJob from "@/assets/resultNoImg/goodJob.png";
+import cheat from "@/assets/resultNoImg/cheat.jpg";
+import { monsterCry } from "@/assets/monster";
 
 type PostCarouselProps = {
   imgUrl: string[];
@@ -36,7 +39,22 @@ export function PostCarouselPopOut(props: PostCarouselProps) {
       onClick={onClick}
     >
       <CarouselContent className="flex items-center">
-        {imgUrl.map((img, index) => (
+        {imgUrl.map((img, index) => {
+          let realSrc = img;
+          switch(img){
+            case "goodJob":
+              realSrc = goodJob;
+              break;
+            case "cheat":
+              realSrc = cheat;
+              break;
+            case "fail":
+              realSrc = monsterCry;
+              break;
+            default:
+              realSrc = img;
+          }
+          return (
           <CarouselItem
             key={index}
             style={{
@@ -48,12 +66,13 @@ export function PostCarouselPopOut(props: PostCarouselProps) {
             }}
           >
             <img
-              src={img}
+              src={realSrc}
               alt="post"
               className="object-contain w-full max-h-150"
             />
           </CarouselItem>
-        ))}
+        );
+      })}
       </CarouselContent>
 
       <CarouselPrevious variant="ghost" className="w-2/10 h-full "/>

@@ -47,6 +47,10 @@ export default function TrialCard({ trial }: { trial: TrialSupa }) {
 
   const handleJoin = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
+    if(!userID){
+      navigate("/auth");
+      return;
+    }
     joinTrial({
       trial_id: trial.id,
       participant_id: userID,

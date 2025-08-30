@@ -16,17 +16,23 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { useParams } from "react-router-dom";
 import PopupCard from "./PopupCard";
-import CheckBox from "./CheckBox";
-import goodJob from "@/assets/resultNoImg/goodJob.png";
 import cheat from "@/assets/resultNoImg/cheat.jpg";
 import dayjs from "dayjs";
 
 export default function ChallengeBox({
   currentChallenge,
   isAIChecking,
+  challengeRules,
+  challengeType,
 }: {
   currentChallenge: TrialDetailSupa;
   isAIChecking: boolean;
+  challengeRules: string[];
+  challengeType:
+    | "FitnessOCR"
+    | "FoodCombination"
+    | "ExclusiveDiet"
+    | "NegativeList";
 }) {
   const {
     stage_index,
@@ -47,20 +53,9 @@ export default function ChallengeBox({
     "checking" | "pass" | "fail"
   >("checking");
   const [isShowPopup, setIsShowPopup] = useState(false);
-  const [mortalResult, setMortalResult] = useState<(boolean | "pending")[]>([
-    "pending",
-  ]);
   const queryClient = useQueryClient();
-
   const isChallengeStart = dayjs(start_at).isSameOrBefore(dayjs(), "day");
   const isChallengeEnd = dayjs(end_at).isBefore(dayjs(), "day");
-
-  useEffect(() => {
-    if (isAIChecking) return;
-    const checkNodeCount = challenge_stage.description.length;
-    const checkNodeResult = Array(checkNodeCount).fill("pending");
-    setMortalResult(checkNodeResult);
-  }, [challenge_stage.description, isAIChecking]);
 
   // check if user is the player
   useEffect(() => {
@@ -100,6 +95,7 @@ export default function ChallengeBox({
     usePatchUploadToChallengeHistorySupa();
   // update chance remain
   const { mutate: patchChanceRemain } = usePatchChanceRemain();
+
   // handle cheat
   const handleCheat = () => {
     const cheatImgList = challenge_stage.description.map(() => cheat);
@@ -119,6 +115,8 @@ export default function ChallengeBox({
       }
     );
   };
+
+  // handle pass
   const handlePass = useCallback(
     (id: string, imageUrlArr: string[]) => {
       patchUploadToChallengeHistorySupa(
@@ -138,6 +136,8 @@ export default function ChallengeBox({
     },
     [patchUploadToChallengeHistorySupa, currentChallenge.trial_id, queryClient]
   );
+
+  // handle fail
   const handleFail = useCallback(() => {
     patchChanceRemain(
       {
@@ -163,6 +163,7 @@ export default function ChallengeBox({
     queryClient,
     currentChallenge.trial_id,
   ]);
+
   // check image when image url array(from supabase storage) is ready
   useEffect(() => {
     if (
@@ -171,27 +172,43 @@ export default function ChallengeBox({
       !isImageLoading &&
       !imageError
     ) {
-      Promise.all(imageUrlArr.map((item) => checkImage(item))).then(
-        (result) => {
-          const isPassTest = result.every((item) => item.result);
-          const resultUrl = result.map((item) => item.imgUrl);
-          setCheckingState(isPassTest ? "pass" : "fail");
+      console.log(imageUrlArr, "imageUrlArr");
 
-          if (isPassTest) {
-            handlePass(currentChallenge.id, resultUrl);
-          } else {
-            handleFail();
-          }
-          setIsShowPopup(true);
+      if (!isAIChecking) {
+        const diffcount =
+          challenge_stage.description.length - imageUrlArr.length;
+        const defaultImg = new Array(diffcount).fill("goodJob");
+        const resultArr = [...imageUrlArr, ...defaultImg];
+        handlePass(currentChallenge.id, resultArr);
+        setUploadedFileName([]);
+        setSelectedFile([]);
+        return;
+      }
+      Promise.resolve(
+        checkImage({
+          imageUrls: imageUrlArr,
+          challengeType: challengeType,
+          stageDescriptions: challenge_stage.description,
+          trialRules: challengeRules,
+        })
+      ).then((result) => {
+        const isPassTest = result.result;
+        const passedImgUrl = result.imgUrl;
+        console.log(isPassTest, passedImgUrl, "result");
 
-          setUploadedFileName([]);
-          setSelectedFile([]);
-
-          setTimeout(() => {
-            setIsShowCheckResult(false);
-          }, 2000);
+        if(isPassTest){
+          handlePass(currentChallenge.id, passedImgUrl);
+        }else{
+          handleFail();
         }
-      );
+        setCheckingState(isPassTest ? "pass" : "fail");
+        setUploadedFileName([]);
+        setSelectedFile([]);
+        // 關掉夭壽
+        setIsShowCheckResult(false);
+        // 開啟彈窗
+        setIsShowPopup(true);
+      });
     }
   }, [
     imageUrlArr,
@@ -203,19 +220,35 @@ export default function ChallengeBox({
     checkImage,
     handleFail,
     handlePass,
+    isAIChecking,
+    challenge_stage.description,
+    challengeType,
+    challengeRules,
   ]);
+
   // confirm upload - compress and upload to supabase storage
   // set selected file
   const handleSetSelectedFile = (file: File, index: number) => {
+    if(selectedFile.length < challenge_stage.description.length){
+      const fakeFile = new File([], "fake.jpg", { type: "image/jpeg" });
+      const fakeList = new Array(challenge_stage.description.length).fill(fakeFile);
+      setSelectedFile(fakeList);
+      console.log(fakeList, "create fakeFilelist");
+    }
+    console.log(index, "index");
+    
     setSelectedFile((prev) => {
       const newSelectedFile = [...prev];
       newSelectedFile[index] = file;
       return newSelectedFile;
     });
   };
+
+  // handle confirm upload
   const handleConfirmUpload = async () => {
-    if (isAIChecking) {
-      if (!selectedFile || selectedFile.length === 0) return;
+    // 如果有選擇檔案，先處理上傳
+    if (selectedFile && selectedFile.length > 0) {
+      console.log(selectedFile, "selectedFile");
       setUploadedFileName([]);
       try {
         // 1. 先壓縮圖片
@@ -223,21 +256,20 @@ export default function ChallengeBox({
         // 2. 再上傳壓縮後的圖片
         const fileNames = await uploadImages(compressedFiles);
         setUploadedFileName(fileNames);
-        setCheckingState("checking");
-        setIsShowCheckResult(true);
+        // 如果是 AI 檢查模式，顯示檢查狀態
+        if (isAIChecking) {
+          setCheckingState("checking");
+          setIsShowCheckResult(true);
+        }
       } catch (error) {
         console.error("上傳流程失敗:", error);
       }
-    } else {
-      console.log("mortal check");
-      console.log(mortalResult);
-      const isAllPass = mortalResult.every((item) => item === true);
-      if (isAllPass) {
-        const goodJobList = challenge_stage.description.map(() => goodJob);
-        handlePass(currentChallenge.id, goodJobList);
-      } else {
-        handleFail();
-      }
+      return;
+    }
+    // 如果沒有選擇檔案且不是 AI 檢查模式，使用預設圖片
+    if (!isAIChecking) {
+      const goodJobList = challenge_stage.description.map(() => "goodJob");
+      handlePass(currentChallenge.id, goodJobList);
     }
   };
 
@@ -252,87 +284,51 @@ export default function ChallengeBox({
           <div className="text-schema-primary">正在上傳圖片...</div>
         )}
       </div>
-      <div className="flex justify-center items-center rounded-md gap-2 max-md:flex-col h-full md:max-h-55 ">
-        {challenge_stage.description.map((item, index) => {
-          // upload area AI checking
-          if (isAIChecking) {
-            return (
-              <div
-                key={index}
-                className="border-1 border-schema-primary rounded-md h-full w-full max-lg:max-h-60 max-md:aspect-square max-w-2/3"
-              >
-                <div className="w-full h-1/5 bg-schema-primary text-p-small flex items-center justify-center text-schema-on-primary py-3 px-1 max-lg:text-label leading-5">
-                  {item}
-                </div>
-                <div className="w-full h-4/5 flex items-center justify-center border-2 border-schema-primary relative">
-                  {previewImage.length > 0 && (
-                    <RetryImage
-                      maxRetries={3}
-                      retryDelay={1500}
-                      src={previewImage?.[index]}
-                      alt="preview"
-                      className={`w-full h-full object-cover opacity-50 ${
-                        upload_image ? "opacity-100" : "opacity-50"
-                      }`}
-                    />
-                  )}
+      <div className="flex justify-center items-center rounded-md gap-2 max-md:flex-col h-full  ">
+        {challenge_stage.description.map((item, index) => (
+          <div
+            key={isAIChecking ? index : `${index}-noAiCheck`}
+            className="border-1 border-schema-primary rounded-md w-50 overflow-hidden h-60"
+          >
+            <div className="w-full h-1/4 bg-schema-primary text-p-small flex items-center justify-center text-schema-on-primary py-3 px-1 max-lg:text-label leading-5">
+              {item}
+            </div>
+            <div className="h-3/4 w-full flex items-center justify-center border-2 border-schema-primary relative">
+              {previewImage.length > 0 && (
+                <RetryImage
+                  maxRetries={3}
+                  retryDelay={1500}
+                  src={previewImage?.[index]}
+                  alt="preview"
+                  className={`w-full h-full object-cover opacity-50 ${
+                    upload_image ? "opacity-100" : "opacity-50"
+                  }`}
+                />
+              )}
 
-                  {!imageUrlArr && status === "pending" && (
-                    <UploadImageInput
-                      className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-full h-full"
-                      selectedFile={selectedFile?.[index]}
-                      setSelectedFile={handleSetSelectedFile}
-                      index={index}
-                    />
-                  )}
-                  {isShowCheckResult && (
-                    <ShowCheckResult state={checkingState} />
-                  )}
-                </div>
-              </div>
-            );
-          } else {
-            // upload area user checking
-            return (
-              <div
-                key={`${index}-noAiCheck`}
-                className="border-1 border-schema-primary rounded-md h-full w-full max-lg:max-h-60 max-md:aspect-square max-w-2/3"
-              >
-                <div className="w-full h-1/5 bg-schema-primary text-p-small flex items-center justify-center text-schema-on-primary py-3 px-1 max-lg:text-label leading-5">
-                  {item}
-                </div>
-                <div className="w-full h-4/5 flex items-center justify-center border-2 border-schema-primary relative">
-                  {previewImage.length > 0 && (
-                    <RetryImage
-                      maxRetries={3}
-                      retryDelay={1500}
-                      src={previewImage?.[index]}
-                      alt="preview"
-                      className={`w-full h-full object-cover opacity-50 ${
-                        upload_image ? "opacity-100" : "opacity-50"
-                      }`}
-                    />
-                  )}
+              {!imageUrlArr && status === "pending" && (
+                <UploadImageInput
+                  className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-full h-full"
+                  selectedFile={selectedFile?.[index]}
+                  setSelectedFile={handleSetSelectedFile}
+                  index={index}
+                />
+              )}
 
-                  {!imageUrlArr && status === "pending" && (
-                    <CheckBox
-                      result={mortalResult?.[index]}
-                      setResult={setMortalResult}
-                      index={index}
-                    />
-                  )}
-                </div>
-              </div>
-            );
-          }
-        })}
+              {/* 只在 AI 檢查模式時顯示檢查結果 */}
+              {isAIChecking && isShowCheckResult && (
+                <ShowCheckResult state={checkingState} />
+              )}
+            </div>
+          </div>
+        ))}
       </div>
       {/* if user is the player, show upload button and check result */}
       {isUser && (
         <div className="w-full">
           {chance_remain > 0 && status === "pending" && (
             <Button
-              className="py-1 w-full h-fit"
+              className="py-2 w-full h-fit"
               onClick={handleConfirmUpload}
               disabled={
                 isPending ||
@@ -344,16 +340,22 @@ export default function ChallengeBox({
               <span>
                 {status === "pending" &&
                   (isChallengeStart ? (
-                    <>
-                      <span className="text-p-small">上傳</span> <br />
-                      <span className="text-label-small">
-                        剩餘 {chance_remain} 次機會
-                      </span>
-                    </>
+                    isAIChecking ? (
+                      <>
+                        <span className="text-p-small">上傳</span> <br />
+                        <span className="text-label-small">
+                          剩餘 {chance_remain} 次機會
+                        </span>
+                      </>
+                    ) : (
+                      <span className="text-p-small">挑戰完成</span>
+                    )
                   ) : (
                     <>
-                      <p className="text-p-small">我知道你很急</p>
-                      <p>但你先別急</p>
+                      <p className="text-p-small flex gap-2">
+                        <span>我知道你很急</span>
+                        <span>但你先別急</span>
+                      </p>
                     </>
                   ))}
               </span>
@@ -368,7 +370,10 @@ export default function ChallengeBox({
             </div>
           )}
           {status !== "pending" && (
-            <div className="w-full h-fit bg-schema-primary text-schema-on-primary rounded-md p-2 flex justify-center items-center">
+            <div
+              className="w-full h-fit bg-schema-primary text-schema-on-primary rounded-md p-2 flex justify-center items-center text-p-small"
+              
+            >
               {status === "pass" && <span className="text-p">通過</span>}
               {status === "cheat" && <span className="text-p">資本主義</span>}
               {status === "fail" && <span className="text-p">失敗</span>}
