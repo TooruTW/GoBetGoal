@@ -3,7 +3,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import Machine2 from "./Machine2.tsx";
 import BottomNav from "./BottomNav.tsx";
-
+import LogoImgTxtDark from "@/assets/logo/LogoImgTxtDark.svg";
+import LogoImgTxtLight from "@/assets/logo/LogoImgTxtLight.svg";
 import { monsterCongrats, monsterSleep, monsterSport } from "@/assets/monster";
 
 export default function Footer() {
@@ -14,8 +15,8 @@ export default function Footer() {
       <img
         src={
           isDarkMode
-            ? "/src/assets/logo/LogoImgTxtDark.svg"
-            : "/src/assets/logo/LogoImgTxtLight.svg"
+            ? LogoImgTxtDark
+            : LogoImgTxtLight
         }
         alt="Logo"
         className="animate-pulse w-full sm:w-1/2 md:w-1/3 lg:w-1/4 z-30 pointer-events-none absolute top-1/4 left-1/2 -translate-x-1/2"

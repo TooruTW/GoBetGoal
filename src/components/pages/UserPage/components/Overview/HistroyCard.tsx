@@ -2,29 +2,28 @@ import { FaHeart } from "react-icons/fa";
 import { useTrialSupa } from "@/api";
 import { useEffect, useState } from "react";
 
-export default function HistroyCard({trialId}:{trialId:string}) {
-    const {data,isLoading,error} = useTrialSupa(trialId)
-    const [imageList,setImageList] = useState<string[]>([])
-    const [trialName,setTrialName] = useState<string>("")
-    const [trialCategory,setTrialCategory] = useState<string[]>([])
-    const [trialStatus,setTrialStatus] = useState<string>("")
-    const [trialDescription,setTrialDescription] = useState<string>("")
+export default function HistroyCard({ trialId }: { trialId: string }) {
+  const { data, isLoading, error } = useTrialSupa(trialId);
+  const [imageList, setImageList] = useState<string[]>([]);
+  const [trialName, setTrialName] = useState<string>("");
+  const [trialCategory, setTrialCategory] = useState<string[]>([]);
+  const [trialStatus, setTrialStatus] = useState<string>("");
+  const [trialDescription, setTrialDescription] = useState<string>("");
 
-    useEffect(()=>{
-        if(isLoading || error || !data) return
-        const imageList:string[] = []
-        data.forEach((item)=>{
-            if(item.upload_image){
-                imageList.push(...item.upload_image)
-            }
-        })
-        setImageList(imageList)
-        setTrialName(data[0].trial.title)
-        setTrialCategory(data[0].trial.challenge.category)
-        setTrialStatus(data[0].trial.trial_status)
-        setTrialDescription(data[0].trial.challenge.description)
-    },[data,isLoading,error])
-
+  useEffect(() => {
+    if (isLoading || error || !data) return;
+    const imageList: string[] = [];
+    data.forEach((item) => {
+      if (item.upload_image) {
+        imageList.push(...item.upload_image);
+      }
+    });
+    setImageList(imageList);
+    setTrialName(data[0].trial.title);
+    setTrialCategory(data[0].trial.challenge.category);
+    setTrialStatus(data[0].trial.trial_status);
+    setTrialDescription(data[0].trial.challenge.description);
+  }, [data, isLoading, error]);
 
   return (
     <div className="w-full bg-schema-surface-container rounded-xl p-4">
@@ -35,12 +34,15 @@ export default function HistroyCard({trialId}:{trialId:string}) {
             <div className="rounded-full bg-schema-primary text-schema-on-primary px-2 py-1">
               {trialStatus}
             </div>
-            {trialCategory.map((item,index)=>{
-                return (
-                    <div key={index} className="rounded-full bg-schema-surface-container-highest text-schema-on-surface px-2 py-1">
-                        {item}
-                    </div>
-                )
+            {trialCategory.map((item, index) => {
+              return (
+                <div
+                  key={index}
+                  className="rounded-full bg-schema-surface-container-highest text-schema-on-surface px-2 py-1"
+                >
+                  {item}
+                </div>
+              );
             })}
 
             <div className="rounded-full text-schema-on-surface px-2 py-1 flex gap-2 items-center">
@@ -54,13 +56,22 @@ export default function HistroyCard({trialId}:{trialId:string}) {
         </p>
       </div>
       <div className="grid grid-cols-7 gap-2 w-4/5 max-h-30 overflow-y-scroll snap-y max-md:grid-cols-4 max-sm:grid-cols-3 max-md:w-full">
-       {imageList.length > 0 ? imageList.map((item,index)=>{
-        return (
-            <img key={index} className="size-30 rounded-sm object-cover snap-center" src={item} alt="" />
-        )
-       }) : <div className="flex justify-center items-center">
-        <h3 className="text-h3 font-bold">沒有資料</h3>
-       </div>   }
+        {imageList.length > 0 ? (
+          imageList.map((item, index) => {
+            return (
+              <img
+                key={index}
+                className="size-30 rounded-sm object-cover snap-center"
+                src={item}
+                alt=""
+              />
+            );
+          })
+        ) : (
+          <div className="flex justify-center items-center">
+            <h3 className="text-h3 font-bold">沒有資料</h3>
+          </div>
+        )}
       </div>
     </div>
   );
