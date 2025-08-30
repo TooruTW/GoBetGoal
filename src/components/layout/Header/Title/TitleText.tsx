@@ -1,5 +1,11 @@
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
+import LogoDark from "@/assets/logo/LogoDark.svg";
+import LogoLight from "@/assets/logo/LogoLight.svg";
+import LogoImgDark from "@/assets/logo/LogoImgDark.svg";
+import LogoImgLight from "@/assets/logo/LogoImgLight.svg";
+import LogoImgTxtDark from "@/assets/logo/LogoImgTxtDark.svg";
+import LogoImgTxtLight from "@/assets/logo/LogoImgTxtLight.svg";
 
 export default function TitleText() {
   const account = useSelector((state: RootState) => state.account);
@@ -10,8 +16,8 @@ export default function TitleText() {
       <img
         src={
           isDarkMode
-            ? "/src/assets/logo/LogoDark.svg"
-            : "/src/assets/logo/LogoLight.svg"
+            ? LogoDark
+            : LogoLight
         }
         alt="Logo"
         className="sm:hidden h-8"
@@ -19,8 +25,8 @@ export default function TitleText() {
       <img
         src={
           isDarkMode
-            ? "/src/assets/logo/LogoImgDark.svg"
-            : "/src/assets/logo/LogoImgLight.svg"
+            ? LogoImgDark
+            : LogoImgLight
         }
         alt="Logo"
         className="hidden sm:block md:hidden h-8"
@@ -29,8 +35,8 @@ export default function TitleText() {
       <img
         src={
           isDarkMode
-            ? "/src/assets/logo/LogoImgTxtDark.svg"
-            : "/src/assets/logo/LogoImgTxtLight.svg"
+            ? LogoImgTxtDark
+            : LogoImgTxtLight
         }
         alt="Logo with text"
         className="hidden md:block h-8"

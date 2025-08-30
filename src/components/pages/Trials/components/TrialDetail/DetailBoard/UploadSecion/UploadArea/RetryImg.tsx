@@ -1,6 +1,8 @@
-import { monsterDefault } from "@/assets/monster";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useState, useCallback, useEffect } from "react";
+import goodJob from "@/assets/resultNoImg/goodJob.png";
+import cheat from "@/assets/resultNoImg/cheat.jpg";
+import { monsterCry, monsterDefault } from "@/assets/monster";
 
 function RetryImage({
   src,
@@ -16,8 +18,25 @@ function RetryImage({
   className: string;
 }) {
   const [retryCount, setRetryCount] = useState(0);
-  const [currentSrc, setCurrentSrc] = useState(src);
+  const [currentSrc, setCurrentSrc] = useState("");
   const [showSkeleton, setShowSkeleton] = useState(true);
+  const [realSrc, setRealSrc] = useState(src);
+
+  useEffect(() => {
+    switch (src) {
+      case "goodJob":
+        setRealSrc(goodJob);
+        break;
+      case "cheat":
+        setRealSrc(cheat);
+        break;
+      case "fail":
+        setRealSrc(monsterCry);
+        break;
+      default:
+        setRealSrc(src);
+    }
+  }, [src]);
 
   const handleError = useCallback(() => {
     setShowSkeleton(true);
@@ -28,33 +47,35 @@ function RetryImage({
       console.log(`圖片載入失敗，重試中 (${nextCount}/${maxRetries})...`);
       setTimeout(() => {
         // 加時間戳避免快取問題
-        setCurrentSrc(`${src}?retry=${Date.now()}`);
+        setCurrentSrc(`${realSrc}?retry=${Date.now()}`);
       }, retryDelay);
     } else {
       console.warn("已達最大重試次數，停止嘗試");
       setCurrentSrc(monsterDefault);
     }
-  }, [retryCount, maxRetries, retryDelay, src]);
+  }, [retryCount, maxRetries, retryDelay, realSrc]);
 
   useEffect(() => {
-    console.log("src", src);
-    setCurrentSrc(src);
+    console.log("realSrc", realSrc);
+    setCurrentSrc(realSrc);
     setRetryCount(0);
     setShowSkeleton(true);
-  }, [src]);
+  }, [realSrc]);
 
   return (
     <div className={`${className} relative`}>
       {showSkeleton && (
         <Skeleton className="rounded-sm animate-pulse w-full h-full absolute top-0 left-0" />
       )}
-      <img
-        src={currentSrc}
-        alt={alt}
-        onError={handleError}
-        onLoad={() => setShowSkeleton(false)}
-        className={className}
-      />
+      {currentSrc !== "" && (
+        <img
+          src={currentSrc}
+          alt={alt}
+          onError={handleError}
+          onLoad={() => setShowSkeleton(false)}
+          className={className}
+        />
+      )}
     </div>
   );
 }
