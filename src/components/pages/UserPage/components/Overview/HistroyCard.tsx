@@ -1,6 +1,9 @@
 import { FaHeart } from "react-icons/fa";
 import { useTrialSupa } from "@/api";
 import { useEffect, useState } from "react";
+import goodJob from "@/assets/resultNoImg/goodJob.png";
+import cheat from "@/assets/resultNoImg/cheat.jpg";
+import { monsterCry } from "@/assets/monster";
 
 export default function HistroyCard({ trialId }: { trialId: string }) {
   const { data, isLoading, error } = useTrialSupa(trialId);
@@ -58,11 +61,25 @@ export default function HistroyCard({ trialId }: { trialId: string }) {
       <div className="grid grid-cols-7 gap-2 w-4/5 max-h-30 overflow-y-scroll snap-y max-md:grid-cols-4 max-sm:grid-cols-3 max-md:w-full">
         {imageList.length > 0 ? (
           imageList.map((item, index) => {
+            let realSrc = item;
+            switch(item){
+              case "goodJob":
+                realSrc = goodJob;
+                break;
+              case "cheat":
+                realSrc = cheat;
+                break;
+              case "fail":
+                realSrc = monsterCry;
+                break;
+              default:
+                realSrc = item;
+            }
             return (
               <img
                 key={index}
                 className="size-30 rounded-sm object-cover snap-center"
-                src={item}
+                src={realSrc}
                 alt=""
               />
             );

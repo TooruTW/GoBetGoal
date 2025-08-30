@@ -7,6 +7,7 @@ import { RootState } from "@/store";
 import { usePatchChangeUserInfo, usePostPurchase } from "@/api";
 import ConfirmModal from "@/components/ui/ConfirmModal";
 import { Button } from "@/components/ui/button";
+import Ticket from "@/assets/ticket/ticket.webp";
 
 type Plan = {
   price: number;
@@ -290,7 +291,7 @@ export default function BuyCheat({ onClose }: BuyCheatProps) {
                   `}
               >
                 <h2 className="font-title md:text-xl">{item.num} 個</h2>
-                <img src="./image/template/Ticket.png" alt="" />
+                <img src={Ticket} alt="" />
 
                 <p className="text-sm font-title">🥯{item.price}</p>
                 <Button
