@@ -1,6 +1,6 @@
 import { GoPlus } from "react-icons/go";
 import DynamicNumber from "./DynamicNum";
-import ticket from "@/assets/ticket/ticket.webp";
+import ticket from "@/assets/ticket/Temp_Ticket.webp";
 
 interface acceptProps {
   amount?: number;

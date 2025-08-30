@@ -7,7 +7,7 @@ import { RootState } from "@/store";
 import { usePatchChangeUserInfo, usePostPurchase } from "@/api";
 import ConfirmModal from "@/components/ui/ConfirmModal";
 import { Button } from "@/components/ui/button";
-import Ticket from "@/assets/ticket/ticket.webp";
+import Ticket from "@/assets/ticket/Ticket.webp";
 
 type Plan = {
   price: number;
