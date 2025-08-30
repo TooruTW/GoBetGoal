@@ -16,7 +16,6 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { useParams } from "react-router-dom";
 import PopupCard from "./PopupCard";
-import goodJob from "@/assets/resultNoImg/goodJob.png";
 import cheat from "@/assets/resultNoImg/cheat.jpg";
 import dayjs from "dayjs";
 
@@ -178,7 +177,7 @@ export default function ChallengeBox({
       if (!isAIChecking) {
         const diffcount =
           challenge_stage.description.length - imageUrlArr.length;
-        const defaultImg = new Array(diffcount).fill(goodJob);
+        const defaultImg = new Array(diffcount).fill("goodJob");
         const resultArr = [...imageUrlArr, ...defaultImg];
         handlePass(currentChallenge.id, resultArr);
         setUploadedFileName([]);
@@ -269,7 +268,7 @@ export default function ChallengeBox({
     }
     // 如果沒有選擇檔案且不是 AI 檢查模式，使用預設圖片
     if (!isAIChecking) {
-      const goodJobList = challenge_stage.description.map(() => goodJob);
+      const goodJobList = challenge_stage.description.map(() => "goodJob");
       handlePass(currentChallenge.id, goodJobList);
     }
   };
