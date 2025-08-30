@@ -1,3 +1,6 @@
+import TemplateMoon from "@/assets/lightDarkIcon/TemplateMoon.webp";
+import TemplateWake from "@/assets/lightDarkIcon/TemplateWake.webp";
+
 interface ToggleProps {
   onClick?: () => void;
   isNight?: boolean; // 由外部控制是否為 night 模式
@@ -15,15 +18,10 @@ export default function ModeToggle({ onClick, isNight = false }: ToggleProps) {
       <style>{`
         .toggle-switch {
           background: linear-gradient(145deg, #357bb3, #2a6290);
-          
         }
-        
         .toggle-switch.night-mode {
           background: linear-gradient(145deg, #1d1f2b, #16182a);
         }
-
-        
-
         .sun-moon.night-mode {
           background: transparent;
           transform: translateX(50px) rotateZ(360deg);
@@ -51,8 +49,6 @@ export default function ModeToggle({ onClick, isNight = false }: ToggleProps) {
         .backdrop::after {
           left: 30%;
         }
-
-        
 
         .star::before {
           content: "";
@@ -181,7 +177,7 @@ export default function ModeToggle({ onClick, isNight = false }: ToggleProps) {
           `}
         >
           <img
-            src="./image/template/TemplateWake.webp"
+            src={TemplateWake}
             alt=""
             className={`
               absolute top-0 left-0 h-full 
@@ -193,12 +189,11 @@ export default function ModeToggle({ onClick, isNight = false }: ToggleProps) {
           />
           {/* Moon craters */}
           <img
-            src="./image/template/TemplateMoon.webp"
+            src={TemplateMoon}
             alt=""
             className={`
               absolute  h-full 
                rounded-full transform 
-              
               transition-all duration-300 ease-in-out
               ${isNight ? "block" : "hidden"}
             `}

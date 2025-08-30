@@ -5,7 +5,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { useState, useEffect } from "react";
 import GameComponent from "./GameComponent";
-
+import LogoImgTxtDark from "@/assets/logo/LogoImgTxtDark.svg";
+import LogoImgTxtLight from "@/assets/logo/LogoImgTxtLight.svg";
 import {
   EffectFade,
   Navigation,
@@ -79,8 +80,8 @@ export default function Carousel({ isCarouselMode }: CarouselProps) {
             <img
               src={
                 isDarkMode
-                  ? "/src/assets/logo/LogoImgTxtDark.svg"
-                  : "/src/assets/logo/LogoImgTxtLight.svg"
+                  ? LogoImgTxtDark
+                  : LogoImgTxtLight
               }
               alt="Logo"
               className="w-2/3 relative z-20 pointer-events-none"

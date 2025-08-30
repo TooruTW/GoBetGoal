@@ -1,6 +1,9 @@
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useRef, useState, MouseEvent, useEffect } from "react";
+import goodJob from "@/assets/resultNoImg/goodJob.png";
+import cheat from "@/assets/resultNoImg/cheat.jpg";
+import { monsterCry } from "@/assets/monster";
 
 export default function UploadImgs({ images }: { images: string[][] }) {
   const uploadImgsRef = useRef<HTMLDivElement>(null);
@@ -72,6 +75,7 @@ export default function UploadImgs({ images }: { images: string[][] }) {
     setHoverIndex(null);
   };
 
+
   return (
     <div
       className={`grid grid-cols-4 gap-2 w-1/2 max-xl:w-full max-xl:flex max-xl:overflow-x-scroll max-xl:h-30 max-lg:snap-x max-xl:pt-6 `}
@@ -79,12 +83,26 @@ export default function UploadImgs({ images }: { images: string[][] }) {
     >
       {images.map((image, day) => {
         return image.map((img, index) => {
+          let realSrc = img;
+          switch(img){
+            case "goodJob":
+              realSrc = goodJob;
+              break;
+            case "cheat":
+              realSrc = cheat;
+              break;
+            case "fail":
+              realSrc = monsterCry;
+              break;
+            default:
+              realSrc = img;
+          }
           return (
             <img
               onLoad={handleLoad}
               key={`${day}-${index}`}
               className={`aspect-square w-full max-lg:w-2/5 object-cover max-lg:snap-center rounded-md day-box day-${day} relative z-0 brightness-75`}
-              src={img}
+              src={realSrc}
               alt={`${day}`}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}

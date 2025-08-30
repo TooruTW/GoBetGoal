@@ -1,6 +1,8 @@
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import FaultyTerminal from "@/components/shared/reactBit/FaultyTerminal";
+import LogoImgTxtDark from "@/assets/logo/LogoImgTxtDark.svg";
+import LogoImgTxtLight from "@/assets/logo/LogoImgTxtLight.svg";
 
 export default function Title() {
   const account = useSelector((state: RootState) => state.account);
@@ -10,8 +12,8 @@ export default function Title() {
       <img
         src={
           isDarkMode
-            ? "/src/assets/logo/LogoImgTxtDark.svg"
-            : "/src/assets/logo/LogoImgTxtLight.svg"
+            ? LogoImgTxtDark
+            : LogoImgTxtLight
         }
         alt="Logo"
         className=" w-2/3 absolute z-20 pointer-events-none"

@@ -1,6 +1,7 @@
 import AchievementLoop from "./AchievementLoop.tsx";
 import TemplateLoop from "./TemplateLoop.tsx";
 import Candy from "@/components/layout/Header/Navigator/Candy.tsx";
+import { bagel1, bagel2, bagel3, bagel4 } from "@/assets/bagel";
 
 export default function RunField() {
   const candy = 999;
@@ -57,22 +58,22 @@ export default function RunField() {
 
           <div className="grid grid-cols-4 gap-12  w-1/3">
             <img
-              src="/src/assets/bagel/bagel1.webp"
+              src={bagel1}
               alt=""
               className="w-full animate-bounce"
             />
             <img
-              src="/src/assets/bagel/bagel3.webp"
+              src={bagel3}
               alt=""
               className="w-full animate-bounce"
             />
             <img
-              src="/src/assets/bagel/bagel2.webp"
+              src={bagel2}
               alt=""
               className="w-full animate-bounce"
             />
             <img
-              src="/src/assets/bagel/bagel4.webp"
+              src={bagel4}
               alt=""
               className="w-full animate-bounce"
             />
