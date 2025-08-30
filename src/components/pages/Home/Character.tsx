@@ -148,7 +148,7 @@ export default function VideoGallery() {
   }, []);
 
   return (
-    <div className="md:flex items-center gap-4 py-20 justify-center ps-12">
+    <div className="md:flex items-center gap-4 py-20 justify-center ps-12 w-full">
       {/* 影片播放區 */}
       <h2 className="text-h2 mb-16">多樣角色陪你冒險</h2>
 
