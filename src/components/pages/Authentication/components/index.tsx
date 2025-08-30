@@ -28,13 +28,20 @@ export default function Auth() {
   }, [user, navigate, isLoading, error]);
 
   return (
-    <div className="flex flex-col  justify-center  items-center h-screen w-full">
-      <div className="md:grid md:grid-cols-2 w-full">
+    <div className="flex flex-col  justify-center  items-center pb-16  h-screen w-full px-3 ">
+      <div className="  md:grid md:grid-cols-2 w-full">
         <img src={monsterDefault} alt="monster" className="w-40  m-auto" />
-        <Tabs defaultValue="login" className="w-full md:w-1/2 ">
-          <TabsList className="flex justify-center mb-4 w-full">
-            <TabsTrigger value="register">註冊</TabsTrigger>
-            <TabsTrigger value="login">登入</TabsTrigger>
+        <Tabs
+          defaultValue="login"
+          className="w-full md:w-1/2  max-w-100 md:max-w-1/2 mx-auto"
+        >
+          <TabsList className="flex justify-center mb-4 w-full ">
+            <TabsTrigger value="register" className="cursor-pointer">
+              註冊
+            </TabsTrigger>
+            <TabsTrigger value="login" className="cursor-pointer">
+              登入
+            </TabsTrigger>
           </TabsList>
 
           {/* 註冊 */}
@@ -64,6 +71,7 @@ export default function Auth() {
                 {loginError}
               </p>
             )}
+            
           </TabsContent>
         </Tabs>
       </div>

@@ -12,7 +12,7 @@ type FormValues = {
 type RegisterFormProps = {
   onRegisterError: (error: string) => void;
   onRegisterSuccess: (data: FormValues) => void;
-}
+};
 
 export default function RegisterForm({
   onRegisterError,
@@ -60,7 +60,7 @@ export default function RegisterForm({
   return (
     <form
       onSubmit={handleSubmit(onRegister)}
-      className="flex-col flex justify-start w-full items-center gap-6 text-white mx-auto"
+      className="flex-col flex justify-start w-full items-center gap-6 text-schema-on-background mx-auto"
     >
       {/* Email */}
       <EmailInput
@@ -92,7 +92,7 @@ export default function RegisterForm({
       <input
         type="submit"
         value="註冊"
-        className="p-2 justify-center flex items-center gap-2 cursor-pointer rounded-full w-full py-2.5 mt-4 bg-gradient-set-1 hover:scale-105 transition-all duration-300  disabled:opacity-50 disabled:cursor-not-allowed"
+        className="p-2 justify-center flex items-center gap-2 cursor-pointer rounded-full w-full py-2.5 mt-4 bg-schema-primary text-schema-on-primary hover:scale-105 transition-all duration-300  disabled:opacity-50 disabled:cursor-not-allowed"
       />
     </form>
   );
