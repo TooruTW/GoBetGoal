@@ -20,9 +20,7 @@ export default function TrialInfo(props: acceptProps) {
           <div className="flex gap-4 w-fit max-lg:justify-start">
             <p className="text-xs rounded-full bg-gray-200 font-semibold text-black w-fit h-fit py-0.5 px-2.5 flex gap-1">
               {trial[0].trial.challenge.category.map((category) => (
-                <span key={category} className={`${category.color}`}>
-                  {category}
-                </span>
+                <span key={category}>{category}</span>
               ))}
             </p>
           </div>
