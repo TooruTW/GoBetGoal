@@ -115,6 +115,7 @@
   --color-schema-primary-container: var(--PrimaryContainer);
   --color-schema-on-primary-container: var(--onPrimaryContainer);
 
+  --color-schema-surface-dim: var(--surfaceDim);
   --color-schema-surface: var(--surface);
   --color-schema-surface-variant: var(--surfaceVariant);
   --color-schema-on-surface: var(--onSurface);
@@ -226,8 +227,8 @@
   --tertiaryFixed: #ffe08b;
   --onTertiaryFixed: #241a00;
   --tertiaryFixedDim: #e3c46d;
-  --onTertiaryFixedVariant: #584400;
-  --surfaceDim: #e7d6d8;
+  
+  --surfaceDim: rgb(239, 240, 247);
   --surfaceBright: #fff8f7;
   --surfaceContainerLowest: #ffffff;
   --surfaceContainerLow: #fff0f1;
@@ -424,14 +425,11 @@
   .bg-gradient-set-1 {
     background: linear-gradient(
       135deg,
-      var(--color-gradient-set-1-1) 0%,
-      var(--color-gradient-set-1-2) 100%
+      #eb4375 0%,
+      #eba7e4 100%
     );
   }
 
-  .error {
-    color: red;
-  }
 
   .parallelogram-border {
     display: inline-block;

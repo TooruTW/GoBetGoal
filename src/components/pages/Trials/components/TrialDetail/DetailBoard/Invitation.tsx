@@ -20,13 +20,13 @@ type acceptProps = {
   onClick: () => void;
 };
 
-type InvititionList = UserInfoSupa & {
+type InvitationList = UserInfoSupa & {
   invite_status: "pending" | "accept" | "reject" | "none";
 };
 
-export default function Invitition({ className, onClick }: acceptProps) {
-  const [invititionList, setInvititionList] = useState<InvititionList[]>([]);
-  const [selectedInvitition, setSelectedInvitition] = useState<string[]>([]);
+export default function Invitation({ className, onClick }: acceptProps) {
+  const [InvitationList, setInvitationList] = useState<InvitationList[]>([]);
+  const [selectedInvitation, setSelectedInvitation] = useState<string[]>([]);
 
   const [noteContent, setNoteContent] = useState<string>("");
 
@@ -47,7 +47,7 @@ export default function Invitition({ className, onClick }: acceptProps) {
     const friendNotInPlayerSet = friendList.filter(
       (item) => !playerSet.has(item.user_id) && item.friend_state === "accept"
     );
-    const listWithStatus: InvititionList[] = friendNotInPlayerSet.map(
+    const listWithStatus: InvitationList[] = friendNotInPlayerSet.map(
       (friend) => {
         const status = inviteStatus?.find(
           (item) => item.participant_id === friend.user_id
@@ -71,7 +71,7 @@ export default function Invitition({ className, onClick }: acceptProps) {
       return 0;
     });
 
-    setInvititionList(listWithStatus);
+    setInvitationList(listWithStatus);
   }, [
     friendList,
     id,
@@ -82,7 +82,7 @@ export default function Invitition({ className, onClick }: acceptProps) {
     isInviteStatusLoading,
   ]);
 
-  const invititionListRef = useRef<HTMLDivElement>(null);
+  const InvitationListRef = useRef<HTMLDivElement>(null);
 
   const handleInviteStatus = (id: string) => {
     const status = inviteStatus?.find((item) => item.participant_id === id);
@@ -99,7 +99,7 @@ export default function Invitition({ className, onClick }: acceptProps) {
 
   useGSAP(
     () => {
-      if (invititionList.length === 0) return;
+      if (InvitationList.length === 0) return;
       gsap.from(".avatar", {
         delay: 1,
         scale: 0,
@@ -109,12 +109,12 @@ export default function Invitition({ className, onClick }: acceptProps) {
         stagger: 0.1,
       });
     },
-    { dependencies: [invititionList], scope: invititionListRef }
+    { dependencies: [InvitationList], scope: InvitationListRef }
   );
   useGSAP(
     () => {
       if (friendList.length === 0) return;
-      if (selectedInvitition.length < invititionList.length) {
+      if (selectedInvitation.length < InvitationList.length) {
         gsap.to(".unselected", {
           duration: 0.1,
           filter: "brightness(0.9)",
@@ -123,7 +123,7 @@ export default function Invitition({ className, onClick }: acceptProps) {
           borderBottom: "8px solid transparent",
         });
       }
-      if (selectedInvitition.length > 0) {
+      if (selectedInvitation.length > 0) {
         gsap.to(".selected", {
           duration: 0.1,
           filter: "brightness(1)",
@@ -133,15 +133,15 @@ export default function Invitition({ className, onClick }: acceptProps) {
         });
       }
     },
-    { dependencies: [selectedInvitition], scope: invititionListRef }
+    { dependencies: [selectedInvitation], scope: InvitationListRef }
   );
 
   const handleSelect = (userId: string) => {
     if (inviteStatus?.find((item) => item.participant_id === userId)) return;
-    if (selectedInvitition.includes(userId)) {
-      setSelectedInvitition(selectedInvitition.filter((id) => id !== userId));
+    if (selectedInvitation.includes(userId)) {
+      setSelectedInvitation(selectedInvitation.filter((id) => id !== userId));
     } else {
-      setSelectedInvitition([...selectedInvitition, userId]);
+      setSelectedInvitation([...selectedInvitation, userId]);
     }
   };
 
@@ -153,11 +153,11 @@ export default function Invitition({ className, onClick }: acceptProps) {
     e.stopPropagation();
     if (isInviting) return; // 防止重複點擊
 
-    console.log(selectedInvitition);
+    console.log(selectedInvitation);
     setIsInviting(true);
 
     let completedCount = 0;
-    const totalInvites = selectedInvitition.length;
+    const totalInvites = selectedInvitation.length;
 
     if (totalInvites === 0) {
       setIsInviting(false);
@@ -165,7 +165,7 @@ export default function Invitition({ className, onClick }: acceptProps) {
       return;
     }
 
-    selectedInvitition.forEach((friendId) => {
+    selectedInvitation.forEach((friendId) => {
       inviteFriend(
         {
           trial_id: id as string,
@@ -181,7 +181,7 @@ export default function Invitition({ className, onClick }: acceptProps) {
             if (completedCount === totalInvites) {
               setIsInviting(false);
               onClick();
-              setSelectedInvitition([]);
+              setSelectedInvitation([]);
             }
           },
           onError: () => {
@@ -190,7 +190,7 @@ export default function Invitition({ className, onClick }: acceptProps) {
             if (completedCount === totalInvites) {
               setIsInviting(false);
               onClick();
-              setSelectedInvitition([]);
+              setSelectedInvitation([]);
             }
           },
         }
@@ -216,7 +216,7 @@ export default function Invitition({ className, onClick }: acceptProps) {
     }
   }, [noteContent]);
 
-  useClickOutside(invititionListRef, () => {
+  useClickOutside(InvitationListRef, () => {
     console.log("click outside");
     onClick();
   });
@@ -227,7 +227,7 @@ export default function Invitition({ className, onClick }: acceptProps) {
     >
       {noteContent && <Notification>{noteContent}</Notification>}
       <div
-        ref={invititionListRef}
+        ref={InvitationListRef}
         className="flex flex-col gap-4 items-center  bg-schema-surface-container py-4 w-full max-w-150"
       >
         <h2 className="text-h2">邀請列表</h2>
@@ -241,12 +241,12 @@ export default function Invitition({ className, onClick }: acceptProps) {
           </div>
         </div>
         <ul className="flex flex-col rounded-md px-10 max-h-100 overflow-y-auto w-full py-4">
-          {invititionList.length > 0 ? (
-            invititionList.map((item) => (
+          {InvitationList.length > 0 ? (
+            InvitationList.map((item) => (
               <li
                 key={item.user_id}
                 className={`flex items-center justify-between gap-4 px-4 pt-4 border-b-8 border-transparent -translate-x-8 active:scale-95 cursor-pointer brightness-90 ${
-                  selectedInvitition.includes(item.user_id)
+                  selectedInvitation.includes(item.user_id)
                     ? "selected"
                     : "unselected"
                 }`}

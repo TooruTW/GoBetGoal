@@ -10,7 +10,6 @@ export default function CountDown(props: acceptProps) {
 
   // timeToCount 改變時，重設 remain
   useEffect(() => {
-    
     if (!timeToCount) return;
     setRemain(
       Math.max(
@@ -37,25 +36,25 @@ export default function CountDown(props: acceptProps) {
   return (
     <div className="flex gap-1">
       <div className="flex flex-col items-center">
-        <div className="aspect-square flex justify-center items-center rounded-xl p-2.5 text-h3 font-medium leading-1.5 bg-schema-surface-container-low text-schema-on-surface font-mono">
+        <div className="aspect-square flex justify-center items-center rounded-xl p-2.5 text-h3 font-medium leading-1.5 bg-schema-inverse-surface text-schema-inverse-on-surface font-mono">
           {remainTime.day.toString().padStart(2, "0")}
         </div>
         <span className="text-xs">日</span>
       </div>
       <div className="flex flex-col items-center">
-        <div className="aspect-square flex justify-center items-center rounded-xl p-2.5 text-h3 font-medium leading-1.5 bg-schema-surface-container-low text-schema-on-surface font-mono">
+        <div className="aspect-square flex justify-center items-center rounded-xl p-2.5 text-h3 font-medium leading-1.5 bg-schema-inverse-surface text-schema-inverse-on-surface font-mono">
           {remainTime.hour.toString().padStart(2, "0")}
         </div>
         <span className="text-xs">時</span>
       </div>
       <div className="flex flex-col items-center">
-        <div className="aspect-square flex justify-center items-center rounded-xl p-2.5 text-h3 font-medium leading-1.5 bg-schema-surface-container-low text-schema-on-surface font-mono">
+        <div className="aspect-square flex justify-center items-center rounded-xl p-2.5 text-h3 font-medium leading-1.5 bg-schema-inverse-surface text-schema-inverse-on-surface font-mono">
           {remainTime.minute.toString().padStart(2, "0")}
         </div>
         <span className="text-xs">分</span>
       </div>
       <div className="flex flex-col items-center">
-        <div className="aspect-square flex justify-center items-center rounded-xl p-2.5 text-h3 font-medium leading-1.5 bg-schema-surface-container-low text-schema-on-surface font-mono">
+        <div className="aspect-square flex justify-center items-center rounded-xl p-2.5 text-h3 font-medium leading-1.5 bg-schema-inverse-surface text-schema-inverse-on-surface font-mono">
           {remainTime.second.toString().padStart(2, "0")}
         </div>
         <span className="text-xs">秒</span>

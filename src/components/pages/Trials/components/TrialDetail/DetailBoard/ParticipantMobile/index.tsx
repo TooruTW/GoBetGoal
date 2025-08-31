@@ -9,11 +9,11 @@ import { useGSAP } from "@gsap/react";
 
 type acceptProps = {
   trial: TrialDetailSupa[];
-  onClickInvitition: () => void;
+  onClickInvitation: () => void;
 };
 
 export default function ParticipantMobile(props: acceptProps) {
-  const { trial, onClickInvitition } = props;
+  const { trial, onClickInvitation } = props;
   const [flipStates, setFlipStates] = useState<boolean[]>([]);
   const [participantListArray, setParticipantListArray] = useState<
     [string, UserInfoSupa][]
@@ -55,7 +55,7 @@ export default function ParticipantMobile(props: acceptProps) {
 
   const handleInvite = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    onClickInvitition();
+    onClickInvitation();
   };
 
   return (
