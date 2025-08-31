@@ -37,7 +37,11 @@ export default function PostCard(props: Post) {
 
   const [noteContent, setNoteContent] = useState("");
 
-  const { mutate: postLike } = usePostLikeSupa({ postId: id, userId, authorId: publish_by });
+  const { mutate: postLike } = usePostLikeSupa({
+    postId: id,
+    userId,
+    authorId: publish_by,
+  });
   const { mutate: deletePostLike } = useDeletePostLikeSupa({
     postId: id,
     userId,
@@ -225,7 +229,7 @@ export default function PostCard(props: Post) {
               {isLiked ? (
                 <div ref={heartRef} className="size-6">
                   <FaHeart
-                    className="size-full cursor-pointer"
+                    className="size-full cursor-pointer text-schema-primary"
                     onClick={(e) => {
                       e.stopPropagation();
                       handleLike();
