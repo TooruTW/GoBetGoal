@@ -7,24 +7,28 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { useTrialAllSupa } from "@/api";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
+import { useGetAllParticipateTrial } from "@/api";
 
 export default function ReviewDashboard() {
   const { id } = useParams();
-  const { data, isLoading } = useTrialAllSupa();
+  const { data, isLoading } = useGetAllParticipateTrial();
   const [formattedData, setFormattedData] = useState<
     { name: string; 飲食: number; 睡眠: number; 運動: number }[]
   >([]);
 
   useEffect(() => {
     if (isLoading || !data || !id) return;
-    const filtedData = data.filter((item) => item.create_by === id);
+    const filteredData = data.filter((item) => item.participant_id === id);
+
+    console.log(filteredData);
+
     const historyMap = new Map<
       string,
       { name: string; 飲食: number; 睡眠: number; 運動: number }
     >();
+
     // 初始化12個月份，從1月開始
     for (let i = 0; i < 12; i++) {
       const monthName = dayjs().month(i).format("MMM");
@@ -35,22 +39,24 @@ export default function ReviewDashboard() {
         運動: 0,
       });
     }
-    filtedData.forEach((trial) => {
-      const month = dayjs(trial.end_at).format("MMM");
-      const trialType = trial.challenge.category;
+
+    filteredData.forEach((item) => {
+      const month = dayjs(item.trial.end_at).format("MMM");
+      const trialType = item.trial.challenge.category;
       trialType.forEach((type) => {
         const monthData = historyMap.get(month);
         if (monthData) {
           if (type === "飲食") {
-            monthData["飲食"] += 1;
+            monthData["飲食"] += item.trial.challenge.stage_count;
           } else if (type === "睡眠") {
-            monthData["睡眠"] += 1;
+            monthData["睡眠"] += item.trial.challenge.stage_count;
           } else if (type === "運動") {
-            monthData["運動"] += 1;
+            monthData["運動"] += item.trial.challenge.stage_count;
           }
         }
       });
     });
+
     const formattedData = Array.from(historyMap.values()).map((item) => ({
       name: item.name,
       飲食: item["飲食"],
