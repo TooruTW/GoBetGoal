@@ -6,6 +6,8 @@ import CandyDrop from "@/components/pages/Authentication/components/CandyDrop";
 import { usePostFirstEditUserInfo } from "@/api";
 import { useParams } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
+
+import { Button } from "@/components/ui/button";
 type Avatar = { src: string; price: number };
 
 type FormValues = {
@@ -128,13 +130,13 @@ export default function AuthAccount() {
               {errors.nickname?.message}
             </p>
           </div>
-          <button
+          <Button
             type="submit"
-            className="p-2 justify-center flex items-center gap-2 cursor-pointer rounded-full  w-full md:w-2/3 py-2.5 mt-4 bg-gradient-set-1 hover:scale-105 transition-all duration-300  disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full md:w-2/3 py-2.5   disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={!selectedAvatar}
           >
             確認
-          </button>
+          </Button>
         </form>
       </section>
       {/* 註冊成功 Modal */}
@@ -145,7 +147,7 @@ export default function AuthAccount() {
             avatar={registerInfo.avatar}
           />
           <div className="absolute  z-50  bottom-0 left-1/2 transform -translate-x-1/2  flex-col items-end justify-end">
-            <CandyDrop className="w-full"/>
+            <CandyDrop className="w-full" />
           </div>
         </div>
       )}

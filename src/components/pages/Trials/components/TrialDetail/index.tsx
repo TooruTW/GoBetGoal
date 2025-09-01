@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 
 export default function TrialDetail() {
-  const { id,playerId } = useParams();
+  const { id, playerId } = useParams();
   const navigate = useNavigate();
   const { data, isLoading, error } = useTrialSupa(id?.toString() || "");
 
@@ -22,13 +22,13 @@ export default function TrialDetail() {
         navigate(`/trial-complete/${id}`);
       }
     }
-  }, [data, id, navigate,playerId]);
+  }, [data, id, navigate, playerId]);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div className="flex py-20 w-full max-w-330 relative px-4 overflow-hidden">
+    <div className="flex py-8 w-full  relative overflow-hidden ">
       {data && <DetailBoard trial={data} />}
 
       {/* 試煉內部信息記錄 未來可期 */}

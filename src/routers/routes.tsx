@@ -21,6 +21,8 @@ import Authentication from "@/components/pages/Authentication";
 import AuthAccount from "@/components/pages/AuthAccount";
 import Auth from "@/components/pages/Authentication/components";
 import LoginSuccess from "@/components/pages/Authentication/components/LoginSuccess";
+import ForgotPassword from "@/components/pages/Authentication/components/ForgotPassword";
+import ResetPassword from "@/components/pages/Authentication/components/ResetPassword";
 
 // Trials
 import Trials from "@/components/pages/Trials";
@@ -110,6 +112,14 @@ export const routes: RouteObject[] = [
           {
             path: "success/:id",
             element: <LoginSuccess />,
+          },
+          {
+            path: "reset-password",
+            element: <ResetPassword />,
+          },
+          {
+            path: "forgot-password",
+            element: <ForgotPassword />,
           },
         ],
       },

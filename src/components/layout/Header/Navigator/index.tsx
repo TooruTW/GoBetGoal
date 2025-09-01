@@ -1,7 +1,7 @@
 import { LuBellRing } from "react-icons/lu";
 import CheatBlanket from "./CheatBlanket";
 import Candy from "./Candy";
-import CreateTrialBtn from "./CreateTrialBtn";
+import { IoFlagOutline } from "react-icons/io5";
 import User from "./User";
 import ModeToggle from "./ModeToggle";
 
@@ -14,6 +14,7 @@ import { useState } from "react";
 import { usePostLogOutSupa } from "@/api";
 import { setAccount } from "@/store/slices/accountSlice";
 import { Button } from "@/components/ui/button";
+import { FiMenu } from "react-icons/fi";
 
 type NavigatorProps = {
   setIsShowNotification: () => void;
@@ -57,7 +58,7 @@ export default function Navigator({ setIsShowNotification }: NavigatorProps) {
             </li>
           </>
         )}
-        <li className="max-md:hidden transition-all hover:scale-105 active:scale-95">
+        <li className="max-sm:hidden transition-all hover:scale-105 active:scale-95">
           <ModeToggle onClick={handleSwitchMode} isNight={isNight} />
         </li>
         {account.user_id ? (
@@ -82,12 +83,12 @@ export default function Navigator({ setIsShowNotification }: NavigatorProps) {
           </>
         ) : (
           <>
-            <Link className=" max-lg:hidden " to="trials/list/all/all">
+            <Link className=" hidden sm:block" to="trials/list/all/all">
               <li className="text-label transition-all hover:scale-105 active:scale-95 ">
                 我的試煉
               </li>
             </Link>
-            <Link className=" max-lg:hidden " to="social-pages">
+            <Link className=" hidden sm:block " to="social-pages">
               <li className="text-label transition-all hover:scale-105 active:scale-95  ">
                 交流平台
               </li>
@@ -96,7 +97,24 @@ export default function Navigator({ setIsShowNotification }: NavigatorProps) {
         )}
 
         <li className="hidden sm:block transition-all hover:scale-105 active:scale-95">
-          <CreateTrialBtn />
+          <Link to="/create-trial">
+            {account.user_id ? (
+              <>
+                {" "}
+                <Button className=" flex  gap-2 ">
+                  <IoFlagOutline />
+                  <p className="text-label ">創建試煉</p>
+                </Button>
+              </>
+            ) : (
+              <>
+                {" "}
+                <div className="text-label transition-all hover:scale-105 active:scale-95">
+                  <p className="text-label ">創建試煉</p>{" "}
+                </div>
+              </>
+            )}
+          </Link>
         </li>
 
         {account.user_id ? (
@@ -187,11 +205,57 @@ export default function Navigator({ setIsShowNotification }: NavigatorProps) {
           </>
         ) : (
           <>
-            <Link to="/auth">
-              <li className="cursor-pointer">
-                <Button>登入 / 註冊</Button>
-              </li>
-            </Link>
+            <div className="flex gap-2">
+              <Link to="/auth">
+                <li className="cursor-pointer">
+                  <Button>登入 / 註冊</Button>
+                </li>
+              </Link>
+              <div
+                onClick={() => setShowHamMenu(true)}
+                onMouseEnter={() => setShowHamMenu(true)}
+              >
+                <FiMenu className="h-10 sm:hidden" />
+              </div>
+              {showHamMenu && (
+                <>
+                  <div
+                    className="fixed inset-0 z-10"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowHamMenu(false);
+                    }}
+                  />
+
+                  <div className=" md:hidden absolute -bottom-2 right-2 translate-y-full text-nowrap bg-schema-surface-container-high z-20 shadow-lg overflow-hidden group-hover:block">
+                    <div className="md:hidden hover:scale-105 active:scale-95 ps-3 py-4">
+                      <ModeToggle
+                        onClick={handleSwitchMode}
+                        isNight={isNight}
+                      />
+                    </div>
+
+                    <Link to="/create-trial" className="sm:hidden block">
+                      <div className="transition-all hover:scale-105 active:scale-95 px-8 py-4 hover:bg-schema-surface-container-highest">
+                        創建試煉
+                      </div>
+                    </Link>
+
+                    <Link to="trials/list/all/all" className="block">
+                      <div className="transition-all hover:scale-105 active:scale-95 px-8 py-4 hover:bg-schema-surface-container-highest">
+                        我的試煉
+                      </div>
+                    </Link>
+
+                    <Link to="social-pages" className="block">
+                      <div className="transition-all hover:scale-105 active:scale-95 px-8 py-4 hover:bg-schema-surface-container-highest">
+                        交流廣場
+                      </div>
+                    </Link>
+                  </div>
+                </>
+              )}
+            </div>
           </>
         )}
       </ul>

@@ -122,9 +122,9 @@ export default function Home() {
       {/* MainMachine 區域 */}
       <div
         ref={mainMachineRef}
-        className="w-full min-h-screen flex flex-col items-center justify-center relative snap-auto snap-center snap-always"
+        className="w-full h-screen flex flex-col items-center justify-center relative snap-auto snap-center snap-always"
       >
-        <div className="absolute z-40 top-10 left-1/2 -translate-x-1/2 w-full mx-3 flex flex-col items-center">
+        <div className="absolute z-40 top-20 left-1/2 -translate-x-1/2 w-full px-3 flex flex-col items-center">
           <img
             src={
               isDarkMode
