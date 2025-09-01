@@ -62,7 +62,7 @@ export default function SharePage(props: AcceptanceProps) {
 
   const handleShareToFacebook = () => {
     const url = window.location.href;
-    console.log(url,"share to fb");
+    console.log(url, "share to fb");
 
     const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
       url
@@ -121,7 +121,7 @@ export default function SharePage(props: AcceptanceProps) {
                 <span className="italic" style={{ border: "none" }}>
                   {trialReward}
                 </span>{" "}
-                糖果以茲勉勵
+                貝果以茲勉勵
               </p>
               <p style={{ border: "none" }}>
                 {new Date().toLocaleDateString("zh-TW", {

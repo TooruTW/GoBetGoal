@@ -112,11 +112,11 @@ export default function Shop() {
                 queryClient.invalidateQueries({
                   queryKey: ["user_info", userID],
                 });
-                console.log("糖果餘額更新成功");
+                console.log("貝果餘額更新成功");
                 setShowSuccess(true);
               },
               onError: (error) => {
-                console.error("更新糖果餘額失敗:", error);
+                console.error("更新貝果餘額失敗:", error);
                 setNoteContent("儲值成功但更新餘額失敗，請重新整理頁面");
               },
             }
