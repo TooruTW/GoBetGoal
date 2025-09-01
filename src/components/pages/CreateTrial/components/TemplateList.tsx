@@ -1,15 +1,13 @@
 import TemplateCard from "./TemplateCard";
 import { useState, useEffect } from "react";
-import { useGetChallenges } from "@/api";
+import { useGetChallenges, useGetUserPurchase } from "@/api";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
-import { setChallengeTemplate } from "@/store/slices/challengeTemplate";
 
 export default function TemplateList({ className }: { className?: string }) {
   const { data, isLoading } = useGetChallenges();
-  const purchasedChallenges = useSelector(
-    (state: RootState) => state.account.purchase_challenge
-  );
+ 
+  const userID = useSelector((state: RootState) => state.account.user_id);
   const [templateList, setTemplateList] = useState<
     {
       challengeName: string;
@@ -19,25 +17,28 @@ export default function TemplateList({ className }: { className?: string }) {
       color: string;
     }[]
   >([]);
+  const {data: purchaseRecord} = useGetUserPurchase(userID);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (isLoading || !purchasedChallenges.length) return;
+    if (isLoading) return;
     console.log(data);
 
-    dispatch(setChallengeTemplate(data));
     setTemplateList(
       data?.map((template) => {
+        const isPurchased = purchaseRecord.some((purchase) => purchase.item_id === template.id);
+        const isFree = template.price === 0;
+        
         return {
           challengeName: template.title,
-          isLocked: !purchasedChallenges.includes(template.id),
+          isLocked: !isFree && !isPurchased , 
           challengeId: template.id.toString(),
           imageUrl: `${template.img}`,
           color: template.color,
         };
       }) || []
     );
-  }, [data, isLoading, purchasedChallenges, dispatch]);
+  }, [data, isLoading, dispatch, purchaseRecord]);
 
   return (
     <div

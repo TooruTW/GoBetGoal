@@ -101,29 +101,13 @@ export default function Form({ challenge }: FormProps) {
 
   // 檢查是否已購買過這個 challenge
   useEffect(() => {
-    console.log("購買狀態檢查:", {
-      userPurchases,
-      challenge,
-      isPurchaseLoading,
-      userID,
-      challengeId: challenge?.id,
-    });
 
     if (userPurchases && challenge && !isPurchaseLoading) {
       const purchased = userPurchases.some((purchase: PurchaseRecord) => {
-        console.log("檢查購買項目:", {
-          purchase,
-          itemType: purchase.item_type,
-          itemId: purchase.item_id,
-          challengeId: challenge.id,
-          match:
-            purchase.item_type === "challenge" &&
-            Number(purchase.item_id) === Number(challenge.id),
-        });
 
         return (
           purchase.item_type === "challenge" &&
-          Number(purchase.item_id) === Number(challenge.id)
+          purchase.item_id === challenge.id
         );
       });
 
