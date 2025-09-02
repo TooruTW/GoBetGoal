@@ -25,7 +25,7 @@ export default function TrialHistory() {
   }
 
   return (
-    <div className="w-full flex flex-col gap-4">
+    <div className="w-full grid grid-cols-2 max-xl:grid-cols-1 gap-4">
       {/* trial history list */}
 
       {filteredData.map((item) => {

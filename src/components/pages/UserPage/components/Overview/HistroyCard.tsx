@@ -53,7 +53,7 @@ export default function HistroyCard({ trialId }: { trialId: string }) {
   };
 
   return (
-    <div className="w-full bg-schema-surface-container rounded-xl p-4">
+    <div className="w-full bg-schema-surface-container rounded-xl p-4 h-full">
       <div className="flex flex-col gap-4">
         <div className="flex justify-between max-md:flex-col-reverse max-md:items-start max-md:gap-2">
           <h4 className="text-h4 font-bold">{trialName}</h4>
@@ -82,7 +82,7 @@ export default function HistroyCard({ trialId }: { trialId: string }) {
           {trialDescription}
         </p>
       </div>
-      <div className="flex gap-2 w-full max-h-30 overflow-y-scroll snap-y max-md:grid-cols-4 max-sm:grid-cols-3 max-md:w-full">
+      <div className="flex gap-2 w-full max-h-30 overflow-x-scroll snap-y max-md:grid-cols-4 max-sm:grid-cols-3 max-md:w-full">
         {imageList.length > 0 ? (
           imageList.map((item, index) => {
             let realSrc = item;
@@ -110,7 +110,6 @@ export default function HistroyCard({ trialId }: { trialId: string }) {
           })
         ) : (
           <div className="flex justify-center items-center">
-            <h3 className="text-h3 font-bold">沒有資料</h3>
           </div>
         )}
       </div>
