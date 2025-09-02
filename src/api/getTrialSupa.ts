@@ -9,10 +9,10 @@ const getTrialSupa = async (id: string): Promise<TrialDetailSupa[]> => {
     .eq("trial_id", id)
     .order("stage_index")
     .order("created_at", { ascending: true });
-
-  if (error) throw error;
-
-
+  if (error) {
+    console.log(error);
+    throw error;
+  }  
   return data;
 };
 

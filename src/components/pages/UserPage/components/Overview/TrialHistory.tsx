@@ -11,7 +11,6 @@ export default function TrialHistory() {
 
   useEffect(() => {
     if (isLoading || error || !data) return;
-    console.log(data);
     const filtered = data.filter((item) =>
       item.trial_participant.some(
         (participant) => participant.user_info.user_id === id

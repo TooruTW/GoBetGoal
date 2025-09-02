@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import goodJob from "@/assets/resultNoImg/goodJob.png";
 import cheat from "@/assets/resultNoImg/cheat.jpg";
 import { monsterCry } from "@/assets/monster";
+import { useParams } from "react-router-dom";
 
 export default function HistroyCard({ trialId }: { trialId: string }) {
   const { data, isLoading, error } = useTrialSupa(trialId);
@@ -12,11 +13,15 @@ export default function HistroyCard({ trialId }: { trialId: string }) {
   const [trialCategory, setTrialCategory] = useState<string[]>([]);
   const [trialStatus, setTrialStatus] = useState<string>("");
   const [trialDescription, setTrialDescription] = useState<string>("");
+  const {id} = useParams();
 
   useEffect(() => {
     if (isLoading || error || !data) return;
     const imageList: string[] = [];
-    data.forEach((item) => {
+    console.log(id);
+    const filteredData = data.filter((item) => item.participant_id === id);
+    
+    filteredData.forEach((item) => {
       if (item.upload_image) {
         imageList.push(...item.upload_image);
       }
@@ -26,7 +31,7 @@ export default function HistroyCard({ trialId }: { trialId: string }) {
     setTrialCategory(data[0].trial.challenge.category);
     setTrialStatus(data[0].trial.trial_status);
     setTrialDescription(data[0].trial.challenge.description);
-  }, [data, isLoading, error]);
+  }, [data, isLoading, error, id]);
 
   const translateState = (en: string) => {
     switch (en) {
@@ -97,7 +102,7 @@ export default function HistroyCard({ trialId }: { trialId: string }) {
             return (
               <img
                 key={index}
-                className="size-32 rounded-sm object-cover snap-center"
+                className="size-32 aspect-square rounded-sm object-cover snap-center"
                 src={realSrc}
                 alt=""
               />

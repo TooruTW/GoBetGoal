@@ -21,9 +21,6 @@ export default function ReviewDashboard() {
   useEffect(() => {
     if (isLoading || !data || !id) return;
     const filteredData = data.filter((item) => item.participant_id === id);
-
-    console.log(filteredData);
-
     const historyMap = new Map<
       string,
       { name: string; 飲食: number; 睡眠: number; 運動: number }
