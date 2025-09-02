@@ -16,7 +16,6 @@ export default function TemplateDetail({
   const [isAtBottom, setIsAtBottom] = useState(false);
 
   useEffect(() => {
-    console.log(challenge);
     gsap.to(arrowRef.current, {
       yPercent: -50,
       duration: 1,

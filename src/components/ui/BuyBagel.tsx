@@ -48,7 +48,7 @@ export default function ConfirmModal({ onClose }: { onClose: () => void }) {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center  mb-8">
-          <h2 className="text-2xl font-title">糖果不夠了？</h2>
+          <h2 className="text-2xl font-title">貝果不夠了？</h2>
           <IoClose
             className="size-6 hover:scale-120 active:scale-110"
             onClick={onClose}

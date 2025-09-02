@@ -185,7 +185,7 @@ export default function AvatarSelect({
         console.log("頭像購買成功，響應:", response);
         setNoteContent("購買成功！ ^⌯𖥦⌯^ ੭");
 
-        // 扣除糖果
+        // 扣除貝果
         const updatedBagel = userBagel - selectedToBuy.price;
 
         patchUserInfo(
@@ -199,10 +199,10 @@ export default function AvatarSelect({
               queryClient.invalidateQueries({
                 queryKey: ["purchase_records", userID],
               });
-              console.log("糖果餘額更新成功，扣除:", selectedToBuy.price);
+              console.log("貝果餘額更新成功，扣除:", selectedToBuy.price);
             },
             onError: (error) => {
-              console.error("更新糖果餘額失敗:", error);
+              console.error("更新貝果餘額失敗:", error);
             },
           }
         );
@@ -325,7 +325,7 @@ export default function AvatarSelect({
       {selectedToBuy && (
         <ConfirmModal
           title="確認購買"
-          content={`確定要花 ${selectedToBuy.price} 顆糖果購買這個角色嗎？`}
+          content={`確定要花 ${selectedToBuy.price} 顆貝果購買這個角色嗎？`}
           onCancel={() => setSelectedToBuy(null)}
           onConfirm={handlePurchaseConfirm}
           selectedToBuy={{

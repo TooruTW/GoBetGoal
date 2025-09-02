@@ -112,11 +112,11 @@ export default function Shop() {
                 queryClient.invalidateQueries({
                   queryKey: ["user_info", userID],
                 });
-                console.log("糖果餘額更新成功");
+                console.log("貝果餘額更新成功");
                 setShowSuccess(true);
               },
               onError: (error) => {
-                console.error("更新糖果餘額失敗:", error);
+                console.error("更新貝果餘額失敗:", error);
                 setNoteContent("儲值成功但更新餘額失敗，請重新整理頁面");
               },
             }
@@ -157,6 +157,26 @@ export default function Shop() {
     return () => clearTimeout(timer);
   }, [noteContent]);
 
+  const handleCryptoPayment = async (
+    get_bagel: number,
+    deposit_money: number
+  ) => {
+    console.log("handleCryptoPayment", get_bagel, deposit_money);
+    
+    const url = "https://gobetgoal.rocket-coding.com/api/payments/create";
+    const result = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        user_id: "c572eff8-37de-4058-a860-2a24ed463ced",
+        email: "testingsupa1@gmail.com",
+        get_bagel: 10000,
+        deposit_money: 100,
+      }),
+    });
+    console.log(result);
+  };
+
+
   return (
     <div
       className={`w-full h-screen flex flex-col justify-center items-center relative ${
@@ -190,7 +210,7 @@ export default function Shop() {
         <ul className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4 md:pt-8">
           {plan.map((item, index) => (
             <li
-              onClick={() => depositSuccess(index)}
+              onClick={() => handleCryptoPayment(item.get_bagel, item.price)}
               className="h-full"
               key={index}
               onMouseEnter={() => {

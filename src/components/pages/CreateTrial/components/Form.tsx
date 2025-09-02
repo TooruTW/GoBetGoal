@@ -101,29 +101,13 @@ export default function Form({ challenge }: FormProps) {
 
   // 檢查是否已購買過這個 challenge
   useEffect(() => {
-    console.log("購買狀態檢查:", {
-      userPurchases,
-      challenge,
-      isPurchaseLoading,
-      userID,
-      challengeId: challenge?.id,
-    });
 
     if (userPurchases && challenge && !isPurchaseLoading) {
       const purchased = userPurchases.some((purchase: PurchaseRecord) => {
-        console.log("檢查購買項目:", {
-          purchase,
-          itemType: purchase.item_type,
-          itemId: purchase.item_id,
-          challengeId: challenge.id,
-          match:
-            purchase.item_type === "challenge" &&
-            Number(purchase.item_id) === Number(challenge.id),
-        });
 
         return (
           purchase.item_type === "challenge" &&
-          Number(purchase.item_id) === Number(challenge.id)
+          purchase.item_id === challenge.id.toString()
         );
       });
 
@@ -218,7 +202,7 @@ export default function Form({ challenge }: FormProps) {
         setHasPurchased(true);
         setShowConfirm(false);
         setSelectedToBuy(null);
-        const newBagel = userBagel - challenge.price; // 計算新的糖果餘額
+        const newBagel = userBagel - challenge.price; // 計算新的貝果餘額
         patchUserBagel(
           { target: "candy_count", value: newBagel, userID },
           {
@@ -364,22 +348,22 @@ export default function Form({ challenge }: FormProps) {
           )}
         </label>
 
-        {/* 投入糖果押金數量 */}
+        {/* 投入貝果押金數量 */}
         <label
           className="w-full max-w-140 flex flex-col gap-2"
           htmlFor="trialDeposit"
         >
-          投入糖果押金數量
+          投入貝果押金數量
           <input
             {...register("trialDeposit", {
               required: "請輸入押金數量",
               min: {
                 value: 100000,
-                message: "押金最少需要 100,000 糖果",
+                message: "押金最少需要 100,000 貝果",
               },
               max: {
                 value: 1000000,
-                message: "押金最多 1,000,000 糖果",
+                message: "押金最多 1,000,000 貝果",
               },
             })}
             className="border-2 border-schema-primary rounded-md px-4 py-2.5"
@@ -394,7 +378,7 @@ export default function Form({ challenge }: FormProps) {
             </span>
           )}
           <span className="text-label text-schema-on-surface-variant">
-            合作完成80％即返還押金。若找齊隊友，贏得試煉最多可以拿回200％押金糖果呦！
+            合作完成80％即返還押金。若找齊隊友，贏得試煉最多可以拿回200％押金貝果呦！
           </span>
         </label>
 
@@ -407,7 +391,7 @@ export default function Form({ challenge }: FormProps) {
           {isSubmitting
             ? "處理中..."
             : !hasPurchased && challenge && challenge.price > 0
-            ? `購買並創建試煉 (${challenge.price} 糖果)`
+            ? `購買並創建試煉 (${challenge.price} 貝果)`
             : "創建試煉"}
         </button>
       </form>
@@ -421,7 +405,7 @@ export default function Form({ challenge }: FormProps) {
       {showConfirm && selectedToBuy && (
         <ConfirmModal
           title="確認購買"
-          content={`確定要花 ${selectedToBuy.price} 顆糖果購買${selectedToBuy.name}？`}
+          content={`確定要花 ${selectedToBuy.price} 顆貝果購買${selectedToBuy.name}？`}
           onCancel={() => {
             setShowConfirm(false);
             setSelectedToBuy(null);

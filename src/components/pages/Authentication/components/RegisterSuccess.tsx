@@ -43,7 +43,7 @@ export default function RegisterSuccess({
       <div className=" flex flex-col items-center justify-center gap-2">
         <h2 className="text-lg font-bold ">歡迎 {nickname} 進入樂園！</h2>
         <p className="text-sm border-gradient-set-1">
-          快拿糖果去參加試煉吧，減肥為了吃更多糖果
+          快拿貝果去參加試煉吧，減肥為了吃更多貝果
         </p>
       </div>
       <Candy amount={10000} />
