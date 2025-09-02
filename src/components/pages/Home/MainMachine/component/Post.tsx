@@ -1,5 +1,7 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, EffectCards } from "swiper/modules";
+import { Autoplay, EffectCards, Mousewheel } from "swiper/modules";
+import { useState } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function App() {
   const slides = [
@@ -45,20 +47,35 @@ export default function App() {
     },
   ];
 
+  const [loaded, setLoaded] = useState(false);
+  const [, setLoadedCount] = useState(0);
+  const dataCount = slides.length;
+
+  const handleLoaded = () => {
+    setLoadedCount((prev) => {
+      const newCount = prev + 1;
+      if (newCount === dataCount) {
+        setLoaded(true);
+      }
+      return newCount;
+    });
+  };
+
   return (
     <div className="flex justify-center items-center py-auto  ">
-      <div className="flex justify-center items-center relative rotate-6">
+      {!loaded && <Skeleton className="w-full h-full" />}
+      <div
+        className={`flex justify-center items-center relative rotate-6 ${
+          !loaded ? "opacity-0 scale-0" : "opacity-100 scale-100"
+        }`}
+      >
         <Swiper
           effect={"cards"}
           grabCursor={true}
-          modules={[EffectCards, Autoplay]}
+          modules={[EffectCards, Autoplay, Mousewheel]}
           className="w-60 h-80"
           style={{ overflow: "visible" }}
-          autoplay={{
-            delay: 2000,
-            disableOnInteraction: false,
-            pauseOnMouseEnter: true,
-          }}
+          mousewheel={true}
           cardsEffect={{
             perSlideOffset: 8, // 卡片間的偏移
             perSlideRotate: 2, // 卡片的旋轉角度
@@ -80,6 +97,7 @@ export default function App() {
                 src={item.img}
                 alt={`Slide ${idx + 1}`}
                 className="w-full h-full object-cover rounded-2xl"
+                onLoad={handleLoaded}
               />
 
               {/* User Avatar */}

@@ -1,4 +1,4 @@
-  import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 const videoList = [
   {
@@ -131,7 +131,7 @@ export default function VideoGallery() {
   const [currentVideo, setCurrentVideo] = useState(videoList[0].video);
   const [currentP, setCurrentP] = useState(videoList[0].p);
   const [currentName, setCurrentName] = useState(videoList[0].name);
-const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   // 自動輪播
   useEffect(() => {
     const interval = setInterval(() => {
@@ -150,15 +150,11 @@ const [isLoaded, setIsLoaded] = useState(false);
     const mediaElements = document.querySelectorAll("img, video");
     let loadedCount = 0;
     const totalCount = mediaElements.length;
-
     const checkAllLoaded = () => {
       if (loadedCount === totalCount) {
-        console.log("所有媒體載入完成");
-        // 隱藏載入畫面
         setIsLoaded(true);
       }
     };
-
     mediaElements.forEach((element) => {
       if (element.tagName === "IMG") {
         const img = element as HTMLImageElement;
@@ -228,6 +224,7 @@ const [isLoaded, setIsLoaded] = useState(false);
               setCurrentP(item.p);
               setCurrentName(item.name);
             }}
+            loading="lazy"
             className={`w-full object-cover rounded-md cursor-pointer transition-all skew-x-12 ${
               currentIndex === index
                 ? "border-2 border-schema-primary "
