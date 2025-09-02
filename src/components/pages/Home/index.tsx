@@ -34,10 +34,6 @@ export default function Home() {
 
   // 控制 carousel 模式的狀態
   const [isCarouselMode, setIsCarouselMode] = useState(false);
-  // 控制文字掉落效果的狀態
-  const [textFallTrigger, setTextFallTrigger] = useState<
-    "idle" | "falling" | "reset"
-  >("idle");
 
   // MainMachine 的動畫
   useGSAP(() => {
@@ -71,44 +67,9 @@ export default function Home() {
               setIsCarouselMode(false);
             }
           }
-          // 控制文字掉落效果
-          if (progress >= 0.05 && progress <= 0.15) {
-            if (textFallTrigger !== "falling") {
-              setTextFallTrigger("falling");
-            }
-          } else if (progress < 0.05) {
-            if (textFallTrigger !== "reset") {
-              setTextFallTrigger("reset");
-            }
-          } else if (progress > 0.15) {
-            if (textFallTrigger === "falling") {
-              setTextFallTrigger("idle");
-            }
-          }
         },
       },
     });
-  });
-
-  // RunRef 的獨立動畫 - 當滑動到 runContainer 時觸發
-
-  // Monster 浮動動畫
-  useGSAP(() => {
-    if (!imageRef.current) return;
-
-    gsap.fromTo(
-      imageRef.current,
-      {
-        yPercent: 0,
-      },
-      {
-        yPercent: -10,
-        duration: 1,
-        ease: "power1.inOut",
-        yoyo: true,
-        repeat: -1,
-      }
-    );
   });
 
   return (
@@ -150,7 +111,7 @@ export default function Home() {
             ref={imageRef}
             src={monsterDefault}
             alt="monster"
-            className="w-1/18 m-auto absolute top-1/3 left-1/2 -translate-x-1/2 z-20 "
+            className="w-1/18 m-auto absolute top-1/3 left-1/2 -translate-x-1/2 z-20 animate-bounce"
             draggable="false"
             style={{ userSelect: "none", pointerEvents: "none" }}
           />
