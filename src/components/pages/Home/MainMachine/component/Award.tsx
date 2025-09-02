@@ -21,10 +21,10 @@ export default function Ranking() {
 
   useGSAP(()=>{
     if(!rankingListRef.current || !rankingList.length) return;
-    
+
     gsap.fromTo(".ranking-card", {
       opacity: 0,
-      yPercent: 100,
+      yPercent: 50,
     },{
       opacity: 1,
       yPercent: 0,

@@ -28,7 +28,7 @@ export default function Footer() {
     <div
       className={`${
         isDesktop ? "h-screen" : "h-full"
-      }  relative w-screen flex flex-col items-center justify-end gap-20 py-10`}
+      }  relative w-screen flex flex-col items-center justify-end gap-10 py-20`}
     >
       <img
         src={isDarkMode ? LogoImgTxtDark : LogoImgTxtLight}
@@ -45,7 +45,7 @@ export default function Footer() {
       <div className="z-20 w-full h-full absolute bottom-0 left-0">
         {isDesktop && (
           <Ballpit
-            count={200}
+            count={100}
             gravity={0.3}
             friction={1}
             wallBounce={1.5}

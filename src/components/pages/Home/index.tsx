@@ -35,9 +35,9 @@ export default function Home() {
   // 控制 carousel 模式的狀態
   const [isCarouselMode, setIsCarouselMode] = useState(false);
 
-  useEffect(()=>{
-    window.scrollTo(0,0)
-  },[])
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   // MainMachine 的動畫
   useGSAP(() => {
