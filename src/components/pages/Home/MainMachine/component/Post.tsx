@@ -1,5 +1,5 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, EffectCards, Mousewheel } from "swiper/modules";
+import { Autoplay, EffectCards } from "swiper/modules";
 import { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -71,14 +71,20 @@ export default function App() {
       >
         <Swiper
           effect={"cards"}
-          grabCursor={true}
-          modules={[EffectCards, Autoplay, Mousewheel]}
+          modules={[EffectCards, Autoplay]}
           className="w-60 h-80"
           style={{ overflow: "visible" }}
-          mousewheel={true}
+          autoplay={{
+            delay: 2000, // 2.5秒自動切換
+            disableOnInteraction: false, // 禁用所有手動交互
+            pauseOnMouseEnter: false, // 滑鼠懸停時不暫停
+          }}
+          speed={300} // 切換動畫速度 (毫秒)
+          allowTouchMove={false} // 禁用觸控操作
+
           cardsEffect={{
-            perSlideOffset: 8, // 卡片間的偏移
-            perSlideRotate: 2, // 卡片的旋轉角度
+            perSlideOffset: 10, // 卡片間的偏移
+            perSlideRotate: 5, // 卡片的旋轉角度
             rotate: true,
             slideShadows: true,
           }}
