@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-
+  import { useState, useEffect } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 const videoList = [
   {
     src: "/image/avatar/girlPurpleCurly.webp",
@@ -131,7 +131,7 @@ export default function VideoGallery() {
   const [currentVideo, setCurrentVideo] = useState(videoList[0].video);
   const [currentP, setCurrentP] = useState(videoList[0].p);
   const [currentName, setCurrentName] = useState(videoList[0].name);
-
+const [isLoaded, setIsLoaded] = useState(false);
   // 自動輪播
   useEffect(() => {
     const interval = setInterval(() => {
@@ -145,6 +145,49 @@ export default function VideoGallery() {
     }, 4000); // 每 4 秒換一個
     return () => clearInterval(interval);
   }, [currentIndex]);
+
+  useEffect(() => {
+    const mediaElements = document.querySelectorAll("img, video");
+    let loadedCount = 0;
+    const totalCount = mediaElements.length;
+
+    const checkAllLoaded = () => {
+      if (loadedCount === totalCount) {
+        console.log("所有媒體載入完成");
+        // 隱藏載入畫面
+        setIsLoaded(true);
+      }
+    };
+
+    mediaElements.forEach((element) => {
+      if (element.tagName === "IMG") {
+        const img = element as HTMLImageElement;
+        if (img.complete) {
+          loadedCount++;
+        } else {
+          img.addEventListener("load", () => {
+            loadedCount++;
+            checkAllLoaded();
+          });
+        }
+      } else if (element.tagName === "VIDEO") {
+        const video = element as HTMLVideoElement;
+        if (video.readyState >= 3) {
+          loadedCount++;
+        } else {
+          video.addEventListener("canplaythrough", () => {
+            loadedCount++;
+            checkAllLoaded();
+          });
+        }
+      }
+    });
+    checkAllLoaded();
+  }, []);
+
+  if (!isLoaded) {
+    return <Skeleton className="w-full h-full" />;
+  }
 
   return (
     <div className="md:flex items-center py-20 justify-between w-full min-h-screen px-6 overflow-hidden">
@@ -193,7 +236,6 @@ export default function VideoGallery() {
           />
         ))}
       </div>
-
     </div>
   );
 }

@@ -11,7 +11,6 @@ export default function MainMachine({ isCarouselMode }: MainMachineProps) {
         <div className="relative flex flex-col items-center">
           <img
             src={mainMachine1}
-            alt=""
             className="relative z-10 w-full pointer-events-none"
           />
           <Carousel

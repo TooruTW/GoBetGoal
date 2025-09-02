@@ -66,6 +66,7 @@ const SlotMachine = () => {
     // 動畫效果 - 使用動態計算的高度
     slotRefs.forEach((ref, index) => {
       if (ref.current) {
+        console.log(ref.current);
         // 計算最終位置：3圈旋轉 + 最終結果位置
         const finalPosition =
           avatars.length * itemHeight * 3 + newResults[index] * itemHeight;

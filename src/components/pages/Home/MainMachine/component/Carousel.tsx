@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 import GameComponent from "./GameComponent";
 import LogoImgTxtDark from "@/assets/logo/LogoImgTxtDark.svg";
 import LogoImgTxtLight from "@/assets/logo/LogoImgTxtLight.svg";
-import SlotMachine from "./SlotMachine";
+// import SlotMachine from "./SlotMachine";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 
@@ -39,8 +39,7 @@ export default function Carousel({ className, isCarouselMode }: CarouselProps) {
           end: "+=900",
           scrub: 1,
           onUpdate: (self) => {
-            console.log(Math.floor(self.progress * 6)-1);
-            setSlideIndex(Math.max(0, Math.floor(self.progress * 6)-1));
+            setSlideIndex(Math.max(0, Math.floor(self.progress * 5)-1));
           },
         },
       });
@@ -142,13 +141,13 @@ export default function Carousel({ className, isCarouselMode }: CarouselProps) {
         </div>
 
         {/* 第六個頁面 - 老虎機 */}
-        <div
+        {/* <div
           className={`flex flex-col items-center justify-center bg-schema-surface-container w-full h-full relative slide ${
             slideIndex === 5 ? "block" : "hidden"
           }`}
         >
           <SlotMachine />
-        </div>
+        </div> */}
       </div>
 
       {showGame && <GameComponent />}

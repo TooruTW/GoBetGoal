@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { Link } from "react-router-dom";
 import { monsterDefault } from "@/assets/monster";
-import Progress from "./MainMachine/component/Progress.tsx";
+// import Progress from "./MainMachine/component/Progress.tsx";
 import AwardList from "./MainMachine/component/AwardList.tsx";
 import PostSection from "./MainMachine/component/PostSection.tsx";
 import RunField from "./MainMachine/component/RunField.tsx";
@@ -43,9 +43,9 @@ export default function Home() {
       keyframes: [
         { scale: 1, opacity: 0 },
         { scale: 1, opacity: 1 },
-        { scale: 10, opacity: 1, y: 0 },
-        { scale: 10, opacity: 1, y: 100 },
-        { scale: 1, opacity: 1, y: 400 },
+        { scale: 10, opacity: 1 },
+        { scale: 10, opacity: 1 },
+        { scale: 1, opacity: 1 },
       ],
       duration: 1,
       scrollTrigger: {
@@ -59,13 +59,9 @@ export default function Home() {
           const progress = self.progress;
           // 當動畫進度在 scale: 12 階段時啟用 carousel 模式
           if (progress >= 0.4 && progress <= 0.6) {
-            if (!isCarouselMode) {
-              setIsCarouselMode(true);
-            }
+            setIsCarouselMode(true);
           } else {
-            if (isCarouselMode) {
-              setIsCarouselMode(false);
-            }
+            setIsCarouselMode(false);
           }
         },
       },
@@ -127,7 +123,6 @@ export default function Home() {
       <Character />
       <RunField />
       <PostSection />
-      <Progress />
       <AwardList />
 
       <div className="py-30 px-3">
