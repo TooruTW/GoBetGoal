@@ -42,9 +42,7 @@ export default function Home() {
   // MainMachine 的動畫
   useGSAP(() => {
     if (!mainMachineRef.current) return;
-
     const tl = gsap.timeline();
-
     tl.to(mainMachineRef.current, {
       keyframes: [
         { scale: 1, opacity: 0 },
@@ -63,7 +61,6 @@ export default function Home() {
         pinSpacing: true,
         onUpdate: (self) => {
           const progress = self.progress;
-
           // 當動畫進度在 scale: 12 階段時啟用 carousel 模式
           if (progress >= 0.4 && progress <= 0.6) {
             if (!isCarouselMode) {
@@ -74,7 +71,6 @@ export default function Home() {
               setIsCarouselMode(false);
             }
           }
-
           // 控制文字掉落效果
           if (progress >= 0.05 && progress <= 0.15) {
             if (textFallTrigger !== "falling") {
@@ -151,6 +147,7 @@ export default function Home() {
           alt="mc"
           className="h-1/3 z-10 pointer-events-none absolute bottom-10 left-1/2 -translate-x-1/2"
         />
+        
         <div className="w-full overflow-x-hidden aspect-[5/3] flex justify-center items-center relative my-auto z-0">
           <GameSurround />
           <img
@@ -165,6 +162,7 @@ export default function Home() {
           <MainMachine isCarouselMode={isCarouselMode} />
         </div>
       </div>
+
       <div className="absolute inset-0 w-full h-full z-30 pointer-events-none">
         <FallingText />
       </div>
@@ -173,8 +171,8 @@ export default function Home() {
       <RunField />
       <PostSection />
       <Progress />
-
       <AwardList />
+
       <div className="py-30 px-3">
         <h2 className="text-h2">一個貝果的錢，讓你有肆意的資本</h2>
         <Plan />
@@ -182,6 +180,7 @@ export default function Home() {
 
       <CTA />
       <Ball />
+      
     </div>
   );
 }
