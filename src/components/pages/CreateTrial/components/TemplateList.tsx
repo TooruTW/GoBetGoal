@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useGetChallenges, useGetUserPurchase } from "@/api";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
+import { setChallengeTemplate } from "@/store/slices/challengeTemplate";
 
 export default function TemplateList({ className }: { className?: string }) {
   const { data, isLoading } = useGetChallenges();
@@ -24,6 +25,7 @@ export default function TemplateList({ className }: { className?: string }) {
     if (isLoading) return;
     console.log(data);
 
+    dispatch(setChallengeTemplate(data));
     setTemplateList(
       data?.map((template) => {
         const isPurchased = purchaseRecord.some((purchase) => purchase.item_id === template.id);

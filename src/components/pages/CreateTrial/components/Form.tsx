@@ -107,7 +107,7 @@ export default function Form({ challenge }: FormProps) {
 
         return (
           purchase.item_type === "challenge" &&
-          purchase.item_id === challenge.id
+          purchase.item_id === challenge.id.toString()
         );
       });
 
