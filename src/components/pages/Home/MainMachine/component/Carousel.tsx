@@ -18,9 +18,10 @@ import SlotMachine from "./SlotMachine";
 
 interface CarouselProps {
   isCarouselMode?: boolean;
+  className?: string;
 }
 
-export default function Carousel({ isCarouselMode }: CarouselProps) {
+export default function Carousel({ isCarouselMode, className }: CarouselProps) {
   const account = useSelector((state: RootState) => state.account);
   const isDarkMode = account.system_preference_color_mode === "dark";
   const [showGame, setShowGame] = useState("");
@@ -59,7 +60,7 @@ export default function Carousel({ isCarouselMode }: CarouselProps) {
   }, [isCarouselMode, swiperRef]);
 
   return (
-    <div className="w-3/5 aspect-video text-white overflow-hidden absolute top-1/6 text-[4px]">
+    <div className={`aspect-video text-white overflow-hidden text-[4px] ${className}`}>
       <Swiper
         onSwiper={handleSwiperInit}
         spaceBetween={0}

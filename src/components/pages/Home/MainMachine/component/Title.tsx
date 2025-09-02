@@ -16,7 +16,7 @@ export default function Title() {
             : LogoImgTxtLight
         }
         alt="Logo"
-        className=" w-2/3 absolute z-20 pointer-events-none"
+        className=" w-2/3 absolute z-20 select-none"
       />
       <div className="w-full h-auto aspect-video absolute z-0  ">
         <FaultyTerminal

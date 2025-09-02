@@ -14,7 +14,7 @@ export default function MainMachine({ isCarouselMode }: MainMachineProps) {
             alt=""
             className="relative z-10 w-full pointer-events-none"
           />
-          <Carousel isCarouselMode={isCarouselMode} />
+          <Carousel isCarouselMode={isCarouselMode} className="w-3/5 absolute top-1/6 left-1/2 -translate-x-1/2" />
         </div>
       </div>
     </>

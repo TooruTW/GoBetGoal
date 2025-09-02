@@ -14,7 +14,7 @@ import Progress from "./MainMachine/component/Progress.tsx";
 import AwardList from "./MainMachine/component/AwardList.tsx";
 import PostSection from "./MainMachine/component/PostSection.tsx";
 import RunField from "./MainMachine/component/RunField.tsx";
-import Ball from "./MainMachine/component/Footer.tsx";
+import Footer from "./MainMachine/component/Footer.tsx";
 import CTA from "./MainMachine/component/CTA.tsx";
 import Plan from "../Shop/components/Plan.tsx";
 import { Button } from "@/components/ui/button.tsx";
@@ -112,7 +112,7 @@ export default function Home() {
   });
 
   return (
-    <div className="w-full min-h-screen flex flex-col items-center justify-center">
+    <div className="w-full min-h-screen flex flex-col items-center justify-center gap-10">
       {/* MainMachine 區域 */}
       <div
         ref={mainMachineRef}
@@ -120,11 +120,7 @@ export default function Home() {
       >
         <div className="absolute z-40 top-20 left-1/2 -translate-x-1/2 w-full px-3 flex flex-col items-center">
           <img
-            src={
-              isDarkMode
-                ? LogoImgTxtDark
-                : LogoImgTxtLight
-            }
+            src={isDarkMode ? LogoImgTxtDark : LogoImgTxtLight}
             alt="Logo"
             className="animate-pulse z-20 pointer-events-none mb-2 w-90"
           />
@@ -147,7 +143,7 @@ export default function Home() {
           alt="mc"
           className="h-1/3 z-10 pointer-events-none absolute bottom-10 left-1/2 -translate-x-1/2"
         />
-        
+
         <div className="w-full overflow-x-hidden aspect-[5/3] flex justify-center items-center relative my-auto z-0">
           <GameSurround />
           <img
@@ -179,8 +175,7 @@ export default function Home() {
       </div>
 
       <CTA />
-      <Ball />
-      
+      <Footer />
     </div>
   );
 }

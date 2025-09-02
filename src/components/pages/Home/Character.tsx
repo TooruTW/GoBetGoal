@@ -143,14 +143,13 @@ export default function VideoGallery() {
         return nextIndex;
       });
     }, 4000); // 每 4 秒換一個
-
     return () => clearInterval(interval);
   }, [currentIndex]);
 
   return (
-    <div className="md:flex items-center py-20 justify-between ps-12 w-full min-h-screen overflow-hidden">
+    <div className="md:flex items-center py-20 justify-between w-full min-h-screen px-6 overflow-hidden">
       {/* 影片播放區 */}
-      <h2 className="text-h2 mb-16">多樣角色陪你冒險</h2>
+      <h2 className="text-h2 ">多樣角色陪你冒險</h2>
 
       <div className="relative flex justify-center w-1/3 h-full">
         <h3 className="absolute -left-4 -top-14 text-h3 font-bold pb-8">
