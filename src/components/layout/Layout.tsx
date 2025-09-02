@@ -20,7 +20,7 @@ export default function Layout({ children, className }: LayoutProps) {
         isShow={isShowNotification}
         closeNotification={() => setIsShowNotification(false)}
       />
-      <main className="flex-1 h-full pt-16">{children}</main>
+      <main className=" h-full pt-16 flex items-center justify-center min-h-screen">{children}</main>
     </div>
   );
 }

@@ -9,7 +9,7 @@ export default function CTA() {
   const account = useSelector((state: RootState) => state.account);
 
   return (
-    <section className="px-3 w-full relative  max-w-330 ">
+    <section className="px-3 w-full relative max-w-330 ">
       <div className="overflow-hidden h-36 sm:h-52 md:h-60 lg:h-66 z-0 w-full object-cover rounded-2xl flex items-center ">
         <video autoPlay loop muted playsInline className="   w-full sm:mt-20 ">
           {/* Safari 等瀏覽器可能讀 mov（但建議轉成 mp4） */}

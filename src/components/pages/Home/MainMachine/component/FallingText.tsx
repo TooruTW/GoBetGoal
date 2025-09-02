@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import * as Matter from "matter-js";
@@ -24,6 +24,7 @@ const TextDrop = ({ className }: { className?: string }) => {
   const engineRef = useRef<Matter.Engine | null>(null);
   const bodiesRef = useRef<Matter.Body[]>([]);
   const animationFrameRef = useRef<number | undefined>(undefined);
+  const [isPhysicsRunning, setIsPhysicsRunning] = useState(false);
   const [textElements, setTextElements] = useState<
     Array<{
       text: string;
@@ -34,7 +35,26 @@ const TextDrop = ({ className }: { className?: string }) => {
     }>
   >([]);
 
+  // 可見性檢測函數 - 移除isPhysicsRunning依賴避免循環
+  const handleVisibilityChange = useCallback((isVisible: boolean) => {
+    setIsPhysicsRunning((prev) => {
+      if (isVisible && !prev) {
+        return true;
+      } else if (!isVisible && prev) {
+        // 停止動畫循環
+        if (animationFrameRef.current) {
+          cancelAnimationFrame(animationFrameRef.current);
+          animationFrameRef.current = undefined;
+        }
+        return false;
+      }
+      return prev;
+    });
+  }, []);
+
   useEffect(() => {
+    if (!containerRef.current) return;
+
     // 初始化 Matter.js 物理引擎
     const engine = Matter.Engine.create();
     engine.world.gravity.y = 0.8; // 設置重力
@@ -96,46 +116,15 @@ const TextDrop = ({ className }: { className?: string }) => {
     bodiesRef.current = bodies;
     setTextElements(initialElements);
 
-    // 物理更新循環
-    const updatePhysics = () => {
-      if (engineRef.current) {
-        Matter.Engine.update(engineRef.current, 16.666); // ~60fps
-
-        // 更新文字元素位置
-        setTextElements((prevElements) =>
-          prevElements.map((element, idx) => {
-            const body = bodiesRef.current[idx];
-            if (body) {
-              // 限制旋轉角度在正負30度內
-              const clampedAngle = Math.max(
-                -Math.PI / 6,
-                Math.min(Math.PI / 6, body.angle)
-              );
-              if (body.angle !== clampedAngle) {
-                Matter.Body.setAngle(body, clampedAngle);
-              }
-
-              return {
-                ...element,
-                x: body.position.x,
-                y: body.position.y,
-                angle: clampedAngle,
-              };
-            }
-            return element;
-          })
-        );
-      }
-      animationFrameRef.current = requestAnimationFrame(updatePhysics);
-    };
-
     const ctx = gsap.context(() => {
       ScrollTrigger.create({
-        trigger: "body",
+        trigger: document.body || document.documentElement,
         start: "1% top",
         end: "18% top",
         onEnter: () => {
           setContainerOpacity(1);
+          handleVisibilityChange(true);
+
           // 重置物理體位置到天空中
           bodies.forEach((body, idx) => {
             const x = Math.random() * (window.innerWidth - 200) + 100;
@@ -150,19 +139,20 @@ const TextDrop = ({ className }: { className?: string }) => {
           });
           // 將物理體添加到世界中，開始掉落
           Matter.World.add(engine.world, bodies);
-          updatePhysics();
         },
         onLeave: () => {
-          // 滑到18%時消失
           setContainerOpacity(0);
+          handleVisibilityChange(false);
           Matter.World.remove(engine.world, bodies);
           if (animationFrameRef.current) {
             cancelAnimationFrame(animationFrameRef.current);
+            animationFrameRef.current = undefined;
           }
         },
         onEnterBack: () => {
-          // 從後面回來時也要重新掉落
           setContainerOpacity(1);
+          handleVisibilityChange(true);
+
           // 重置物理體位置到天空中
           bodies.forEach((body, idx) => {
             const x = Math.random() * (window.innerWidth - 200) + 100;
@@ -176,14 +166,14 @@ const TextDrop = ({ className }: { className?: string }) => {
             Matter.Body.setAngularVelocity(body, 0);
           });
           Matter.World.add(engine.world, bodies);
-          updatePhysics();
         },
         onLeaveBack: () => {
-          // 滑回1%以上時消失
           setContainerOpacity(0);
+          handleVisibilityChange(false);
           Matter.World.remove(engine.world, bodies);
           if (animationFrameRef.current) {
             cancelAnimationFrame(animationFrameRef.current);
+            animationFrameRef.current = undefined;
           }
         },
       });
@@ -198,7 +188,51 @@ const TextDrop = ({ className }: { className?: string }) => {
         Matter.Engine.clear(engineRef.current);
       }
     };
-  }, []);
+  }, [handleVisibilityChange]);
+
+  // 物理更新循環函數 - 使用useCallback避免重複創建
+  const updatePhysics = useCallback(() => {
+    if (engineRef.current && isPhysicsRunning) {
+      Matter.Engine.update(engineRef.current, 16.666); // ~60fps
+      // 更新文字元素位置
+      setTextElements((prevElements) =>
+        prevElements.map((element, idx) => {
+          const body = bodiesRef.current[idx];
+          if (body) {
+            // 限制旋轉角度在正負30度內
+            const clampedAngle = Math.max(
+              -Math.PI / 6,
+              Math.min(Math.PI / 6, body.angle)
+            );
+            if (body.angle !== clampedAngle) {
+              Matter.Body.setAngle(body, clampedAngle);
+            }
+            return {
+              ...element,
+              x: body.position.x,
+              y: body.position.y,
+              angle: clampedAngle,
+            };
+          }
+          return element;
+        })
+      );
+    }
+    // 只有在物理引擎運行時才繼續動畫循環
+    if (isPhysicsRunning) {
+      animationFrameRef.current = requestAnimationFrame(updatePhysics);
+    }
+  }, [isPhysicsRunning]);
+
+  // 監聽物理引擎運行狀態，啟動或停止更新循環
+  useEffect(() => {
+    if (isPhysicsRunning && engineRef.current) {
+      updatePhysics();
+    } else if (!isPhysicsRunning && animationFrameRef.current) {
+      cancelAnimationFrame(animationFrameRef.current);
+      animationFrameRef.current = undefined;
+    }
+  }, [isPhysicsRunning, updatePhysics]);
 
   return (
     <div

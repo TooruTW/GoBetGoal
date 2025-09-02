@@ -16,7 +16,6 @@ interface FallingTextProps {
 const FallingText: React.FC<FallingTextProps> = ({
   text = "",
   highlightWords = [],
-  
   trigger = "auto",
   backgroundColor = "transparent",
   wireframes = false,
@@ -33,7 +32,6 @@ const FallingText: React.FC<FallingTextProps> = ({
   useEffect(() => {
     if (!textRef.current) return;
     const words = text.split(" ");
-
     const newHTML = words
       .map((word) => {
         const isHighlighted = highlightWords.some((hw) => word.startsWith(hw));
@@ -46,7 +44,6 @@ const FallingText: React.FC<FallingTextProps> = ({
         </span>`;
       })
       .join(" ");
-
     textRef.current.innerHTML = newHTML;
   }, [text, highlightWords]);
 
@@ -72,21 +69,15 @@ const FallingText: React.FC<FallingTextProps> = ({
 
   useEffect(() => {
     if (!effectStarted) return;
-
     const { Engine, Render, World, Bodies, Runner, Mouse, MouseConstraint } =
       Matter;
-
     if (!containerRef.current || !canvasContainerRef.current) return;
-
     const containerRect = containerRef.current.getBoundingClientRect();
     const width = containerRect.width;
     const height = containerRect.height;
-
     if (width <= 0 || height <= 0) return;
-
     const engine = Engine.create();
     engine.world.gravity.y = gravity;
-
     const render = Render.create({
       element: canvasContainerRef.current,
       engine,
@@ -97,7 +88,6 @@ const FallingText: React.FC<FallingTextProps> = ({
         wireframes,
       },
     });
-
     const boundaryOptions = {
       isStatic: true,
       render: { fillStyle: "transparent" },

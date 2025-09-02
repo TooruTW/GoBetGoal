@@ -9,7 +9,6 @@ export default function RunField() {
     <div className="h-screen w-screen my-auto flex flex-col justify-between  text-nowrap">
       <div className="  h-full ">
         <div className="flex justify-evenly items-center">
-          {" "}
           <video autoPlay loop muted playsInline className="w-30 md:w-50 ">
             <source
               src="/animation/mainCharacter/character45.webm"

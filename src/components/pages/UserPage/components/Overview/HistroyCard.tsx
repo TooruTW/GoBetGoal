@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import goodJob from "@/assets/resultNoImg/goodJob.png";
 import cheat from "@/assets/resultNoImg/cheat.jpg";
 import { monsterCry } from "@/assets/monster";
+import { useParams } from "react-router-dom";
 
 export default function HistroyCard({ trialId }: { trialId: string }) {
   const { data, isLoading, error } = useTrialSupa(trialId);
@@ -12,11 +13,15 @@ export default function HistroyCard({ trialId }: { trialId: string }) {
   const [trialCategory, setTrialCategory] = useState<string[]>([]);
   const [trialStatus, setTrialStatus] = useState<string>("");
   const [trialDescription, setTrialDescription] = useState<string>("");
+  const {id} = useParams();
 
   useEffect(() => {
     if (isLoading || error || !data) return;
     const imageList: string[] = [];
-    data.forEach((item) => {
+    console.log(id);
+    const filteredData = data.filter((item) => item.participant_id === id);
+    
+    filteredData.forEach((item) => {
       if (item.upload_image) {
         imageList.push(...item.upload_image);
       }
@@ -26,7 +31,7 @@ export default function HistroyCard({ trialId }: { trialId: string }) {
     setTrialCategory(data[0].trial.challenge.category);
     setTrialStatus(data[0].trial.trial_status);
     setTrialDescription(data[0].trial.challenge.description);
-  }, [data, isLoading, error]);
+  }, [data, isLoading, error, id]);
 
   const translateState = (en: string) => {
     switch (en) {
@@ -48,7 +53,7 @@ export default function HistroyCard({ trialId }: { trialId: string }) {
   };
 
   return (
-    <div className="w-full bg-schema-surface-container rounded-xl p-4">
+    <div className="w-full bg-schema-surface-container rounded-xl p-4 h-full">
       <div className="flex flex-col gap-4">
         <div className="flex justify-between max-md:flex-col-reverse max-md:items-start max-md:gap-2">
           <h4 className="text-h4 font-bold">{trialName}</h4>
@@ -77,7 +82,7 @@ export default function HistroyCard({ trialId }: { trialId: string }) {
           {trialDescription}
         </p>
       </div>
-      <div className="flex gap-2 w-full max-h-30 overflow-y-scroll snap-y max-md:grid-cols-4 max-sm:grid-cols-3 max-md:w-full">
+      <div className="flex gap-2 w-full max-h-30 overflow-x-scroll snap-y max-md:grid-cols-4 max-sm:grid-cols-3 max-md:w-full">
         {imageList.length > 0 ? (
           imageList.map((item, index) => {
             let realSrc = item;
@@ -97,7 +102,7 @@ export default function HistroyCard({ trialId }: { trialId: string }) {
             return (
               <img
                 key={index}
-                className="size-32 rounded-sm object-cover snap-center"
+                className="size-32 aspect-square rounded-sm object-cover snap-center"
                 src={realSrc}
                 alt=""
               />
@@ -105,7 +110,6 @@ export default function HistroyCard({ trialId }: { trialId: string }) {
           })
         ) : (
           <div className="flex justify-center items-center">
-            <h3 className="text-h3 font-bold">沒有資料</h3>
           </div>
         )}
       </div>
