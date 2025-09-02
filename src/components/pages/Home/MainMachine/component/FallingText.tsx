@@ -100,7 +100,6 @@ const TextDrop = ({ className }: { className?: string }) => {
     const updatePhysics = () => {
       if (engineRef.current) {
         Matter.Engine.update(engineRef.current, 16.666); // ~60fps
-
         // 更新文字元素位置
         setTextElements((prevElements) =>
           prevElements.map((element, idx) => {
@@ -114,7 +113,6 @@ const TextDrop = ({ className }: { className?: string }) => {
               if (body.angle !== clampedAngle) {
                 Matter.Body.setAngle(body, clampedAngle);
               }
-
               return {
                 ...element,
                 x: body.position.x,
@@ -131,7 +129,7 @@ const TextDrop = ({ className }: { className?: string }) => {
 
     const ctx = gsap.context(() => {
       ScrollTrigger.create({
-        trigger: "body",
+        trigger: document.body || document.documentElement,
         start: "1% top",
         end: "18% top",
         onEnter: () => {

@@ -9,7 +9,6 @@ import ScrollTrigger from "gsap/ScrollTrigger";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { Link } from "react-router-dom";
-
 import { monsterDefault } from "@/assets/monster";
 import Progress from "./MainMachine/component/Progress.tsx";
 import AwardList from "./MainMachine/component/AwardList.tsx";
@@ -30,7 +29,6 @@ gsap.registerPlugin(ScrollTrigger);
 export default function Home() {
   const account = useSelector((state: RootState) => state.account);
   const isDarkMode = account.system_preference_color_mode === "dark";
-
   const mainMachineRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
 
