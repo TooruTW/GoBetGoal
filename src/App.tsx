@@ -47,6 +47,7 @@ function App() {
     error: friendError,
   } = useGetFriendSupa(userID);
 
+
   useEffect(() => {
     if (friendData && !friendLoading && !friendError) {
       dispatch(setFriends(friendData));

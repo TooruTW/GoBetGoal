@@ -59,6 +59,12 @@ export default function TemplateLoop() {
         modifiers: {
           x: (x) => `${parseFloat(x) % distance}px`,
         },
+        scrollTrigger: {
+          trigger: marqueeRef.current,
+          start: "bottom bottom",
+          end: "bottom top",
+          toggleActions: "play pause resume pause",
+        },
       });
     },
     { scope: marqueeRef, dependencies: [templateList] }

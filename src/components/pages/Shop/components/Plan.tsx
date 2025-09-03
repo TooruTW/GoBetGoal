@@ -72,11 +72,11 @@ export default function Plan() {
                 queryClient.invalidateQueries({
                   queryKey: ["user_info", userID],
                 });
-                console.log("糖果餘額更新成功");
+                console.log("貝果餘額更新成功");
                 setShowSuccess(true);
               },
               onError: (error) => {
-                console.error("更新糖果餘額失敗:", error);
+                console.error("更新貝果餘額失敗:", error);
                 setNoteContent("儲值成功但更新餘額失敗，請重新整理頁面");
               },
             }
@@ -84,9 +84,7 @@ export default function Plan() {
         },
         onError: (error: Error) => {
           console.error("儲值失敗:", error);
-
           let errorMessage = "儲值失敗，請稍後再試 ^-﹏-^ ੭";
-
           if (error?.message?.includes("duplicate")) {
             errorMessage = "重複儲值請求 ^-﹏-^ ੭";
           } else if (error?.message?.includes("unauthorized")) {
@@ -108,6 +106,7 @@ export default function Plan() {
     const timer = setTimeout(() => setNoteContent(""), 3000);
     return () => clearTimeout(timer);
   }, [noteContent]);
+
 
   return (
     <div className=" flex flex-col justify-center items-center relative ">

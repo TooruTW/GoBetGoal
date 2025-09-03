@@ -104,14 +104,14 @@ export default function TrialCard({ trial }: { trial: TrialSupa }) {
           >
             {isLiked ? <FaHeart className="text-primary" /> : <FaRegHeart />}
           </div>
-          <Button
+          {trial_status === "pending" ? <Button
             variant="trialsJoin"
-            className={`w-20 ${isInTrial ? "bg-schema-container-height/20" : ""}`}
+            className={`w-20`}
             disabled={isInTrial || trial_status !== "pending"}
             onClick={(e) => handleJoin(e)}
           >
-            {trial_status === "pending" ? (isInTrial ? "已加入" : "加入") : "已開始"}
-          </Button>
+            {isInTrial ? "已加入" : "加入"}
+          </Button> : <div className="w-20 opacity-50 text-center">已開始...</div>}
         </div>
       </div>
       <div className="flex flex-col gap-1">

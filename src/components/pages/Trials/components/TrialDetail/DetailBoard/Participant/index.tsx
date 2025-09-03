@@ -9,14 +9,13 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 
-
 type acceptProps = {
   trial: TrialDetailSupa[];
-  onClickInvitition: () => void;
+  onClickInvitation: () => void;
 };
 
 export default function Participant(props: acceptProps) {
-  const { trial, onClickInvitition } = props;
+  const { trial, onClickInvitation } = props;
 
   const [selectedParticipantId, setSelectedParticipantId] = useState<
     string | null
@@ -26,7 +25,6 @@ export default function Participant(props: acceptProps) {
     UserInfoSupa[]
   >([]);
   const [isInTheTrial, setIsInTheTrial] = useState(false);
-
 
   useEffect(() => {
     if (trial.length === 0) return;
@@ -149,7 +147,7 @@ export default function Participant(props: acceptProps) {
   return (
     <div
       ref={cardContainerRef}
-      className="flex justify-between gap-4 min-h-160 w-full"
+      className="flex justify-between gap-4 min-h-160 w-full  max-w-330"
     >
       {participantListArray.map((item) => {
         return (
@@ -166,7 +164,7 @@ export default function Participant(props: acceptProps) {
           return (
             <PlayerCard
               key={`unknown-${index}`}
-              onClickInvitition={onClickInvitition}
+              onClickInvitation={onClickInvitation}
               isInTheTrial={isInTheTrial}
             />
           );

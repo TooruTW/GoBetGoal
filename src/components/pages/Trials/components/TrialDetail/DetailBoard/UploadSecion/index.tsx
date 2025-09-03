@@ -31,15 +31,17 @@ export default function UploadCalendar(props: acceptProps) {
   const [isChooseDate, setIsChooseDate] = useState<boolean>(false);
   const [isAIChecking, setIsAIChecking] = useState<boolean>(true);
   const [challengeRules, setChallengeRules] = useState<string[]>([]);
-  const [challengeType, setChallengeType] = useState<"FitnessOCR" | "FoodCombination" | "ExclusiveDiet" | "NegativeList">("FoodCombination");
+  const [challengeType, setChallengeType] = useState<
+    "FitnessOCR" | "FoodCombination" | "ExclusiveDiet" | "NegativeList"
+  >("FoodCombination");
 
-  useEffect(()=>{
-    if(trial.length > 0){
+  useEffect(() => {
+    if (trial.length > 0) {
       setIsAIChecking(trial[0].trial.challenge.check_by_ai);
       setChallengeType("FoodCombination");
       setChallengeRules(trial[0].trial.challenge.rule);
     }
-  },[trial])
+  }, [trial]);
 
   dayjs.extend(isSameOrBefore);
   dayjs.extend(isSameOrAfter);
@@ -91,15 +93,17 @@ export default function UploadCalendar(props: acceptProps) {
     if (nearestStage) {
       setCurrentIndex(nearestStage.stage_index);
     }
-    }, [filteredTrial,isChooseDate]);
+  }, [filteredTrial, isChooseDate]);
 
   return (
-    <div className="flex gap-6 w-full  h-full max-md:flex-col-reverse md:bg-schema-surface-container md:p-9 rounded-[48px] ">
+    <div className="flex gap-6 w-full  h-full max-md:flex-col-reverse bg-background max-w-330 md:p-9 p-3 rounded-2xl shadow-lg">
       <div className="flex flex-col gap-6 items-center justify-between w-full md:max-w-96">
         <div className="flex flex-col gap-3 w-full">
           <ul className="flex gap-3 w-full max-lg:text-label">
             <li className="border-1 border-schema-secondary rounded-md w-full grid grid-cols-2 overflow-hidden">
-              <span className="text-center bg-schema-secondary text-schema-inverse-on-surface">通過</span>
+              <span className="text-center bg-schema-secondary text-schema-inverse-on-surface">
+                通過
+              </span>
               <span className="text-center">
                 {passCount}/{filteredTrial.length}
               </span>
@@ -113,7 +117,9 @@ export default function UploadCalendar(props: acceptProps) {
               </span>
             </li>
             <li className="border-1 border-schema-primary rounded-md w-full grid grid-cols-2 overflow-hidden">
-              <span className="text-center bg-schema-primary text-schema-inverse-on-surface">失敗</span>
+              <span className="text-center bg-schema-primary text-schema-inverse-on-surface">
+                失敗
+              </span>
               <span className="text-center">
                 {failCount}/{filteredTrial.length}
               </span>
@@ -139,7 +145,7 @@ export default function UploadCalendar(props: acceptProps) {
           />
         </div>
       </div>
-      <div className="h-full w-full min-w-96">
+      <div className="h-full w-full min-w-96 ">
         <UploadArea
           trial={filteredTrial}
           currentIndex={currentIndex}

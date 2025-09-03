@@ -22,10 +22,6 @@ export default function AddFriend() {
   const userID = useSelector((state: RootState) => state.account.user_id);
   const myFriend = useSelector((state: RootState) => state.friends.friends);
 
-  useEffect(() => {
-    if (myFriend?.length === 0) return;
-    console.log(myFriend, "myFriend");
-  }, [myFriend]);
 
   useGSAP(
     () => {
@@ -110,26 +106,26 @@ export default function AddFriend() {
       <Button onClick={() => setOpen(true)}>添加好友</Button>
       {open && (
         <div
-          className="fixed inset-0 flex items-center justify-center bg-gray-700/50 backdrop-blur-sm z-50"
+          className="fixed inset-0 flex items-center justify-center bg-gray-700/5  text-schema-on-background backdrop-blur-sm z-50"
           onClick={() => {
             setOpen(false);
             setIsSuggestionOpen(false);
           }}
         >
           <div
-            className=" rounded-lg p-6 shadow-lg max-w-md w-full mx-4 relative bg-gray-700"
+            className=" rounded-lg p-6 shadow-lg max-w-md w-full mx-4 relative bg-schema-surface-container-high"
             onClick={(e) => e.stopPropagation()}
           >
             {/* 關閉按鈕 */}
             <button
               onClick={() => setOpen(false)}
-              className="absolute top-4 right-4 text-2xl text-gray-600 hover:text-gray-800 hover:scale-110 transition"
+              className="absolute top-4 right-4 text-2xl hover:text-schema-on-background hover:scale-110 transition"
               aria-label="關閉"
             >
               <IoClose />
             </button>
 
-            <h2 className="text-xl font-bold mb-6 text-gray-800">添加好友</h2>
+            <h2 className="text-xl font-bold mb-6 ">添加好友</h2>
 
             <div className="flex flex-col gap-4">
               {/* 搜尋好友名稱 */}

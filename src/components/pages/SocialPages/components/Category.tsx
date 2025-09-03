@@ -9,17 +9,19 @@ export default function Category() {
 
   return (
     <div>
-      <ul className="flex flex-col gap-2 max-lg:hidden">
+      <ul className="flex flex-col gap-2 max-lg:hidden fixed top-22 text-schema-inverse-on-surface bg-schema-quaternary">
         {socialPlateFormCategory.map((category) => (
           <NavLink
             to={category.url}
             className={({ isActive }) =>
-              isActive ? "bg-schema-surface-container-high" : ""
+              isActive ? " shadow-lg border-2 border-schema-on-surface" : ""
             }
             style={{ borderRadius: "10px", overflow: "hidden" }}
             key={category.id}
           >
-            <li className="flex items-center gap-2 justify-center py-2 bg-inherit">
+            <li
+              className={`flex items-center gap-2 bg-schema-${category.color} hover:scale-105 w-full px-4  py-2 bg-inherit`}
+            >
               <BsPatchCheck />
               <p>{category.name}</p>
             </li>

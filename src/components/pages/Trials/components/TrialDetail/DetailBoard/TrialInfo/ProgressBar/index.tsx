@@ -1,11 +1,12 @@
 import gsap from "gsap";
 import { useEffect, useRef, useState } from "react";
 import type { TrialDetailSupa } from "@/types/TrialDetailSupa";
+import { bagel1 } from "@/assets/bagel";
 
 type acceptProps = {
   trial: TrialDetailSupa[];
   className?: string;
-}
+};
 
 export default function ProgressBar(props: acceptProps) {
   const { trial, className } = props;
@@ -18,22 +19,25 @@ export default function ProgressBar(props: acceptProps) {
     stagePerfect: 0,
     completeRate: 0,
     rewordRate: 1.5,
-  })
+  });
 
   useEffect(() => {
-    if (!trial) return
-    const trialInfo = trial[0].trial
+    if (!trial) return;
+    const trialInfo = trial[0].trial;
     infoRef.current = {
       ...infoRef.current,
       challengeCount: trial.length,
-      passedChallengesCount: trial.filter(item => item.status === "pass").length,
+      passedChallengesCount: trial.filter((item) => item.status === "pass")
+        .length,
       candyPass: trialInfo.deposit,
       candyPerfect: trialInfo.deposit * infoRef.current.rewordRate,
       stagePass: Math.floor(trial.length * 0.8),
       stagePerfect: trial.length,
-      completeRate: (trial.filter(item => item.status === "pass").length / trial.length) * 100,
-    }
-  }, [trial])
+      completeRate:
+        (trial.filter((item) => item.status === "pass").length / trial.length) *
+        100,
+    };
+  }, [trial]);
 
   const [rate, setRate] = useState(infoRef.current.completeRate);
 
@@ -52,20 +56,32 @@ export default function ProgressBar(props: acceptProps) {
   return (
     <div className={className}>
       <p className=" relative flex justify-between">
-        <span>糖果總數</span>
+        <span>貝果幣</span>
         <span
           className={`absolute translate-x-[-50%]`}
-          style={{ left: `${(infoRef.current.stagePass / infoRef.current.stagePerfect) * 100}%` }}
+          style={{
+            left: `${
+              (infoRef.current.stagePass / infoRef.current.stagePerfect) * 100
+            }%`,
+          }}
         >
-          {infoRef.current.candyPass > 1000 ? `${infoRef.current.candyPass / 1000}K` : infoRef.current.candyPass}
+          {infoRef.current.candyPass > 1000
+            ? `${infoRef.current.candyPass / 1000}K`
+            : infoRef.current.candyPass}
         </span>
         <span>
-          {infoRef.current.candyPerfect > 1000 ? `${infoRef.current.candyPerfect / 1000}K` : infoRef.current.candyPerfect}
+          {infoRef.current.candyPerfect > 1000
+            ? `${infoRef.current.candyPerfect / 1000}K`
+            : infoRef.current.candyPerfect}
         </span>
       </p>
       <div className="w-full rounded-full relative h-4 bg-schema-surface-container-highest">
         <p className=" absolute z-10 top-1/2 left-1/2 -translate-1/2 text-label text-white">
-          合作進度 <span>{infoRef.current.passedChallengesCount} / {infoRef.current.challengeCount}</span>
+          合作進度{" "}
+          <span>
+            {infoRef.current.passedChallengesCount} /{" "}
+            {infoRef.current.challengeCount}
+          </span>
         </p>
 
         <div
@@ -74,13 +90,19 @@ export default function ProgressBar(props: acceptProps) {
             width: `${rate}%`,
             filter: `saturate(${rate / 100 + 0.5})`,
           }}
-        ></div>
+        >
+          <img src={bagel1} alt="" className="w-5" />
+        </div>
       </div>
       <p className=" relative flex justify-between">
         <span>關卡總數</span>
         <span
           className={`absolute translate-x-[-50%]`}
-          style={{ left: `${(infoRef.current.stagePass / infoRef.current.stagePerfect) * 100}%` }}
+          style={{
+            left: `${
+              (infoRef.current.stagePass / infoRef.current.stagePerfect) * 100
+            }%`,
+          }}
         >
           {infoRef.current.stagePass}
         </span>

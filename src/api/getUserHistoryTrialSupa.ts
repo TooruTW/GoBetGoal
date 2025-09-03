@@ -4,7 +4,8 @@ import { supabase } from "@/supabaseClient";
 const getUserHistoryTrialSupa = async (userId: string) => {
   const { data, error } = await supabase
     .from("trial_participant_stage_history")
-    .select(`
+    .select(
+      `
       *,
       trial:trial_id!inner (
         *,
@@ -18,14 +19,16 @@ const getUserHistoryTrialSupa = async (userId: string) => {
           challenge_stage (description)
         )
       )
-    `)
-    .eq('participant_id', userId)
-    .in('trial.trial_status', ['perfect', 'fail']);
-    
+    `
+    )
+    .eq("participant_id", userId)
+    .in("trial.trial_status", ["perfect", "fail"]);
+
   if (error) {
-    console.error('Supabase error:', error);
+    console.error("Supabase error:", error);
     throw error;
   }
+  console.log(data);
 
   return data;
 };
@@ -36,6 +39,6 @@ export function useGetUserHistoryTrialSupa(userId: string) {
     queryFn: () => getUserHistoryTrialSupa(userId),
     enabled: !!userId,
   });
-  
+
   return { data, isLoading, error };
 }

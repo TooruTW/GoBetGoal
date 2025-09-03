@@ -17,14 +17,14 @@ type acceptProps = {
     event: React.MouseEvent<SVGElement, MouseEvent>,
     id: string
   ) => void;
-  onClickInvitition?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onClickInvitation?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   owner?: string;
   isInTheTrial?: boolean;
 };
 
 export default function PlayerCard(props: acceptProps) {
   const navigate = useNavigate();
-  const { participant, handleDelete, onClickInvitition, owner, isInTheTrial } =
+  const { participant, handleDelete, onClickInvitation, owner, isInTheTrial } =
     props;
   const [isFriend, setIsFriend] = useState(false);
 
@@ -120,7 +120,7 @@ export default function PlayerCard(props: acceptProps) {
 
   const handleInvite = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    onClickInvitition?.(e);
+    onClickInvitation?.(e);
   };
 
   const handleChangeTrialInfo = () => {
@@ -131,7 +131,7 @@ export default function PlayerCard(props: acceptProps) {
     <div className="w-full">
       {isCloseAbleRef.current ? (
         <div
-          className="group flex flex-col items-center justify-between gap-4 w-full bg-schema-surface-container/20 rounded-md py-6"
+          className="group flex flex-col items-center justify-between gap-4 w-full bg-schema-surface-container rounded-2xl py-6"
           onClick={handleChangeTrialInfo}
         >
           <IoClose
@@ -190,7 +190,7 @@ export default function PlayerCard(props: acceptProps) {
           </div>
         </div>
       ) : (
-        <div className="group flex flex-col items-center justify-center w-full h-full bg-schema-surface-container/20 rounded-md py-6 relative">
+        <div className="group flex flex-col items-center justify-center w-full h-full bg-schema-surface-container rounded-2xl py-6 relative">
           <div className="h-65 w-full ">
             <ImageLoader imgUrl={character_img_link} />
           </div>

@@ -4,6 +4,10 @@
 @import 'swiper/css';
 @import 'swiper/css/effect-cards';
 
+button:hover{
+cursor: pointer;
+}
+
 @theme {
   --font-title: "Bungee", sans-serif;
 
@@ -77,6 +81,9 @@
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
+  
+  --color-quaternary: var(--quaternary);
+
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
@@ -115,6 +122,7 @@
   --color-schema-primary-container: var(--PrimaryContainer);
   --color-schema-on-primary-container: var(--onPrimaryContainer);
 
+  --color-schema-surface-dim: var(--surfaceDim);
   --color-schema-surface: var(--surface);
   --color-schema-surface-variant: var(--surfaceVariant);
   --color-schema-on-surface: var(--onSurface);
@@ -136,6 +144,8 @@
   --color-schema-tertiary-container: var(--tertiaryContainer);
   --color-schema-on-tertiary-container: var(--onTertiaryContainer);
 
+  --color-schema-error: var(--error);
+
   /* 新增 surface-container 顏色映射 */
   --color-surface-container: var(--surfaceContainer);
 }
@@ -149,7 +159,7 @@
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
   --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
+  --primary-foreground: #fefdfd;
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
@@ -176,11 +186,11 @@
 
   --primary: #eb4375;
   --surfaceTint: #8e4958;
-  --onPrimary: #ffffff;
+  --onPrimary: #f9f8f8;
   --primaryContainer: #ffd9de;
   --onPrimaryContainer: #713341;
 
-  --secondary: #0df0b8;
+  --secondary: #16d8a8;
   --onSecondary: #ffffff;
   --secondaryContainer: #41ff14;
   --onSecondaryContainer: #265022;
@@ -190,9 +200,9 @@
   --tertiaryContainer: #ffe08b;
   --onTertiaryContainer: #584400;
 
-  --quaternary: #51bbfe;
+  --quaternary: #79ADDC;
 
-  --error: #ba1a1a;
+  --error: #b30a0a;
   --onError: #ffffff;
   --errorContainer: #ffdad6;
   --onErrorContainer: #93000a;
@@ -213,7 +223,7 @@
   --onPrimaryFixed: #3a0717;
   --primaryFixedDim: #ffb1c0;
   --onPrimaryFixedVariant: #713341;
-  --secondaryFixed: #02c594;
+  --secondaryFixed: #79ADDC;
   --onSecondaryFixed: #002202;
   --secondaryFixedDim: #a3d397;
   --onSecondaryFixedVariant: #265022;
@@ -224,12 +234,12 @@
   --tertiaryFixed: #ffe08b;
   --onTertiaryFixed: #241a00;
   --tertiaryFixedDim: #e3c46d;
-  --onTertiaryFixedVariant: #584400;
-  --surfaceDim: #e7d6d8;
+  
+  --surfaceDim: rgb(239, 240, 247);
   --surfaceBright: #fff8f7;
   --surfaceContainerLowest: #ffffff;
   --surfaceContainerLow: #fff0f1;
-  --surfaceContainer: rgb(245, 245, 247);
+  --surfaceContainer: rgb(249, 250, 251);
   --surfaceContainerLow: #fff7f8;
 
   --surfaceContainerHigh: rgb(232, 232, 237);
@@ -273,11 +283,6 @@
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.488 0.243 264.376);
@@ -298,23 +303,23 @@
   --secondaryContainer: #41ff14;
   --onSecondaryContainer: #265022;
 
-  --tertiary: #e3c46d;
+  --tertiary: #F3C954;
   --onTertiary: #3d2f00;
   --tertiaryContainer: #ffe08b;
   --onTertiaryContainer: #584400;
 
   --quaternary: #acecf7;
 
-  --error: #ffb4ab;
+  --error: #ED254E;
   --onError: #690005;
   --errorContainer: #93000a;
   --onErrorContainer: #ffdad6;
-  --background: #191113;
+  --background: #262626;
   --onBackground: #efdee0;
   --surface: #191113;
-  --onSurface: #efdee0;
+  --onSurface: #f4f0f0;
   --surfaceVariant: #524345;
-  --onSurfaceVariant: #d6c2c4;
+  --onSurfaceVariant: #cbbfc1;
   --outline: #9f8c8e;
   --outlineVariant: #524345;
   --shadow: #000000;
@@ -338,11 +343,11 @@
   --surfaceBright: #413738;
   --surfaceContainerLowest: #140c0d;
   --surfaceContainerLow: #22191b;
-  --surfaceContainer: rgb(31, 29, 29);
+  --surfaceContainer: #3a3a3a;
   --surfaceContainerLow: #22191b;
 
-  --surfaceContainerHigh: #312829;
-  --surfaceContainerHighest: rgba(66, 66, 69, 0.7);
+  --surfaceContainerHigh: #505050;
+  --surfaceContainerHighest: #676767;
 }
 
 @layer base {
@@ -427,14 +432,11 @@
   .bg-gradient-set-1 {
     background: linear-gradient(
       135deg,
-      var(--color-gradient-set-1-1) 0%,
-      var(--color-gradient-set-1-2) 100%
+      #eb4375 0%,
+      #eba7e4 100%
     );
   }
 
-  .error {
-    color: red;
-  }
 
   .parallelogram-border {
     display: inline-block;

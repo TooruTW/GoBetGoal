@@ -3,7 +3,12 @@ import type { MonsterImage } from "@/assets/monster";
 import CandyDrop from "@/components/pages/Authentication/components/CandyDrop";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { monsterSleep, monsterRun, monsterCongrats } from "@/assets/monster";
+import {
+  monsterSleep,
+  monsterRun,
+  monsterCongrats,
+  monsterCry,
+} from "@/assets/monster";
 import { ArrowLeft } from "lucide-react";
 import { useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -41,10 +46,13 @@ const plan: Plan[] = [
 
 export default function Shop() {
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showFail, setShowFail] = useState(false);
   const [noteContent, setNoteContent] = useState("");
   const [showAnime, setShowAnime] = useState<boolean[]>(
     new Array(plan.length).fill(false)
   );
+  const [lastPlanIndex, setLastPlanIndex] = useState<number | null>(null);
+
   const navigate = useNavigate();
   const location = useLocation();
   const queryClient = useQueryClient();
@@ -57,9 +65,32 @@ export default function Shop() {
   const isFromNavigation = location.state?.fromNavigation === true;
   const from = location.state?.from || "/";
 
+  // 🔹 根據 URL query 來決定是否顯示彈窗
+  useEffect(() => {
+    const query = new URLSearchParams(location.search);
+    const status = query.get("status");
+
+    if (status === "success") {
+      setShowSuccess(true);
+    } else if (status === "fail") {
+      setShowFail(true);
+    }
+  }, [location.search]);
+
   const handleGoBack = () => navigate(from, { replace: true });
 
+  const handleCloseSuccess = () => {
+    setShowSuccess(false);
+    navigate("/shop", { replace: true }); // 清掉 ?status
+  };
+
+  const handleCloseFail = () => {
+    setShowFail(false);
+    navigate("/shop", { replace: true }); // 清掉 ?status
+  };
+
   const depositSuccess = (planIndex: number) => {
+    setLastPlanIndex(planIndex);
     const selectedPlan = plan[planIndex];
 
     postDeposit(
@@ -81,11 +112,11 @@ export default function Shop() {
                 queryClient.invalidateQueries({
                   queryKey: ["user_info", userID],
                 });
-                console.log("糖果餘額更新成功");
+                console.log("貝果餘額更新成功");
                 setShowSuccess(true);
               },
               onError: (error) => {
-                console.error("更新糖果餘額失敗:", error);
+                console.error("更新貝果餘額失敗:", error);
                 setNoteContent("儲值成功但更新餘額失敗，請重新整理頁面");
               },
             }
@@ -105,9 +136,17 @@ export default function Shop() {
           }
 
           setNoteContent(errorMessage);
+          setShowFail(true); // 顯示失敗彈窗
         },
       }
     );
+  };
+
+  const handleRetryPayment = () => {
+    if (lastPlanIndex !== null) {
+      depositSuccess(lastPlanIndex);
+      setShowFail(false);
+    }
   };
 
   const onClose = () => setShowSuccess(false);
@@ -118,9 +157,29 @@ export default function Shop() {
     return () => clearTimeout(timer);
   }, [noteContent]);
 
+  const handleCryptoPayment = async (
+    get_bagel: number,
+    deposit_money: number
+  ) => {
+    console.log("handleCryptoPayment", get_bagel, deposit_money);
+    
+    const url = "https://gobetgoal.rocket-coding.com/api/payments/create";
+    const result = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        user_id: "c572eff8-37de-4058-a860-2a24ed463ced",
+        email: "testingsupa1@gmail.com",
+        get_bagel: 10000,
+        deposit_money: 100,
+      }),
+    });
+    console.log(result);
+  };
+
+
   return (
     <div
-      className={`w-full h-screen  flex flex-col justify-center items-center relative ${
+      className={`w-full h-screen flex flex-col justify-center items-center relative ${
         isFromNavigation ? "bg-background fixed z-20" : ""
       }`}
     >
@@ -151,7 +210,7 @@ export default function Shop() {
         <ul className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4 md:pt-8">
           {plan.map((item, index) => (
             <li
-              onClick={() => depositSuccess(index)}
+              onClick={() => handleCryptoPayment(item.get_bagel, item.price)}
               className="h-full"
               key={index}
               onMouseEnter={() => {
@@ -202,13 +261,21 @@ export default function Shop() {
         </ul>
       </div>
 
+      {/* 成功彈窗 */}
       {showSuccess && (
-        <div className="fixed w-full h-full top-0 left-0 flex items-end justify-end bg-black/50 z-50">
+        <div
+          className="fixed w-full h-full top-0 left-0 flex items-end justify-end bg-black/50 z-50"
+          onClick={handleCloseSuccess}
+        >
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-schema-surface-container-high p-6 rounded-lg shadow-lg z-30 flex flex-col items-center gap-2 md:gap-4 max-w-80">
             <h3 className="text-h3 font-bold ">成功儲值！</h3>
             <p>現在你就是貝果富翁啦，盡情揮霍吧</p>
             <Candy amount={account.candy_count} />
-            <img src={monsterCongrats} alt="" className="w-2/3" />
+            <img
+              src={monsterCongrats}
+              alt=""
+              className="w-2/3 animate-bounce"
+            />
             <div className="flex justify-center gap-4">
               <Button
                 className="mt-4"
@@ -222,6 +289,25 @@ export default function Shop() {
             </div>
           </div>
           <CandyDrop className="w-full absolute bottom-0 left-1/2 -translate-x-1/3" />
+        </div>
+      )}
+
+      {/* 失敗彈窗 */}
+      {showFail && (
+        <div
+          className="fixed w-full h-full top-0 left-0 flex items-end justify-end bg-black/50 z-50 "
+          onClick={handleCloseFail}
+        >
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-schema-surface-container-high p-6 rounded-lg shadow-lg z-30 flex flex-col items-center gap-4 max-w-80">
+            <h3 className="text-h3 font-bold text-red-500">付款失敗</h3>
+            <img src={monsterCry} alt="" className="w-2/3 " />
+            <p>這次交易沒有成功，請再試一次呦</p>
+            <div className="flex justify-center gap-4">
+              <Button className="mt-4" onClick={handleRetryPayment}>
+                再試一次
+              </Button>
+            </div>
+          </div>
         </div>
       )}
 

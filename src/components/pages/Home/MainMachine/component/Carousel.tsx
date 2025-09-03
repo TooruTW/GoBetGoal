@@ -1,90 +1,69 @@
-import { Swiper, SwiperSlide } from "swiper/react";
-import type { Swiper as SwiperType } from "swiper";
 import FaultyTerminal from "@/components/shared/reactBit/FaultyTerminal";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
-import { useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import GameComponent from "./GameComponent";
 import LogoImgTxtDark from "@/assets/logo/LogoImgTxtDark.svg";
 import LogoImgTxtLight from "@/assets/logo/LogoImgTxtLight.svg";
-import {
-  EffectFade,
-  Navigation,
-  Pagination,
-  Mousewheel,
-  Keyboard,
-} from "swiper/modules";
-import SlotMachine from "./SlotMachine";
+// import SlotMachine from "./SlotMachine";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
 interface CarouselProps {
+  className?: string;
   isCarouselMode?: boolean;
 }
 
-export default function Carousel({ isCarouselMode }: CarouselProps) {
+export default function Carousel({ className, isCarouselMode }: CarouselProps) {
   const account = useSelector((state: RootState) => state.account);
   const isDarkMode = account.system_preference_color_mode === "dark";
   const [showGame, setShowGame] = useState("");
-  const [swiperRef, setSwiperRef] = useState<SwiperType | null>(null);
+  const carouselRef = useRef<HTMLDivElement>(null);
 
-  // 當 Swiper 初始化時儲存實例
-  const handleSwiperInit = (swiper: SwiperType) => {
-    setSwiperRef(swiper);
-  };
+  const [slideIndex, setSlideIndex] = useState<number>(0);
 
-  // 根據 carousel 模式動態調整 Swiper 配置
-  useEffect(() => {
-    if (swiperRef) {
-      if (isCarouselMode) {
-        // 啟用滾輪控制
-        swiperRef.mousewheel.enable();
-        swiperRef.keyboard.enable();
-        swiperRef.allowSlideNext = true;
-        swiperRef.allowSlidePrev = true;
-        swiperRef.allowTouchMove = true;
+  useGSAP(
+    () => {
+      if (!isCarouselMode || !carouselRef.current) return;
 
-        // 阻止滾輪事件冒泡到父元素
-        const swiperEl = swiperRef.el;
-        if (swiperEl) {
-          swiperEl.style.pointerEvents = "auto";
-        }
-      } else {
-        // 禁用滾輪控制
-        swiperRef.mousewheel.disable();
-        const swiperEl = swiperRef.el;
-        if (swiperEl) {
-          swiperEl.style.pointerEvents = "none";
-        }
-      }
-    }
-  }, [isCarouselMode, swiperRef]);
+      gsap.to(".title-icon", {
+        opacity: 1,
+        duration: 1,
+        ease: "power1.inOut",
+      });
+
+      gsap.to(".slide", {
+        scrollTrigger: {
+          trigger: carouselRef.current,
+          start: "top top",
+          end: "+=900",
+          scrub: 1,
+          onUpdate: (self) => {
+            setSlideIndex(Math.max(0, Math.floor(self.progress * 5)-1));
+          },
+        },
+      });
+    },
+    { dependencies: [isCarouselMode] }
+  );
 
   return (
-    <div className="w-3/5 aspect-video text-white overflow-hidden absolute top-1/6 text-[4px]">
-      <Swiper
-        onSwiper={handleSwiperInit}
-        spaceBetween={0}
-        direction={"vertical"}
-        mousewheel={true} // 簡化設定
-        effect="fade"
-        navigation={false} // 先關閉導航按鈕
-        keyboard={true}
-        pagination={{ clickable: true }}
-        modules={[EffectFade, Navigation, Pagination, Mousewheel, Keyboard]}
-        className="w-full h-full"
-        onSlideChange={(swiper) => {
-          console.log("Slide changed to:", swiper.activeIndex);
-        }}
-      >
-        <SwiperSlide className="flex items-center justify-center bg-schema-surface-container w-full h-full relative">
+    <div
+      ref={carouselRef}
+      className={`aspect-video text-white overflow-hidden text-[4px] ${className}`}
+    >
+      <div className="w-full h-full">
+        {/* 第一個頁面 - Logo 頁面 */}
+        <div
+          className={`flex items-center justify-center bg-schema-surface-container w-full h-full relative slide ${
+            slideIndex === 0 ? "block" : "hidden"
+          }`}
+        >
           <div className="absolute top-1/2 left-1/2 -translate-1/2 z-10">
             <img
-              src={
-                isDarkMode
-                  ? LogoImgTxtDark
-                  : LogoImgTxtLight
-              }
+              src={isDarkMode ? LogoImgTxtDark : LogoImgTxtLight}
               alt="Logo"
-              className="w-2/3 relative z-20 pointer-events-none"
+              className="w-2/3 relative z-20 pointer-events-none title-icon opacity-0"
             />
           </div>
           <div className="w-full h-auto aspect-video absolute z-0">
@@ -108,13 +87,39 @@ export default function Carousel({ isCarouselMode }: CarouselProps) {
               brightness={0.5}
             />
           </div>
-        </SwiperSlide>
+        </div>
 
-        <SwiperSlide className="flex items-center justify-center w-full h-full relative bg-schema-surface-container">
+        {/* 第二個頁面 - 介紹文字 */}
+        <div
+          className={`flex items-center justify-center w-full h-full relative bg-schema-surface-container slide ${
+            slideIndex === 1 ? "block" : "hidden"
+          }`}
+        >
           <div className="absolute top-1/2 left-1/2 -translate-1/2 z-10">
             <p>想減重總是行動不起來？</p>
+          </div>
+        </div>
+
+        {/* 第三個頁面 - 空白頁面 */}
+        <div
+          className={`flex items-center justify-center bg-schema-surface-container w-full h-full relative slide ${
+            slideIndex === 2 ? "block" : "hidden"
+          }`}
+        >
+          <div className="absolute top-1/2 left-1/2 -translate-1/2 z-10">
             <p>不是你不夠自律</p>
             <p>是你沒有把減重當成遊戲！</p>
+          </div>
+        </div>
+
+        {/* 第四個頁面 - 空白頁面 */}
+        <div
+          className={`flex flex-col items-center justify-center bg-schema-surface-container w-full h-full relative border slide ${
+            slideIndex === 3 ? "block" : "hidden"
+          }`}
+        >
+          <div className="absolute top-1/2 left-1/2 -translate-1/2 z-10 flex flex-col items-center py-auto">
+            {" "}
             <p>跟朋友來場遊戲</p>
             <p>一起輕鬆瘦身嗎？</p>
             <button
@@ -124,24 +129,26 @@ export default function Carousel({ isCarouselMode }: CarouselProps) {
               開始遊戲
             </button>
           </div>
-        </SwiperSlide>
+        </div>
 
-        <SwiperSlide className="flex items-center justify-center bg-schema-surface-container w-full h-full relative">
-          <div className="absolute top-1/2 left-1/2 -translate-1/2 z-10"></div>
-        </SwiperSlide>
-
-        <SwiperSlide className="flex flex-col items-center justify-center bg-schema-surface-container w-full h-full relative border">
-          <div className="absolute top-1/2 left-1/2 -translate-1/2 z-10 flex flex-col items-center py-auto"></div>
-        </SwiperSlide>
-
-        <SwiperSlide className="flex flex-col items-center justify-center bg-schema-surface-container w-full h-full relative">
+        {/* 第五個頁面 - 遊戲組件 */}
+        <div
+          className={`flex flex-col items-center justify-center bg-schema-surface-container w-full h-full relative slide ${
+            slideIndex === 4 ? "block" : "hidden"
+          }`}
+        >
           <GameComponent />
-        </SwiperSlide>
+        </div>
 
-        <SwiperSlide className="flex flex-col items-center justify-center bg-schema-surface-container w-full h-full relative">
+        {/* 第六個頁面 - 老虎機 */}
+        {/* <div
+          className={`flex flex-col items-center justify-center bg-schema-surface-container w-full h-full relative slide ${
+            slideIndex === 5 ? "block" : "hidden"
+          }`}
+        >
           <SlotMachine />
-        </SwiperSlide>
-      </Swiper>
+        </div> */}
+      </div>
 
       {showGame && <GameComponent />}
     </div>

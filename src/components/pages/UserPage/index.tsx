@@ -30,11 +30,17 @@ export default function UserPage() {
   const { data: userInfo } = useGetUserInfoSupa(id || "");
 
   return (
-    <div className="w-full min-h-screen p-6 flex flex-col gap-4 items-center ">
+    <div className="w-full min-h-screen py-6 flex flex-col gap-4 items-center ">
       <UserTitle userInfo={userInfo?.[0] || undefined} isSelf={id === userID} />
-      <UserNavigation />
-      <Outlet />
-      <LogOut variant="dark" onClick={handleLogout} className="bg-slate-800" />
+      <div className="px-6 flex flex-col gap-4 items-center w-screen">
+        <UserNavigation />
+        <Outlet />
+        <LogOut
+          variant="dark"
+          onClick={handleLogout}
+          className="bg-slate-800 mt-20"
+        />
+      </div>
     </div>
   );
 }

@@ -49,20 +49,30 @@ const avatarImages = [
   { src: "/image/avatar/bear.webp", price: 0 },
 ];
 
-export default function AvatarCarousel({ onSelect, selectedAvatar }: AvatarCarouselProps) {
+export default function AvatarCarousel({
+  onSelect,
+  selectedAvatar,
+}: AvatarCarouselProps) {
   return (
     <div className=" overflow-visible">
-    <Carousel className="overflow-visible">
+      <Carousel className="overflow-visible">
         <CarouselContent className="overflow-visible p-12">
           {avatarImages.map((avatar, idx) => (
             <CarouselItem
               key={idx}
               className={`basis-1/6 p-2 transition-transform overflow-visible rounded-2xl relative
-                ${avatar.price !== 0 ? "opacity-60 pointer-events-none" : "hover:scale-120 hover:cursor-pointer hover:shadow-lg hover:bg-gray-800"}
-                ${selectedAvatar?.src === avatar.src ? "ring ring-[var(--color-gradient-set-1-1)] scale-120" : ""}
+                ${
+                  avatar.price !== 0
+                    ? "opacity-60 pointer-events-none"
+                    : "hover:scale-120 hover:cursor-pointer hover:shadow-lg hover:bg-gray-800"
+                }
+                ${
+                  selectedAvatar?.src === avatar.src
+                    ? "ring ring-schema-primary scale-120"
+                    : ""
+                }
               `}
             >
-
               <img
                 src={avatar.src}
                 alt={`avatar-${idx}`}
@@ -84,8 +94,6 @@ export default function AvatarCarousel({ onSelect, selectedAvatar }: AvatarCarou
         <CarouselPrevious />
         <CarouselNext />
       </Carousel>
-
-    
     </div>
   );
 }

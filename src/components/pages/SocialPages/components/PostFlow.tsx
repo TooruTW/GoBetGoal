@@ -7,6 +7,7 @@ import { Post } from "@/types/Post";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { Skeleton } from "@/components/ui/skeleton";
+import { monsterCry } from "@/assets/monster";
 
 type PostFlowProps = {
   sortBy?: "likeCount" | "sport" | "sleep" | "diet" | "all";
@@ -83,8 +84,8 @@ export default function PostFlow({ sortBy = "all" }: PostFlowProps) {
   );
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex gap-2 w-full h-16 max-w-140 sticky top-20 z-10 bg-schema-surface-container">
+    <div className="flex flex-col gap-4 rounded-lg ">
+      <div className="flex gap-2 w-full py-1 max-w-140 sticky top-20 z-10 bg-schema-surface-container  rounded-t-lg ">
         <div
           className="w-1/2 flex justify-center items-center py-2 hover:cursor-pointer"
           onClick={() => setIsRecommend(true)}
@@ -104,13 +105,14 @@ export default function PostFlow({ sortBy = "all" }: PostFlowProps) {
         ></div>
       </div>
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 ">
         {postList ? (
           postList.length > 0 ? (
             postList.map((post) => <PostCard {...post} key={post.id} />)
           ) : (
-            <div className="flex justify-center items-center h-screen">
-              <h1 className="text-h1">沒有任何貼文</h1>
+            <div className="flex flex-col justify-center items-center h-screen">
+              <h3 className="text-h3">沒有任何貼文</h3>
+              <img src={monsterCry} alt="" className="w-50" />
             </div>
           )
         ) : (

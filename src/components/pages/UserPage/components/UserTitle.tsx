@@ -31,7 +31,6 @@ export default function UserTitle({ userInfo, isSelf }: acceptProps) {
       const isInclude = friend.user_id === id;
       return isInclude;
     });
-    console.log(isAdded);
 
     setIsAddFriendAble(!isAdded);
   }, [friendList, id]);
@@ -76,7 +75,7 @@ export default function UserTitle({ userInfo, isSelf }: acceptProps) {
           <></>
         )}
       </div>
-      <div className="opacity-50 fixed z-0 top-15 left-0 w-screen h-full pointer-events-none">
+      <div className="opacity-50 absolute z-0 top-0 left-0 w-screen h-full pointer-events-none">
         <Aurora
           colorStops={["#EBA7E4", "#FF94B4", "#EAC3EB"]}
           blend={1}

@@ -14,13 +14,11 @@ export default function AwardList() {
 
       {/* 註冊 */}
       <TabsContent value="successAward">
-        {" "}
         <Award />
       </TabsContent>
 
       {/* 登入 */}
       <TabsContent value="trialAward">
-        {" "}
         <Award />
       </TabsContent>
     </Tabs>

@@ -4,7 +4,7 @@ import {
   monsterSleep,
   monsterCongrats,
 } from "@/assets/monster";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
@@ -25,6 +25,18 @@ interface DecorConfig {
 }
 
 const videoList: VideoItem[] = [
+  {
+    id: "all",
+    title: "全部",
+    src: monsterCongrats,
+    video: "/animation/monster/monsterCongrats.webm",
+    decor: [
+      "/image/template/Ticket.png",
+      "/image/template/Template50.webp",
+      "/image/template/TemplateHeart.webp",
+    ],
+    color: "quaternary",
+  },
   {
     id: "sport",
     title: "運動",
@@ -61,18 +73,6 @@ const videoList: VideoItem[] = [
     ],
     color: "tertiary",
   },
-  {
-    id: "all",
-    title: "全部",
-    src: monsterCongrats,
-    video: "/animation/monster/monsterCongrats.webm",
-    decor: [
-      "/image/template/Ticket.png",
-      "/image/template/Template50.webp",
-      "/image/template/TemplateHeart.webp",
-    ],
-    color: "quaternary",
-  },
 ];
 
 const decorPositions: DecorConfig[] = [
@@ -94,6 +94,27 @@ export default function Category() {
   const { category } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
+
+  useEffect(()=>{
+    switch(category){
+      case "sport":
+        setCurrentIndex(1);
+        setCurrentVideo(videoList[1].video);
+        break;
+      case "eat":
+        setCurrentIndex(2);
+        setCurrentVideo(videoList[2].video);
+        break;
+      case "sleep":
+        setCurrentIndex(3);
+        setCurrentVideo(videoList[3].video);
+        break;
+      default:
+        setCurrentIndex(0); 
+        setCurrentVideo(videoList[0].video);
+        break;
+    }
+  },[category])
 
   const handleVideoChange = (video: string, index: number, id: string) => {
     setCurrentVideo(video);

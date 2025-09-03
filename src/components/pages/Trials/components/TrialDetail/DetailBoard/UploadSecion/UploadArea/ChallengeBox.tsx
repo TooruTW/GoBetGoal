@@ -196,9 +196,9 @@ export default function ChallengeBox({
         const passedImgUrl = result.imgUrl;
         console.log(isPassTest, passedImgUrl, "result");
 
-        if(isPassTest){
+        if (isPassTest) {
           handlePass(currentChallenge.id, passedImgUrl);
-        }else{
+        } else {
           handleFail();
         }
         setCheckingState(isPassTest ? "pass" : "fail");
@@ -229,14 +229,16 @@ export default function ChallengeBox({
   // confirm upload - compress and upload to supabase storage
   // set selected file
   const handleSetSelectedFile = (file: File, index: number) => {
-    if(selectedFile.length < challenge_stage.description.length){
+    if (selectedFile.length < challenge_stage.description.length) {
       const fakeFile = new File([], "fake.jpg", { type: "image/jpeg" });
-      const fakeList = new Array(challenge_stage.description.length).fill(fakeFile);
+      const fakeList = new Array(challenge_stage.description.length).fill(
+        fakeFile
+      );
       setSelectedFile(fakeList);
       console.log(fakeList, "create fakeFilelist");
     }
     console.log(index, "index");
-    
+
     setSelectedFile((prev) => {
       const newSelectedFile = [...prev];
       newSelectedFile[index] = file;
@@ -274,12 +276,38 @@ export default function ChallengeBox({
   };
 
   return (
-    <div className="rounded-md  md:h-full w-full flex flex-col justify-between gap-6 ">
-      <div className="flex justify-between items-center w-full h-fit">
-        <div>
-          <p>{start_at}</p>
-          <div> 關卡 {stage_index}</div>
+    <div className="  md:h-full w-full flex flex-col justify-between gap-6  ">
+      <div className="flex justify-between items-center w-full h-fit font-bold">
+        <div className="flex justify-between w-full">
+          <div className="flex gap-2 justify-between items-center">
+            <div className="px-2 py-1 bg-schema-surface-container-high  rounded-lg text-sm">
+              {" "}
+              關卡 {stage_index}
+            </div>
+            <p>{start_at}</p>
+          </div>
+
+          {status !== "pending" && (
+            <div className="  text-schema-on-surface   flex justify-end items-center ">
+              {status === "pass" && (
+                <span className=" bg-schema-secondary/50 rounded-lg text-sm px-2 py-1">
+                  通過
+                </span>
+              )}
+              {status === "cheat" && (
+                <span className=" bg-schema-tertiary/50 rounded-lg text-sm px-2 py-1">
+                  資本主義
+                </span>
+              )}
+              {status === "fail" && (
+                <span className=" bg-schema-primary/50 rounded-lg text-sm px-2 py-1">
+                  失敗
+                </span>
+              )}
+            </div>
+          )}
         </div>
+
         {isPending && (
           <div className="text-schema-primary">正在上傳圖片...</div>
         )}
@@ -325,10 +353,10 @@ export default function ChallengeBox({
       </div>
       {/* if user is the player, show upload button and check result */}
       {isUser && (
-        <div className="w-full">
+        <div className="w-full flex flex-col items-center">
           {chance_remain > 0 && status === "pending" && (
             <Button
-              className="py-2 w-full h-fit"
+              className="py-2 w-full max-w-90 h-fit"
               onClick={handleConfirmUpload}
               disabled={
                 isPending ||
@@ -367,16 +395,6 @@ export default function ChallengeBox({
                 使用快樂遮羞布
               </Button>
               <Button className="w-1/2">接受失敗</Button>
-            </div>
-          )}
-          {status !== "pending" && (
-            <div
-              className="w-full h-fit bg-schema-primary text-schema-on-primary rounded-md p-2 flex justify-center items-center text-p-small"
-              
-            >
-              {status === "pass" && <span className="text-p">通過</span>}
-              {status === "cheat" && <span className="text-p">資本主義</span>}
-              {status === "fail" && <span className="text-p">失敗</span>}
             </div>
           )}
         </div>

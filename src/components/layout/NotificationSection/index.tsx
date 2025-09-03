@@ -8,7 +8,8 @@ import { RootState } from "@/store";
 import { useGetNotificationSupa, usePatchReadNotificationSupa } from "@/api";
 import MessageBox from "./MessageBox";
 import { useClickOutside } from "@/hooks/useClickOutside";
-
+import { supabase } from "@/supabaseClient";
+import { useQueryClient } from "@tanstack/react-query";
 type NotificationSectionProps = {
   isShow: boolean;
   closeNotification: () => void;
@@ -56,6 +57,25 @@ export default function NotificationSection({
   const handleBeRead = (id: string) => {
     setBeRead((prev) => [...prev, id]);
   };
+const queryClient = useQueryClient();
+  // realtime supa
+  useEffect(() => {
+    const notificationRealtime = supabase
+      .channel("custom-insert-channel")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "notification" },
+        (payload) => {
+          console.log("Change received!", payload);
+          queryClient.invalidateQueries({ queryKey: ["notification"] });
+        }
+      )
+      .subscribe();
+
+      return ()=>{
+        supabase.removeChannel(notificationRealtime);
+      }
+  }, [ queryClient ]);
 
   // 分類通知
   useEffect(() => {

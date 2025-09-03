@@ -5,7 +5,7 @@ type EmailInputProps = {
   error?: FieldError;
   label?: string;
   autoComplete?: string;
-}
+};
 
 export default function EmailInput({
   register,
@@ -19,7 +19,7 @@ export default function EmailInput({
         {label}
       </label>
       <input
-        className="border-b border-[var(--ring)] py-2 text-sm focus:outline-none w-full bg-transparent"
+        className="border-b border-[var(--ring)] py-2 text-sm focus:outline-none text-schema-on-background w-full bg-transparent"
         {...register}
         aria-invalid={error ? true : "false"}
         autoComplete={autoComplete}
