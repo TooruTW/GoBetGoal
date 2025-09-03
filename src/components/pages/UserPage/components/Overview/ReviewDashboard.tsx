@@ -19,18 +19,10 @@ export default function ReviewDashboard() {
   >([]);
 
   useEffect(() => {
-    console.log(
-      "ReviewDashboard useEffect - isLoading:",
-      isLoading,
-      "data:",
-      data,
-      "id:",
-      id
-    );
+
     if (isLoading || !data || !id) return;
 
     const filteredData = data.filter((item) => item.participant_id === id);
-    console.log("filteredData:", filteredData);
 
     const historyMap = new Map<
       string,
@@ -71,16 +63,10 @@ export default function ReviewDashboard() {
       睡眠: item["睡眠"],
       運動: item["運動"],
     }));
-    console.log("final result:", result);
     setFormattedData(result);
   }, [data, isLoading, id]);
 
-  console.log(
-    "Rendering ReviewDashboard - formattedData:",
-    formattedData,
-    "length:",
-    formattedData.length
-  );
+
 
   return (
     <ResponsiveContainer width="100%" height="80%">

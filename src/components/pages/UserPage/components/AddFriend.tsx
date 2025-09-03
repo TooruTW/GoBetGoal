@@ -22,10 +22,6 @@ export default function AddFriend() {
   const userID = useSelector((state: RootState) => state.account.user_id);
   const myFriend = useSelector((state: RootState) => state.friends.friends);
 
-  useEffect(() => {
-    if (myFriend?.length === 0) return;
-    console.log(myFriend, "myFriend");
-  }, [myFriend]);
 
   useGSAP(
     () => {
