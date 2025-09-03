@@ -4,6 +4,10 @@
 @import 'swiper/css';
 @import 'swiper/css/effect-cards';
 
+button:hover{
+cursor: pointer;
+}
+
 @theme {
   --font-title: "Bungee", sans-serif;
 
