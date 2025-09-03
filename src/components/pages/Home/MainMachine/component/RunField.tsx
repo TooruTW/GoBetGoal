@@ -64,20 +64,7 @@ export default function RunField() {
               <img src={bagel4} alt="" className="w-full animate-bounce" />
             </div>
 
-            <div className="flex justify-evenly items-center  ">
-              <video
-                autoPlay
-                loop
-                muted
-                playsInline
-                className=" w-30 md:w-50 scale-x-[-1] "
-              >
-                <source
-                  src="/animation/mainCharacter/character45.webm"
-                  type="video/webm"
-                />
-              </video>
-            </div>
+   
           </div>
           <video
             autoPlay
