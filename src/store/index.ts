@@ -3,12 +3,14 @@ import screenReducer from "@/store/slices/screenSlice";
 import accountReducer from "@/store/slices/accountSlice";
 import friendsReducer from "@/store/slices/friendsSlice";
 import challengeTemplateReducer from "@/store/slices/challengeTemplate";
+import popoutReducer from "@/store/slices/popoutSlice";
 export const store = configureStore({
   reducer: {
     screen: screenReducer,
     account: accountReducer,
     friends: friendsReducer,
     challengeTemplate: challengeTemplateReducer,
+    popouts: popoutReducer,
   },
 });
 

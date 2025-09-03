@@ -4,11 +4,12 @@ import Candy from "./Candy";
 import { IoFlagOutline } from "react-icons/io5";
 import User from "./User";
 import ModeToggle from "./ModeToggle";
-
+import { setShowBuyCheat } from "@/store/slices/popoutSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { setDarkMode } from "@/store/slices/accountSlice";
+
 import BuyCheat from "@/components/pages/Shop/components/BuyCheat";
 import { useState } from "react";
 import { usePostLogOutSupa } from "@/api";
@@ -36,8 +37,13 @@ export default function Navigator({ setIsShowNotification }: NavigatorProps) {
     });
   };
   const isNight = account.system_preference_color_mode === "dark";
-  const [showBuyCheat, setShowBuyCheat] = useState(false);
+  const showBuyCheat = useSelector(
+    (state: RootState) => state.popouts.showBuyCheat
+  );
   const [showHamMenu, setShowHamMenu] = useState(false);
+  const handleSetShowBuyCheat = () => {
+    dispatch(setShowBuyCheat());
+  };
   const handleSwitchMode = () => {
     dispatch(setDarkMode(isNight ? "light" : "dark"));
   };
@@ -64,7 +70,7 @@ export default function Navigator({ setIsShowNotification }: NavigatorProps) {
         {account.user_id ? (
           <>
             <li
-              onClick={() => setShowBuyCheat(true)}
+              onClick={handleSetShowBuyCheat}
               className="cursor-pointer transition-all hover:scale-105 active:scale-95 group relative"
             >
               <CheatBlanket amount={account.cheat_blanket} />
@@ -259,7 +265,7 @@ export default function Navigator({ setIsShowNotification }: NavigatorProps) {
           </>
         )}
       </ul>
-      {showBuyCheat && <BuyCheat onClose={() => setShowBuyCheat(false)} />}
+      {showBuyCheat && <BuyCheat onClose={handleSetShowBuyCheat} />}
     </nav>
   );
 }
