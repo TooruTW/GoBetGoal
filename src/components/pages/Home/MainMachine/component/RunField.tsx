@@ -1,4 +1,4 @@
-import AchievementLoop from "./AchievementLoop.tsx";
+import AchievementLoop2 from "./AchievementLoop2.tsx";
 import TemplateLoop from "./TemplateLoop.tsx";
 import Candy from "@/components/layout/Header/Navigator/Candy.tsx";
 import { bagel1, bagel2, bagel3, bagel4 } from "@/assets/bagel";
@@ -65,7 +65,6 @@ export default function RunField() {
             </div>
 
             <div className="flex justify-evenly items-center  ">
-              {" "}
               <video
                 autoPlay
                 loop
@@ -80,7 +79,6 @@ export default function RunField() {
               </video>
             </div>
           </div>
-
           <video
             autoPlay
             loop
@@ -94,8 +92,7 @@ export default function RunField() {
             />
           </video>
         </div>
-
-        <AchievementLoop />
+        <AchievementLoop2 />
       </div>
     </div>
   );

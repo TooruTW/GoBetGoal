@@ -1,5 +1,5 @@
 import DevSideBar from "./components/DevSideBar";
-import SlotMachine from "../Home/MainMachine/component/SlotMachine";
+import { Outlet } from "react-router-dom";
 
 export default function DevPage() {
   return (
@@ -7,7 +7,7 @@ export default function DevPage() {
       <div className="flex">
         <DevSideBar />
         <section className="w-full flex flex-col gap-10 justify-center items-center h-screen">
-          <SlotMachine />
+          <Outlet/>
         </section>
       </div>
     </div>

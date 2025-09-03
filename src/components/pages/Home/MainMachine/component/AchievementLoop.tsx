@@ -13,11 +13,9 @@ export default function AchievementLoop() {
   useGSAP(
     () => {
       if (!data || data.length === 0 || !trackRef.current) return;
-
       const track = trackRef.current;
       // 取得軌道寬度
       const distance = track.scrollWidth / 2; // 除以2因為我們複製了一份
-
       gsap.to(track, {
         x: distance,
         duration: 15,
@@ -36,10 +34,8 @@ export default function AchievementLoop() {
     },
     { scope: AchievementRef, dependencies: [data] }
   );
-
   if (!data || data.length === 0)
     return <div className="text-center">沒有資料</div>;
-
   // 複製一份資料來創造無縫效果
   const duplicatedData = [...data, ...data];
 

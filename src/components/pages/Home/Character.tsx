@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 const videoList = [
   {
@@ -132,8 +132,36 @@ export default function VideoGallery() {
   const [currentP, setCurrentP] = useState(videoList[0].p);
   const [currentName, setCurrentName] = useState(videoList[0].name);
   const [isLoaded, setIsLoaded] = useState(false);
-  // 自動輪播
+  const [isVisible, setIsVisible] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  // Intersection Observer 監聽可見性
   useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      {
+        threshold: 0.1, // 10% 可見時觸發
+        rootMargin: "0px 0px -100px 0px", // 提前 100px 觸發
+      }
+    );
+
+    const currentRef = containerRef.current;
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, []);
+
+  // 自動輪播 - 只在可見時運作
+  useEffect(() => {
+    if (!isVisible) return; // 不可見時不運作
+
     const interval = setInterval(() => {
       setCurrentIndex((prev) => {
         const nextIndex = (prev + 1) % videoList.length;
@@ -144,7 +172,7 @@ export default function VideoGallery() {
       });
     }, 4000); // 每 4 秒換一個
     return () => clearInterval(interval);
-  }, [currentIndex]);
+  }, [isVisible]);
 
   useEffect(() => {
     const mediaElements = document.querySelectorAll("img, video");
@@ -186,7 +214,10 @@ export default function VideoGallery() {
   }
 
   return (
-    <div className="md:flex items-center py-20 justify-between w-full min-h-screen px-6 overflow-hidden">
+    <div
+      ref={containerRef}
+      className="md:flex items-center py-20 justify-between w-full min-h-screen px-6 overflow-hidden"
+    >
       {/* 影片播放區 */}
       <h2 className="text-h2 ">多樣角色陪你冒險</h2>
 
