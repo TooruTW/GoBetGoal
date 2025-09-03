@@ -32,8 +32,10 @@ const getAllParticipateTrial = async () => {
 };
 
 export function useGetAllParticipateTrial() {
-  return useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["getAllParticipateTrial"],
     queryFn: getAllParticipateTrial,
   });
+
+  return { data, isLoading, error };
 }
