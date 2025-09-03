@@ -16,6 +16,7 @@ export default function TemplateCard({
   imageUrl,
   color,
 }: acceptProps) {
+
   return (
     <Link to={`/create-trial/${challengeId}`}>
       <div

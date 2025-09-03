@@ -40,13 +40,13 @@ export default function ConfirmModal({
 
     console.log("Account candy count:", account.candy_count);
 
-    // 檢查糖果數量
+    // 檢查貝果數量
     if (account.candy_count >= selectedToBuy.price) {
-      // 糖果足夠，顯示動畫並執行購買
+      // 貝果足夠，顯示動畫並執行購買
       setShowCandy(true);
       onConfirm(); // 讓父層處理購買邏輯
     } else {
-      // 糖果不足，導航到商店
+      // 貝果不足，導航到商店
       navigate("/shop", {
         state: { from: location.pathname },
       });

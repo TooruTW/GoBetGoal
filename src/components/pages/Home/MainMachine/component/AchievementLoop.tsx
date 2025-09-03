@@ -26,6 +26,12 @@ export default function AchievementLoop() {
         modifiers: {
           x: (x) => `${parseFloat(x) % distance}px`,
         },
+        scrollTrigger: {
+          trigger: AchievementRef.current,
+          start: "bottom bottom",
+          end: "bottom top",
+          toggleActions: "play pause resume pause",
+        },
       });
     },
     { scope: AchievementRef, dependencies: [data] }

@@ -51,7 +51,7 @@ const CandyFly = ({ trigger, onAnimationComplete }: CandyDropProps) => {
     return () => ctx.revert(); // 清理動畫
   }, [trigger, onAnimationComplete]); // 依賴 trigger 和 onAnimationComplete
 
-  // 生成糖果項目
+  // 生成貝果項目
   const items = Array.from({ length: rows * cols }, (_, i) => IMAGES[i % cols]);
 
   return (

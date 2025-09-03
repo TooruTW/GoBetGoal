@@ -159,7 +159,7 @@ cursor: pointer;
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
   --primary: oklch(0.205 0 0);
-  --primary-foreground: #79ADDC;
+  --primary-foreground: #fefdfd;
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
@@ -186,7 +186,7 @@ cursor: pointer;
 
   --primary: #eb4375;
   --surfaceTint: #8e4958;
-  --onPrimary: #ffffff;
+  --onPrimary: #f9f8f8;
   --primaryContainer: #ffd9de;
   --onPrimaryContainer: #713341;
 

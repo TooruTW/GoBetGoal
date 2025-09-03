@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-
+import { Skeleton } from "@/components/ui/skeleton";
 const videoList = [
   {
     src: "/image/avatar/girlPurpleCurly.webp",
@@ -131,7 +131,7 @@ export default function VideoGallery() {
   const [currentVideo, setCurrentVideo] = useState(videoList[0].video);
   const [currentP, setCurrentP] = useState(videoList[0].p);
   const [currentName, setCurrentName] = useState(videoList[0].name);
-
+  const [isLoaded, setIsLoaded] = useState(false);
   // 自動輪播
   useEffect(() => {
     const interval = setInterval(() => {
@@ -143,23 +143,61 @@ export default function VideoGallery() {
         return nextIndex;
       });
     }, 4000); // 每 4 秒換一個
-
     return () => clearInterval(interval);
+  }, [currentIndex]);
+
+  useEffect(() => {
+    const mediaElements = document.querySelectorAll("img, video");
+    let loadedCount = 0;
+    const totalCount = mediaElements.length;
+    const checkAllLoaded = () => {
+      if (loadedCount === totalCount) {
+        setIsLoaded(true);
+      }
+    };
+    mediaElements.forEach((element) => {
+      if (element.tagName === "IMG") {
+        const img = element as HTMLImageElement;
+        if (img.complete) {
+          loadedCount++;
+        } else {
+          img.addEventListener("load", () => {
+            loadedCount++;
+            checkAllLoaded();
+          });
+        }
+      } else if (element.tagName === "VIDEO") {
+        const video = element as HTMLVideoElement;
+        if (video.readyState >= 3) {
+          loadedCount++;
+        } else {
+          video.addEventListener("canplaythrough", () => {
+            loadedCount++;
+            checkAllLoaded();
+          });
+        }
+      }
+    });
+    checkAllLoaded();
   }, []);
 
-  return (
-    <div className="md:flex items-center gap-4 py-20 justify-center ps-12 w-full">
-      {/* 影片播放區 */}
-      <h2 className="text-h2 mb-16">多樣角色陪你冒險</h2>
+  if (!isLoaded) {
+    return <Skeleton className="w-full h-full" />;
+  }
 
-      <div className="relative">
+  return (
+    <div className="md:flex items-center py-20 justify-between w-full min-h-screen px-6 overflow-hidden">
+      {/* 影片播放區 */}
+      <h2 className="text-h2 ">多樣角色陪你冒險</h2>
+
+      <div className="relative flex justify-center w-1/3 h-full">
         <h3 className="absolute -left-4 -top-14 text-h3 font-bold pb-8">
           {currentName}
         </h3>
         <p className="bg-schema-primary text-schema-on-primary absolute -left-2 -top-4 px-4 py-2 transform -skew-x-12 inline-block z-10">
           {currentP}
         </p>
-        <div className="transform -skew-x-12 ms-12 inline-block border-3 border-schema-primary w-1/2 md:w-2/3 overflow-hidden">
+        <div className="transform -skew-x-12 border-3 border-schema-primary overflow-hidden w-full aspect-[1/1.25]">
           <video
             key={currentVideo} // 每次變更重新載入
             autoPlay
@@ -174,7 +212,7 @@ export default function VideoGallery() {
       </div>
 
       {/* 縮圖清單 */}
-      <div className="flex md:flex-wrap h-full w-100 justify-between items-stretch transform md:-skew-x-12 overflow-x-scroll">
+      <div className="w-full max-w-1/4 grid grid-cols-4 gap-2 transform md:-skew-x-12 mr-12">
         {videoList.map((item, index) => (
           <img
             key={index}
@@ -186,7 +224,8 @@ export default function VideoGallery() {
               setCurrentP(item.p);
               setCurrentName(item.name);
             }}
-            className={`w-2/9 md:w-1/6 h-1/4 object-cover rounded-md cursor-pointer transition-all ${
+            loading="lazy"
+            className={`w-full object-cover rounded-md cursor-pointer transition-all skew-x-12 ${
               currentIndex === index
                 ? "border-2 border-schema-primary "
                 : "hover:border hover:border-schema-primary active:scale-90"
