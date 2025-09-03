@@ -18,7 +18,6 @@ export default function HistroyCard({ trialId }: { trialId: string }) {
   useEffect(() => {
     if (isLoading || error || !data) return;
     const imageList: string[] = [];
-    console.log(id);
     const filteredData = data.filter((item) => item.participant_id === id);
     
     filteredData.forEach((item) => {

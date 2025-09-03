@@ -19,8 +19,19 @@ export default function ReviewDashboard() {
   >([]);
 
   useEffect(() => {
+    console.log(
+      "ReviewDashboard useEffect - isLoading:",
+      isLoading,
+      "data:",
+      data,
+      "id:",
+      id
+    );
     if (isLoading || !data || !id) return;
+
     const filteredData = data.filter((item) => item.participant_id === id);
+    console.log("filteredData:", filteredData);
+
     const historyMap = new Map<
       string,
       { name: string; 飲食: number; 睡眠: number; 運動: number }
@@ -54,53 +65,65 @@ export default function ReviewDashboard() {
       });
     });
 
-    const formattedData = Array.from(historyMap.values()).map((item) => ({
+    const result = Array.from(historyMap.values()).map((item) => ({
       name: item.name,
       飲食: item["飲食"],
       睡眠: item["睡眠"],
       運動: item["運動"],
     }));
-    setFormattedData(formattedData);
+    console.log("final result:", result);
+    setFormattedData(result);
   }, [data, isLoading, id]);
+
+  console.log(
+    "Rendering ReviewDashboard - formattedData:",
+    formattedData,
+    "length:",
+    formattedData.length
+  );
 
   return (
     <ResponsiveContainer width="100%" height="80%">
-      <BarChart
-        width={500}
-        height={300}
-        data={formattedData}
-        margin={{
-          top: 20,
-          right: 30,
-          left: 20,
-          bottom: 5,
-        }}
-      >
-        <XAxis dataKey="name" tickLine={false} axisLine={false} />
-        <YAxis tickLine={false} axisLine={false} />
-        <Legend />
-        <Bar
-          dataKey="飲食"
-          stackId="a"
-          fill="var(--color-schema-secondary)"
-          barSize={10}
-          radius={10}
-        />
-        <Bar
-          dataKey="睡眠"
-          stackId="a"
-          fill="var(--color-schema-tertiary)"
-          barSize={10}
-          radius={10}
-        />
-        <Bar
-          dataKey="運動"
-          stackId="a"
-          fill="var(--color-schema-primary)"
-          barSize={10}
-          radius={10}
-        />
-      </BarChart>
+      {formattedData.length > 0 ? (
+        <BarChart
+          width={500}
+          height={300}
+          data={formattedData}
+          margin={{
+            top: 20,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
+        >
+          <XAxis dataKey="name" tickLine={false} axisLine={false} />
+          <YAxis tickLine={false} axisLine={false} />
+          <Legend />
+          <Bar
+            dataKey="飲食"
+            stackId="a"
+            fill="var(--color-schema-secondary)"
+            barSize={10}
+            radius={10}
+          />
+          <Bar
+            dataKey="睡眠"
+            stackId="a"
+            fill="var(--color-schema-tertiary)"
+            barSize={10}
+            radius={10}
+          />
+          <Bar
+            dataKey="運動"
+            stackId="a"
+            fill="var(--color-schema-primary)"
+            barSize={10}
+            radius={10}
+          />
+        </BarChart>
+      ) : (
+        <div>No data</div>
+      )}
     </ResponsiveContainer>
   );
 }

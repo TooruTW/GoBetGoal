@@ -31,7 +31,6 @@ export default function UserTitle({ userInfo, isSelf }: acceptProps) {
       const isInclude = friend.user_id === id;
       return isInclude;
     });
-    console.log(isAdded);
 
     setIsAddFriendAble(!isAdded);
   }, [friendList, id]);

@@ -32,7 +32,7 @@ export default function UserPage() {
   return (
     <div className="w-full min-h-screen py-6 flex flex-col gap-4 items-center ">
       <UserTitle userInfo={userInfo?.[0] || undefined} isSelf={id === userID} />
-      <div className="px-6 flex flex-col gap-4 items-center">
+      <div className="px-6 flex flex-col gap-4 items-center w-screen">
         <UserNavigation />
         <Outlet />
         <LogOut
