@@ -33,13 +33,14 @@ function App() {
   const { data: userInfoSupa, isLoading, error } = useGetUserInfoSupa(userID);
 
   useEffect(() => {
-    if (userID !== "" && !isLoading && !error && userInfoSupa) {
-      console.log("Updating Redux account:", userInfoSupa[0]);
-      dispatch(setAccount(userInfoSupa[0]));
+    if (userID !== "" && !isLoading && !error && userInfoSupa && user) {
+      const userInfoSupaData = {...userInfoSupa[0], email: user.email};
+      console.log("Updating Redux account:", userInfoSupaData);
+      dispatch(setAccount(userInfoSupaData));
     } else {
       dispatch(setAccount(null));
     }
-  }, [userID, userInfoSupa, isLoading, error, dispatch]);
+  }, [userID, userInfoSupa, isLoading, error, dispatch, user]);
 
   const {
     data: friendData,

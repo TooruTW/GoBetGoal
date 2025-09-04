@@ -9,6 +9,7 @@ export default function Ranking() {
   const { data, isLoading, error } = useGetUserInfoAllSupa();
   const [rankingList, setRankingList] = useState<UserInfoSupa[]>([]);
   const rankingListRef = useRef<HTMLDivElement>(null);
+  const [isInitialized, setIsInitialized] = useState(false);
   useEffect(() => {
     if (data && !isLoading && !error) {
       const newList = data.sort(
@@ -16,43 +17,50 @@ export default function Ranking() {
       );
       const top10 = newList.slice(0, 10);
       setRankingList(top10);
+      setIsInitialized(true);
     }
   }, [data, isLoading, error]);
 
-  useGSAP(()=>{
-    if(!rankingListRef.current || !rankingList.length) return;
-
-    gsap.fromTo(".ranking-card", {
-      opacity: 0,
-      yPercent: 50,
-    },{
-      opacity: 1,
-      yPercent: 0,
-      duration: 1,
-      stagger:{
-        amount:0.5,
-        from:"start",
-      },
-      ease: "power2.inOut",
-    });
-    gsap.fromTo(".sub-ranking-card", {
-      opacity: 0,
-      xPercent: 100,
-    },{
-      opacity: 1,
-      xPercent: 0,
-      duration: 1,
-      stagger:{
-        amount:0.5,
-        from:"start",
-      },
-      ease: "power2.inOut",
-    });
- 
-  },{scope:rankingListRef,dependencies:[rankingList]});
+  useGSAP(
+    () => {
+      if (!rankingListRef.current || !rankingList.length || !isInitialized) return;
+      console.log("start animate");
+      
+      gsap.from(
+        ".ranking-card",
+        {
+          opacity: 0,
+          yPercent: 50,
+          duration: 1,
+          stagger: {
+            amount: 0.5,
+            from: "start",
+          },
+        },     
+      );
+      gsap.from(
+        ".sub-ranking-card",
+        {
+          delay: 0.5,
+          opacity: 0,
+          xPercent: 100,
+          duration: 1,
+          stagger: {
+            amount: 0.5,
+            from: "start",
+          },
+        },
+    
+      );
+    },
+    { scope: rankingListRef, dependencies: [rankingList, isInitialized] ,revertOnUpdate:true}
+  );
 
   return (
-    <div ref={rankingListRef} className="  py-6 md:flex  items-center w-full justify-center">
+    <div
+      ref={rankingListRef}
+      className="  py-6 md:flex  items-center w-full justify-center"
+    >
       {/* 🔹 Top 3 排名 */}
       <div className="flex sm:flex-nowrap gap-2 md:gap-4 md:w-2/3  mb-8 justify-center">
         {rankingList.slice(0, 3).map((item, index) => (

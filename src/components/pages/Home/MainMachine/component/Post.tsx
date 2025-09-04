@@ -54,7 +54,6 @@ export default function App() {
             rotate: true,
             slideShadows: true,
           }}
-          loop={true}
         >
           {slides.map((item, idx) => (
             <SwiperSlide

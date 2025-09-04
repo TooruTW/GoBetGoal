@@ -146,6 +146,7 @@ export default function Plan() {
                   src={item.src}
                   alt={item.src}
                   className="w-2/3 md:w-full "
+                  loading="lazy"
                 />
                 {showAnime[index] && (
                   <CandyDrop className="w-full absolute bottom-0 left-0 scale-50 md:scale-100" />

@@ -166,14 +166,18 @@ export default function Shop() {
     const url = "https://gobetgoal.rocket-coding.com/api/payments/create";
     const result = await fetch(url, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
-        user_id: "c572eff8-37de-4058-a860-2a24ed463ced",
-        email: "testingsupa1@gmail.com",
-        get_bagel: 10000,
-        deposit_money: 100,
+        user_id: userID,
+        email: account.email,
+        get_bagel: get_bagel,
+        deposit_money: deposit_money,
       }),
     });
-    console.log(result);
+    const data = await result.json();
+    console.log(data);
   };
 
 
