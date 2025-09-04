@@ -31,7 +31,7 @@ export default function Ranking() {
         {
           opacity: 0,
           yPercent: 50,
-          duration: 1,
+          duration: 0.75,
           stagger: {
             amount: 0.5,
             from: "start",
@@ -41,10 +41,10 @@ export default function Ranking() {
       gsap.from(
         ".sub-ranking-card",
         {
-          delay: 0.5,
+          delay: 0.25,
           opacity: 0,
           xPercent: 100,
-          duration: 1,
+          duration: 0.75,
           stagger: {
             amount: 0.5,
             from: "start",
@@ -53,7 +53,7 @@ export default function Ranking() {
     
       );
     },
-    { scope: rankingListRef, dependencies: [rankingList, isInitialized] ,revertOnUpdate:true}
+    { scope: rankingListRef, dependencies: [ isInitialized] ,revertOnUpdate:true}
   );
 
   return (
