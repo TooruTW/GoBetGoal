@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { createTrial } from "@/types/CreateTrial";
 import { ChallengeSupa } from "@/types/ChallengeSupa";
 
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -64,6 +64,7 @@ export default function Form({ challenge }: FormProps) {
   }
   const userID = useSelector((state: RootState) => state.account.user_id);
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
 
   const { mutate: patchUserBagel } = usePatchChangeUserInfo();
   const userBagel = useSelector(
@@ -101,10 +102,8 @@ export default function Form({ challenge }: FormProps) {
 
   // 檢查是否已購買過這個 challenge
   useEffect(() => {
-
     if (userPurchases && challenge && !isPurchaseLoading) {
       const purchased = userPurchases.some((purchase: PurchaseRecord) => {
-
         return (
           purchase.item_type === "challenge" &&
           purchase.item_id === challenge.id.toString()
@@ -383,17 +382,24 @@ export default function Form({ challenge }: FormProps) {
         </label>
 
         {/* 創建試煉按鈕 */}
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="text-schema-on-primary mt-6 w-full rounded-md bg-schema-primary opacity-60 hover:opacity-100 py-3 shadow-sm hover:shadow-md transition-shadow duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {isSubmitting
-            ? "處理中..."
-            : !hasPurchased && challenge && challenge.price > 0
-            ? `購買並創建試煉 (${challenge.price} 貝果)`
-            : "創建試煉"}
-        </button>
+        {userID ? (
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="text-schema-on-primary mt-6 w-full rounded-md bg-schema-primary opacity-60 hover:opacity-100 py-3 shadow-sm hover:shadow-md transition-shadow duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isSubmitting
+              ? "處理中..."
+              : !hasPurchased && challenge && challenge.price > 0
+              ? `購買並創建試煉 (${challenge.price} 貝果)`
+              : "創建試煉"}
+          </button>
+        ) : (
+          <div className="text-schema-on-primary mt-6 w-full rounded-md bg-schema-primary opacity-60 hover:opacity-100 py-3 shadow-sm hover:shadow-md transition-shadow duration-200 flex justify-center items-center cursor-pointer"
+          onClick={() => navigate("/auth")}>
+            <p>請先登錄</p>
+          </div>
+        )}
       </form>
 
       <img
