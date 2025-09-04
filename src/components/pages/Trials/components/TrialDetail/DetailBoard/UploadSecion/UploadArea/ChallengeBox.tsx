@@ -189,7 +189,6 @@ export default function ChallengeBox({
       !isImageLoading &&
       !imageError
     ) {
-      console.log(imageUrlArr, "imageUrlArr");
 
       if (!isAIChecking) {
         const diffcount =
@@ -209,9 +208,9 @@ export default function ChallengeBox({
           trialRules: challengeRules,
         })
       ).then((result) => {
-        const isPassTest = result.result;
-        const passedImgUrl = result.imgUrl;
-        console.log(isPassTest, passedImgUrl, "result");
+        const isPassTest = result.overallResult;
+        const passedImgUrl = result.imageResults.map((item) => item.imageUrl);
+        console.log(result, "result");
 
         if (isPassTest) {
           handlePass(currentChallenge.id, passedImgUrl);
