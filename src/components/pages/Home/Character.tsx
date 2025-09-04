@@ -241,7 +241,7 @@ export default function VideoGallery() {
   return (
     <div
       ref={characterRef}
-      className="flex items-center justify-between max-md:flex-col max-md:py-20 max-md:gap-10 w-full min-h-screen px-6 overflow-hidden mt-20"
+      className="flex items-center justify-between max-md:flex-col max-md:py-20 max-md:gap-10 w-full min-h-screen px-6 overflow-hidden mt-20 lg:mt-50 xl:mt-150"
     >
       {/* 影片播放區 */}
       <h2 className="text-h2 ">多樣角色陪你冒險</h2>
@@ -271,7 +271,7 @@ export default function VideoGallery() {
       </div>
 
       {/* 縮圖清單 */}
-      <div className="w-full md:max-w-1/4 md:grid md:grid-cols-4 max-md:flex max-md:flex-wrap max-md:justify-between gap-2 transform md:-skew-x-12 md:mr-12">
+      <div className="w-full md:max-w-1/4 md:grid md:grid-cols-4 max-md:flex max-md:flex-wrap max-md:justify-between gap-2 transform md:-skew-x-12 md:mr-12 ">
         {videoList.map((item, index) => {
           return (
             <div key={index} className="w-1/5 md:w-full">
