@@ -79,7 +79,7 @@ export default function Home() {
   });
 
   return (
-    <div className="w-full min-h-screen flex flex-col items-center justify-center gap-10">
+    <div className="w-full min-h-screen flex flex-col items-center justify-center gap-10 overflow-hidden">
       {/* MainMachine 區域 */}
       <div
         ref={mainMachineRef}
