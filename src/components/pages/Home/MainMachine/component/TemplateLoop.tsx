@@ -31,15 +31,16 @@ export default function TemplateLoop() {
     if (isLoading || !data) return;
 
     dispatch(setChallengeTemplate(data));
-    setTemplateList(
-      data.map((template) => ({
-        challengeName: template.title,
-        isLocked: false,
-        challengeId: template.id.toString(),
-        imageUrl: `${template.img}`,
-        color: template.color,
-      }))
-    );
+    const allTemplateList = data.map((template) => ({
+      challengeName: template.title,
+      isLocked: false,
+      challengeId: template.id.toString(),
+      imageUrl: `${template.img}`,
+      color: template.color,
+    }));
+
+    const randomTen = allTemplateList.sort(() => Math.random() - 0.5).slice(0, 10);
+    setTemplateList(randomTen);
   }, [data, isLoading, purchasedChallenges, dispatch]);
 
   // GSAP 跑馬燈效果
@@ -61,9 +62,9 @@ export default function TemplateLoop() {
         },
         scrollTrigger: {
           trigger: marqueeRef.current,
-          start: "bottom bottom",
+          start: "top bottom",
           end: "bottom top",
-          toggleActions: "play pause resume pause",
+          toggleActions: "play none none pause",
         },
       });
     },

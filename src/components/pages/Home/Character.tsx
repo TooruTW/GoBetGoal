@@ -1,5 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+
 const videoList = [
   {
     src: "/image/avatar/girlPurpleCurly.webp",
@@ -132,8 +135,60 @@ export default function VideoGallery() {
   const [currentP, setCurrentP] = useState(videoList[0].p);
   const [currentName, setCurrentName] = useState(videoList[0].name);
   const [isLoaded, setIsLoaded] = useState(false);
-  // 自動輪播
+  const [isVisible, setIsVisible] = useState(false);
+  const characterRef = useRef<HTMLDivElement>(null);
+
+  // 使用 Intersection Observer 來控制可見性（不受 ScrollTrigger 影響）
   useEffect(() => {
+    if (!characterRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+          } else {
+            setIsVisible(false);
+          }
+        });
+      },
+      {
+        threshold: 0.5, // 當 50% 的元素可見時觸發
+        rootMargin: "0px 0px -20% 0px", // 底部留 20% 邊距
+      }
+    );
+
+    observer.observe(characterRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  useGSAP(
+    () => {
+      if (!characterRef.current) return;
+
+      // 原有的淡入動畫
+      gsap.from(characterRef.current, {
+        opacity: 0,
+        duration: 1,
+        ease: "power2.inOut",
+        scrollTrigger: {
+          trigger: characterRef.current,
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 1,
+        },
+      });
+    },
+    { scope: characterRef }
+  );
+
+  // 自動輪播 - 只在可見時運作
+  useEffect(() => {
+    if (!isVisible || !isLoaded) return; // 不可見時不運作
+
     const interval = setInterval(() => {
       setCurrentIndex((prev) => {
         const nextIndex = (prev + 1) % videoList.length;
@@ -144,10 +199,12 @@ export default function VideoGallery() {
       });
     }, 4000); // 每 4 秒換一個
     return () => clearInterval(interval);
-  }, [currentIndex]);
+  }, [isVisible, isLoaded]);
 
   useEffect(() => {
-    const mediaElements = document.querySelectorAll("img, video");
+    if (!characterRef.current) return;
+    setIsLoaded(false);
+    const mediaElements = characterRef.current.querySelectorAll("img, video");
     let loadedCount = 0;
     const totalCount = mediaElements.length;
     const checkAllLoaded = () => {
@@ -179,59 +236,68 @@ export default function VideoGallery() {
       }
     });
     checkAllLoaded();
-  }, []);
-
-  if (!isLoaded) {
-    return <Skeleton className="w-full h-full" />;
-  }
+  }, [currentVideo]);
 
   return (
-    <div className="md:flex items-center py-20 justify-between w-full min-h-screen px-6 overflow-hidden">
+    <div
+      ref={characterRef}
+      className="flex items-center justify-between max-md:flex-col max-md:py-20 max-md:gap-10 w-full min-h-screen px-6 overflow-hidden mt-20 lg:mt-50 xl:mt-150"
+    >
       {/* 影片播放區 */}
       <h2 className="text-h2 ">多樣角色陪你冒險</h2>
 
-      <div className="relative flex justify-center w-1/3 h-full">
+      <div className="relative flex justify-center w-1/3 max-md:w-full h-full">
         <h3 className="absolute -left-4 -top-14 text-h3 font-bold pb-8">
           {currentName}
         </h3>
-        <p className="bg-schema-primary text-schema-on-primary absolute -left-2 -top-4 px-4 py-2 transform -skew-x-12 inline-block z-10">
+        <p className="bg-schema-primary text-schema-on-primary absolute -left-2 -top-4 px-4 py-2 transform md:-skew-x-12 inline-block z-10">
           {currentP}
         </p>
-        <div className="transform -skew-x-12 border-3 border-schema-primary overflow-hidden w-full aspect-[1/1.25]">
-          <video
-            key={currentVideo} // 每次變更重新載入
-            autoPlay
-            loop
-            muted
-            className="h-full w-full transform skew-x-12 scale-130"
-          >
-            <source src={currentVideo} type="video/webm" />
-            您的瀏覽器不支援 video 播放。
-          </video>
+        <div className="transform md:-skew-x-12 border-3 border-schema-primary overflow-hidden w-full aspect-[1/1.25]">
+          {!isLoaded && <Skeleton className="h-full w-full" />}
+          {isLoaded && (
+            <video
+              key={currentVideo} // 每次變更重新載入
+              autoPlay
+              loop
+              muted
+              className="h-full w-full transform md:skew-x-12 scale-130"
+            >
+              <source src={currentVideo} type="video/webm" />
+              您的瀏覽器不支援 video 播放。
+            </video>
+          )}
         </div>
       </div>
 
       {/* 縮圖清單 */}
-      <div className="w-full max-w-1/4 grid grid-cols-4 gap-2 transform md:-skew-x-12 mr-12">
-        {videoList.map((item, index) => (
-          <img
-            key={index}
-            src={item.src}
-            alt={item.name}
-            onClick={() => {
-              setCurrentIndex(index);
-              setCurrentVideo(item.video);
-              setCurrentP(item.p);
-              setCurrentName(item.name);
-            }}
-            loading="lazy"
-            className={`w-full object-cover rounded-md cursor-pointer transition-all skew-x-12 ${
-              currentIndex === index
-                ? "border-2 border-schema-primary "
-                : "hover:border hover:border-schema-primary active:scale-90"
-            }`}
-          />
-        ))}
+      <div className="w-full md:max-w-1/4 md:grid md:grid-cols-4 max-md:flex max-md:flex-wrap max-md:justify-between gap-2 transform md:-skew-x-12 md:mr-12 ">
+        {videoList.map((item, index) => {
+          return (
+            <div key={index} className="w-1/5 md:w-full">
+                <img
+                  key={index}
+                  src={item.src}
+                  alt={item.name}
+                  onClick={() => {
+                    setCurrentIndex(index);
+                    setCurrentVideo(item.video);
+                    setCurrentP(item.p);
+                    setCurrentName(item.name);
+                  }}
+                  loading="lazy"
+                  className={`w-full object-cover rounded-md cursor-pointer transition-all md:skew-x-12 ${
+                    isLoaded ? "opacity-100" : "opacity-0"
+                  } ${
+                    currentIndex === index
+                      ? "border-2 border-schema-primary "
+                      : "hover:border hover:border-schema-primary active:scale-90"
+                  }`}
+                />
+              
+            </div>
+          );
+        })}
       </div>
     </div>
   );

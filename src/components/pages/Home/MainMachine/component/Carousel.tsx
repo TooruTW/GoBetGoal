@@ -19,27 +19,27 @@ export default function Carousel({ className, isCarouselMode }: CarouselProps) {
   const isDarkMode = account.system_preference_color_mode === "dark";
   const [showGame, setShowGame] = useState("");
   const carouselRef = useRef<HTMLDivElement>(null);
+  const [isTriggered, setIsTriggered] = useState(false);
 
   const [slideIndex, setSlideIndex] = useState<number>(0);
 
   useGSAP(
     () => {
-      if (!isCarouselMode || !carouselRef.current) return;
-
+      if (!isCarouselMode || !carouselRef.current || isTriggered) return;
+      setIsTriggered(true);
       gsap.to(".title-icon", {
         opacity: 1,
         duration: 1,
         ease: "power1.inOut",
       });
-
       gsap.to(".slide", {
         scrollTrigger: {
           trigger: carouselRef.current,
           start: "top top",
-          end: "+=900",
+          end: "+=250%",
           scrub: 1,
           onUpdate: (self) => {
-            setSlideIndex(Math.max(0, Math.floor(self.progress * 5)-1));
+            setSlideIndex(Math.max(0, Math.floor(self.progress * 5) - 1));
           },
         },
       });

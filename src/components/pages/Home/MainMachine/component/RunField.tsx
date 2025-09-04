@@ -1,4 +1,4 @@
-import AchievementLoop from "./AchievementLoop.tsx";
+import AchievementLoop2 from "./AchievementLoop2.tsx";
 import TemplateLoop from "./TemplateLoop.tsx";
 import Candy from "@/components/layout/Header/Navigator/Candy.tsx";
 import { bagel1, bagel2, bagel3, bagel4 } from "@/assets/bagel";
@@ -64,23 +64,8 @@ export default function RunField() {
               <img src={bagel4} alt="" className="w-full animate-bounce" />
             </div>
 
-            <div className="flex justify-evenly items-center  ">
-              {" "}
-              <video
-                autoPlay
-                loop
-                muted
-                playsInline
-                className=" w-30 md:w-50 scale-x-[-1] "
-              >
-                <source
-                  src="/animation/mainCharacter/character45.webm"
-                  type="video/webm"
-                />
-              </video>
-            </div>
+   
           </div>
-
           <video
             autoPlay
             loop
@@ -94,8 +79,7 @@ export default function RunField() {
             />
           </video>
         </div>
-
-        <AchievementLoop />
+        <AchievementLoop2 />
       </div>
     </div>
   );
