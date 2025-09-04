@@ -8,7 +8,6 @@ export default function PostSection() {
         <p>跟著大家的紀錄貼文一步一腳印達成目標！</p>
       </div>
       <div className="flex items-end pt-8 md:pt-0 w-full ">
-        {" "}
         <img src={monsterLook} alt="" className="h-15  sm:h-40 md:h-30 z-20" />
         <Post />
         <img

@@ -12,12 +12,13 @@ import { useImageCheck } from "@/hooks/useImageCheck";
 import RetryImage from "./RetryImg";
 import ShowCheckResult from "./ShowCheckResult";
 import { useQueryClient } from "@tanstack/react-query";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { useParams } from "react-router-dom";
 import PopupCard from "./PopupCard";
-import cheat from "@/assets/resultNoImg/cheat.jpg";
 import dayjs from "dayjs";
+import { setShowBuyCheat } from "@/store/slices/popoutSlice";
+import { usePatchChangeUserInfo } from "@/api";
 
 export default function ChallengeBox({
   currentChallenge,
@@ -46,6 +47,9 @@ export default function ChallengeBox({
 
   const { playerId } = useParams();
   const userId = useSelector((state: RootState) => state.account.user_id);
+  const cheatCount = useSelector(
+    (state: RootState) => state.account.cheat_blanket
+  );
   const [isUser, setIsUser] = useState(false);
   const [isShowCheckResult, setIsShowCheckResult] = useState(false);
   const { checkImage } = useImageCheck();
@@ -56,7 +60,7 @@ export default function ChallengeBox({
   const queryClient = useQueryClient();
   const isChallengeStart = dayjs(start_at).isSameOrBefore(dayjs(), "day");
   const isChallengeEnd = dayjs(end_at).isBefore(dayjs(), "day");
-
+  const dispatch = useDispatch();
   // check if user is the player
   useEffect(() => {
     if (!userId) return;
@@ -95,10 +99,16 @@ export default function ChallengeBox({
     usePatchUploadToChallengeHistorySupa();
   // update chance remain
   const { mutate: patchChanceRemain } = usePatchChanceRemain();
+  const { mutate: patchUserInfo } = usePatchChangeUserInfo(); 
 
   // handle cheat
   const handleCheat = () => {
-    const cheatImgList = challenge_stage.description.map(() => cheat);
+    if (cheatCount <= 0) {
+      console.log("沒資本還想用資本的力量？！");
+      dispatch(setShowBuyCheat());
+      return;
+    }
+    const cheatImgList = challenge_stage.description.map(() => "cheat");
     patchUploadToChallengeHistorySupa(
       {
         history_id: currentChallenge.id,
@@ -110,6 +120,13 @@ export default function ChallengeBox({
           console.log("cheat success");
           queryClient.invalidateQueries({
             queryKey: ["trial", currentChallenge.trial_id],
+          });
+          // 成功後關閉 popup
+          setIsShowPopup(false);
+          patchUserInfo({
+            target: "cheat_blanket",
+            value: cheatCount - 1,
+            userID: userId,
           });
         },
       }
@@ -172,7 +189,6 @@ export default function ChallengeBox({
       !isImageLoading &&
       !imageError
     ) {
-      console.log(imageUrlArr, "imageUrlArr");
 
       if (!isAIChecking) {
         const diffcount =
@@ -192,9 +208,9 @@ export default function ChallengeBox({
           trialRules: challengeRules,
         })
       ).then((result) => {
-        const isPassTest = result.result;
-        const passedImgUrl = result.imgUrl;
-        console.log(isPassTest, passedImgUrl, "result");
+        const isPassTest = result.overallResult;
+        const passedImgUrl = result.imageResults.map((item) => item.imageUrl);
+        console.log(result, "result");
 
         if (isPassTest) {
           handlePass(currentChallenge.id, passedImgUrl);

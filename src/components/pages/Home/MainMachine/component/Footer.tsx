@@ -21,7 +21,6 @@ export default function Footer() {
     } else {
       setIsDesktop(true);
     }
-    console.log(touchpoint);
   }, []);
 
   return (
@@ -37,9 +36,21 @@ export default function Footer() {
       />
       {isDesktop && (
         <div className="w-full h-full flex justify-around items-center">
-          <img src={monsterCongrats} alt="" className="animate-bounce w-30 translate-y-3/2" />
-          <img src={monsterSleep} alt="" className="animate-bounce w-40 translate-y-1/2" />
-          <img src={monsterSport} alt="" className="animate-bounce w-30 translate-y-6/5" />
+          <img
+            src={monsterCongrats}
+            alt=""
+            className="animate-bounce w-30 translate-y-3/2"
+          />
+          <img
+            src={monsterSleep}
+            alt=""
+            className="animate-bounce w-40 translate-y-1/2"
+          />
+          <img
+            src={monsterSport}
+            alt=""
+            className="animate-bounce w-30 translate-y-6/5"
+          />
         </div>
       )}
       <div className="z-20 w-full h-full absolute bottom-0 left-0">

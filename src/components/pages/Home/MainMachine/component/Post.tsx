@@ -1,5 +1,5 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, EffectCards } from "swiper/modules";
+import { EffectCards } from "swiper/modules";
 import { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -16,34 +16,6 @@ export default function App() {
     {
       img: "/image/challengeSample/keto2.webp",
       user: "/image/avatar/boySalatPink.webp",
-    },
-    {
-      img: "/image/challengeSample/keto1.webp",
-      user: "/image/avatar/girlBlueRing.webp",
-    },
-    {
-      img: "/image/challengeSample/50 Work.webp",
-      user: "/image/avatar/girlPurpleCurly.webp",
-    },
-    {
-      img: "/image/challengeSample/234Br.webp",
-      user: "/image/avatar/girlSkirtInnocence.webp",
-    },
-    {
-      img: "/image/challengeSample/noCandyBr.webp",
-      user: "/image/avatar/boyGymGlasses.webp",
-    },
-    {
-      img: "/image/challengeSample/noCandyDi.webp",
-      user: "/image/avatar/bear.webp",
-    },
-    {
-      img: "/image/challengeSample/75 Work.webp",
-      user: "/image/avatar/girlSkirtPrincess.webp",
-    },
-    {
-      img: "/image/challengeSample/60 Diet.webp",
-      user: "/image/avatar/boyHikeLiquid.webp",
     },
   ];
 
@@ -71,24 +43,17 @@ export default function App() {
       >
         <Swiper
           effect={"cards"}
-          modules={[EffectCards, Autoplay]}
-          className="w-60 h-80"
+          modules={[EffectCards]}
+          className="w-60 h-80 cursor-grab"
           style={{ overflow: "visible" }}
-          autoplay={{
-            delay: 2000, // 2.5秒自動切換
-            disableOnInteraction: false, // 禁用所有手動交互
-            pauseOnMouseEnter: false, // 滑鼠懸停時不暫停
-          }}
           speed={300} // 切換動畫速度 (毫秒)
-          allowTouchMove={false} // 禁用觸控操作
-
+          allowTouchMove={true} // 禁用觸控操作
           cardsEffect={{
             perSlideOffset: 10, // 卡片間的偏移
             perSlideRotate: 5, // 卡片的旋轉角度
             rotate: true,
             slideShadows: true,
           }}
-          loop={true}
         >
           {slides.map((item, idx) => (
             <SwiperSlide
