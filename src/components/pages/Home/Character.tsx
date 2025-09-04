@@ -1,5 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
 const videoList = [
   {
     src: "/image/avatar/girlPurpleCurly.webp",
@@ -133,34 +137,60 @@ export default function VideoGallery() {
   const [currentName, setCurrentName] = useState(videoList[0].name);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-  // Intersection Observer 監聽可見性
+  const characterRef = useRef<HTMLDivElement>(null);
+
+  // 使用 Intersection Observer 來控制可見性（不受 ScrollTrigger 影響）
   useEffect(() => {
+    if (!characterRef.current) return;
+
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting);
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            console.log("Character is visible");
+            setIsVisible(true);
+          } else {
+            console.log("Character is hidden");
+            setIsVisible(false);
+          }
+        });
       },
       {
-        threshold: 0.1, // 10% 可見時觸發
-        rootMargin: "0px 0px -100px 0px", // 提前 100px 觸發
+        threshold: 0.5, // 當 50% 的元素可見時觸發
+        rootMargin: "0px 0px -20% 0px", // 底部留 20% 邊距
       }
     );
 
-    const currentRef = containerRef.current;
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
+    observer.observe(characterRef.current);
 
     return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
+      observer.disconnect();
     };
   }, []);
 
+  useGSAP(
+    () => {
+      if (!characterRef.current) return;
+
+      // 原有的淡入動畫
+      gsap.from(characterRef.current, {
+        opacity: 0,
+        duration: 1,
+        ease: "power2.inOut",
+        scrollTrigger: {
+          trigger: characterRef.current,
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 1,
+        },
+      });
+    },
+    { scope: characterRef }
+  );
+
   // 自動輪播 - 只在可見時運作
   useEffect(() => {
-    if (!isVisible) return; // 不可見時不運作
+    if (!isVisible || !isLoaded) return; // 不可見時不運作
 
     const interval = setInterval(() => {
       setCurrentIndex((prev) => {
@@ -172,14 +202,18 @@ export default function VideoGallery() {
       });
     }, 4000); // 每 4 秒換一個
     return () => clearInterval(interval);
-  }, [isVisible]);
+  }, [isVisible, isLoaded]);
 
   useEffect(() => {
-    const mediaElements = document.querySelectorAll("img, video");
+    if (!characterRef.current) return;
+    setIsLoaded(false);
+    const mediaElements = characterRef.current.querySelectorAll("img, video");
     let loadedCount = 0;
     const totalCount = mediaElements.length;
     const checkAllLoaded = () => {
+      console.log("loadedCount", loadedCount, totalCount);
       if (loadedCount === totalCount) {
+        console.log("all loaded");
         setIsLoaded(true);
       }
     };
@@ -207,16 +241,12 @@ export default function VideoGallery() {
       }
     });
     checkAllLoaded();
-  }, []);
-
-  if (!isLoaded) {
-    return <Skeleton className="w-full h-full" />;
-  }
+  }, [currentVideo]);
 
   return (
     <div
-      ref={containerRef}
-      className="md:flex items-center py-20 justify-between w-full min-h-screen px-6 overflow-hidden"
+      ref={characterRef}
+      className="md:flex items-center justify-between w-full min-h-screen px-6 overflow-hidden"
     >
       {/* 影片播放區 */}
       <h2 className="text-h2 ">多樣角色陪你冒險</h2>
@@ -229,40 +259,51 @@ export default function VideoGallery() {
           {currentP}
         </p>
         <div className="transform -skew-x-12 border-3 border-schema-primary overflow-hidden w-full aspect-[1/1.25]">
-          <video
-            key={currentVideo} // 每次變更重新載入
-            autoPlay
-            loop
-            muted
-            className="h-full w-full transform skew-x-12 scale-130"
-          >
-            <source src={currentVideo} type="video/webm" />
-            您的瀏覽器不支援 video 播放。
-          </video>
+          {!isLoaded && <Skeleton className="h-full w-full" />}
+          {isLoaded && (
+            <video
+              key={currentVideo} // 每次變更重新載入
+              autoPlay
+              loop
+              muted
+              className="h-full w-full transform skew-x-12 scale-130"
+            >
+              <source src={currentVideo} type="video/webm" />
+              您的瀏覽器不支援 video 播放。
+            </video>
+          )}
         </div>
       </div>
 
       {/* 縮圖清單 */}
       <div className="w-full max-w-1/4 grid grid-cols-4 gap-2 transform md:-skew-x-12 mr-12">
-        {videoList.map((item, index) => (
-          <img
-            key={index}
-            src={item.src}
-            alt={item.name}
-            onClick={() => {
-              setCurrentIndex(index);
-              setCurrentVideo(item.video);
-              setCurrentP(item.p);
-              setCurrentName(item.name);
-            }}
-            loading="lazy"
-            className={`w-full object-cover rounded-md cursor-pointer transition-all skew-x-12 ${
-              currentIndex === index
-                ? "border-2 border-schema-primary "
-                : "hover:border hover:border-schema-primary active:scale-90"
-            }`}
-          />
-        ))}
+        {videoList.map((item, index) => {
+          return (
+            <div key={index}>
+              
+                <img
+                  key={index}
+                  src={item.src}
+                  alt={item.name}
+                  onClick={() => {
+                    setCurrentIndex(index);
+                    setCurrentVideo(item.video);
+                    setCurrentP(item.p);
+                    setCurrentName(item.name);
+                  }}
+                  loading="lazy"
+                  className={`w-full object-cover rounded-md cursor-pointer transition-all skew-x-12 ${
+                    isLoaded ? "opacity-100" : "opacity-0"
+                  } ${
+                    currentIndex === index
+                      ? "border-2 border-schema-primary "
+                      : "hover:border hover:border-schema-primary active:scale-90"
+                  }`}
+                />
+              
+            </div>
+          );
+        })}
       </div>
     </div>
   );
