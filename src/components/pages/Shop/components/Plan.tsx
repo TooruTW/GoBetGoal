@@ -16,7 +16,7 @@ import { RootState } from "@/store";
 // import { useQueryClient } from "@tanstack/react-query";
 import Notification from "@/components/pages/SocialPages/components/Notification";
 import NewebPayForm, { NewebPayFormProps } from "./NewebPayForm";
-import { useNavigate,useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Loading from "./Loading";
 
 type Plan = {
@@ -57,15 +57,14 @@ export default function Plan({ isActive }: { isActive: boolean }) {
   );
   const [searchParams] = useSearchParams();
 
-  useEffect(()=>{
+  useEffect(() => {
     const status = searchParams.get("status");
-    if(status === "success"){
+    if (status === "success") {
       setPopupState("success");
-    }else if(status === "fail"){
+    } else if (status === "fail") {
       setPopupState("fail");
     }
-
-  },[searchParams])
+  }, [searchParams]);
 
   const [newebPayForm, setNewebPayForm] = useState<NewebPayFormProps>({
     merchantID: null,
@@ -90,6 +89,7 @@ export default function Plan({ isActive }: { isActive: boolean }) {
     deposit_money: number
   ) => {
     console.log("handleCryptoPayment", get_bagel, deposit_money);
+    if (!userID) return;
 
     const url = "https://gobetgoal.rocket-coding.com/api/payments/create";
     const result = await fetch(url, {
@@ -109,6 +109,7 @@ export default function Plan({ isActive }: { isActive: boolean }) {
     setNewebPayForm(data);
   };
 
+  // 由後端更新貝果餘額
   // const depositSuccess = (planIndex: number) => {
   //   const selectedPlan = plan[planIndex];
   //   postDeposit(
@@ -212,11 +213,15 @@ export default function Plan({ isActive }: { isActive: boolean }) {
                   className="hover:scale-105 active:scale-95 cursor-pointer"
                   onClick={(e) => {
                     e.stopPropagation();
+                    if (!userID) {
+                      navigate("/auth");
+                      return;
+                    }
                     setIsNavigating(true);
                     handleCryptoPayment(item.get_bagel, item.price);
                   }}
                 >
-                  兌換
+                  {userID ? "兌換" : "請先登錄"}
                 </Button>
               ) : (
                 <Button
