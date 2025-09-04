@@ -52,21 +52,21 @@ export default function AchievementLoop2() {
         <img loading="lazy" className="h-full" src={CandyAward1} alt="" />
         <img loading="lazy" className="h-full" src={EatTrialAward1} alt="" />
         <img loading="lazy" className="h-full" src={FriendAward1} alt="" />
-        <img loading="lazy" className="h-full" src={KingAward1} alt="" />
-        <img loading="lazy" className="h-full" src={SalatAward1} alt="" />
-        <img loading="lazy" className="h-full" src={SleepTrialAward1} alt="" />
-        <img loading="lazy" className="h-full" src={SocialAward1} alt="" />
-        <img loading="lazy" className="h-full" src={SportTrialAward1} alt="" />
+        <img loading="lazy" className="h-full max-md:hidden" src={KingAward1} alt="" />
+        <img loading="lazy" className="h-full max-md:hidden" src={SalatAward1} alt="" />
+        <img loading="lazy" className="h-full max-md:hidden" src={SleepTrialAward1} alt="" />
+        <img loading="lazy" className="h-full max-md:hidden" src={SocialAward1} alt="" />
+        <img loading="lazy" className="h-full max-md:hidden" src={SportTrialAward1} alt="" />
       </div>
       <div className="wrapper w-screen flex justify-around items-center h-full shrink-0 -translate-x-full">
         <img loading="lazy" className="h-full" src={CandyAward1} alt="" />
         <img loading="lazy" className="h-full" src={EatTrialAward1} alt="" />
         <img loading="lazy" className="h-full" src={FriendAward1} alt="" />
-        <img loading="lazy" className="h-full" src={KingAward1} alt="" />
-        <img loading="lazy" className="h-full" src={SalatAward1} alt="" />
-        <img loading="lazy" className="h-full" src={SleepTrialAward1} alt="" />
-        <img loading="lazy" className="h-full" src={SocialAward1} alt="" />
-        <img loading="lazy" className="h-full" src={SportTrialAward1} alt="" />
+        <img loading="lazy" className="h-full max-md:hidden" src={KingAward1} alt="" />
+        <img loading="lazy" className="h-full max-md:hidden" src={SalatAward1} alt="" />
+        <img loading="lazy" className="h-full max-md:hidden" src={SleepTrialAward1} alt="" />
+        <img loading="lazy" className="h-full max-md:hidden" src={SocialAward1} alt="" />
+        <img loading="lazy" className="h-full max-md:hidden" src={SportTrialAward1} alt="" />
       </div>
     </div>
   );

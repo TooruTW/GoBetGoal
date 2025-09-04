@@ -27,22 +27,18 @@ export default function Carousel({ className, isCarouselMode }: CarouselProps) {
     () => {
       if (!isCarouselMode || !carouselRef.current || isTriggered) return;
       setIsTriggered(true);
-
       gsap.to(".title-icon", {
         opacity: 1,
         duration: 1,
         ease: "power1.inOut",
       });
-
       gsap.to(".slide", {
         scrollTrigger: {
           trigger: carouselRef.current,
           start: "top top",
           end: "+=250%",
           scrub: 1,
-          markers: true,
           onUpdate: (self) => {
-            console.log(self.progress);
             setSlideIndex(Math.max(0, Math.floor(self.progress * 5) - 1));
           },
         },

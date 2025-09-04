@@ -19,18 +19,15 @@ export default function NewebPayForm({
   const formRef = useRef<HTMLFormElement>(null);
     // submit form after all data is ready
     useEffect(()=>{
-        console.log("newebPayForm", merchantID, merchantOrderNo, tradeInfo, tradeSha, version, payGateWay);
         if(merchantID && merchantOrderNo && tradeInfo && tradeSha && version && payGateWay){
         if(formRef.current){
         formRef.current.submit();
       }
     }
   }, [merchantID, merchantOrderNo, tradeInfo, tradeSha, version, payGateWay]);
-
   if(!merchantID || !merchantOrderNo || !tradeInfo || !tradeSha || !version || !payGateWay){
     return null;
   }
-
   return (
     <form
       action={payGateWay}

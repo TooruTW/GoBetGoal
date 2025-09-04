@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const videoList = [
   {
@@ -147,10 +146,8 @@ export default function VideoGallery() {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            console.log("Character is visible");
             setIsVisible(true);
           } else {
-            console.log("Character is hidden");
             setIsVisible(false);
           }
         });
@@ -211,9 +208,7 @@ export default function VideoGallery() {
     let loadedCount = 0;
     const totalCount = mediaElements.length;
     const checkAllLoaded = () => {
-      console.log("loadedCount", loadedCount, totalCount);
       if (loadedCount === totalCount) {
-        console.log("all loaded");
         setIsLoaded(true);
       }
     };
@@ -246,19 +241,19 @@ export default function VideoGallery() {
   return (
     <div
       ref={characterRef}
-      className="md:flex items-center justify-between w-full min-h-screen px-6 overflow-hidden"
+      className="flex items-center justify-between max-md:flex-col max-md:py-20 max-md:gap-10 w-full min-h-screen px-6 overflow-hidden mt-20"
     >
       {/* 影片播放區 */}
       <h2 className="text-h2 ">多樣角色陪你冒險</h2>
 
-      <div className="relative flex justify-center w-1/3 h-full">
+      <div className="relative flex justify-center w-1/3 max-md:w-full h-full">
         <h3 className="absolute -left-4 -top-14 text-h3 font-bold pb-8">
           {currentName}
         </h3>
-        <p className="bg-schema-primary text-schema-on-primary absolute -left-2 -top-4 px-4 py-2 transform -skew-x-12 inline-block z-10">
+        <p className="bg-schema-primary text-schema-on-primary absolute -left-2 -top-4 px-4 py-2 transform md:-skew-x-12 inline-block z-10">
           {currentP}
         </p>
-        <div className="transform -skew-x-12 border-3 border-schema-primary overflow-hidden w-full aspect-[1/1.25]">
+        <div className="transform md:-skew-x-12 border-3 border-schema-primary overflow-hidden w-full aspect-[1/1.25]">
           {!isLoaded && <Skeleton className="h-full w-full" />}
           {isLoaded && (
             <video
@@ -266,7 +261,7 @@ export default function VideoGallery() {
               autoPlay
               loop
               muted
-              className="h-full w-full transform skew-x-12 scale-130"
+              className="h-full w-full transform md:skew-x-12 scale-130"
             >
               <source src={currentVideo} type="video/webm" />
               您的瀏覽器不支援 video 播放。
@@ -276,11 +271,10 @@ export default function VideoGallery() {
       </div>
 
       {/* 縮圖清單 */}
-      <div className="w-full max-w-1/4 grid grid-cols-4 gap-2 transform md:-skew-x-12 mr-12">
+      <div className="w-full md:max-w-1/4 md:grid md:grid-cols-4 max-md:flex max-md:flex-wrap max-md:justify-between gap-2 transform md:-skew-x-12 md:mr-12">
         {videoList.map((item, index) => {
           return (
-            <div key={index}>
-              
+            <div key={index} className="w-1/5 md:w-full">
                 <img
                   key={index}
                   src={item.src}
@@ -292,7 +286,7 @@ export default function VideoGallery() {
                     setCurrentName(item.name);
                   }}
                   loading="lazy"
-                  className={`w-full object-cover rounded-md cursor-pointer transition-all skew-x-12 ${
+                  className={`w-full object-cover rounded-md cursor-pointer transition-all md:skew-x-12 ${
                     isLoaded ? "opacity-100" : "opacity-0"
                   } ${
                     currentIndex === index

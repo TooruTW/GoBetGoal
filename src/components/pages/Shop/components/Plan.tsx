@@ -16,7 +16,7 @@ import { RootState } from "@/store";
 // import { useQueryClient } from "@tanstack/react-query";
 import Notification from "@/components/pages/SocialPages/components/Notification";
 import NewebPayForm, { NewebPayFormProps } from "./NewebPayForm";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useSearchParams } from "react-router-dom";
 import Loading from "./Loading";
 
 type Plan = {
@@ -55,6 +55,18 @@ export default function Plan({ isActive }: { isActive: boolean }) {
   const [popupState, setPopupState] = useState<"fail" | "success" | "none">(
     "none"
   );
+  const [searchParams] = useSearchParams();
+
+  useEffect(()=>{
+    const status = searchParams.get("status");
+    if(status === "success"){
+      setPopupState("success");
+    }else if(status === "fail"){
+      setPopupState("fail");
+    }
+
+  },[searchParams])
+
   const [newebPayForm, setNewebPayForm] = useState<NewebPayFormProps>({
     merchantID: null,
     merchantOrderNo: null,

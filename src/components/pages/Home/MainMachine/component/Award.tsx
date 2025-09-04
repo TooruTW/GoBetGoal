@@ -23,9 +23,7 @@ export default function Ranking() {
 
   useGSAP(
     () => {
-      if (!rankingListRef.current || !rankingList.length || !isInitialized) return;
-      console.log("start animate");
-      
+      if (!rankingListRef.current || !rankingList.length || !isInitialized) return;      
       gsap.from(
         ".ranking-card",
         {
