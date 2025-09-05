@@ -1,7 +1,7 @@
 import { monsterDefault } from "@/assets/monster";
 import { DatePicker } from "@/components/shared/reactBit/DatePicker";
 import ConfirmModal from "@/components/ui/ConfirmModal";
-import Notification from "@/components/pages/SocialPages/components/Notification";
+import Notification from "@/components/ui/Notification";
 
 import { useForm } from "react-hook-form";
 
@@ -395,8 +395,10 @@ export default function Form({ challenge }: FormProps) {
               : "創建試煉"}
           </button>
         ) : (
-          <div className="text-schema-on-primary mt-6 w-full rounded-md bg-schema-primary opacity-60 hover:opacity-100 py-3 shadow-sm hover:shadow-md transition-shadow duration-200 flex justify-center items-center cursor-pointer"
-          onClick={() => navigate("/auth")}>
+          <div
+            className="text-schema-on-primary mt-6 w-full rounded-md bg-schema-primary opacity-60 hover:opacity-100 py-3 shadow-sm hover:shadow-md transition-shadow duration-200 flex justify-center items-center cursor-pointer"
+            onClick={() => navigate("/auth")}
+          >
             <p>請先登錄</p>
           </div>
         )}

@@ -14,7 +14,7 @@ import Candy from "@/components/layout/Header/Navigator/Candy";
 import { RootState } from "@/store";
 // import { usePatchChangeUserInfo, usePostDeposit } from "@/api";
 // import { useQueryClient } from "@tanstack/react-query";
-import Notification from "@/components/pages/SocialPages/components/Notification";
+import Notification from "@/components/ui/Notification";
 import NewebPayForm, { NewebPayFormProps } from "./NewebPayForm";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Loading from "./Loading";
@@ -48,7 +48,9 @@ const plan: Plan[] = [
 export default function Plan({ isActive }: { isActive: boolean }) {
   const navigate = useNavigate();
   const [noteContent, setNoteContent] = useState("");
-  const [noteType, setNoteType] = useState<"default" | "bad" | "achievement">("default");
+  const [noteType, setNoteType] = useState<"default" | "bad" | "achievement">(
+    "default"
+  );
   const [noteImgUrl, setNoteImgUrl] = useState("");
 
   const [showAnime, setShowAnime] = useState<boolean[]>(
@@ -166,8 +168,7 @@ export default function Plan({ isActive }: { isActive: boolean }) {
     return () => clearTimeout(timer);
   }, [noteContent]);
 
-
-  const {valiFristCharge} = useAchievementValidate();
+  const { valiFristCharge } = useAchievementValidate();
 
   return (
     <div className=" flex flex-col justify-center items-center relative ">
@@ -279,16 +280,20 @@ export default function Plan({ isActive }: { isActive: boolean }) {
             <Candy amount={account.candy_count} />
             <img src={monsterCongrats} alt="" className="w-2/3" />
             <div className="flex justify-center gap-4">
-              <Button variant="outline" className="mt-4" onClick={(e)=>{
-                e.stopPropagation();
-                onClose();
-                const result = valiFristCharge();
-                if(!result?.isGet){
-                  setNoteContent(result?.description || "");
-                  setNoteType("achievement");
-                  setNoteImgUrl(result?.imgUrl || "");
-                }
-              }}>
+              <Button
+                variant="outline"
+                className="mt-4"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onClose();
+                  const result = valiFristCharge();
+                  if (!result?.isGet) {
+                    setNoteContent(result?.description || "");
+                    setNoteType("achievement");
+                    setNoteImgUrl(result?.imgUrl || "");
+                  }
+                }}
+              >
                 確認
               </Button>
             </div>
@@ -298,7 +303,7 @@ export default function Plan({ isActive }: { isActive: boolean }) {
       )}
 
       {noteContent && (
-        <Notification time={2000} type={noteType} imgUrl={noteImgUrl} >
+        <Notification time={2000} type={noteType} imgUrl={noteImgUrl}>
           <p>{noteContent}</p>
         </Notification>
       )}

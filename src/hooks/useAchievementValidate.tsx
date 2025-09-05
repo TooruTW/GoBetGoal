@@ -4,6 +4,7 @@ import {
   useUserAchievementSupa,
   useAchievementSupa,
   usePostUserAchiSupa,
+  useGetAllParticipateTrial,
 } from "@/api";
 import { useState, useEffect } from "react";
 
@@ -59,26 +60,64 @@ export const useAchievementValidate = () => {
   ]);
 
   const valiFristCharge = () => {
+    if (!userId) return;
+    const achiId = "564d7e06-1d0a-4211-b2d8-802191dabbbb";
+    const description = "你已經獲得成就：來財";
+    const imgUrl = "/image/award/CandyAward1.webp";
     if (!achievementStatusData) return;
     const isGet = achievementStatusData.doneAchi.some(
-      (achi) => achi.id === "564d7e06-1d0a-4211-b2d8-802191dabbbb"
+      (achi) => achi.id === achiId
     );
     if (isGet) {
       console.log(isGet, "aleady get");
-      return {isGet:true ,description: "你已經獲得成就：來財", imgUrl:"/image/award/CandyAward1.webp"}
+      return { isGet: true };
     }
-    console.log("valiFristCharge");
-
     postUserAchi({
       user_id: userId,
-      achievement_id: "564d7e06-1d0a-4211-b2d8-802191dabbbb",
+      achievement_id: achiId,
     });
-    return {isGet:false ,description: "你已經獲得成就：來財", imgUrl:"/image/award/CandyAward1.webp"}
+    return { isGet: false, description: description, imgUrl: imgUrl };
+  };
+
+  const {
+    data: allTrialAndParticipant,
+    isLoading: allTrialAndParticipantLoading,
+  } = useGetAllParticipateTrial();
+
+  const finishTrial1Times = () => {
+    if (!userId) return;
+    const achiId = "3ebaee24-c6da-4846-9b50-f222f33fbdf2";
+    const targetCount = 1;
+    const description = "你已經獲得成就：堅持的力量";
+    const imgUrl = "/image/award/TrialCompleteAward2.webp";
+    if (!achievementStatusData) return;
+
+    const isGet = achievementStatusData.doneAchi.some(
+      (achi) => achi.id === achiId
+    );
+    if (isGet) {
+      console.log(isGet, "aleady get");
+      return { isGet: true };
+    }
+
+    if (!allTrialAndParticipant || allTrialAndParticipantLoading) return;
+    const userAllTrial = allTrialAndParticipant.filter(
+      (item) => item.participant_id === userId && item.is_close
+    );
+    const compeleteCount = userAllTrial.length;
+    if (compeleteCount === targetCount - 1) {
+      postUserAchi({
+        user_id: userId,
+        achievement_id: achiId,
+      });
+      return { isGet: false, description: description, imgUrl: imgUrl };
+    }
   };
 
   return {
     achievementStatusData,
     valiFristCharge,
+    finishTrial1Times,
     isLoading: userAchievementLoading || achievementLoading,
   };
 };
