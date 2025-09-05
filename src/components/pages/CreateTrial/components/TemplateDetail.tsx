@@ -3,6 +3,7 @@ import { ChallengeSupa } from "@/types/ChallengeSupa";
 import { MdOutlineKeyboardDoubleArrowDown } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 
 export default function TemplateDetail({
   setIsOpen,
@@ -15,7 +16,8 @@ export default function TemplateDetail({
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [isAtBottom, setIsAtBottom] = useState(false);
 
-  useEffect(() => {
+  useGSAP(() => {
+    if (!arrowRef.current || !challenge) return;
     gsap.to(arrowRef.current, {
       yPercent: -50,
       duration: 1,
@@ -24,6 +26,8 @@ export default function TemplateDetail({
       yoyo: true,
     });
   }, [challenge]);
+
+
 
   useEffect(() => {
     const scrollContainer = scrollContainerRef.current;

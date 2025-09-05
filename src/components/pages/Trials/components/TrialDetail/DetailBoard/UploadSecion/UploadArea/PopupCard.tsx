@@ -9,7 +9,12 @@ type PopupCardProps = {
   handleCheat: () => void;
 };
 
-export default function PopupCard({ chance_remain, status, handleClosePopup, handleCheat }: PopupCardProps) {
+export default function PopupCard({
+  chance_remain,
+  status,
+  handleClosePopup,
+  handleCheat,
+}: PopupCardProps) {
   const [resultDescription, setResultDescription] = useState("");
 
   useEffect(() => {
@@ -35,12 +40,18 @@ export default function PopupCard({ chance_remain, status, handleClosePopup, han
         </div>
         {status === "pending" ? (
           <div className="h-1/5 flex justify-center items-center gap-2">
-            <Button onClick={()=>{handleCheat();handleClosePopup(false)}}>使用快樂遮羞布</Button>
-            <Button onClick={()=>{handleClosePopup(false) }}>重新上傳</Button>
+            <Button onClick={handleCheat}>使用快樂遮羞布</Button>
+            <Button
+              onClick={() => {
+                handleClosePopup(false);
+              }}
+            >
+              重新上傳
+            </Button>
           </div>
         ) : (
           <div className="h-1/5 flex justify-center items-center gap-2">
-            <Button onClick={()=>handleClosePopup(false)}>回到關卡</Button>
+            <Button onClick={() => handleClosePopup(false)}>回到關卡</Button>
           </div>
         )}
       </div>

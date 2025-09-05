@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/supabaseClient";
 
-type Achievement = {
+export type Achievement = {
   id: string;
   created_at: string;
   order: number;
@@ -17,7 +17,7 @@ const getAchievementSupa = async (): Promise<Achievement[]> => {
     .order("order", { ascending: true });
   if (error) throw error;
 
-  return data || [];
+  return data as Achievement[] || [];
 };
 
 export function useAchievementSupa() {
