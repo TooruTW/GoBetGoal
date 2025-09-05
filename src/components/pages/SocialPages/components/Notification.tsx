@@ -7,13 +7,15 @@ import { monsterCongrats, monsterCry } from "@/assets/monster";
 type NotificationProps = {
   children: React.ReactNode;
   time?: number;
-  type?: "default" | "bad";
+  type?: "default" | "bad" | "achievement";
+  imgUrl?: string;
 };
 
 export default function Notification({
   children,
   time = 3000,
   type = "default",
+  imgUrl = "",
 }: NotificationProps) {
   const [isOpen, setIsOpen] = useState(true);
 
@@ -55,7 +57,7 @@ export default function Notification({
   if (!isOpen) return null;
 
   // 根據 type 決定圖片和 lottie
-  const imageSrc = type === "bad" ? monsterCry : monsterCongrats;
+  const imageSrc = type === "bad" ? monsterCry : (type === "achievement" ? imgUrl : monsterCongrats);
   const lottieSrc =
     type === "bad"
       ? "https://lottie.host/9b361fc0-02bf-4169-8d93-4ee37281dc45/msmDhySkVT.lottie"
@@ -69,7 +71,7 @@ export default function Notification({
       <img
         src={imageSrc}
         alt={type === "bad" ? "monsterBad" : "monsterCongrats"}
-        className="absolute -top-10 left-2  h-full  pointer-events-none "
+        className="absolute -top-10 left-2  h-full object-contain pointer-events-none "
       />
       {children}
       <DotLottieReact
