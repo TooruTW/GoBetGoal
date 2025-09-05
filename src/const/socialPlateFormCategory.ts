@@ -10,7 +10,7 @@ export const socialPlateFormCategory: SocialPlateFormCategory[] = [
         id: "all",
         name: "所有看板",
         url: "/social-pages/category/all",
-      color:"tertiary"
+      color:"inverse-surface"
     },
     {
         id: "sport",

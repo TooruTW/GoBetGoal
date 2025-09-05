@@ -84,8 +84,8 @@ export default function PostFlow({ sortBy = "all" }: PostFlowProps) {
   );
 
   return (
-    <div className="flex flex-col gap-4 rounded-lg ">
-      <div className="flex gap-2 w-full py-1 max-w-140 sticky top-20 z-10 bg-schema-surface-container  rounded-t-lg ">
+    <div className="flex flex-col    ">
+      <div className="flex gap-2 w-full py-1 max-w-140 sticky top-0 z-20 bg-schema-surface-container  ">
         <div
           className="w-1/2 flex justify-center items-center py-2 hover:cursor-pointer"
           onClick={() => setIsRecommend(true)}

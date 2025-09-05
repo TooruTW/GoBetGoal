@@ -60,7 +60,7 @@ export default function Friend({ showState = "accept" }: FriendProps) {
   return (
     <div className="flex flex-col gap-8 w-full justify-center items-center">
       <div className="flex justify-between w-full">
-        <h3 className="text-xl font-bold ">好友邀請</h3>
+        <h3 className="text-xl font-bold ">好友</h3>
         <AddFriend />
       </div>
       <div className="w-full">
@@ -143,6 +143,7 @@ export default function Friend({ showState = "accept" }: FriendProps) {
                         <h2 className="text-lg font-bold ">
                           確定要刪除好友嗎？
                         </h2>
+                        <img src={monsterCry} alt="" className="w-full" />
                         <p className="text-sm">嗚嗚嗚</p>
                         <img src={monsterCry} alt="" className="w-40" />
                         <div className="flex justify-center gap-4 ">

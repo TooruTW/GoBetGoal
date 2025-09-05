@@ -291,7 +291,7 @@ export default function TrialComplete() {
           />
         )}
         <Button
-          className="w-full rounded-md text-p font-bold text-schema-on-primary cursor-pointer disabled:opacity-0 disabled:cursor-none"
+          className="w-full md:w-1/3  font-bold text-schema-on-primary py-6 cursor-pointer disabled:opacity-0 disabled:cursor-none"
           onClick={(e) => {
             e.stopPropagation();
             handleTakeReward();
@@ -315,7 +315,7 @@ export default function TrialComplete() {
         className="w-full fixed bottom-0 max-h-4/5 z-10 bg-schema-surface-container flex justify-center items-center rounded-t-4xl border-2 border-t-schema-outline border-l-schema-outline border-r-schema-outline py-20"
       >
         <IoClose
-          className="size-10 absolute top-10 right-10"
+          className="size-11 p-2 absolute top-10 right-10 cursor-pointer hover:size-12"
           onClick={handleHideSharePage}
         />
 
@@ -334,6 +334,8 @@ export default function TrialComplete() {
             userName={userInfo.nick_name}
             trialName={trialBrief?.trialName || ""}
             trialReward={certification?.trialReward.toString() || "0"}
+            trialCompleteRate={certification?.trialCompleteRate || ""}
+            cheatCount={certification?.cheatCount || 0}
           />
         )}
       </div>

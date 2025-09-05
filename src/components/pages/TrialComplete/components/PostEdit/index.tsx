@@ -42,31 +42,37 @@ export default function PostEdit(props: PostEditProps) {
         // 直接調用 getImageUrl 函數獲取公開 URL
         const publicUrls = await getImageUrl(uploadedImages);
         // 使用公開 URL 發送貼文
-        postPost({
-          content: uploadContect,
-          publish_by: userId,
-          trial_id: trialId,
-          image_url: [...publicUrls, ...previewImgList],
-          trial_history_id: null,
-        },{
-          onSuccess:()=>{
-            onNext(e);
+        postPost(
+          {
+            content: uploadContect,
+            publish_by: userId,
+            trial_id: trialId,
+            image_url: [...publicUrls, ...previewImgList],
+            trial_history_id: null,
+          },
+          {
+            onSuccess: () => {
+              onNext(e);
+            },
           }
-        });
+        );
       }
     } else {
       // 如果沒有新上傳的圖片，直接發送現有的圖片
-      postPost({
-        content: uploadContect,
-        publish_by: userId,
-        trial_id: trialId,
-        image_url: [...previewImgList],
-        trial_history_id: null,
-      },{
-        onSuccess:()=>{
-          onNext(e);
+      postPost(
+        {
+          content: uploadContect,
+          publish_by: userId,
+          trial_id: trialId,
+          image_url: [...previewImgList],
+          trial_history_id: null,
+        },
+        {
+          onSuccess: () => {
+            onNext(e);
+          },
         }
-      });
+      );
     }
   };
 
@@ -83,6 +89,7 @@ export default function PostEdit(props: PostEditProps) {
           }
         }}
       >
+        <p>自由分享成果照片</p>
         <FaPlus
           className={`size-10 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none ${
             uploadImage && "opacity-50"
@@ -103,9 +110,9 @@ export default function PostEdit(props: PostEditProps) {
         )}
       </div>
       <div className="w-full">
-        <p>分享你的心路歷程 30/50</p>
+        <p>分享你的心路歷程</p>
         <textarea
-          placeholder="分享你的心路歷程"
+          placeholder="(e.g. 試煉過程如何？遇到什麼困難？喜歡自己的狀態嗎？朋友有沒有在偷懶？)"
           className="w-full rounded-md p-2 bg-schema-surface-container-highest"
           value={uploadContect}
           onChange={(e) => setUploadContect(e.target.value)}
@@ -114,7 +121,7 @@ export default function PostEdit(props: PostEditProps) {
       <div className="grid grid-cols-6 gap-2 ">
         {previewImgList.map((img, index) => {
           let realSrc = img;
-          switch(img){
+          switch (img) {
             case "goodJob":
               realSrc = goodJob;
               break;
@@ -128,29 +135,31 @@ export default function PostEdit(props: PostEditProps) {
               realSrc = img;
           }
           return (
-          <div
-            key={index}
-            className="relative size-30 flex items-center justify-center bg-schema-surface-container-highest group rounded-b-md overflow-hidden"
-          >
-            <img
-              src={realSrc}
-              alt="preview"
-              className="w-full h-full object-cover"
-            />
-            <IoClose
-              className="size-5 absolute top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:cursor-pointer active:scale-80"
-              onClick={() => handleDeleteImg(index)}
+            <div
+              key={index}
+              className="relative size-30 flex items-center justify-center bg-schema-surface-container-highest group rounded-md overflow-hidden"
+            >
+              <img
+                src={realSrc}
+                alt="preview"
+                className="w-full h-full object-cover"
               />
+              <div className=" absolute p-3  top-0 right-0 opacity-0 group-hover:opacity-100  transition-opacity duration-300 hover:cursor-pointer active:scale-80">
+                <IoClose
+                  className="size-5"
+                  onClick={() => handleDeleteImg(index)}
+                />
+              </div>
             </div>
           );
-})}
+        })}
       </div>
-      <div className="w-full flex flex-col gap-2 items-center">
+      <div className="w-full flex flex-col  items-center mt-6">
         <Button className="w-full" onClick={(e) => handleSubmit(e)}>
           分享至社交平台
         </Button>
         <button
-          className="text-schema-on-surface-variant hover:cursor-pointer hover:bg-schema-surface-container-highest rounded-md py-2 px-4 text-center "
+          className="text-schema-on-surface-variant hover:cursor-pointer hover:border-b py-1 px-4 text-center "
           onClick={(e) => onNext(e)}
         >
           跳過
