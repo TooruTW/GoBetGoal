@@ -12,24 +12,24 @@
 >
 > **請勿使用真實信用卡進行測試！**
 
-## 📎 專題網址
+##  專題網址
 
 - Demo 網站：[GoBetGoal](https://gobetgoal.vercel.app/)
 - Pitch 簡報：[Slides 連結](https://www.canva.com/design/DAGu5f2BTZI/pUpio7vWynHZwwwOsPTtzw/view?utm_content=DAGu5f2BTZI&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h3c702c823f)
 - 開發成員：
-  - Sonia | [LinkedIn] (https://www.linkedin.com/in/sunny-chen-07b530253/) 
-  - Tooru | [LinkedIn](https://www.linkedin.com/in/育亨-吳-389458150/) 
-  - Kelly | [LinkedIn](https://www.notion.so/readme-25c895e93709806ea93adee6654d5c46?pvs=21) 
-  - Weins | [LinkedIn](https://www.notion.so/readme-25c895e93709806ea93adee6654d5c46?pvs=21) 
+- Sonia | [LinkedIn](https://www.linkedin.com/in/sunny-chen-07b530253/)
+- Tooru | [LinkedIn](https://www.linkedin.com/in/育亨-吳-389458150/) | [GitHub](https://github.com/TooruTW)
+- Kelly | [GitHub](https://github.com/kc34522) | kelly556320@gmail.com
+- Weins | [GitHub](https://github.com/weiweins) | weinssha@gmail.com
 
-## 🎯 專案目標
+##  專案目標
 
 - 運用遊戲機制讓減重變成令人入迷的遊戲
 - 透過社交互動增加減重動機
 - 提供遊戲化的挑戰體驗
 - 建立健康的生活習慣
 
-## 👥 目標用戶
+##  目標用戶
 
 - 想要減重但缺乏動機的人
 - 喜歡社交互動的減重者
@@ -122,7 +122,7 @@
 - **Playwright** - 端到端測試
 - **Vite** - 開發伺服器
 
-## 📁 專案結構
+##  專案結構
 
 ```
 src/
