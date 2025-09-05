@@ -4,7 +4,12 @@ import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { TrialSupa } from "@/types/TrialSupa";
-import { usePostInviteFriend, usePostTrialLikeSupa, useDeleteTrialLikeSupa, useGetTrialLikeSupa } from "@/api";
+import {
+  usePostInviteFriend,
+  usePostTrialLikeSupa,
+  useDeleteTrialLikeSupa,
+  useGetTrialLikeSupa,
+} from "@/api";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import dayjs from "dayjs";
@@ -34,20 +39,21 @@ export default function TrialCard({ trial }: { trial: TrialSupa }) {
     setIsLiked(!isLiked);
   };
 
-  const { data: trialLike,isLoading } = useGetTrialLikeSupa({ userId: userID });
+  const { data: trialLike, isLoading } = useGetTrialLikeSupa({
+    userId: userID,
+  });
 
-  useEffect(()=>{
-    if(isLoading || !trialLike) return;
-    if(!trialLike || trialLike.length === 0)return;
+  useEffect(() => {
+    if (isLoading || !trialLike) return;
+    if (!trialLike || trialLike.length === 0) return;
 
-    const isInLikeList = trialLike.some((like)=>like.trial_id === trial.id);
+    const isInLikeList = trialLike.some((like) => like.trial_id === trial.id);
     setIsLiked(isInLikeList);
-
-  },[trialLike,isLoading,trial.id])
+  }, [trialLike, isLoading, trial.id]);
 
   const handleJoin = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    if(!userID){
+    if (!userID) {
       navigate("/auth");
       return;
     }
@@ -55,8 +61,7 @@ export default function TrialCard({ trial }: { trial: TrialSupa }) {
       trial_id: trial.id,
       participant_id: userID,
       invite_by: userID,
-    }
-    );
+    });
   };
 
   const handleGetDetail = () => {
@@ -104,20 +109,32 @@ export default function TrialCard({ trial }: { trial: TrialSupa }) {
           >
             {isLiked ? <FaHeart className="text-primary" /> : <FaRegHeart />}
           </div>
-          {trial_status === "pending" ? <Button
-            variant="trialsJoin"
-            className={`w-20`}
-            disabled={isInTrial || trial_status !== "pending"}
-            onClick={(e) => handleJoin(e)}
-          >
-            {isInTrial ? "已加入" : "加入"}
-          </Button> : <div className="w-20 opacity-50 text-center">已開始...</div>}
+          {trial_status === "pending" ? (
+            <Button
+              variant="trialsJoin"
+              className={`w-20`}
+              disabled={isInTrial || trial_status !== "pending"}
+              onClick={(e) => handleJoin(e)}
+            >
+              {isInTrial ? "已加入" : "加入"}
+            </Button>
+          ) : (
+            <div className="w-20 opacity-50 text-center">已開始...</div>
+          )}
         </div>
       </div>
       <div className="flex flex-col gap-1">
         <div className="flex flex-col gap-1">
-          <h3 className="text-h4 font-semibold">{title}</h3>
-          <h4 className="text-h5 font-semibold">{challenge.title}</h4>
+          <div className="flex gap-2 flex-wrap ">
+            <h3 className="text-h4 font-semibold">{title}</h3>
+            <h4
+              className="text-h5 font-semibold rounded-lg px-2 w-auto"
+              style={{ backgroundColor: `#${trial.challenge.color}` }}
+            >
+              {challenge.title}
+            </h4>
+          </div>
+
           <p className="text-sm line-clamp-1 text-schema-on-surface-variant">
             {challenge.description}
           </p>

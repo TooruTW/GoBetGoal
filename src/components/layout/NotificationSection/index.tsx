@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { IoIosArrowDown } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
+import monsterLook from "@/assets/monster/monsterLook.webp";
 import { useGetNotificationSupa, usePatchReadNotificationSupa } from "@/api";
 import MessageBox from "./MessageBox";
 import { useClickOutside } from "@/hooks/useClickOutside";
@@ -57,7 +58,7 @@ export default function NotificationSection({
   const handleBeRead = (id: string) => {
     setBeRead((prev) => [...prev, id]);
   };
-const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
   // realtime supa
   useEffect(() => {
     const notificationRealtime = supabase
@@ -72,10 +73,10 @@ const queryClient = useQueryClient();
       )
       .subscribe();
 
-      return ()=>{
-        supabase.removeChannel(notificationRealtime);
-      }
-  }, [ queryClient ]);
+    return () => {
+      supabase.removeChannel(notificationRealtime);
+    };
+  }, [queryClient]);
 
   // 分類通知
   useEffect(() => {
@@ -220,23 +221,30 @@ const queryClient = useQueryClient();
         onClick={(e) => handleClose(e)}
         className="absolute top-5 left-5 text-2xl hover:scale-120 transition duration-200 active:scale-90 hover:cursor-pointer"
       />
-      <h2 className="text-h2 font-bold">通知中心</h2>
+      <div className="flex mx-auto justify-center items-center  gap-4">
+        <img src={monsterLook} alt="" className="w-20" />
+        <h3 className="text-h3 font-bold text-center">通知中心</h3>
+      </div>
 
-      <div className="flex flex-col gap-2 h-full ">
+      <div className="flex flex-col gap-2 h-full  ">
         <div
           className={`pr-5 relative border-b-1 ${
             isAnnouncementShow ? "" : "border-schema-outline"
           }`}
         >
-          <h3 className="text-h2 sticky top-0 left-0 bg-schema-surface-container-high flex items-center gap-2 max-md:text-h3">
-            公告
+          <div className="flex justify-between w-full items-center py-1">
+            {" "}
+            <h3 className="text-h3 sticky top-0 left-0 bg-schema-surface-container-high flex items-center gap-2 max-md:text-h3">
+              公告
+            </h3>
             <IoIosArrowDown
               onClick={() => setIsAnnouncementShow(!isAnnouncementShow)}
               className={`${
                 isAnnouncementShow ? "-rotate-180" : "animate-bounce"
               } cursor-pointer transition duration-200 `}
             />
-          </h3>
+          </div>
+
           <ul className="announcement flex flex-col gap-2 bg-schema-surface-container-high">
             {announcementList.map((item: NotificationData) => (
               <MessageBox
@@ -252,15 +260,18 @@ const queryClient = useQueryClient();
             isUnreadShow ? "" : "border-schema-outline"
           }`}
         >
-          <h3 className="text-h2 sticky top-0 left-0 bg-schema-surface-container-high flex items-center gap-2 max-md:text-h3">
-            未讀
+          <div className="flex justify-between w-full items-center py-1">
+            {" "}
+            <h3 className="text-h3 sticky top-0 left-0 bg-schema-surface-container-high flex items-center gap-2 max-md:text-h3">
+              未讀
+            </h3>
             <IoIosArrowDown
               onClick={() => setIsUnreadShow(!isUnreadShow)}
               className={`${
                 isUnreadShow ? "-rotate-180" : "animate-bounce"
               } cursor-pointer transition duration-200 `}
             />
-          </h3>
+          </div>
           <ul className="unread flex flex-col gap-2 bg-schema-surface-container-high">
             {unreadList.map((item: NotificationData) => (
               <MessageBox
@@ -276,20 +287,24 @@ const queryClient = useQueryClient();
             )}
           </ul>
         </div>
+
         <div
           className={`pr-5 relative border-b-1 ${
             isReadShown ? "" : "border-schema-outline"
           }`}
         >
-          <h3 className="text-h2 sticky top-0 left-0 bg-schema-surface-container-high flex items-center gap-2 max-md:text-h3">
-            已讀
+          <div className="flex justify-between w-full items-center py-1">
+            {" "}
+            <h3 className="text-h3 sticky top-0 left-0 bg-schema-surface-container-high flex items-center gap-2 max-md:text-h3">
+              已讀
+            </h3>
             <IoIosArrowDown
               onClick={() => setIsReadShown(!isReadShown)}
               className={`${
                 isReadShown ? "-rotate-180" : "animate-bounce"
               } cursor-pointer transition duration-200 `}
             />
-          </h3>
+          </div>
           <ul className="read flex flex-col gap-2 bg-schema-surface-container-high">
             {readList.map((item: NotificationData) => (
               <MessageBox
@@ -301,6 +316,7 @@ const queryClient = useQueryClient();
             {readList.length === 0 && (
               <li className="text-h3 text-schema-on-surface-variant text-center">
                 沒人找你 別再重新整理了
+                <img src={monsterLook} alt="" />
               </li>
             )}
           </ul>

@@ -98,9 +98,7 @@ export default function DevAchievement() {
               <th scope="col" className=" px-2">
                 圖片
               </th>
-              <th scope="col" className=" px-2">
-                ID
-              </th>
+
               <th scope="col" className=" px-2">
                 成就名稱
               </th>
@@ -121,7 +119,7 @@ export default function DevAchievement() {
                   <th scope="row" className=" p-1">
                     {achievement.order}
                   </th>
-                  <td className=" p-6">
+                  <td className=" p-4">
                     {" "}
                     <img
                       src={achievement.icon_url}
@@ -129,11 +127,9 @@ export default function DevAchievement() {
                       className="w-20"
                     />
                   </td>
-                  <td className=" p-6 text-schema-on-surface-variant">
-                    {achievement.id}
-                  </td>
-                  <td className=" p-6">{achievement.title}</td>
-                  <td className=" p-6">{achievement.description}</td>
+
+                  <td className=" p-4">{achievement.title}</td>
+                  <td className=" p-4">{achievement.description}</td>
 
                   <td>
                     <button

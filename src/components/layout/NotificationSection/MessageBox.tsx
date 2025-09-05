@@ -28,7 +28,6 @@ export default function MessageBox({
   const [buttonType, setButtonType] = useState<
     "accept" | "navigate" | "announcement"
   >("announcement");
-  const [isRead, setIsRead] = useState(is_read);
   const isMarked = useRef(false);
   const { mutate: deleteNotification } = useDeleteNotificationSupa();
   const listRef = useRef<HTMLLIElement>(null);
@@ -123,7 +122,6 @@ export default function MessageBox({
   };
 
   const handleRead = () => {
-    setIsRead(true);
     if (!is_read && !isMarked.current) {
       isMarked.current = true;
       onRead(id);
@@ -197,9 +195,7 @@ export default function MessageBox({
     <li
       ref={listRef}
       key={id}
-      className={`flex justify-between gap-4 items-center flex-col px-2 py-1 max-md:gap-2 max-md:text-label ${
-        isRead ? "" : "bg-schema-surface-container-highest"
-      }`}
+      className="flex justify-between gap-4 items-center flex-col px-2 py-1 max-md:gap-2 max-md:text-label"
       onClick={handleRead}
     >
       <div className={`grid grid-cols-[1fr_4fr_1fr] gap-1 w-full`}>
@@ -221,7 +217,7 @@ export default function MessageBox({
           </span>
         </div>
         {buttonType === "accept" ? (
-          <div className="flex items-center justify-center gap-2 option">
+          <div className="flex items-center justify-center gap-2 option ">
             <Button variant="notification" onClick={handleAccept}>
               接受
             </Button>
@@ -229,7 +225,7 @@ export default function MessageBox({
         ) : (
           buttonType === "navigate" && (
             <div
-              className="flex items-center option justify-center overflow-hidden"
+              className="flex items-center option justify-center overflow-hidden cursor-pointer"
               onMouseEnter={handleNavigateHover}
               onClick={handleNavigate}
             >

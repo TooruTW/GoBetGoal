@@ -11,12 +11,12 @@ export default function Dashboard() {
       <div className="w-full">
         <h1 className="text-h1 font-title">儀表板</h1>
       </div>
-      <div className="flex w-full gap-4">
+      <div className="flex flex-col md:flex-row w-full gap-4">
         <Earn />
         <TopUp />
         <DepositUser />
       </div>
-      <div className="flex w-full gap-4">
+      <div className="flex flex-col md:flex-row w-full gap-4">
         <ARPU />
         <BagelPlan />
       </div>

@@ -28,7 +28,7 @@ type Plan = {
 };
 
 const plan: Plan[] = [
-  { src: monsterSleep, price: 19, get_bagel: 10000, show: "1k", translate: 0 },
+  { src: monsterSleep, price: 39, get_bagel: 40000, show: "40k", translate: 0 },
   {
     src: monsterRun,
     price: 99,
@@ -38,9 +38,9 @@ const plan: Plan[] = [
   },
   {
     src: monsterCongrats,
-    price: 299,
-    get_bagel: 1000000,
-    show: "1M",
+    price: 1790,
+    get_bagel: 2000000,
+    show: "2M",
     translate: 0,
   },
 ];

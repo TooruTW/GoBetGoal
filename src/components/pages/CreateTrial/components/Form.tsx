@@ -291,7 +291,7 @@ export default function Form({ challenge }: FormProps) {
 
   return (
     <div className="flex flex-col gap-6 w-full px-6 py-7 relative overflow-hidden rounded-lg">
-      <h2 className="text-h2 max-lg:hidden">客制項目</h2>
+      <h2 className="text-h2 max-lg:hidden">客製項目</h2>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
