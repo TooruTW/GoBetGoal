@@ -8,7 +8,7 @@ const getTrialAllSupa = async (): Promise<TrialSupa[]> => {
     .from("trial")
     .select(
       `
-    *,challenge:challenge_id (category,description,frequency,title,challenge_stage(description)),
+    *,challenge:challenge_id (category,description,frequency,title,color,challenge_stage(description)),
     trial_participant (
       user_info:participant_id (
         nick_name,character_img_link,user_id

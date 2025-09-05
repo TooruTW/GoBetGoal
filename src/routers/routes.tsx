@@ -44,7 +44,6 @@ import PopoutCard from "@/components/pages/SocialPages/components/PopoutCard";
 // Development
 import DevPage from "@/components/pages/DevPage";
 import DevAchievement from "@/components/pages/DevPage/components/DevAchievement";
-import DevList from "@/components/pages/DevPage/components/DevList";
 import DevEditNameOrPassword from "@/components/pages/DevPage/components/DevEditNameOrPassword";
 import DevAddFriend from "@/components/pages/DevPage/components/DevAddFriend";
 import DevDeleteFriend from "@/components/pages/DevPage/components/DevDeleteFriend";
@@ -192,7 +191,7 @@ export const routes: RouteObject[] = [
           },
           {
             index: true,
-            element: <DevList />,
+            element: <Dashboard />,
           },
           {
             path: "edit-name-or-password",

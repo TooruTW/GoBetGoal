@@ -14,11 +14,11 @@ import Candy from "@/components/layout/Header/Navigator/Candy";
 import { RootState } from "@/store";
 // import { usePatchChangeUserInfo, usePostDeposit } from "@/api";
 // import { useQueryClient } from "@tanstack/react-query";
-import Notification from "@/components/pages/SocialPages/components/Notification";
+import Notification from "@/components/ui/Notification";
 import NewebPayForm, { NewebPayFormProps } from "./NewebPayForm";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Loading from "./Loading";
-
+import { useAchievementValidate } from "@/hooks/useAchievementValidate";
 type Plan = {
   src: MonsterImage;
   price: number;
@@ -28,7 +28,7 @@ type Plan = {
 };
 
 const plan: Plan[] = [
-  { src: monsterSleep, price: 19, get_bagel: 10000, show: "1k", translate: 0 },
+  { src: monsterSleep, price: 39, get_bagel: 40000, show: "40k", translate: 0 },
   {
     src: monsterRun,
     price: 99,
@@ -38,9 +38,9 @@ const plan: Plan[] = [
   },
   {
     src: monsterCongrats,
-    price: 299,
-    get_bagel: 1000000,
-    show: "1M",
+    price: 1790,
+    get_bagel: 2000000,
+    show: "2M",
     translate: 0,
   },
 ];
@@ -48,6 +48,11 @@ const plan: Plan[] = [
 export default function Plan({ isActive }: { isActive: boolean }) {
   const navigate = useNavigate();
   const [noteContent, setNoteContent] = useState("");
+  const [noteType, setNoteType] = useState<"default" | "bad" | "achievement">(
+    "default"
+  );
+  const [noteImgUrl, setNoteImgUrl] = useState("");
+
   const [showAnime, setShowAnime] = useState<boolean[]>(
     new Array(plan.length).fill(false)
   );
@@ -163,6 +168,8 @@ export default function Plan({ isActive }: { isActive: boolean }) {
     return () => clearTimeout(timer);
   }, [noteContent]);
 
+  const { valiFristCharge } = useAchievementValidate();
+
   return (
     <div className=" flex flex-col justify-center items-center relative ">
       <ul className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4 md:pt-8 w-full md:w-3/4">
@@ -273,7 +280,20 @@ export default function Plan({ isActive }: { isActive: boolean }) {
             <Candy amount={account.candy_count} />
             <img src={monsterCongrats} alt="" className="w-2/3" />
             <div className="flex justify-center gap-4">
-              <Button variant="outline" className="mt-4" onClick={onClose}>
+              <Button
+                variant="outline"
+                className="mt-4"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onClose();
+                  const result = valiFristCharge();
+                  if (!result?.isGet) {
+                    setNoteContent(result?.description || "");
+                    setNoteType("achievement");
+                    setNoteImgUrl(result?.imgUrl || "");
+                  }
+                }}
+              >
                 確認
               </Button>
             </div>
@@ -283,7 +303,7 @@ export default function Plan({ isActive }: { isActive: boolean }) {
       )}
 
       {noteContent && (
-        <Notification time={2000}>
+        <Notification time={2000} type={noteType} imgUrl={noteImgUrl}>
           <p>{noteContent}</p>
         </Notification>
       )}

@@ -7,13 +7,15 @@ import { monsterCongrats, monsterCry } from "@/assets/monster";
 type NotificationProps = {
   children: React.ReactNode;
   time?: number;
-  type?: "default" | "bad";
+  type?: "default" | "bad" | "achievement";
+  imgUrl?: string;
 };
 
 export default function Notification({
   children,
   time = 3000,
   type = "default",
+  imgUrl = "",
 }: NotificationProps) {
   const [isOpen, setIsOpen] = useState(true);
 
@@ -30,7 +32,7 @@ export default function Notification({
   }, [children]);
 
   const { contextSafe } = useGSAP({ scope: noteCardRef });
-  const timeUpAnumation = contextSafe(() => {
+  const timeUpAnimation = contextSafe(() => {
     // 檢查元素是否仍然存在
     if (noteCardRef.current) {
       gsap.to(noteCardRef.current, {
@@ -48,17 +50,22 @@ export default function Notification({
     const timer = setTimeout(() => {
       // 確保組件仍然掛載且元素存在
       if (isOpen && noteCardRef.current) {
-        timeUpAnumation();
+        timeUpAnimation();
       }
     }, time);
 
     return () => clearTimeout(timer);
-  }, [timeUpAnumation, isOpen, time]);
+  }, [timeUpAnimation, isOpen, time]);
 
   if (!isOpen) return null;
 
   // 根據 type 決定圖片和 lottie
-  const imageSrc = type === "bad" ? monsterCry : monsterCongrats;
+  const imageSrc =
+    type === "bad"
+      ? monsterCry
+      : type === "achievement"
+      ? imgUrl
+      : monsterCongrats;
   const lottieSrc =
     type === "bad"
       ? "https://lottie.host/9b361fc0-02bf-4169-8d93-4ee37281dc45/msmDhySkVT.lottie"
@@ -67,12 +74,12 @@ export default function Notification({
   return (
     <div
       ref={noteCardRef}
-      className="fixed top-1/4 right-15 z-30 bg-schema-surface-container border-2 border-outline py-4 px-6 rounded-full"
+      className="fixed top-1/4 right-15 z-100 bg-schema-surface-container border-2 border-outline py-4 px-6 rounded-full"
     >
       <img
         src={imageSrc}
         alt={type === "bad" ? "monsterBad" : "monsterCongrats"}
-        className="absolute -top-10 left-2  h-full  pointer-events-none "
+        className="absolute -top-10 left-2  h-full object-contain pointer-events-none "
       />
       {children}
       <DotLottieReact

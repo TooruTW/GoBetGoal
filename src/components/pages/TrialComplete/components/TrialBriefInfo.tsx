@@ -25,17 +25,25 @@ export default function TrialBriefInfo(props: BriefInfoProps) {
     trialPeople,
   } = props;
   const [resultText, setResultText] = useState<string>("");
+  const [resultClass, setResultClass] = useState<string>("");
 
   useEffect(() => {
     switch (result) {
       case "pass":
         setResultText("隊伍試煉成功");
+        setResultClass("bg-schema-tertiary");
         break;
       case "perfect":
         setResultText("隊伍試煉完美通過");
+        setResultClass("bg-schema-secondary");
         break;
       case "fail":
         setResultText("隊伍試煉失敗");
+        setResultClass("bg-schema-primary");
+        break;
+      default:
+        setResultText("");
+        setResultClass("");
         break;
     }
   }, [result]);
@@ -53,7 +61,9 @@ export default function TrialBriefInfo(props: BriefInfoProps) {
             </li>
           ))}
         </ul>
-        <div className="bg-schema-secondary-container px-2.5 py-0.5 rounded-full">
+        <div
+          className={`${resultClass} text-schema-inverse-on-surface px-2.5 py-0.5 rounded-full`}
+        >
           {resultText}
         </div>
       </div>

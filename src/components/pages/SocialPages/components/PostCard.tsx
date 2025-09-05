@@ -6,8 +6,11 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
-import { usePostLikeSupa, useDeletePostSupa } from "@/api";
-import { useDeletePostLikeSupa } from "@/api";
+import {
+  usePostLikeSupa,
+  useDeletePostSupa,
+  useDeletePostLikeSupa,
+} from "@/api";
 import { useGSAP } from "@gsap/react";
 import { LuSendHorizontal } from "react-icons/lu";
 import Notification from "@/components/ui/Notification";
@@ -161,7 +164,7 @@ export default function PostCard(props: Post) {
   };
 
   return (
-    <div className="aspect-[140/212] w-full bg-schema-surface-container">
+    <div className="aspect-[140/212] w-full bg-gray-700">
       {noteContent && (
         <Notification time={2000}>
           <p>{noteContent}</p>
@@ -170,12 +173,12 @@ export default function PostCard(props: Post) {
       <div className="relative w-full h-full">
         {publish_by === userId && (
           <div
-            className="absolute top-5 right-5 z-10"
+            className="absolute top-5 right-5 z-10 cursor-pointer"
             onClick={handleDeletePost}
           >
             <SlOptionsVertical className="size-5" />
             {isShowDeletePost && (
-              <div className="absolute top-0 right-10 border-1 border-schema-outline rounded-md py-2 px-4 z-10 text-nowrap delete-post-option">
+              <div className="absolute top-0 right-10 border-1 cursor-pointer border-schema-outline rounded-md py-2 px-4 z-10 text-nowrap delete-post-option">
                 <p onClick={handleConfirmDeletePost}>刪除</p>
               </div>
             )}
@@ -188,14 +191,14 @@ export default function PostCard(props: Post) {
         />
         <div
           ref={postCardRef}
-          className={`flex flex-col justify-end absolute bottom-0 left-0 w-full text-schema-on-surface py-6 bg-linear-to-b  px-2 cursor-pointer ${
+          className={`flex flex-col justify-end absolute bottom-0 left-0 w-full text-white py-6 bg-linear-to-b  px-2 cursor-pointer ${
             isShow
               ? "to-black/50 from-transparent gap-4 "
               : "to-black/30 from-transparent "
           }`}
           onClick={() => setIsShow(!isShow)}
         >
-          <div className="flex items-center w-full justify-between gap-2">
+          <div className="flex items-center w-full justify-between gap-2 px-2">
             <div className="flex items-center gap-2 pointer-events-auto w-full">
               <Link
                 to={`/user/${publish_by}`}
@@ -207,13 +210,18 @@ export default function PostCard(props: Post) {
                   className="w-10 h-10 rounded-full object-cover object-top"
                 />
               </Link>
-              <div className="w-full">
+              <div className="">
                 <p>{user_info.nick_name}</p>
-                <p className="flex max-md:flex-col max-md:text-label max-md:items-end">
+                <p className="flex max-md:flex-col max-md:text-label gap-2">
                   <span className="max-md:self-start">{trial.title}</span>
-                  <Link to={`/create-trial/${trial_id}`}>
-                    # {trial.challenge.title}
-                  </Link>
+                  <button
+                    style={{ backgroundColor: `#${trial.challenge.color}` }}
+                    className="px-2 py-1 text-sm max-md:text-label rounded-lg text-white w-auto"
+                  >
+                    <Link to={`/create-trial/${trial_id}`}>
+                      # {trial.challenge.title}
+                    </Link>
+                  </button>
                 </p>
               </div>
             </div>
@@ -249,7 +257,7 @@ export default function PostCard(props: Post) {
               )}
             </div>
           </div>
-          <p className="text-text-primary-foreground px-4">
+          <p className="text-gray-100 px-4 text-label">
             {content.length > 20
               ? isShow
                 ? content
