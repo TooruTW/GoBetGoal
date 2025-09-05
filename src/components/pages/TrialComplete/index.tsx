@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-
+import Notification from "@/components/ui/Notification";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import {
   useTrialSupa,
@@ -23,6 +23,7 @@ import { ResultProps } from "./components/MyTrialInfo";
 import PostEdit from "./components/PostEdit";
 import { IoClose } from "react-icons/io5";
 import { useQueryClient } from "@tanstack/react-query";
+import { useAchievementValidate } from "@/hooks/useAchievementValidate";
 
 export default function TrialComplete() {
   const { id } = useParams();
@@ -43,6 +44,12 @@ export default function TrialComplete() {
   const [isRewardTaken, setIsRewardTaken] = useState(false);
   const userID = useSelector((state: RootState) => state.account.user_id);
 
+  const [noteContent, setNoteContent] = useState("test");
+  const [noteType, setNoteType] = useState<"default" | "bad" | "achievement">(
+    "default"
+  );
+  const [noteImgUrl, setNoteImgUrl] = useState("");
+
   const { data: participantData } = useGetTrialParticipantsSupa(
     id?.toString() || ""
   );
@@ -57,6 +64,7 @@ export default function TrialComplete() {
 
   const { mutate: patchReciveReward } = usePatchReciveReward();
   const queryClient = useQueryClient();
+
   const handleTakeReward = () => {
     if (isRewardTaken || !data || !certification || !id) return;
     console.log("take reward");
@@ -264,6 +272,8 @@ export default function TrialComplete() {
     handleHideSharePage();
   });
 
+  const { finishTrial1Times } = useAchievementValidate();
+
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
@@ -283,8 +293,16 @@ export default function TrialComplete() {
         <Button
           className="w-full md:w-1/3  font-bold text-schema-on-primary py-6 cursor-pointer disabled:opacity-0 disabled:cursor-none"
           onClick={(e) => {
+            e.stopPropagation();
             handleTakeReward();
             handleShowSharePage(e);
+            const result = finishTrial1Times();
+            if (!result?.isGet) {
+              console.log(result, "result");
+              setNoteContent(result?.description || "");
+              setNoteType("achievement");
+              setNoteImgUrl(result?.imgUrl || "");
+            }
           }}
           disabled={selectedUserID !== userID || !userID}
         >
@@ -321,6 +339,11 @@ export default function TrialComplete() {
           />
         )}
       </div>
+      {noteContent && (
+        <Notification time={2000} type={noteType} imgUrl={noteImgUrl}>
+          <p>{noteContent}</p>
+        </Notification>
+      )}
     </div>
   );
 }

@@ -11,15 +11,14 @@ type UserAchievement = {
 const getUserAchievementSupa = async (
   userId: string
 ): Promise<UserAchievement[]> => {
-  const { data, error, count } = await supabase
+  const { data, error } = await supabase
     .from("user_achievement")
     .select("*")
     .eq("user_id", userId);
 
   if (error) throw error;
-  if (count === 0) return [];
 
-  return data || [];
+  return data as UserAchievement[];
 };
 
 export function useUserAchievementSupa(userId: string) {

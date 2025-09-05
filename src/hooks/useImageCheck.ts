@@ -11,8 +11,6 @@ type CheckResult = {
   ]
 }
 
-
-
 type acceptProps = {
   imageUrls: string[];
   challengeType:

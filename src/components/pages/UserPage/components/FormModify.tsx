@@ -4,7 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { Button } from "@/components/ui/button";
-import Notification from "@/components/pages/SocialPages/components/Notification";
+import Notification from "@/components/ui/Notification";
 
 export default function FormModify() {
   const { mutate: patchChangePassword } = usePatchChangePassword();
