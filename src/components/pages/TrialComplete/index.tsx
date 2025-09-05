@@ -6,7 +6,11 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
 import { useClickOutside } from "@/hooks/useClickOutside";
-import { useTrialSupa, useGetTrialParticipantsSupa, usePatchReciveReward } from "@/api/index";
+import {
+  useTrialSupa,
+  useGetTrialParticipantsSupa,
+  usePatchReciveReward,
+} from "@/api/index";
 
 import { Button } from "@/components/ui/button";
 import OthersTrialInfo from "./components/OthersTrialInfo";
@@ -54,20 +58,25 @@ export default function TrialComplete() {
   const { mutate: patchReciveReward } = usePatchReciveReward();
   const queryClient = useQueryClient();
   const handleTakeReward = () => {
-    if(isRewardTaken || !data || !certification || !id) return;
+    if (isRewardTaken || !data || !certification || !id) return;
     console.log("take reward");
     console.log(certification.trialReward, "certification.trialReward");
 
-    patchReciveReward({
-      userID: userID,
-      trialID: id?.toString() || "",
-      reward: certification.trialReward,
-    },{
-      onSuccess:()=>{
-        queryClient.invalidateQueries({ queryKey: ["trial",id,"participants"], exact: false });
+    patchReciveReward(
+      {
+        userID: userID,
+        trialID: id?.toString() || "",
+        reward: certification.trialReward,
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ["trial", id, "participants"],
+            exact: false,
+          });
+        },
       }
-    });
-
+    );
   };
 
   // select id to show result
@@ -93,8 +102,7 @@ export default function TrialComplete() {
     ).length;
     if (passCount / totalHistory < 0.8) {
       setRewardRate(0);
-    } 
-     else if (passCount / totalHistory < 1) {
+    } else if (passCount / totalHistory < 1) {
       setRewardRate(totalHistory >= 28 ? 1.5 : 1.2);
     } else {
       setRewardRate(2);
@@ -273,7 +281,7 @@ export default function TrialComplete() {
           />
         )}
         <Button
-          className="w-full rounded-md text-p font-bold text-schema-on-primary cursor-pointer disabled:opacity-0 disabled:cursor-none"
+          className="w-full md:w-1/3  font-bold text-schema-on-primary py-6 cursor-pointer disabled:opacity-0 disabled:cursor-none"
           onClick={(e) => {
             handleTakeReward();
             handleShowSharePage(e);
@@ -289,7 +297,7 @@ export default function TrialComplete() {
         className="w-full fixed bottom-0 max-h-4/5 z-10 bg-schema-surface-container flex justify-center items-center rounded-t-4xl border-2 border-t-schema-outline border-l-schema-outline border-r-schema-outline py-20"
       >
         <IoClose
-          className="size-10 absolute top-10 right-10"
+          className="size-11 p-2 absolute top-10 right-10 cursor-pointer hover:size-12"
           onClick={handleHideSharePage}
         />
 
@@ -308,6 +316,8 @@ export default function TrialComplete() {
             userName={userInfo.nick_name}
             trialName={trialBrief?.trialName || ""}
             trialReward={certification?.trialReward.toString() || "0"}
+            trialCompleteRate={certification?.trialCompleteRate || ""}
+            cheatCount={certification?.cheatCount || 0}
           />
         )}
       </div>

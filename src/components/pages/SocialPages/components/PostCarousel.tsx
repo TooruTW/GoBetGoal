@@ -33,11 +33,15 @@ export function PostCarousel(props: PostCarouselProps) {
   }, [api]);
 
   return (
-    <Carousel setApi={setApi} className={`relative ${className}`} onClick={onClick}>
+    <Carousel
+      setApi={setApi}
+      className={`relative ${className}`}
+      onClick={onClick}
+    >
       <CarouselContent>
         {imgUrl.map((img, index) => {
           let realSrc = img;
-          switch(img){
+          switch (img) {
             case "goodJob":
               realSrc = goodJob;
               break;
@@ -50,15 +54,19 @@ export function PostCarousel(props: PostCarouselProps) {
             default:
               realSrc = img;
           }
-        return (
-          <CarouselItem
-            key={index}
-            className="flex justify-center items-center w-full "
-          >
-            <img src={realSrc} alt="post" className="w-full h-auto object-cover" />
-          </CarouselItem>
-        );
-      })}
+          return (
+            <CarouselItem
+              key={index}
+              className="flex justify-center items-center w-full "
+            >
+              <img
+                src={realSrc}
+                alt="post"
+                className="w-full h-auto object-cover"
+              />
+            </CarouselItem>
+          );
+        })}
       </CarouselContent>
 
       <CarouselPrevious
@@ -80,7 +88,7 @@ export function PostCarousel(props: PostCarouselProps) {
         {imgUrl.map((_, index) => (
           <div
             className={`size-2 rounded-full cursor-pointer ${
-              current === index + 1 ? "bg-blue-500" : "bg-gray-300"
+              current === index + 1 ? "bg-schema-primary" : "bg-gray-300"
             }`}
             key={index}
             onClick={() => api?.scrollTo(index)}
