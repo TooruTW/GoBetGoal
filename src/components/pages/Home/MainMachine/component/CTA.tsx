@@ -3,12 +3,15 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import React, { useRef } from "react";
+import { useSound } from "@/hooks/useSound";
 
 import { RootState } from "@/store";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 
 export default function CTA() {
   const account = useSelector((state: RootState) => state.account);
+  const playClick = useSound("/sounds/blast.mp3");
+
   const [containerRef, isVisible] = useIntersectionObserver({
     threshold: 0.1, // 當 10% 的元素可見時觸發
     rootMargin: "0px",
@@ -76,11 +79,14 @@ export default function CTA() {
           </h3>
           <Link
             to={{
-              pathname: account.user_id ? `/trials/list/all/all` : "/auth",
+              pathname: account.user_id ? `/create-trial` : "/auth",
             }}
             className="block"
           >
-            <Button className="  text-schema-inverse-on-surface">
+            <Button
+              onClick={playClick}
+              className="  text-schema-inverse-on-surface"
+            >
               立即體驗
             </Button>
           </Link>

@@ -99,7 +99,7 @@ export default function Home() {
 
           <Link
             to={{
-              pathname: account.user_id ? "trials/list/my/all" : "/auth",
+              pathname: account.user_id ? "/create-trial" : "/auth",
             }}
             className="block cursor-pointer"
           >
