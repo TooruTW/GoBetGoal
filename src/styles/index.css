@@ -360,6 +360,19 @@ cursor: pointer;
   }
 }
 
+@keyframes wave {
+  0%, 100% {
+    transform: scaleY(0.4);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.animate-wave {
+  animation: wave 1s infinite ease-in-out;
+}
+
 /* 霓虹特效類別 */
 @layer components {
   /* 基礎霓虹效果 */

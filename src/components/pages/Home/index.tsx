@@ -23,6 +23,7 @@ import LogoImgTxtLight from "@/assets/logo/LogoImgTxtLight.svg";
 import FallingText from "./MainMachine/component/FallingText.tsx";
 import mainBack from "@/assets/main/mainBack.webp";
 import { useSound } from "@/hooks/useSound";
+import AudioController from "./MainMachine/component/Audio.tsx";
 
 // 註冊 ScrollTrigger 插件
 gsap.registerPlugin(ScrollTrigger);
@@ -82,6 +83,8 @@ export default function Home() {
 
   return (
     <div className="w-full min-h-screen flex flex-col items-center justify-center gap-10 overflow-hidden">
+      <AudioController />
+
       {/* MainMachine 區域 */}
       <div
         ref={mainMachineRef}
