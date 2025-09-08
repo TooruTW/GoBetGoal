@@ -1,11 +1,11 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@import 'swiper/css';
-@import 'swiper/css/effect-cards';
+@import "swiper/css";
+@import "swiper/css/effect-cards";
 
-button:hover{
-cursor: pointer;
+button:hover {
+  cursor: pointer;
 }
 
 @theme {
@@ -81,7 +81,7 @@ cursor: pointer;
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
-  
+
   --color-quaternary: var(--quaternary);
 
   --color-primary: var(--primary);
@@ -200,7 +200,7 @@ cursor: pointer;
   --tertiaryContainer: #ffe08b;
   --onTertiaryContainer: #584400;
 
-  --quaternary: #79ADDC;
+  --quaternary: #79addc;
 
   --error: #b30a0a;
   --onError: #ffffff;
@@ -223,7 +223,7 @@ cursor: pointer;
   --onPrimaryFixed: #3a0717;
   --primaryFixedDim: #ffb1c0;
   --onPrimaryFixedVariant: #713341;
-  --secondaryFixed: #79ADDC;
+  --secondaryFixed: #79addc;
   --onSecondaryFixed: #002202;
   --secondaryFixedDim: #a3d397;
   --onSecondaryFixedVariant: #265022;
@@ -234,7 +234,7 @@ cursor: pointer;
   --tertiaryFixed: #ffe08b;
   --onTertiaryFixed: #241a00;
   --tertiaryFixedDim: #e3c46d;
-  
+
   --surfaceDim: rgb(239, 240, 247);
   --surfaceBright: #fff8f7;
   --surfaceContainerLowest: #ffffff;
@@ -244,24 +244,6 @@ cursor: pointer;
 
   --surfaceContainerHigh: rgb(232, 232, 237);
   --surfaceContainerHighest: rgb(222, 222, 227);
-
-
-  /* from horizontal scroll */
-  .horizontal-scroll {
-    display: flex;
-    height: 100vh;
-    width: 3000px; /* 4 panels */
-  }
-  .panel {
-    flex: 0 0 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 3rem;
-    color: white;
-  }
-  /* from horizontal scroll */
 }
 
 .dark {
@@ -303,14 +285,14 @@ cursor: pointer;
   --secondaryContainer: #41ff14;
   --onSecondaryContainer: #265022;
 
-  --tertiary: #F3C954;
+  --tertiary: #f3c954;
   --onTertiary: #3d2f00;
   --tertiaryContainer: #ffe08b;
   --onTertiaryContainer: #584400;
 
   --quaternary: #acecf7;
 
-  --error: #ED254E;
+  --error: #ed254e;
   --onError: #690005;
   --errorContainer: #93000a;
   --onErrorContainer: #ffdad6;
@@ -430,13 +412,8 @@ cursor: pointer;
 
   /* 漸層效果 */
   .bg-gradient-set-1 {
-    background: linear-gradient(
-      135deg,
-      #eb4375 0%,
-      #eba7e4 100%
-    );
+    background: linear-gradient(135deg, #eb4375 0%, #eba7e4 100%);
   }
-
 
   .parallelogram-border {
     display: inline-block;
@@ -517,3 +494,4 @@ input:-webkit-autofill {
   background-color: transparent !important;
   box-shadow: 0 0 0 1000px transparent inset !important;
 }
+

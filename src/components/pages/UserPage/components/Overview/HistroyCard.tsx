@@ -97,7 +97,7 @@ export default function HistroyCard({ trialId }: { trialId: string }) {
           {trialDescription}
         </p>
       </div>
-      <div className="flex mt-4 gap-2 w-full max-h-30 overflow-x-scroll snap-y max-md:grid-cols-4 max-sm:grid-cols-3 max-md:w-full">
+      <div className="flex mt-4 gap-2 w-full overflow-x-scroll snap-x max-md:w-full">
         {imageList.length > 0 ? (
           imageList.map((item, index) => {
             let realSrc = item;
