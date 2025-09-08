@@ -2,6 +2,9 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Plan from "./components/Plan";
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
 export default function Shop() {
   const navigate = useNavigate();
@@ -10,6 +13,16 @@ export default function Shop() {
   const from = location.state?.from || "/";
 
   const handleGoBack = () => navigate(from, { replace: true });
+  const priceOffRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(()=>{
+    gsap.from(priceOffRef.current, {
+      scale: 100,
+      opacity: 0,
+      duration: 1.5,
+      ease: "bounce",
+    })
+  },[])
 
   return (
     <div
@@ -43,6 +56,7 @@ export default function Shop() {
       </div>
 
       <Plan isActive={true} />
+      <div ref={priceOffRef} className="absolute text-5xl bg-red-500 rounded-lg p-4 top-1/9 -rotate-3 font-black">開幕大特價！！</div>
     </div>
   );
 }
