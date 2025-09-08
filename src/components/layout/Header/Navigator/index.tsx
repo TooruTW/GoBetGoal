@@ -12,7 +12,7 @@ import { setDarkMode } from "@/store/slices/accountSlice";
 
 import BuyCheat from "@/components/pages/Shop/components/BuyCheat";
 import { useState } from "react";
-import { usePostLogOutSupa } from "@/api";
+import { usePatchChangeUserInfo, usePostLogOutSupa } from "@/api";
 import { setAccount } from "@/store/slices/accountSlice";
 import { Button } from "@/components/ui/button";
 import { FiMenu } from "react-icons/fi";
@@ -44,8 +44,15 @@ export default function Navigator({ setIsShowNotification }: NavigatorProps) {
   const handleSetShowBuyCheat = () => {
     dispatch(setShowBuyCheat());
   };
+
+  const { mutate: patchChangeUserInfo } = usePatchChangeUserInfo();
   const handleSwitchMode = () => {
     dispatch(setDarkMode(isNight ? "light" : "dark"));
+    patchChangeUserInfo({
+      target: "system_preference_color_mode",
+      value: isNight ? "light" : "dark",
+      userID: account.user_id,
+    });
   };
 
   return (

@@ -97,7 +97,7 @@ export default function PostCard(props: Post) {
   useGSAP(
     () => {
       gsap.to(postCardRef.current, {
-        height: isShow ? "50%" : "1/5",
+        height: isShow ? "50%" : "20%",
         duration: 0.25,
         ease: "power2.inOut",
       });
@@ -164,7 +164,7 @@ export default function PostCard(props: Post) {
   };
 
   return (
-    <div className="aspect-[140/212] w-full bg-gray-700">
+    <div className="aspect-[140/212] w-full bg-schema-surface-container">
       <div className="relative w-full h-full">
         {publish_by === userId && (
           <div
@@ -186,10 +186,10 @@ export default function PostCard(props: Post) {
         />
         <div
           ref={postCardRef}
-          className={`flex flex-col justify-end absolute bottom-0 left-0 w-full text-white py-6 bg-linear-to-b  px-2 cursor-pointer ${
+          className={`flex flex-col justify-end absolute bottom-0 left-0 w-full text-schema-on-surface py-6 bg-linear-to-b  px-2 cursor-pointer  ${
             isShow
-              ? "to-black/50 from-transparent gap-4 "
-              : "to-black/30 from-transparent "
+              ? "to-schema-surface-container-highest from-transparent gap-4 "
+              : " from-transparent from-0% to-schema-surface-container-highest/80 to-20%"
           }`}
           onClick={() => setIsShow(!isShow)}
         >
@@ -211,16 +211,16 @@ export default function PostCard(props: Post) {
                   <span className="max-md:self-start">{trial.title}</span>
                   <button
                     style={{ backgroundColor: `#${trial.challenge.color}` }}
-                    className="px-2 py-1 text-sm max-md:text-label rounded-lg text-white w-auto"
+                    className="px-2 py-1 text-sm max-md:text-label rounded-lg text-schema-on-surface w-auto h-fit text-nowrap"
                   >
-                    <Link to={`/create-trial/${trial_id}`}>
+                    <Link to={`/create-trial/${trial_id}`} >
                       # {trial.challenge.title}
                     </Link>
                   </button>
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-4 pointer-events-auto">
+            <div className="flex items-center gap-4 pointer-events-auto text-schema-on-surface">
               <LuSendHorizontal
                 className="size-6 cursor-pointer active:scale-90"
                 onClick={(e) => {
@@ -242,7 +242,7 @@ export default function PostCard(props: Post) {
               ) : (
                 <div className="size-6">
                   <FaRegHeart
-                    className="size-full cursor-pointer"
+                    className="size-full cursor-pointer text-schema-on-surface"
                     onClick={(e) => {
                       e.stopPropagation();
                       handleLike();
@@ -252,7 +252,7 @@ export default function PostCard(props: Post) {
               )}
             </div>
           </div>
-          <p className="text-gray-100 px-4 text-label">
+          <p className="text-schema-on-surface px-4 text-label">
             {content.length > 20
               ? isShow
                 ? content
