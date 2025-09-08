@@ -1,7 +1,7 @@
 import { ReactNode, useState } from "react";
 import Header from "./Header";
 import NotificationSection from "./NotificationSection";
-import Toast from "../ui/Toast";
+import Toast from "../shared/Toast";
 
 interface LayoutProps {
   children: ReactNode;

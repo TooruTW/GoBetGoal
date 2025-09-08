@@ -3,15 +3,16 @@ import Carousel from "@/components/pages/Home/MainMachine/component/Carousel";
 import { useDispatch } from "react-redux";
 import { setToast } from "@/store/slices/toastSlice";
 export default function DevComponent() {
-
   const dispatch = useDispatch();
   const handleToast = () => {
-    dispatch(setToast({
-      content: "test",
-      type: "default",
-      imgUrl: "",
-      time: 3000,
-    }));
+    dispatch(
+      setToast({
+        content: "test",
+        type: "default",
+        imgUrl: "",
+        time: 3000,
+      })
+    );
   };
   return (
     <>
@@ -20,7 +21,6 @@ export default function DevComponent() {
       </div>
       <Carousel />
       <button onClick={handleToast}>Toast</button>
-
     </>
   );
 }
