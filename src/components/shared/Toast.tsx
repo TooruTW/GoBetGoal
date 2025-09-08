@@ -1,35 +1,27 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { monsterCongrats, monsterCry } from "@/assets/monster";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/store";
+import { resetToast } from "@/store/slices/toastSlice";
 
-type NotificationProps = {
-  children: React.ReactNode;
-  time?: number;
-  type?: "default" | "bad" | "achievement";
-  imgUrl?: string;
-};
 
-export default function Notification({
-  children,
-  time = 3000,
-  type = "default",
-  imgUrl = "",
-}: NotificationProps) {
-  const [isOpen, setIsOpen] = useState(true);
+export default function Toast() {
+  const { isOpen, content, type, imgUrl, time } = useSelector((state: RootState) => state.toast);
+  const dispatch = useDispatch();
 
   const noteCardRef = useRef<HTMLDivElement>(null);
   useGSAP(() => {
-    if (!children) return;
+    if (!isOpen||!content) return;
     if (!noteCardRef.current) return;
-    setIsOpen(true);
     gsap.from(noteCardRef.current, {
       xPercent: 1000,
       duration: 0.5,
       ease: "power2.inOut",
     });
-  }, [children]);
+  },{dependencies: [isOpen, content],revertOnUpdate: true});
 
   const { contextSafe } = useGSAP({ scope: noteCardRef });
   const timeUpAnimation = contextSafe(() => {
@@ -38,9 +30,10 @@ export default function Notification({
       gsap.to(noteCardRef.current, {
         yPercent: 1000,
         duration: 0.3,
+        opacity: 0,
         ease: "power2.inOut",
         onComplete: () => {
-          setIsOpen(false);
+          dispatch(resetToast());
         },
       });
     }
@@ -66,6 +59,7 @@ export default function Notification({
       : type === "achievement"
       ? imgUrl
       : monsterCongrats;
+
   const lottieSrc =
     type === "bad"
       ? "https://lottie.host/9b361fc0-02bf-4169-8d93-4ee37281dc45/msmDhySkVT.lottie"
@@ -81,7 +75,7 @@ export default function Notification({
         alt={type === "bad" ? "monsterBad" : "monsterCongrats"}
         className="absolute -top-10 left-2  h-full object-contain pointer-events-none "
       />
-      {children}
+      <p>{content}</p>
       <DotLottieReact
         src={lottieSrc}
         loop
@@ -91,3 +85,5 @@ export default function Notification({
     </div>
   );
 }
+
+

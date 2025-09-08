@@ -1,7 +1,6 @@
 import { monsterDefault } from "@/assets/monster";
 import { DatePicker } from "@/components/shared/reactBit/DatePicker";
 import ConfirmModal from "@/components/ui/ConfirmModal";
-import Notification from "@/components/ui/Notification";
 
 import { useForm } from "react-hook-form";
 
@@ -11,7 +10,8 @@ import { ChallengeSupa } from "@/types/ChallengeSupa";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setToast } from "@/store/slices/toastSlice";
 import { RootState } from "@/store";
 import {
   usePostCreateTrial,
@@ -54,13 +54,11 @@ interface ApiError {
 
 export default function Form({ challenge }: FormProps) {
   const { mutate: postPurchase } = usePostPurchase();
-  const [note, setNote] = useState<{
-    content: string;
-    type?: "default" | "bad";
-    key: number;
-  }>({ content: "", key: 0 });
+
+  const dispatch = useDispatch();
+
   function showNote(content: string, type?: "default" | "bad") {
-    setNote({ content, type, key: Date.now() });
+    dispatch(setToast({isOpen: true, content, type, imgUrl:""})); 
   }
   const userID = useSelector((state: RootState) => state.account.user_id);
   const { id } = useParams<{ id: string }>();
@@ -422,11 +420,6 @@ export default function Form({ challenge }: FormProps) {
           onConfirm={handlePurchaseConfirm}
           selectedToBuy={selectedToBuy}
         />
-      )}
-      {note.content && (
-        <Notification key={note.key} time={3000} type={note.type}>
-          <p>{note.content}</p>
-        </Notification>
       )}
     </div>
   );

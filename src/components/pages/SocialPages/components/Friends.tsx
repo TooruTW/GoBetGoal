@@ -5,7 +5,15 @@ export default function Friends(props: { user: UserInfoSupa[] }) {
   const { user } = props;
 
   return (
-    <div className="rounded-lg bg-schema-surface-container py-6 flex flex-col items-center text-schema-on-surface h-full overflow-scroll  max-lg:hidden">
+    <div
+      className="rounded-lg bg-schema-surface-container py-6 flex flex-col items-center text-schema-on-surface h-full overflow-y-scroll  max-lg:hidden"
+      style={{
+        overflowY: "scroll",
+        overflowX: "hidden",
+        scrollbarColor: "gray transparent",
+        scrollbarWidth: "thin",
+      }}
+    >
       <div className="flex flex-col items-center">
         <p className="text-p font-semibold">好友 ( {user.length} )</p>
         <p className="text-label text-schema-on-surface-variant">看看好友</p>

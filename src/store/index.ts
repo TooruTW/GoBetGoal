@@ -4,6 +4,8 @@ import accountReducer from "@/store/slices/accountSlice";
 import friendsReducer from "@/store/slices/friendsSlice";
 import challengeTemplateReducer from "@/store/slices/challengeTemplate";
 import popoutReducer from "@/store/slices/popoutSlice";
+import toastReducer from "@/store/slices/toastSlice";
+
 export const store = configureStore({
   reducer: {
     screen: screenReducer,
@@ -11,6 +13,7 @@ export const store = configureStore({
     friends: friendsReducer,
     challengeTemplate: challengeTemplateReducer,
     popouts: popoutReducer,
+    toast: toastReducer,
   },
 });
 

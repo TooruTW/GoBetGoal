@@ -11,7 +11,7 @@ export default function SocialPages() {
   const friendList = useSelector((state: RootState) => state.friends);
 
   return (
-    <div className="w-full px-3 h-screen bg-schema-background py-6 lg:py-10 flex flex-col lg:flex-row justify-center gap-4 lg:items-start items-center relative">
+    <div className="w-full px-3 h-screen bg-schema-background pt-6 lg:pt-10 flex flex-col lg:flex-row justify-center gap-4 lg:items-start items-center relative">
       <div className="order-1 lg:order-3 lg:max-w-66  flex flex-col gap-4 lg:h-full text-nowrap lg:min-w-60 ">
         <Ranking />
         <Friends user={friendList.friends} />
@@ -21,7 +21,15 @@ export default function SocialPages() {
         <Category />
       </div>
 
-      <div className="order-3 lg:order-2 max-w-140 w-full h-full overflow-y-scroll rounded-t-lg">
+      <div
+        className="order-3 lg:order-2 max-w-140 w-full h-full rounded-t-lg"
+        style={{
+          overflowY: "scroll",
+          overflowX: "hidden",
+          scrollbarWidth: "thin",
+          scrollbarColor: "gray transparent",
+        }}
+      >
         <PostFlow
           sortBy={category as "likeCount" | "sport" | "sleep" | "diet" | "all"}
         />

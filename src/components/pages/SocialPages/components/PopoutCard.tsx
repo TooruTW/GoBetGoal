@@ -23,7 +23,8 @@ export default function PopoutCard() {
     <div className="fixed w-full h-full min-h-screen pt-15 bottom-0 left-0 flex justify-center items-center bg-schema-surface-container-high/50 backdrop-blur-sm z-20 overflow-hidden">
       <div
         ref={ref}
-        className="relative w-full h-4/5 max-lg:h-full flex flex-col items-center px-2 bg-schema-surface-container border-t-2 border-b-2 py-10 border-outline overflow-y-auto"
+        className="relative w-full h-4/5 max-lg:h-full flex flex-col items-center px-2 bg-schema-surface-container border-t-2 border-b-2 py-10 border-outline"
+        style={{scrollbarColor: "gray transparent", scrollbarWidth: "thin", overflowY: "scroll", overflowX: "hidden"}}
       >
         <div
           className="absolute top-2 right-2 lg:hidden"
