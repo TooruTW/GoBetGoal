@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import Notification from "@/components/ui/Notification";
 import { RootState } from "@/store";
 import { usePatchChangeUserInfo, usePostPurchase } from "@/api";
+import { setToast } from "@/store/slices/toastSlice";
 import ConfirmModal from "@/components/ui/ConfirmModal";
 import { Button } from "@/components/ui/button";
 import Ticket from "@/assets/ticket/Ticket.webp";
@@ -48,11 +48,11 @@ interface BuyCheatProps {
 export default function BuyCheat({ onClose }: BuyCheatProps) {
   const [selectedToBuy, setSelectedToBuy] = useState<Plan | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [noteContent, setNoteContent] = useState("");
   const [showConfirm, setShowConfirm] = useState(false);
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const dispatch = useDispatch();
 
   // Redux state
   const account = useSelector((state: RootState) => state.account);
@@ -87,8 +87,15 @@ export default function BuyCheat({ onClose }: BuyCheatProps) {
     }
 
     if (userCandyCount < planItem.price) {
-      setNoteContent(
-        `貝果不夠喔！還需要 ${planItem.price - userCandyCount} 個貝果 ^-﹏-^ ੭`
+      dispatch(
+        setToast({
+          content: `貝果不夠喔！還需要 ${
+            planItem.price - userCandyCount
+          } 個貝果 ^-﹏-^ ੭`,
+          type: "bad",
+          imgUrl: "",
+          time: 3000,
+        })
       );
       setTimeout(() => navigate("/shop"), 1500);
 
@@ -113,16 +120,28 @@ export default function BuyCheat({ onClose }: BuyCheatProps) {
 
     // 檢查必要字段
     if (!userID) {
-      setNoteContent("請重新登入 ^๑_๑^ ੭");
+      dispatch(
+        setToast({
+          content: "請重新登入 ^๑_๑^ ੭",
+          type: "bad",
+          imgUrl: "",
+          time: 3000,
+        })
+      );
       return;
     }
 
     // 再次檢查餘額是否足夠
     if (userCandyCount < selectedToBuy.price) {
-      setNoteContent(
-        `貝果不夠喔！還需要 ${
-          selectedToBuy.price - userCandyCount
-        } 個貝果 ^-﹏-^ ੭`
+      dispatch(
+        setToast({
+          content: `貝果不夠喔！還需要 ${
+            selectedToBuy.price - userCandyCount
+          } 個貝果 ^-﹏-^ ੭`,
+          type: "bad",
+          imgUrl: "",
+          time: 3000,
+        })
       );
       navigate("/shop");
       setSelectedToBuy(null);
@@ -148,7 +167,14 @@ export default function BuyCheat({ onClose }: BuyCheatProps) {
     postPurchase(purchaseData, {
       onSuccess: (response) => {
         console.log("快樂遮羞布購買成功，響應:", response);
-        setNoteContent("購買成功！^ >𖥦< ^ ੭");
+        dispatch(
+          setToast({
+            content: "購買成功！^ >𖥦< ^ ੭",
+            type: "default",
+            imgUrl: "",
+            time: 3000,
+          })
+        );
 
         // 扣除貝果
         const updatedCandyCount = userCandyCount - selectedToBuy.price;
@@ -193,7 +219,14 @@ export default function BuyCheat({ onClose }: BuyCheatProps) {
                   },
                   onError: (error) => {
                     console.error("更新快樂遮羞布數量失敗:", error);
-                    setNoteContent("購買失敗，請稍後再試 ^-﹏-^ ੭");
+                    dispatch(
+                      setToast({
+                        content: "購買失敗，請稍後再試 ^-﹏-^ ੭",
+                        type: "bad",
+                        imgUrl: "",
+                        time: 3000,
+                      })
+                    );
                     setIsProcessing(false);
                     handleCancel();
                   },
@@ -202,7 +235,14 @@ export default function BuyCheat({ onClose }: BuyCheatProps) {
             },
             onError: (error) => {
               console.error("更新貝果餘額失敗:", error);
-              setNoteContent("購買失敗，請稍後再試 ^-﹏-^ ੭");
+              dispatch(
+                setToast({
+                  content: "購買失敗，請稍後再試 ^-﹏-^ ੭",
+                  type: "bad",
+                  imgUrl: "",
+                  time: 3000,
+                })
+              );
               setIsProcessing(false);
               handleCancel();
             },
@@ -231,19 +271,19 @@ export default function BuyCheat({ onClose }: BuyCheatProps) {
           errorMessage = error.message;
         }
 
-        setNoteContent(errorMessage);
+        dispatch(
+          setToast({
+            content: errorMessage,
+            type: "bad",
+            imgUrl: "",
+            time: 3000,
+          })
+        );
         setIsProcessing(false);
         setSelectedToBuy(null);
       },
     });
   };
-
-  // 清除通知
-  useEffect(() => {
-    if (!noteContent) return;
-    const timer = setTimeout(() => setNoteContent(""), 3000);
-    return () => clearTimeout(timer);
-  }, [noteContent]);
 
   // ESC 鍵關閉
   useEffect(() => {
@@ -321,13 +361,6 @@ export default function BuyCheat({ onClose }: BuyCheatProps) {
               image: "./image/template/Ticket.png",
             }}
           />
-        )}
-
-        {/* 通知组件 */}
-        {noteContent && (
-          <Notification time={3000}>
-            <p>{noteContent}</p>
-          </Notification>
         )}
       </div>
     </div>

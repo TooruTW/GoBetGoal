@@ -39,8 +39,8 @@ export default function Ranking() {
         ))}
       </div>
       <div className="w-full lg:hidden flex justify-start">
-        {rankingList.map((item) => (
-          <Link to={`/user/${item.user_id}`}>
+        {rankingList.map((item, index) => (
+          <Link key={index} to={`/user/${item.user_id}`}>
             <div className="items-center gap-3 p-2  text-sm">
               <img
                 src={item.character_img_link}

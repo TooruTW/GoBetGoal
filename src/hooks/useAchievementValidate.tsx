@@ -59,7 +59,7 @@ export const useAchievementValidate = () => {
     achievementLoading,
   ]);
 
-  const valiFristCharge = () => {
+  const valiFirstCharge = () => {
     if (!userId) return;
     const achiId = "564d7e06-1d0a-4211-b2d8-802191dabbbb";
     const description = "你已經獲得成就：來財";
@@ -69,7 +69,7 @@ export const useAchievementValidate = () => {
       (achi) => achi.id === achiId
     );
     if (isGet) {
-      console.log(isGet, "aleady get");
+      console.log(isGet, "already get");
       return { isGet: true };
     }
     postUserAchi({
@@ -86,17 +86,17 @@ export const useAchievementValidate = () => {
 
   const finishTrial1Times = () => {
     if (!userId) return;
-    const achiId = "3ebaee24-c6da-4846-9b50-f222f33fbdf2";
+    const achiId = "35f8c672-4ac8-4482-8723-6b9498a2ccc9";
     const targetCount = 1;
-    const description = "你已經獲得成就：堅持的力量";
-    const imgUrl = "/image/award/TrialCompleteAward2.webp";
+    const description = "你已經獲得成就：堅持就是勝利";
+    const imgUrl = "/image/award/TrialCompleteAward3.webp";
     if (!achievementStatusData) return;
 
     const isGet = achievementStatusData.doneAchi.some(
       (achi) => achi.id === achiId
     );
     if (isGet) {
-      console.log(isGet, "aleady get");
+      console.log(isGet, "already get",achiId);
       return { isGet: true };
     }
 
@@ -104,19 +104,20 @@ export const useAchievementValidate = () => {
     const userAllTrial = allTrialAndParticipant.filter(
       (item) => item.participant_id === userId && item.is_close
     );
-    const compeleteCount = userAllTrial.length;
-    if (compeleteCount === targetCount - 1) {
+    const completeCount = userAllTrial.length;
+    if (completeCount === targetCount - 1) {
       postUserAchi({
         user_id: userId,
         achievement_id: achiId,
       });
+      console.log(isGet, "already get",achiId);
       return { isGet: false, description: description, imgUrl: imgUrl };
     }
   };
 
   return {
     achievementStatusData,
-    valiFristCharge,
+    valiFirstCharge,
     finishTrial1Times,
     isLoading: userAchievementLoading || achievementLoading,
   };

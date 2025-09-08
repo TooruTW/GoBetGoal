@@ -48,7 +48,7 @@ export { useGetNotificationSupa } from "./getNotificationSupa";
 export { usePatchReadNotificationSupa } from "./patchReadNotificationSupa";
 export { useDeleteNotificationSupa } from "./deleteNotificationSupa";
 export { usePatchAcceptTrialInvite } from "./patchAcceptTrialInvite";
-export { usePatchReciveReward } from "./patchReciveReward";
+export { usePatchReceiveReward } from "./patchReceiveReward";
 export { useForgotPassword } from "./resetPasswordSupa";
 export { useUpdatePassword } from "./resetPasswordSupa";
 export { useGetAllParticipateTrial } from "./getAllParticipateTrial";
