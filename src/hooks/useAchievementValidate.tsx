@@ -85,34 +85,68 @@ export const useAchievementValidate = () => {
   } = useGetAllParticipateTrial();
 
   const finishTrial1Times = () => {
-    if (!userId) return;
-    const achiId = "35f8c672-4ac8-4482-8723-6b9498a2ccc9";
-    const targetCount = 1;
-    const description = "你已經獲得成就：堅持就是勝利";
-    const imgUrl = "/image/award/TrialCompleteAward3.webp";
-    if (!achievementStatusData) return;
+    if (
+      !userId ||
+      !achievementStatusData ||
+      !allTrialAndParticipant ||
+      allTrialAndParticipantLoading
+    )
+      return;
 
-    const isGet = achievementStatusData.doneAchi.some(
-      (achi) => achi.id === achiId
-    );
-    if (isGet) {
-      console.log(isGet, "already get",achiId);
-      return { isGet: true };
-    }
-
-    if (!allTrialAndParticipant || allTrialAndParticipantLoading) return;
     const userAllTrial = allTrialAndParticipant.filter(
       (item) => item.participant_id === userId && item.is_close
     );
     const completeCount = userAllTrial.length;
-    if (completeCount === targetCount - 1) {
-      postUserAchi({
-        user_id: userId,
-        achievement_id: achiId,
-      });
-      console.log(isGet, "already get",achiId);
-      return { isGet: false, description: description, imgUrl: imgUrl };
+
+    // 定義成就配置
+    const achievements = [
+      {
+        id: "35f8c672-4ac8-4482-8723-6b9498a2ccc9",
+        targetCount: 1,
+        description: "你已經獲得成就：堅持就是勝利",
+        imgUrl: "/image/award/TrialCompleteAward3.webp",
+      },
+      {
+        id: "3ebaee24-c6da-4846-9b50-f222f33fbdf2",
+        targetCount: 5,
+        description: "你已經獲得成就：堅持的力量",
+        imgUrl: "/image/award/TrialCompleteAward2.webp",
+      },
+      {
+        id: "5124c6eb-d356-47d8-88e7-476c463ca2a0",
+        targetCount: 10,
+        description: "你已經獲得成就：馬拉松戰士",
+        imgUrl: "/image/award/TrialCompleteAward1.webp",
+      },
+    ];
+
+    // 檢查每個成就
+    for (const achievement of achievements) {
+      const isGet = achievementStatusData.doneAchi.some(
+        (achi) => achi.id === achievement.id
+      );
+
+      if (isGet) {
+        console.log(`Achievement ${achievement.id} already obtained`);
+        continue;
+      }
+
+      // 檢查是否達到目標次數
+      if (completeCount >= achievement.targetCount - 1) {
+        postUserAchi({
+          user_id: userId,
+          achievement_id: achievement.id,
+        });
+        console.log(`Achievement ${achievement.id} unlocked!`);
+        return {
+          isGet: false,
+          description: achievement.description,
+          imgUrl: achievement.imgUrl,
+        };
+      }
     }
+
+    return { isGet: true };
   };
 
   return {
