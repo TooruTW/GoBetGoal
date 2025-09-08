@@ -22,6 +22,7 @@ import LogoImgTxtDark from "@/assets/logo/LogoImgTxtDark.svg";
 import LogoImgTxtLight from "@/assets/logo/LogoImgTxtLight.svg";
 import FallingText from "./MainMachine/component/FallingText.tsx";
 import mainBack from "@/assets/main/mainBack.webp";
+import { useSound } from "@/hooks/useSound";
 
 // 註冊 ScrollTrigger 插件
 gsap.registerPlugin(ScrollTrigger);
@@ -32,6 +33,7 @@ export default function Home() {
   const mainMachineRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
   const [isSlideOver, setIsSlideOver] = useState(false);
+  const playClick = useSound("/sounds/blast.mp3");
 
   // 控制 carousel 模式的狀態
   const [isCarouselMode, setIsCarouselMode] = useState(false);
@@ -68,9 +70,9 @@ export default function Home() {
           } else {
             setIsCarouselMode(false);
           }
-          if(progress >= 1){
+          if (progress >= 1) {
             setIsSlideOver(true);
-          }else{
+          } else {
             setIsSlideOver(false);
           }
         },
@@ -101,14 +103,16 @@ export default function Home() {
             }}
             className="block cursor-pointer"
           >
-            <Button>立即體驗</Button>
+            <Button onClick={playClick}>立即體驗</Button>
           </Link>
         </div>
 
         <img
           src={mainBack}
           alt="mc"
-          className={`h-1/3 z-10 pointer-events-none absolute bottom-10 left-1/2 -translate-x-1/2 ${isSlideOver && "hidden"}`}
+          className={`h-1/3 z-10 pointer-events-none absolute bottom-10 left-1/2 -translate-x-1/2 ${
+            isSlideOver && "hidden"
+          }`}
         />
 
         <div className="w-full overflow-x-hidden aspect-[5/3] flex justify-center items-center relative my-auto z-0">

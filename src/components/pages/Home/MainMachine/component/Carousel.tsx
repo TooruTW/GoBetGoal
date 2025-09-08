@@ -2,12 +2,13 @@ import FaultyTerminal from "@/components/shared/reactBit/FaultyTerminal";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { useRef, useState } from "react";
-import GameComponent from "./GameComponent";
 import LogoImgTxtDark from "@/assets/logo/LogoImgTxtDark.svg";
 import LogoImgTxtLight from "@/assets/logo/LogoImgTxtLight.svg";
 // import SlotMachine from "./SlotMachine";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { useSound } from "@/hooks/useSound";
+import GameComponent from "./GameComponent.tsx";
 
 interface CarouselProps {
   className?: string;
@@ -17,11 +18,11 @@ interface CarouselProps {
 export default function Carousel({ className, isCarouselMode }: CarouselProps) {
   const account = useSelector((state: RootState) => state.account);
   const isDarkMode = account.system_preference_color_mode === "dark";
-  const [showGame, setShowGame] = useState("");
   const carouselRef = useRef<HTMLDivElement>(null);
   const [isTriggered, setIsTriggered] = useState(false);
 
   const [slideIndex, setSlideIndex] = useState<number>(0);
+  const playClick = useSound("/sounds/blast.mp3");
 
   useGSAP(
     () => {
@@ -39,7 +40,7 @@ export default function Carousel({ className, isCarouselMode }: CarouselProps) {
           end: "+=250%",
           scrub: 1,
           onUpdate: (self) => {
-            setSlideIndex(Math.max(0, Math.floor(self.progress * 5) - 1));
+            setSlideIndex(Math.max(0, Math.floor(self.progress * 4) - 1));
           },
         },
       });
@@ -50,7 +51,7 @@ export default function Carousel({ className, isCarouselMode }: CarouselProps) {
   return (
     <div
       ref={carouselRef}
-      className={`aspect-video text-white overflow-hidden text-[4px] ${className}`}
+      className={`aspect-video text-white overflow-hidden text-[2px] sm:text-[3px] md:text-[4px] ${className}`}
     >
       <div className="w-full h-full">
         {/* 第一個頁面 - Logo 頁面 */}
@@ -88,7 +89,6 @@ export default function Carousel({ className, isCarouselMode }: CarouselProps) {
             />
           </div>
         </div>
-
         {/* 第二個頁面 - 介紹文字 */}
         <div
           className={`flex items-center justify-center w-full h-full relative bg-schema-surface-container slide ${
@@ -99,7 +99,6 @@ export default function Carousel({ className, isCarouselMode }: CarouselProps) {
             <p>想減重總是行動不起來？</p>
           </div>
         </div>
-
         {/* 第三個頁面 - 空白頁面 */}
         <div
           className={`flex items-center justify-center bg-schema-surface-container w-full h-full relative slide ${
@@ -111,7 +110,6 @@ export default function Carousel({ className, isCarouselMode }: CarouselProps) {
             <p>是你沒有把減重當成遊戲！</p>
           </div>
         </div>
-
         {/* 第四個頁面 - 空白頁面 */}
         <div
           className={`flex flex-col items-center justify-center bg-schema-surface-container w-full h-full relative border slide ${
@@ -123,34 +121,22 @@ export default function Carousel({ className, isCarouselMode }: CarouselProps) {
             <p>跟朋友來場遊戲</p>
             <p>一起輕鬆瘦身嗎？</p>
             <button
-              onClick={() => setShowGame("開始遊戲")}
-              className="rounded-full bg-schema-primary px-[5%] py-[1%] text-schema-inverse-on-surface"
+              onClick={playClick}
+              className="rounded-full bg-schema-primary px-[5%] py-[1%] mt-[4%] text-schema-inverse-on-surface animate-bounce"
             >
               開始遊戲
             </button>
           </div>
         </div>
-
-        {/* 第五個頁面 - 遊戲組件 */}
         <div
           className={`flex flex-col items-center justify-center bg-schema-surface-container w-full h-full relative slide ${
             slideIndex === 4 ? "block" : "hidden"
           }`}
         >
           <GameComponent />
-        </div>
-
-        {/* 第六個頁面 - 老虎機 */}
-        {/* <div
-          className={`flex flex-col items-center justify-center bg-schema-surface-container w-full h-full relative slide ${
-            slideIndex === 5 ? "block" : "hidden"
-          }`}
-        >
-          <SlotMachine />
-        </div> */}
+        </div>{" "}
+        */
       </div>
-
-      {showGame && <GameComponent />}
     </div>
   );
 }

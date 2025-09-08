@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
 interface SequencePlayerProps {
-  folder: string; // e.g. "monsterCurious69"
+  folder: string;
   frameCount: number; // 幀數，例如 60
   width?: number;
   height?: number;
@@ -84,4 +84,3 @@ const SequencePlayer: React.FC<SequencePlayerProps> = ({
 };
 
 export default SequencePlayer;
-

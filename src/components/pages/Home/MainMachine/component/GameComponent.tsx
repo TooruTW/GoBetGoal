@@ -1,6 +1,6 @@
 export default function Run() {
   return (
-    <div className="w-full flex flex-col items-center absolute top-0">
+    <div className="w-full flex flex-col items-center absolute top-0 z-20">
       <div className="  w-full object-cover">
         <video autoPlay loop muted playsInline className="   h-full  ">
           {/* Safari 等瀏覽器可能讀 mov（但建議轉成 mp4） */}
