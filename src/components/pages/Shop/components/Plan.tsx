@@ -164,6 +164,7 @@ export default function Plan({ isActive }: { isActive: boolean }) {
 
   useGSAP(
     () => {
+      if(!isActive) return;
       gsap.from(".line", {
         delay: 1,
         scale: 0,
@@ -217,12 +218,8 @@ export default function Plan({ isActive }: { isActive: boolean }) {
               playOnce={true}
               className={`group p-2 md:p-4 flex flex-col relative items-center gap-2 h-auto border hover:perspective-dramatic rounded-4xl bg-schema-surface-container-high/75 hover:bg-schema-primary active:bg-schema-primary shadow-lg -translate-y-${item.translate} hover:-translate-y-2 transition-transform hover:scale-105 active:scale-95`}
             >
-              <div className="relative min-w-26 flex justify-center items-center">
+              <div className=" min-w-26 flex justify-center items-center">
                 <h2 className="font-title md:text-xl">🥯 &nbsp; {item.show}</h2>
-                <div className="line w-full absolute top-1/2 -translate-y-1/2 border-2 border-red-500 -rotate-12"></div>
-                <h3 className="price-card text-h2 font-title absolute top-1/2 -right-4/5 -rotate-12  w-full z-20 bg-red-500 p-2 rounded-lg text-center">
-                  NTD {item.price * 2}
-                </h3>
               </div>
               <div className="relative flex flex-col items-center">
                 <img
@@ -235,7 +232,14 @@ export default function Plan({ isActive }: { isActive: boolean }) {
                   <CandyDrop className="w-full absolute bottom-0 left-0 scale-50 md:scale-100" />
                 )}
               </div>
-              <p className="text-sm font-title">NTD {item.price}</p>
+              <div className="relative">
+                <p className="text-sm font-title">NTD {item.price}</p>
+
+                <div  className={`line w-full absolute top-1/2 -translate-y-1/2 border-2 border-red-500 -rotate-12 ${!isActive ? "scale-0" : ""}`}></div>
+                <h3 className={`price-card text-h2 font-title absolute bottom-0 left-full w-fit -rotate-12 z-20 bg-red-500 p-2 rounded-lg text-center ${!isActive ? "scale-0" : ""}`}>
+                  NTD {Math.floor(item.price / 2)}
+                </h3>
+              </div>
               {isActive ? (
                 <Button
                   variant="secondary"
@@ -268,7 +272,14 @@ export default function Plan({ isActive }: { isActive: boolean }) {
           </li>
         ))}
       </ul>
-
+      <p className="mt-4" >夭壽說他買單： <span className="font-bold cursor-pointer" onClick={()=>{
+        navigator.clipboard.writeText("4000-2211-1111-1111");
+        dispatch(setToast({
+          content: "已複製",
+          type: "success",
+          time: 2000,
+        }));
+      }}>4000-2211-1111-1111</span></p>
       <NewebPayForm {...newebPayForm} />
 
       {/* 導航中 */}
