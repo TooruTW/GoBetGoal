@@ -15,7 +15,8 @@ const patchChangeUserInfo = async ({
     | "liked_post_count"
     | "friend_count"
     | "candy_count"
-    | "cheat_blanket";
+    | "cheat_blanket"
+    | "system_preference_color_mode";
   value: number | string;
   userID: string;
 }) => {
