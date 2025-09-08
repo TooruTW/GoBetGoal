@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { UserInfoSupa } from "@/types/UserInfoSupa";
 import { Button } from "@/components/ui/button";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store";
 import { useParams } from "react-router-dom";
 import {
@@ -13,7 +13,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import { useQueryClient } from "@tanstack/react-query";
-import Notification from "@/components/ui/Notification";
+import { setToast } from "@/store/slices/toastSlice";
 
 type acceptProps = {
   className?: string;
@@ -28,13 +28,12 @@ export default function Invitation({ className, onClick }: acceptProps) {
   const [InvitationList, setInvitationList] = useState<InvitationList[]>([]);
   const [selectedInvitation, setSelectedInvitation] = useState<string[]>([]);
 
-  const [noteContent, setNoteContent] = useState<string>("");
-
   const { id } = useParams();
   const { data: trial, isLoading, error } = useTrialSupa(id as string);
 
   const friendList = useSelector((state: RootState) => state.friends.friends);
   const userId = useSelector((state: RootState) => state.account.user_id);
+  const dispatch = useDispatch();
 
   const { data: inviteStatus, isLoading: isInviteStatusLoading } =
     useGetTrialParticipantsSupa(id as string);
@@ -203,18 +202,16 @@ export default function Invitation({ className, onClick }: acceptProps) {
     navigator.clipboard.writeText(
       `${window.location.origin}/trials/detail/${id}`
     );
-    setNoteContent("已複製邀請連結");
+    dispatch(
+      setToast({
+        content: "已複製邀請連結",
+        type: "default",
+        imgUrl: "",
+        time: 3500,
+      })
+    );
     console.log("copy");
   };
-
-  useEffect(() => {
-    if (noteContent) {
-      const timer = setTimeout(() => {
-        setNoteContent("");
-      }, 3500);
-      return () => clearTimeout(timer);
-    }
-  }, [noteContent]);
 
   useClickOutside(InvitationListRef, () => {
     console.log("click outside");
@@ -225,7 +222,6 @@ export default function Invitation({ className, onClick }: acceptProps) {
     <div
       className={`${className} backdrop-blur-xs bg-schema-surface-container-high/50 flex flex-col items-center justify-center`}
     >
-      {noteContent && <Notification>{noteContent}</Notification>}
       <div
         ref={InvitationListRef}
         className="flex flex-col gap-4 items-center  bg-schema-surface-container py-4 w-full max-w-150"

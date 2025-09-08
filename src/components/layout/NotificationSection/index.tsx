@@ -11,6 +11,7 @@ import MessageBox from "./MessageBox";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import { supabase } from "@/supabaseClient";
 import { useQueryClient } from "@tanstack/react-query";
+
 type NotificationSectionProps = {
   isShow: boolean;
   closeNotification: () => void;
@@ -215,7 +216,7 @@ export default function NotificationSection({
   return (
     <div
       ref={notificationSectionRef}
-      className="fixed top-20 right-0 w-full h-200 rounded-l-4xl min-w-[375px] max-w-150 flex flex-col bg-schema-surface-container-high p-10 gap-10 z-50 overflow-y-scroll"
+      className="fixed top-20 right-0 w-full h-200 rounded-l-4xl min-w-[375px] max-w-150 flex flex-col bg-schema-surface-container-high p-10 gap-10 z-100 overflow-y-scroll"
     >
       <IoClose
         onClick={(e) => handleClose(e)}

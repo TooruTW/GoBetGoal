@@ -1,6 +1,7 @@
 import { ReactNode, useState } from "react";
 import Header from "./Header";
 import NotificationSection from "./NotificationSection";
+import Toast from "../shared/Toast";
 
 interface LayoutProps {
   children: ReactNode;
@@ -20,7 +21,10 @@ export default function Layout({ children, className }: LayoutProps) {
         isShow={isShowNotification}
         closeNotification={() => setIsShowNotification(false)}
       />
-      <main className=" h-full pt-16 flex items-center justify-center min-h-screen">{children}</main>
+      <Toast />
+      <main className=" h-full pt-16 flex items-center justify-center min-h-screen">
+        {children}
+      </main>
     </div>
   );
 }

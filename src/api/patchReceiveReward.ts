@@ -1,7 +1,7 @@
 import { supabase } from "@/supabaseClient";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-const patchReciveReward = async ({
+const patchReceiveReward = async ({
   userID,
   trialID,
   reward,
@@ -44,10 +44,10 @@ const patchReciveReward = async ({
   return { currentAssetData, data };
 };
 
-export function usePatchReciveReward() {
+export function usePatchReceiveReward() {
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: patchReciveReward,
+    mutationFn: patchReceiveReward,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["user_info"], exact: false });
     },

@@ -9,16 +9,16 @@ import {
   monsterCongrats,
   monsterCry,
 } from "@/assets/monster";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Candy from "@/components/layout/Header/Navigator/Candy";
 import { RootState } from "@/store";
 // import { usePatchChangeUserInfo, usePostDeposit } from "@/api";
 // import { useQueryClient } from "@tanstack/react-query";
-import Notification from "@/components/ui/Notification";
 import NewebPayForm, { NewebPayFormProps } from "./NewebPayForm";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Loading from "./Loading";
 import { useAchievementValidate } from "@/hooks/useAchievementValidate";
+import { setToast } from "@/store/slices/toastSlice";
 type Plan = {
   src: MonsterImage;
   price: number;
@@ -47,11 +47,7 @@ const plan: Plan[] = [
 
 export default function Plan({ isActive }: { isActive: boolean }) {
   const navigate = useNavigate();
-  const [noteContent, setNoteContent] = useState("");
-  const [noteType, setNoteType] = useState<"default" | "bad" | "achievement">(
-    "default"
-  );
-  const [noteImgUrl, setNoteImgUrl] = useState("");
+  const dispatch = useDispatch();
 
   const [showAnime, setShowAnime] = useState<boolean[]>(
     new Array(plan.length).fill(false)
@@ -162,13 +158,7 @@ export default function Plan({ isActive }: { isActive: boolean }) {
 
   const onClose = () => setPopupState("none");
 
-  useEffect(() => {
-    if (!noteContent) return;
-    const timer = setTimeout(() => setNoteContent(""), 3000);
-    return () => clearTimeout(timer);
-  }, [noteContent]);
-
-  const { valiFristCharge } = useAchievementValidate();
+  const { valiFirstCharge } = useAchievementValidate();
 
   return (
     <div className=" flex flex-col justify-center items-center relative ">
@@ -286,11 +276,16 @@ export default function Plan({ isActive }: { isActive: boolean }) {
                 onClick={(e) => {
                   e.stopPropagation();
                   onClose();
-                  const result = valiFristCharge();
+                  const result = valiFirstCharge();
                   if (!result?.isGet) {
-                    setNoteContent(result?.description || "");
-                    setNoteType("achievement");
-                    setNoteImgUrl(result?.imgUrl || "");
+                    dispatch(
+                      setToast({
+                        content: result?.description || "",
+                        type: "achievement",
+                        imgUrl: result?.imgUrl || "",
+                        time: 3000,
+                      })
+                    );
                   }
                 }}
               >
@@ -300,12 +295,6 @@ export default function Plan({ isActive }: { isActive: boolean }) {
           </div>
           <CandyDrop className="w-full absolute bottom-0 left-1/2 -translate-x-1/3" />
         </div>
-      )}
-
-      {noteContent && (
-        <Notification time={2000} type={noteType} imgUrl={noteImgUrl}>
-          <p>{noteContent}</p>
-        </Notification>
       )}
     </div>
   );

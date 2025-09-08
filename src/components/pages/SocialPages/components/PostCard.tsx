@@ -4,7 +4,7 @@ import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa6";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store";
 import {
   usePostLikeSupa,
@@ -13,9 +13,9 @@ import {
 } from "@/api";
 import { useGSAP } from "@gsap/react";
 import { LuSendHorizontal } from "react-icons/lu";
-import Notification from "@/components/ui/Notification";
 import { Post } from "@/types/Post";
 import { SlOptionsVertical } from "react-icons/sl";
+import { setToast } from "@/store/slices/toastSlice";
 
 export default function PostCard(props: Post) {
   const {
@@ -29,6 +29,7 @@ export default function PostCard(props: Post) {
     post_like,
   } = props;
   const userId = useSelector((state: RootState) => state.account.user_id);
+  const dispatch = useDispatch();
 
   const [isShow, setIsShow] = useState(false);
   const [isShowDeletePost, setIsShowDeletePost] = useState(false);
@@ -37,8 +38,6 @@ export default function PostCard(props: Post) {
   const heartRef = useRef<HTMLDivElement>(null);
 
   const [clickCount, setClickCount] = useState(0);
-
-  const [noteContent, setNoteContent] = useState("");
 
   const { mutate: postLike } = usePostLikeSupa({
     postId: id,
@@ -117,15 +116,16 @@ export default function PostCard(props: Post) {
     navigator.clipboard.writeText(
       `${window.location.origin}/social-pages/post/${id}`
     );
-    setNoteContent("連結已複製");
+    dispatch(
+      setToast({
+        content: "連結已複製",
+        type: "default",
+        imgUrl: "",
+        time: 2000,
+      })
+    );
   };
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setNoteContent("");
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, [noteContent]);
   const { contextSafe } = useGSAP();
 
   useGSAP(
@@ -165,11 +165,6 @@ export default function PostCard(props: Post) {
 
   return (
     <div className="aspect-[140/212] w-full bg-gray-700">
-      {noteContent && (
-        <Notification time={2000}>
-          <p>{noteContent}</p>
-        </Notification>
-      )}
       <div className="relative w-full h-full">
         {publish_by === userId && (
           <div
