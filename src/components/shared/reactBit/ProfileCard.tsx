@@ -74,6 +74,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
   requestId,
   addressId,
   onAcceptFriend,
+  onContactClick,
 }) => {
   const wrapRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -268,7 +269,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
               onError={(e) => (e.currentTarget.style.display = "none")}
             />
             {showUserInfo && (
-              <div className="pc-user-info">
+              <div className="pc-user-info hover:scale-105 transition-all duration-300" onClick={onContactClick}>
                 <div className="pc-user-details">
                   <div className="pc-user-text">
                     <div className="pc-handle">{handle}</div>

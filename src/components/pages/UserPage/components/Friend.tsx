@@ -101,22 +101,7 @@ export default function Friend({ showState = "accept" }: FriendProps) {
                     showUserInfo={true}
                     enableTilt={true}
                     // 根據狀態傳遞不同的處理函數
-                    onContactClick={() =>
-                      patchFriendRequest(
-                        {
-                          request_id: friend.request_id,
-                          address_id: friend.address_id,
-                          isAccept: true,
-                        },
-                        {
-                          onSuccess: () => {
-                            queryClient.invalidateQueries({
-                              queryKey: ["friend", id],
-                            });
-                          },
-                        }
-                      )
-                    }
+                    onContactClick={() => navigate(`/user/${thisId}`)}
                   />
 
                   <IoCloseSharp
