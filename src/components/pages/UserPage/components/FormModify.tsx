@@ -1,10 +1,10 @@
 import { usePatchChangePassword, usePatchChangeUserInfo } from "@/api";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store";
 import { Button } from "@/components/ui/button";
-import Notification from "@/components/ui/Notification";
+import { setToast } from "@/store/slices/toastSlice";
 
 export default function FormModify() {
   const { mutate: patchChangePassword } = usePatchChangePassword();
@@ -12,17 +12,10 @@ export default function FormModify() {
   const [newPassword, setNewPassword] = useState<string | null>(null);
   const [newName, setNewName] = useState<string | null>(null);
   const queryClient = useQueryClient();
-  const [noteContent, setNoteContent] = useState("");
+  const dispatch = useDispatch();
 
   const userID = useSelector((state: RootState) => state.account.user_id);
   const nickName = useSelector((state: RootState) => state.account.nick_name);
-  useEffect(() => {
-    if (!noteContent) return;
-    const timer = setTimeout(() => {
-      setNoteContent("");
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, [noteContent]);
   const handleUpdate = () => {
     if (newName) {
       patchChangeUserInfo(
@@ -33,7 +26,14 @@ export default function FormModify() {
             queryClient.invalidateQueries({
               queryKey: ["user_info", userID],
             });
-            setNoteContent("暱稱更換成功！ ^⦁᎑-^ ੭ ");
+            dispatch(
+              setToast({
+                content: "暱稱更換成功！ ^⦁᎑-^ ੭ ",
+                type: "default",
+                imgUrl: "",
+                time: 2000,
+              })
+            );
           },
         }
       );
@@ -44,7 +44,14 @@ export default function FormModify() {
         onSuccess: () => {
           setNewPassword(null);
           queryClient.invalidateQueries({ queryKey: ["user"] });
-          setNoteContent("密碼更換成功！ ^◕‿◕^ ੭");
+          dispatch(
+            setToast({
+              content: "密碼更換成功！ ^◕‿◕^ ੭",
+              type: "default",
+              imgUrl: "",
+              time: 2000,
+            })
+          );
         },
       });
     }
@@ -76,12 +83,6 @@ export default function FormModify() {
             onBlur={(e) => setNewPassword(e.target.value)}
           />
         </div>
-
-        {noteContent && (
-          <Notification time={2000}>
-            <p>{noteContent}</p>
-          </Notification>
-        )}
       </div>
     </div>
   );

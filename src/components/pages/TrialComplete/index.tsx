@@ -1,15 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import Notification from "@/components/ui/Notification";
 import { useClickOutside } from "@/hooks/useClickOutside";
+import { setToast } from "@/store/slices/toastSlice";
 import {
   useTrialSupa,
   useGetTrialParticipantsSupa,
-  usePatchReciveReward,
+  usePatchReceiveReward,
 } from "@/api/index";
 
 import { Button } from "@/components/ui/button";
@@ -43,12 +43,7 @@ export default function TrialComplete() {
   const [selectedUserID, setSelectedUserID] = useState<string>("");
   const [isRewardTaken, setIsRewardTaken] = useState(false);
   const userID = useSelector((state: RootState) => state.account.user_id);
-
-  const [noteContent, setNoteContent] = useState("test");
-  const [noteType, setNoteType] = useState<"default" | "bad" | "achievement">(
-    "default"
-  );
-  const [noteImgUrl, setNoteImgUrl] = useState("");
+  const dispatch = useDispatch();
 
   const { data: participantData } = useGetTrialParticipantsSupa(
     id?.toString() || ""
@@ -62,7 +57,7 @@ export default function TrialComplete() {
     setIsRewardTaken(isRewardTaken);
   }, [participantData, userID]);
 
-  const { mutate: patchReciveReward } = usePatchReciveReward();
+  const { mutate: patchReceiveReward } = usePatchReceiveReward();
   const queryClient = useQueryClient();
 
   const handleTakeReward = () => {
@@ -70,7 +65,7 @@ export default function TrialComplete() {
     console.log("take reward");
     console.log(certification.trialReward, "certification.trialReward");
 
-    patchReciveReward(
+    patchReceiveReward(
       {
         userID: userID,
         trialID: id?.toString() || "",
@@ -299,9 +294,14 @@ export default function TrialComplete() {
             const result = finishTrial1Times();
             if (!result?.isGet) {
               console.log(result, "result");
-              setNoteContent(result?.description || "");
-              setNoteType("achievement");
-              setNoteImgUrl(result?.imgUrl || "");
+              dispatch(
+                setToast({
+                  content: result?.description || "",
+                  type: "achievement",
+                  imgUrl: result?.imgUrl || "",
+                  time: 3000,
+                })
+              );
             }
           }}
           disabled={selectedUserID !== userID || !userID}
@@ -339,11 +339,6 @@ export default function TrialComplete() {
           />
         )}
       </div>
-      {noteContent && (
-        <Notification time={2000} type={noteType} imgUrl={noteImgUrl}>
-          <p>{noteContent}</p>
-        </Notification>
-      )}
     </div>
   );
 }

@@ -137,7 +137,6 @@ export default function Category() {
     () => {
       const images = decorRef.current?.children;
       if (!images || !images.length) return;
-
       gsap.fromTo(
         images,
         {
@@ -163,7 +162,7 @@ export default function Category() {
   );
 
   return (
-    <div className="w-full flex justify-center gap-6 text-h2 font-semibold">
+    <div className="w-full h-70 flex justify-center gap-6 text-h2 font-semibold">
       <div
         className={`rounded-3xl flex items-center w-full bg-gradient-to-r  relative`}
         style={{
@@ -228,7 +227,6 @@ export default function Category() {
               style={{
                 top: `${decorPositions[i].top}%`,
                 left: `${decorPositions[i].left}%`,
-
                 height: `${decorPositions[i].size}px`,
                 rotate: `${Math.random() * 90 - 10}deg`,
               }}

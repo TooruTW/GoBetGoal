@@ -1,9 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { FaLock } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import Notification from "@/components/ui/Notification";
 import { RootState } from "@/store";
 import {
   usePatchChangeUserInfo,
@@ -11,6 +10,7 @@ import {
   usePostPurchase,
   useGetAvatar,
 } from "@/api";
+import { setToast } from "@/store/slices/toastSlice";
 
 import ConfirmModal from "@/components/ui/ConfirmModal";
 import { Button } from "@/components/ui/button";
@@ -48,7 +48,7 @@ export default function AvatarSelect({
   const [selectedToBuy, setSelectedToBuy] = useState<Avatar | null>(null);
   const [selectedToChange, setSelectedToChange] = useState<Avatar | null>(null); // 新增：要更換的頭像
   const navigate = useNavigate();
-  const [noteContent, setNoteContent] = useState("");
+  const dispatch = useDispatch();
 
   // Redux 和 API hooks
   const { mutate: postPurchase } = usePostPurchase();
@@ -113,7 +113,14 @@ export default function AvatarSelect({
 
     patchUserInfo(updateData, {
       onSuccess: () => {
-        setNoteContent("頭像更換成功！^ >𖥦< ^ ੭  ");
+        dispatch(
+          setToast({
+            content: "頭像更換成功！^ >𖥦< ^ ੭  ",
+            type: "default",
+            imgUrl: "",
+            time: 2000,
+          })
+        );
 
         // 更新本地狀態
         onSelect(selectedToChange);
@@ -133,7 +140,14 @@ export default function AvatarSelect({
         } else if (error?.message) {
           errorMessage = error.message;
         }
-        setNoteContent(errorMessage);
+        dispatch(
+          setToast({
+            content: errorMessage,
+            type: "bad",
+            imgUrl: "",
+            time: 2000,
+          })
+        );
         setSelectedToChange(null);
       },
     });
@@ -147,7 +161,14 @@ export default function AvatarSelect({
 
     // 檢查必要字段
     if (!userID) {
-      setNoteContent("請重新登入 ^๑_๑^ ੭");
+      dispatch(
+        setToast({
+          content: "請重新登入 ^๑_๑^ ੭",
+          type: "bad",
+          imgUrl: "",
+          time: 2000,
+        })
+      );
       return;
     }
 
@@ -183,7 +204,14 @@ export default function AvatarSelect({
     postPurchase(purchaseData, {
       onSuccess: (response) => {
         console.log("頭像購買成功，響應:", response);
-        setNoteContent("購買成功！ ^⌯𖥦⌯^ ੭");
+        dispatch(
+          setToast({
+            content: "購買成功！ ^⌯𖥦⌯^ ੭",
+            type: "default",
+            imgUrl: "",
+            time: 2000,
+          })
+        );
 
         // 扣除貝果
         const updatedBagel = userBagel - selectedToBuy.price;
@@ -232,19 +260,18 @@ export default function AvatarSelect({
         } else if (error?.message) {
           errorMessage = error.message;
         }
-        setNoteContent(errorMessage);
+        dispatch(
+          setToast({
+            content: errorMessage,
+            type: "bad",
+            imgUrl: "",
+            time: 2000,
+          })
+        );
         setSelectedToBuy(null);
       },
     });
   };
-
-  useEffect(() => {
-    if (!noteContent) return;
-    const timer = setTimeout(() => {
-      setNoteContent("");
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, [noteContent]);
 
   // 加載中狀態 - 移到這裡使用條件渲染
   if (isLoading || isPurchasesLoading) {
@@ -262,11 +289,6 @@ export default function AvatarSelect({
         <Button onClick={handleChangeConfirm}>更換頭像</Button>
       </div>
 
-      {noteContent && (
-        <Notification time={2000}>
-          <p>{noteContent}</p>
-        </Notification>
-      )}
       <ul className="overflow-visible gap-3 grid grid-cols-3 md:grid-cols-6">
         {avatarImages.map((avatar) => {
           const isPurchased = isAvatarPurchased(avatar.uuid);

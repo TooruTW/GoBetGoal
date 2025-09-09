@@ -1,7 +1,7 @@
 import GlareHover from "@/components/shared/reactBit/GlareHover";
 import type { MonsterImage } from "@/assets/monster";
 import CandyDrop from "@/components/pages/Authentication/components/CandyDrop";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import {
   monsterSleep,
@@ -9,16 +9,18 @@ import {
   monsterCongrats,
   monsterCry,
 } from "@/assets/monster";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Candy from "@/components/layout/Header/Navigator/Candy";
 import { RootState } from "@/store";
 // import { usePatchChangeUserInfo, usePostDeposit } from "@/api";
 // import { useQueryClient } from "@tanstack/react-query";
-import Notification from "@/components/ui/Notification";
 import NewebPayForm, { NewebPayFormProps } from "./NewebPayForm";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Loading from "./Loading";
 import { useAchievementValidate } from "@/hooks/useAchievementValidate";
+import { setToast } from "@/store/slices/toastSlice";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 type Plan = {
   src: MonsterImage;
   price: number;
@@ -47,12 +49,8 @@ const plan: Plan[] = [
 
 export default function Plan({ isActive }: { isActive: boolean }) {
   const navigate = useNavigate();
-  const [noteContent, setNoteContent] = useState("");
-  const [noteType, setNoteType] = useState<"default" | "bad" | "achievement">(
-    "default"
-  );
-  const [noteImgUrl, setNoteImgUrl] = useState("");
-
+  const dispatch = useDispatch();
+  const planRef = useRef<HTMLUListElement>(null);
   const [showAnime, setShowAnime] = useState<boolean[]>(
     new Array(plan.length).fill(false)
   );
@@ -162,17 +160,35 @@ export default function Plan({ isActive }: { isActive: boolean }) {
 
   const onClose = () => setPopupState("none");
 
-  useEffect(() => {
-    if (!noteContent) return;
-    const timer = setTimeout(() => setNoteContent(""), 3000);
-    return () => clearTimeout(timer);
-  }, [noteContent]);
+  const { valiFirstCharge } = useAchievementValidate();
 
-  const { valiFristCharge } = useAchievementValidate();
+  useGSAP(
+    () => {
+      gsap.from(".line", {
+        delay: 1,
+        scale: 0,
+        duration: 0.5,
+        ease: "linear",
+        transformOrigin: "right top",
+      });
+      gsap.from(".price-card", {
+        delay: 1,
+        opacity: 0,
+        xPercent: 100,
+        duration: 0.5,
+        ease: "linear",
+        transformOrigin: "right top",
+      });
+    },
+    { scope: planRef }
+  );
 
   return (
     <div className=" flex flex-col justify-center items-center relative ">
-      <ul className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4 md:pt-8 w-full md:w-3/4">
+      <ul
+        ref={planRef}
+        className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4 md:pt-8 w-full md:w-3/4"
+      >
         {plan.map((item, index) => (
           <li
             className="h-full"
@@ -201,7 +217,13 @@ export default function Plan({ isActive }: { isActive: boolean }) {
               playOnce={true}
               className={`group p-2 md:p-4 flex flex-col relative items-center gap-2 h-auto border hover:perspective-dramatic rounded-4xl bg-schema-surface-container-high/75 hover:bg-schema-primary active:bg-schema-primary shadow-lg -translate-y-${item.translate} hover:-translate-y-2 transition-transform hover:scale-105 active:scale-95`}
             >
-              <h2 className="font-title md:text-xl">🥯 &nbsp; {item.show}</h2>
+              <div className="relative min-w-26 flex justify-center items-center">
+                <h2 className="font-title md:text-xl">🥯 &nbsp; {item.show}</h2>
+                <div className="line w-full absolute top-1/2 -translate-y-1/2 border-2 border-red-500 -rotate-12"></div>
+                <h3 className="price-card text-h2 font-title absolute top-1/2 -right-4/5 -rotate-12  w-full z-20 bg-red-500 p-2 rounded-lg text-center">
+                  NTD {item.price * 2}
+                </h3>
+              </div>
               <div className="relative flex flex-col items-center">
                 <img
                   src={item.src}
@@ -286,11 +308,16 @@ export default function Plan({ isActive }: { isActive: boolean }) {
                 onClick={(e) => {
                   e.stopPropagation();
                   onClose();
-                  const result = valiFristCharge();
+                  const result = valiFirstCharge();
                   if (!result?.isGet) {
-                    setNoteContent(result?.description || "");
-                    setNoteType("achievement");
-                    setNoteImgUrl(result?.imgUrl || "");
+                    dispatch(
+                      setToast({
+                        content: result?.description || "",
+                        type: "achievement",
+                        imgUrl: result?.imgUrl || "",
+                        time: 3000,
+                      })
+                    );
                   }
                 }}
               >
@@ -300,12 +327,6 @@ export default function Plan({ isActive }: { isActive: boolean }) {
           </div>
           <CandyDrop className="w-full absolute bottom-0 left-1/2 -translate-x-1/3" />
         </div>
-      )}
-
-      {noteContent && (
-        <Notification time={2000} type={noteType} imgUrl={noteImgUrl}>
-          <p>{noteContent}</p>
-        </Notification>
       )}
     </div>
   );
