@@ -3,16 +3,16 @@ import { useEffect, useState } from "react";
 interface SequencePlayerProps {
   imgList: string[]; // e.g. "monsterCurious" 或 "girl"
   fps?: number;
-  width?: number;
-  height?: number;
+  width?: string;
+  height?: string;
   className?: string;
 }
 
 export default function SequencePlayer({
   imgList,
   fps = 24,
-  width = 200,
-  height = 200,
+  width = "200px",
+  height = "200px",
   className,
 }: SequencePlayerProps) {
   const [frames, setFrames] = useState<string[]>([]);

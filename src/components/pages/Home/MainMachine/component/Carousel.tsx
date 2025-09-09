@@ -51,7 +51,7 @@ export default function Carousel({ className, isCarouselMode }: CarouselProps) {
   return (
     <div
       ref={carouselRef}
-      className={`aspect-video text-white overflow-hidden text-[2px] sm:text-[3px] md:text-[4px] ${className}`}
+      className={`aspect-video text-schema-on-surface overflow-hidden text-[2px] sm:text-[3px] md:text-[4px] ${className}`}
     >
       <div className="w-full h-full">
         {/* 第一個頁面 - Logo 頁面 */}
@@ -117,7 +117,6 @@ export default function Carousel({ className, isCarouselMode }: CarouselProps) {
           }`}
         >
           <div className="absolute top-1/2 left-1/2 -translate-1/2 z-10 flex flex-col items-center py-auto">
-            {" "}
             <p>跟朋友來場遊戲</p>
             <p>一起輕鬆瘦身嗎？</p>
             <button
@@ -134,7 +133,7 @@ export default function Carousel({ className, isCarouselMode }: CarouselProps) {
           }`}
         >
           <GameComponent />
-        </div>{" "}
+        </div>
         */
       </div>
     </div>
