@@ -29,7 +29,6 @@ const patchChangeUserInfo = async ({
     .eq("user_id", userID);
 
   if (checkError) throw checkError;
-  console.log("Existing data:", existingData);
 
   if (!existingData || existingData.length === 0) {
     throw new Error(`User with ID ${userID} not found`);
@@ -40,9 +39,6 @@ const patchChangeUserInfo = async ({
     .update({ [target]: value })
     .eq("user_id", userID)
     .select();
-
-  console.log("Update error:", error);
-  console.log("Update result:", data);
 
   if (error) throw error;
 

@@ -176,8 +176,9 @@ export default function Plan({ isActive }: { isActive: boolean }) {
         delay: 1,
         opacity: 0,
         xPercent: 100,
-        duration: 0.5,
+        duration: 0.25,
         ease: "linear",
+        stagger: 0.25,
         transformOrigin: "right top",
       });
     },

@@ -12,6 +12,7 @@ import UploadSection from "./UploadSecion";
 import { Button } from "@/components/ui/button";
 import { useDeleteParticipantInTrialSupa } from "@/api";
 import { useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 type acceptProps = {
   trial: TrialDetailSupa[];
@@ -25,6 +26,7 @@ export default function DetailBoard({ trial }: acceptProps) {
   const isInTrial = trial.some((item) => item.participant_id === userID);
   const { mutate: leaveTrial } = useDeleteParticipantInTrialSupa();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   // 記錄用戶螢幕寬度
   const dispatch = useDispatch();
   useEffect(() => {
@@ -44,6 +46,7 @@ export default function DetailBoard({ trial }: acceptProps) {
           queryClient.invalidateQueries({
             queryKey: ["trial", trial[0].trial_id],
           });
+          navigate(`/trials/list/all/all`);
         },
       }
     );
