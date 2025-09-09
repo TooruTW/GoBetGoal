@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 
 interface SequencePlayerProps {
-  folder: string; // e.g. "monsterCurious" 或 "girl"
+  imgList: string[]; // e.g. "monsterCurious" 或 "girl"
   fps?: number;
   width?: number;
   height?: number;
 }
 
 export default function SequencePlayer({
-  folder,
+  imgList,
   fps = 24,
   width = 200,
   height = 200,
@@ -16,27 +16,11 @@ export default function SequencePlayer({
   const [frames, setFrames] = useState<string[]>([]);
   const [currentFrame, setCurrentFrame] = useState(0);
 
-  // 匯入整個 sequence 資料夾
-  const allFrames = import.meta.glob(
-    "/src/assets/sequence/**/*.{png,jpg,webp}",
-    { eager: true, import: "default" }
-  ) as Record<string, string>;
 
   useEffect(() => {
-    // 過濾出指定 folder 的圖片
-    const folderFrames = Object.entries(allFrames)
-      .filter(([path]) => path.includes(`/sequence/${folder}/`))
-      .sort(([a], [b]) => {
-        // 依照 frame 編號排序
-        const getNum = (p: string) =>
-          parseInt(p.match(/(\d+)\.(png|jpg|webp)$/)?.[1] || "0", 10);
-        return getNum(a) - getNum(b);
-      })
-      .map(([, src]) => src);
-
-    setFrames(folderFrames);
+    setFrames(imgList);
     setCurrentFrame(0);
-  }, [folder, allFrames]);
+  }, [imgList]);
 
   // 播放動畫
   useEffect(() => {
@@ -57,8 +41,7 @@ export default function SequencePlayer({
       <img
         src={frames[currentFrame]}
         alt={`frame-${currentFrame}`}
-        width={width}
-        height={height}
+        className="w-full h-full"
       />
     </>
   );
