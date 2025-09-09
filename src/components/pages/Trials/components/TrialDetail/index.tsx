@@ -49,7 +49,7 @@ export default function TrialDetail() {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div className="flex py-8 w-full  relative overflow-hidden ">
+    <div className="flex pt-8 w-full  relative overflow-hidden ">
       {data && <DetailBoard trial={data} />}
 
       {/* 試煉內部信息記錄 未來可期 */}

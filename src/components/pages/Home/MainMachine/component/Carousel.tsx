@@ -51,7 +51,7 @@ export default function Carousel({ className, isCarouselMode }: CarouselProps) {
   return (
     <div
       ref={carouselRef}
-      className={`aspect-video text-white overflow-hidden text-[2px] sm:text-[3px] md:text-[4px] ${className}`}
+      className={`aspect-video text-schema-on-surface overflow-hidden text-[2px] sm:text-[3px] md:text-[4px] ${className}`}
     >
       <div className="w-full h-full">
         {/* 第一個頁面 - Logo 頁面 */}
