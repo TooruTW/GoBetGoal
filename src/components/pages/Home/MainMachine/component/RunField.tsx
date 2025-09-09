@@ -15,6 +15,8 @@ export default function RunField() {
         <div className="flex justify-evenly items-center h-full max-h-50">
           <div className="h-full w-1/2 flex items-center justify-center">
             <SequencePlayer
+              width={"100%"}
+              height={"100%"}
               imgList={girlFrames}
               fps={24}
             />
@@ -41,8 +43,8 @@ export default function RunField() {
                   <SequencePlayer
                     imgList={monsterCurious}
                     fps={24}
-                    width={100}
-                    height={100}
+                    width={"100%"}
+                    height={"100%"}
                   />
                 </div>
               </div>

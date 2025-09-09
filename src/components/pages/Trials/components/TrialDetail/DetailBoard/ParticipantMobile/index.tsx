@@ -2,10 +2,13 @@ import PlayerCard from "./PlayerCard";
 import ReactFlipCard from "reactjs-flip-card";
 import BackSideCard from "./BackSideCard";
 import gsap from "gsap";
-import { useEffect, useState } from "react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect, useState, useRef } from "react";
 import type { TrialDetailSupa } from "@/types/TrialDetailSupa";
 import type { UserInfoSupa } from "@/types/UserInfoSupa";
 import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 type acceptProps = {
   trial: TrialDetailSupa[];
@@ -19,6 +22,7 @@ export default function ParticipantMobile(props: acceptProps) {
     [string, UserInfoSupa][]
   >([]);
   const { trial_status } = trial[0].trial;
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const [owner, setOwner] = useState<string>("");
 
@@ -37,21 +41,32 @@ export default function ParticipantMobile(props: acceptProps) {
   }, [trial]);
 
   useGSAP(() => {
+    if (!containerRef.current || participantListArray.length === 0) return;
+
     const obj = { val: 0 };
     gsap.to(obj, {
-      val: participantListArray.length - 1,
-      duration: participantListArray.length * 0.25,
-      ease: "none",
-      delay: 1.5,
-      onUpdate: () => {
-        setFlipStates((prev) => {
-          const newStates = [...prev];
-          newStates[Math.floor(obj.val)] = true;
-          return newStates;
-        });
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top bottom",
+        end: "bottom 20%",
+        scrub: false,
+        onEnter: () => {
+          gsap.to(obj, {
+            val: participantListArray.length - 1,
+            duration: participantListArray.length * 0.25,
+            ease: "none",
+            onUpdate: () => {
+              setFlipStates((prev) => {
+                const newStates = [...prev];
+                newStates[Math.floor(obj.val)] = true;
+                return newStates;
+              });
+            },
+          });
+        },
       },
     });
-  }, [participantListArray.length]);
+  }, [participantListArray.length, trial]);
 
   const handleInvite = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
@@ -60,7 +75,7 @@ export default function ParticipantMobile(props: acceptProps) {
 
   return (
     // container
-    <div className="flex flex-col gap-4 w-full px-4">
+    <div ref={containerRef} className="flex flex-col gap-4 w-full px-4">
       {participantListArray.map((item, index) => (
         <ReactFlipCard
           containerCss="flip-card"

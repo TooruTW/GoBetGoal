@@ -17,6 +17,7 @@ import { setAccount } from "@/store/slices/accountSlice";
 import { Button } from "@/components/ui/button";
 import { FiMenu } from "react-icons/fi";
 
+
 type NavigatorProps = {
   setIsShowNotification: () => void;
 };
@@ -44,6 +45,7 @@ export default function Navigator({ setIsShowNotification }: NavigatorProps) {
   const handleSetShowBuyCheat = () => {
     dispatch(setShowBuyCheat());
   };
+
 
   const { mutate: patchChangeUserInfo } = usePatchChangeUserInfo();
   const handleSwitchMode = () => {
@@ -113,7 +115,6 @@ export default function Navigator({ setIsShowNotification }: NavigatorProps) {
           <Link to="/create-trial">
             {account.user_id ? (
               <>
-                {" "}
                 <Button className=" flex  gap-2 ">
                   <IoFlagOutline />
                   <p className="text-label ">創建試煉</p>
@@ -139,7 +140,6 @@ export default function Navigator({ setIsShowNotification }: NavigatorProps) {
               {/* 分離點擊區域 */}
               <div
                 onClick={() => setShowHamMenu(true)}
-                onMouseEnter={() => setShowHamMenu(true)}
               >
                 <User />
               </div>
@@ -147,7 +147,7 @@ export default function Navigator({ setIsShowNotification }: NavigatorProps) {
               {showHamMenu && (
                 <>
                   <div
-                    className="fixed inset-0 z-10"
+                    className="fixed inset-0 z-10 menu-buger"
                     onClick={(e) => {
                       e.stopPropagation();
                       setShowHamMenu(false);
@@ -162,19 +162,19 @@ export default function Navigator({ setIsShowNotification }: NavigatorProps) {
                       />
                     </div>
 
-                    <Link to="/create-trial" className="sm:hidden block">
+                    <Link to="/create-trial" className="sm:hidden block" onClick={() => setShowHamMenu(false)}>
                       <div className="transition-all hover:scale-105 active:scale-95 px-8 py-4 hover:bg-schema-surface-container-highest">
                         創建試煉
                       </div>
                     </Link>
 
-                    <Link to="trials/list/all/all" className="block">
+                    <Link to="trials/list/all/all" className="block" onClick={() => setShowHamMenu(false)}>
                       <div className="transition-all hover:scale-105 active:scale-95 px-8 py-4 hover:bg-schema-surface-container-highest">
                         我的試煉
                       </div>
                     </Link>
 
-                    <Link to="social-pages/category/all" className="block">
+                    <Link to="social-pages/category/all" className="block" onClick={() => setShowHamMenu(false)}>
                       <div className="transition-all hover:scale-105 active:scale-95 px-8 py-4 hover:bg-schema-surface-container-highest">
                         交流廣場
                       </div>
@@ -196,6 +196,7 @@ export default function Navigator({ setIsShowNotification }: NavigatorProps) {
                           : "/auth",
                       }}
                       className="block"
+                      onClick={() => setShowHamMenu(false)}
                     >
                       <div className="cursor-pointer px-8 py-4 transition-all hover:scale-105 active:scale-95 hover:bg-schema-surface-container-highest">
                         會員中心
@@ -248,19 +249,19 @@ export default function Navigator({ setIsShowNotification }: NavigatorProps) {
                       />
                     </div>
 
-                    <Link to="/create-trial" className="sm:hidden block">
+                    <Link to="/create-trial" className="sm:hidden block" onClick={() => setShowHamMenu(false)}>
                       <div className="transition-all hover:scale-105 active:scale-95 px-8 py-4 hover:bg-schema-surface-container-highest">
                         創建試煉
                       </div>
                     </Link>
 
-                    <Link to="trials/list/all/all" className="block">
+                    <Link to="trials/list/all/all" className="block" onClick={() => setShowHamMenu(false)}>
                       <div className="transition-all hover:scale-105 active:scale-95 px-8 py-4 hover:bg-schema-surface-container-highest">
                         我的試煉
                       </div>
                     </Link>
 
-                    <Link to="social-pages/category/all" className="block">
+                    <Link to="social-pages/category/all" className="block" onClick={() => setShowHamMenu(false)}>
                       <div className="transition-all hover:scale-105 active:scale-95 px-8 py-4 hover:bg-schema-surface-container-highest">
                         交流廣場
                       </div>
