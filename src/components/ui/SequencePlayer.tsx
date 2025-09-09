@@ -5,6 +5,7 @@ interface SequencePlayerProps {
   fps?: number;
   width?: number;
   height?: number;
+  className?: string;
 }
 
 export default function SequencePlayer({
@@ -12,10 +13,10 @@ export default function SequencePlayer({
   fps = 24,
   width = 200,
   height = 200,
+  className,
 }: SequencePlayerProps) {
   const [frames, setFrames] = useState<string[]>([]);
   const [currentFrame, setCurrentFrame] = useState(0);
-
 
   useEffect(() => {
     setFrames(imgList);
@@ -24,7 +25,7 @@ export default function SequencePlayer({
 
   // 播放動畫
   useEffect(() => {
-    if (frames.length === 0) return;
+    if (!frames || frames.length === 0) return;
     const interval = setInterval(() => {
       setCurrentFrame((prev) => (prev + 1) % frames.length);
     }, 1000 / fps);
@@ -32,17 +33,18 @@ export default function SequencePlayer({
     return () => clearInterval(interval);
   }, [frames, fps]);
 
-  if (frames.length === 0) {
-    return <div style={{ width, height }}>Loading...</div>;
-  }
-
   return (
     <>
-      <img
-        src={frames[currentFrame]}
-        alt={`frame-${currentFrame}`}
-        className="w-full h-full"
-      />
+      {frames && frames.length > 0 ? (
+        <img
+          src={frames[currentFrame]}
+          alt={`frame-${currentFrame}`}
+          className={`object-contain ${className}`}
+          style={{ width, height }}
+        />
+      ) : (
+        <div style={{ width, height }}>Loading...</div>
+      )}
     </>
   );
 }

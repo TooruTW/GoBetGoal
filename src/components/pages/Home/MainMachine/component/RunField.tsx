@@ -10,19 +10,17 @@ export default function RunField() {
   const candy = 999;
 
   return (
-    <div className="h-screen w-screen my-auto flex flex-col justify-between  text-nowrap">
-      <div className="h-full flex flex-col gap-10">
-        <div className="flex justify-evenly items-center max-h-50">
-          <div className="h-full">
+    <div className="w-screen h-screen flex flex-col text-nowrap">
+      <div className="h-1/2 flex flex-col gap-10">
+        <div className="flex justify-evenly items-center h-full max-h-50">
+          <div className="h-full w-1/2 flex items-center justify-center">
             <SequencePlayer
               imgList={girlFrames}
               fps={24}
-              width={100}
-              height={100}
             />
           </div>
 
-          <div className="md:flex-row-reverse ">
+          <div className="md:flex-row-reverse shrink-0 flex flex-col items-center gap-10">
             <h3 className="text-h5 md:text-h2 font-bold text-wrap">
               AI小怪獸陪你達成多樣試煉
             </h3>
@@ -54,32 +52,50 @@ export default function RunField() {
 
         <TemplateLoop />
       </div>
-      <div className=" w-full h-full flex flex-col items-end">
-        <div className="flex justify-evenly items-center max-h-50">
-          <div className="md:flex w-1/3">
-            <div>
-              <h3 className="text-h5 md:text-h2 font-bold">
-                贏取豐厚貝果幣、成就
-              </h3>
-              <Candy amount={candy} />
-            </div>
-            <div className="grid grid-cols-4 gap-6 md:gap-12 md:px-3 w-max-100">
-              <img src={bagel1} alt="" className="w-full animate-bounce" />
-              <img src={bagel3} alt="" className="w-full animate-bounce" />
-              <img src={bagel2} alt="" className="w-full animate-bounce" />
-              <img src={bagel4} alt="" className="w-full animate-bounce" />
-            </div>
+
+      <div className="h-1/2 flex flex-col justify-between gap-4 px-4">
+        <div className="grid grid-cols-3 items-center h-2/3">
+          <div className="flex flex-col justify-center w-full">
+            <h3 className="text-h5 lg:text-h2 font-bold">
+              贏取豐厚貝果幣、成就
+            </h3>
+            <Candy amount={candy} />
           </div>
-            <div className="h-full scale-x-[-1] ">
-              <SequencePlayer
-                imgList={girlFrames}
-                fps={24}
-                width={100}
-                height={100}
-              />
+          {/* 貝果幣 */}
+          <div className="flex flex-nowrap justify-evenly h-full w-full">
+            <img
+              src={bagel1}
+              alt=""
+              className="w-1/4 object-contain animate-bounce"
+            />
+            <img
+              src={bagel3}
+              alt=""
+              className="w-1/4 object-contain animate-bounce"
+            />
+            <img
+              src={bagel2}
+              alt=""
+              className="w-1/4 object-contain animate-bounce"
+            />
+            <img
+              src={bagel4}
+              alt=""
+              className="w-1/4 object-contain animate-bounce"
+            />
+          </div>
+
+          {/* 女孩 */}
+          <div className="h-full flex items-center justify-center overflow-hidden">
+            <SequencePlayer
+              imgList={girlFrames}
+              fps={24}
+              className="-scale-x-100"
+            />
           </div>
         </div>
-        <AchievementLoop2 />
+
+        <AchievementLoop2 className="h-1/3" />
       </div>
     </div>
   );

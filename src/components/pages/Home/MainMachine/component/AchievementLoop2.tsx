@@ -14,7 +14,7 @@ import {
   SportTrialAward1,
 } from "@/assets/Achievement";
 
-export default function AchievementLoop2() {
+export default function AchievementLoop2({ className }: { className?: string }) {
   const { data, isLoading } = useAchievementSupa();
   const [list, setList] = useState<Achievement[]>([]);
   const logoRef = useRef<HTMLImageElement>(null);
@@ -46,7 +46,7 @@ export default function AchievementLoop2() {
   return (
     <div
       ref={logoRef}
-      className="w-full h-38 border-y border-gray-300 bg-schema-surface-container-high py-3 flex items-center overflow-hidden "
+      className={`w-full border-y border-gray-300 bg-schema-surface-container-high py-3 flex items-center overflow-hidden ${className}`}
     >
       <div className="wrapper w-screen flex justify-around items-center h-full shrink-0 -translate-x-full">
         <img loading="lazy" className="h-full" src={CandyAward1} alt="" />
