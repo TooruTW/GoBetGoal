@@ -56,7 +56,7 @@ export default function Shop() {
       </div>
 
       <Plan isActive={true} />
-      <div ref={priceOffRef} className="absolute text-5xl bg-red-500 rounded-lg p-4 top-1/9 -rotate-3 font-black">開幕大特價！！</div>
+      <div ref={priceOffRef} className="absolute text-5xl bg-red-500 rounded-lg p-4 top-10 right-10 -rotate-3 font-black">開幕大特價！！</div>
     </div>
   );
 }

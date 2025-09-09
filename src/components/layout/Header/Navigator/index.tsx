@@ -57,7 +57,7 @@ export default function Navigator({ setIsShowNotification }: NavigatorProps) {
 
   return (
     <nav>
-      <ul className="flex gap-3 items-center text-sm">
+      <ul className="flex gap-3 items-center text-sm text-nowrap whitespace-nowrap">
         {account.user_id && (
           <>
             <li className=" group relative">
@@ -174,7 +174,7 @@ export default function Navigator({ setIsShowNotification }: NavigatorProps) {
                       </div>
                     </Link>
 
-                    <Link to="social-pages" className="block">
+                    <Link to="social-pages/category/all" className="block">
                       <div className="transition-all hover:scale-105 active:scale-95 px-8 py-4 hover:bg-schema-surface-container-highest">
                         交流廣場
                       </div>
@@ -260,7 +260,7 @@ export default function Navigator({ setIsShowNotification }: NavigatorProps) {
                       </div>
                     </Link>
 
-                    <Link to="social-pages" className="block">
+                    <Link to="social-pages/category/all" className="block">
                       <div className="transition-all hover:scale-105 active:scale-95 px-8 py-4 hover:bg-schema-surface-container-highest">
                         交流廣場
                       </div>

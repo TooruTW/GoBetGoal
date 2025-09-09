@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { useIsSafariOrIOS } from "@/hooks/useIsSafariOrIOS";
 
 const videoList = [
   {
@@ -131,12 +132,14 @@ const videoList = [
 
 export default function VideoGallery() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const currentItem = videoList[currentIndex];
   const [currentVideo, setCurrentVideo] = useState(videoList[0].video);
   const [currentP, setCurrentP] = useState(videoList[0].p);
   const [currentName, setCurrentName] = useState(videoList[0].name);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const characterRef = useRef<HTMLDivElement>(null);
+  const isSafariOrIOS = useIsSafariOrIOS();
 
   // 使用 Intersection Observer 來控制可見性（不受 ScrollTrigger 影響）
   useEffect(() => {
@@ -241,7 +244,7 @@ export default function VideoGallery() {
   return (
     <div
       ref={characterRef}
-      className="flex items-center justify-between max-md:flex-col max-md:py-20 max-md:gap-10 w-full min-h-screen px-6 overflow-hidden mt-20 lg:mt-50 xl:mt-150"
+      className="flex items-center justify-between max-md:flex-col max-md:py-20 max-md:gap-10 w-full min-h-screen px-6 overflow-hidden mt-30 lg:mt-50 xl:mt-150"
     >
       {/* 影片播放區 */}
       <h2 className="text-h2 ">多樣角色陪你冒險</h2>
@@ -256,16 +259,30 @@ export default function VideoGallery() {
         <div className="transform md:-skew-x-12 border-3 border-schema-primary overflow-hidden w-full aspect-[1/1.25]">
           {!isLoaded && <Skeleton className="h-full w-full" />}
           {isLoaded && (
-            <video
-              key={currentVideo} // 每次變更重新載入
-              autoPlay
-              loop
-              muted
-              className="h-full w-full transform md:skew-x-12 scale-130"
-            >
-              <source src={currentVideo} type="video/webm" />
-              您的瀏覽器不支援 video 播放。
-            </video>
+            <>
+              {!isLoaded && <Skeleton className="h-full w-full" />}
+              {isLoaded && (
+                <>
+                  {isSafariOrIOS ? (
+                    <img
+                      src={currentItem.src}
+                      alt={currentItem.name}
+                      className=" w-full transform md:skew-x-12 "
+                    />
+                  ) : (
+                    <video
+                      key={currentItem.video}
+                      autoPlay
+                      loop
+                      muted
+                      className="h-full w-full transform md:skew-x-12 scale-130"
+                    >
+                      <source src={currentItem.video} type="video/webm" />
+                    </video>
+                  )}
+                </>
+              )}
+            </>
           )}
         </div>
       </div>
@@ -275,26 +292,25 @@ export default function VideoGallery() {
         {videoList.map((item, index) => {
           return (
             <div key={index} className="w-1/5 md:w-full">
-                <img
-                  key={index}
-                  src={item.src}
-                  alt={item.name}
-                  onClick={() => {
-                    setCurrentIndex(index);
-                    setCurrentVideo(item.video);
-                    setCurrentP(item.p);
-                    setCurrentName(item.name);
-                  }}
-                  loading="lazy"
-                  className={`w-full object-cover rounded-md cursor-pointer transition-all md:skew-x-12 ${
-                    isLoaded ? "opacity-100" : "opacity-0"
-                  } ${
-                    currentIndex === index
-                      ? "border-2 border-schema-primary "
-                      : "hover:border hover:border-schema-primary active:scale-90"
-                  }`}
-                />
-              
+              <img
+                key={index}
+                src={item.src}
+                alt={item.name}
+                onClick={() => {
+                  setCurrentIndex(index);
+                  setCurrentVideo(item.video);
+                  setCurrentP(item.p);
+                  setCurrentName(item.name);
+                }}
+                loading="lazy"
+                className={`w-full object-cover rounded-md cursor-pointer transition-all md:skew-x-12 ${
+                  isLoaded ? "opacity-100" : "opacity-0"
+                } ${
+                  currentIndex === index
+                    ? "border-2 border-schema-primary "
+                    : "hover:border hover:border-schema-primary active:scale-90"
+                }`}
+              />
             </div>
           );
         })}

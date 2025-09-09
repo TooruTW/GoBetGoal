@@ -3,12 +3,18 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import React, { useRef } from "react";
+import { useSound } from "@/hooks/useSound";
 
 import { RootState } from "@/store";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
+import { useIsSafariOrIOS } from "@/hooks/useIsSafariOrIOS";
+import SequencePlayer from "@/components/ui/SequencePlayer.tsx";
+import { girlFrames } from "@/assets/sequence/girl";
 
 export default function CTA() {
   const account = useSelector((state: RootState) => state.account);
+  const playClick = useSound("/sounds/blast.mp3");
+  const isSafariOrIOS = useIsSafariOrIOS();
   const [containerRef, isVisible] = useIntersectionObserver({
     threshold: 0.1, // 當 10% 的元素可見時觸發
     rootMargin: "0px",
@@ -46,13 +52,12 @@ export default function CTA() {
           playsInline
           className="w-full sm:mt-20"
         >
-          {/* Safari 等瀏覽器可能讀 mov（但建議轉成 mp4） */}
           <source
             src="/animation/sideVaporwave.mp4"
             type='video/mp4; codecs="hvc1"'
             className="rounded-4xl"
           />
-          {/* Chrome / Firefox / Edge 建議使用 webm */}
+
           <source
             src="/animation/sideVaporwave.webm"
             type="video/webm"
@@ -62,12 +67,16 @@ export default function CTA() {
       </div>
 
       <div className=" z-20 flex justify-center  px-3 items-center w-full  absolute top-1/2 left-1/2 -translate-1/2">
-        <video ref={characterVideoRef} loop muted playsInline className="w-1/5">
-          <source
-            src="/animation/mainCharacter/character45.webm"
-            type="video/webm"
-          />
-        </video>
+        {isSafariOrIOS ? (
+          <SequencePlayer imgList={girlFrames} fps={24} width={100} height={100} />
+        ) : (
+          <video autoPlay loop muted playsInline className="w-30 md:w-50 ">
+            <source
+              src="/animation/mainCharacter/character45.webm"
+              type="video/webm"
+            />
+          </video>
+        )}
         <img src={monsterRun} alt="" className=" w-1/6 " />
 
         <div className="ps-5">
@@ -76,11 +85,14 @@ export default function CTA() {
           </h3>
           <Link
             to={{
-              pathname: account.user_id ? `/trials/list/all/all` : "/auth",
+              pathname: account.user_id ? `/create-trial` : "/auth",
             }}
             className="block"
           >
-            <Button className="  text-schema-inverse-on-surface">
+            <Button
+              onClick={playClick}
+              className="  text-schema-inverse-on-surface"
+            >
               立即體驗
             </Button>
           </Link>

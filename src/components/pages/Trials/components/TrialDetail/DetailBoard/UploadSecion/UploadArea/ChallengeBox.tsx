@@ -245,15 +245,15 @@ export default function ChallengeBox({
   // confirm upload - compress and upload to supabase storage
   // set selected file
   const handleSetSelectedFile = (file: File, index: number) => {
-    if (selectedFile.length < challenge_stage.description.length) {
-      const fakeFile = new File([], "fake.jpg", { type: "image/jpeg" });
-      const fakeList = new Array(challenge_stage.description.length).fill(
-        fakeFile
-      );
-      setSelectedFile(fakeList);
-      console.log(fakeList, "create fakeFilelist");
-    }
-    console.log(index, "index");
+    // if (selectedFile.length < challenge_stage.description.length) {
+    //   const fakeFile = new File([], "fake.jpg", { type: "image/jpeg" });
+    //   const fakeList = new Array(challenge_stage.description.length).fill(
+    //     fakeFile
+    //   );
+    //   setSelectedFile(fakeList);
+    //   console.log(fakeList, "create fakeFilelist");
+    // }
+    // console.log(index, "index");
 
     setSelectedFile((prev) => {
       const newSelectedFile = [...prev];
@@ -325,7 +325,7 @@ export default function ChallengeBox({
         </div>
 
         {isPending && (
-          <div className="text-schema-primary">正在上傳圖片...</div>
+          <div className="text-schema-primary text-nowrap">正在上傳圖片...</div>
         )}
       </div>
       <div className="flex justify-center items-center rounded-md gap-2 max-md:flex-col h-full  ">

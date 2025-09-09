@@ -200,7 +200,7 @@ button:hover {
   --tertiaryContainer: #ffe08b;
   --onTertiaryContainer: #584400;
 
-  --quaternary: #79addc;
+  --quaternary: #b079dc;
 
   --error: #b30a0a;
   --onError: #ffffff;
@@ -290,7 +290,7 @@ button:hover {
   --tertiaryContainer: #ffe08b;
   --onTertiaryContainer: #584400;
 
-  --quaternary: #acecf7;
+  --quaternary: #d0acf7;
 
   --error: #ed254e;
   --onError: #690005;
@@ -340,6 +340,19 @@ button:hover {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@keyframes wave {
+  0%, 100% {
+    transform: scaleY(0.4);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.animate-wave {
+  animation: wave 1s infinite ease-in-out;
 }
 
 /* 霓虹特效類別 */

@@ -13,7 +13,6 @@ interface VideoItem {
   id: string;
   title: string;
   src: string;
-  video: string;
   decor: string[];
   color: string;
 }
@@ -29,7 +28,6 @@ const videoList: VideoItem[] = [
     id: "all",
     title: "全部",
     src: monsterCongrats,
-    video: "/animation/monster/monsterCongrats.webm",
     decor: [
       "/image/template/Ticket.png",
       "/image/template/Template50.webp",
@@ -41,7 +39,6 @@ const videoList: VideoItem[] = [
     id: "sport",
     title: "運動",
     src: monsterSport,
-    video: "/animation/monster/monsterBeep.webm",
     decor: [
       "/image/template/TemplateDance.webp",
       "/image/template/TemplateStrong.webp",
@@ -53,7 +50,6 @@ const videoList: VideoItem[] = [
     id: "eat",
     title: "飲食",
     src: monsterEat,
-    video: "/animation/monster/monsterEat.webm",
     decor: [
       "/image/template/TemplateSalat.webp",
       "/image/template/TemplateVegan.webp",
@@ -65,7 +61,6 @@ const videoList: VideoItem[] = [
     id: "sleep",
     title: "作息",
     src: monsterSleep,
-    video: "/animation/monster/character66.webm",
     decor: [
       "/image/template/TemplateWake.webp",
       "/image/template/TemplateMoon.webp",
@@ -88,38 +83,39 @@ const decorPositions: DecorConfig[] = [
 ];
 
 export default function Category() {
-  const [currentVideo, setCurrentVideo] = useState(videoList[0].video);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isFading, setIsFading] = useState(false);
   const decorRef = useRef<HTMLDivElement>(null);
   const { category } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
 
-  useEffect(()=>{
-    switch(category){
+  useEffect(() => {
+    switch (category) {
       case "sport":
         setCurrentIndex(1);
-        setCurrentVideo(videoList[1].video);
         break;
       case "eat":
         setCurrentIndex(2);
-        setCurrentVideo(videoList[2].video);
         break;
       case "sleep":
         setCurrentIndex(3);
-        setCurrentVideo(videoList[3].video);
         break;
       default:
-        setCurrentIndex(0); 
-        setCurrentVideo(videoList[0].video);
+        setCurrentIndex(0);
         break;
     }
-  },[category])
+  }, [category]);
 
-  const handleVideoChange = (video: string, index: number, id: string) => {
-    setCurrentVideo(video);
+  const handleVideoChange = (index: number, id: string) => {
     setCurrentIndex(index);
-    if (!category) return;
+    if (index === currentIndex) return; // 避免點同一個閃爍
+
+    setIsFading(true); // 先觸發淡出
+    setTimeout(() => {
+      setCurrentIndex(index);
+      setIsFading(false); // 再淡入
+    }, 300); // 300ms 過渡
 
     // 修改路由替換邏輯，確保只替換最後一個參數（category）
     const pathSegments = location.pathname.split("/");
@@ -184,13 +180,17 @@ export default function Category() {
             </h3>
           </div>
           <div className="ml-auto relative flex flex-col items-end p-4 md:w-1/2">
-            <div className="flex gap-2">
+            <div
+              className={`flex gap-2 transition-opacity duration-300 ${
+                isFading ? "opacity-0" : "opacity-100"
+              }`}
+            >
               {videoList.map((item, index) => (
                 <img
                   key={index}
                   src={item.src}
                   alt={item.title}
-                  onClick={() => handleVideoChange(item.video, index, item.id)}
+                  onClick={() => handleVideoChange(index, item.id)}
                   className={`w-1/4 object-cover cursor-pointer hover:scale-115 transition-all active:scale-90 ${
                     currentIndex === index
                       ? "scale-105  opacity-100 -translate-y-4"
@@ -205,16 +205,11 @@ export default function Category() {
         {/* 右側：影片 */}
         <div className="relative z-10 w-1/2">
           <div className="w-full flex justify-end">
-            <video
-              key={currentVideo}
-              autoPlay
-              loop
-              muted
-              className="w-1/3 md:scale-160 md:-translate-x-1/3"
-            >
-              <source src={currentVideo} type="video/webm" />
-              您的瀏覽器不支援 video 播放。
-            </video>
+            <img
+              src={videoList[currentIndex].src} // ✅ Safari / iOS 顯示圖片
+              alt={videoList[currentIndex].title}
+              className="w-1/3 scale-160 -translate-x-1/3"
+            />
           </div>
         </div>
 

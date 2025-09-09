@@ -8,7 +8,7 @@ import {
   CarouselNext,
 } from "@/components/ui/carousel";
 import goodJob from "@/assets/resultNoImg/goodJob.png";
-import cheat from "@/assets/resultNoImg/cheat.jpg";
+import cheat from "@/assets/resultNoImg/cheat.webp";
 import { monsterCry } from "@/assets/monster";
 
 type PostCarouselProps = {

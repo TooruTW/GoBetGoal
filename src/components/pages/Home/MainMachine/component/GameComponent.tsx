@@ -1,8 +1,10 @@
+import SequencePlayer from "@/components/ui/SequencePlayer.tsx";
+import { girlFrames } from "@/assets/sequence/girl";
 export default function Run() {
   return (
-    <div className="w-full flex flex-col items-center absolute top-0">
-      <div className="  w-full object-cover">
-        <video autoPlay loop muted playsInline className="   h-full  ">
+    <div className="w-full flex flex-col items-center absolute top-0 z-20">
+      <div className="w-full object-cover relative z-10">
+        <video autoPlay loop muted playsInline className="h-full">
           {/* Safari 等瀏覽器可能讀 mov（但建議轉成 mp4） */}
           <source
             src="/animation/sideVaporwave.mp4"
@@ -16,20 +18,10 @@ export default function Run() {
             className="rounded-4xl"
           />
         </video>
+        <div className="absolute top-0 left-0 w-full h-full flex justify-center items-end">
+          <SequencePlayer imgList={girlFrames} height={20} fps={24} />
+        </div>
       </div>
-
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className=" w-1/4 absolute z-10 bottom-0 "
-      >
-        <source
-          src="/animation/mainCharacter/character45.webm"
-          type="video/webm"
-        />
-      </video>
     </div>
   );
 }

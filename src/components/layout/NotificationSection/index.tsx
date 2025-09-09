@@ -315,9 +315,9 @@ export default function NotificationSection({
               />
             ))}
             {readList.length === 0 && (
-              <li className="text-h3 text-schema-on-surface-variant text-center">
+              <li className="text-h3 text-schema-on-surface-variant text-center flex flex-col items-center gap-2">
                 沒人找你 別再重新整理了
-                <img src={monsterLook} alt="" />
+                <img src={monsterLook} className="size-30" alt="" />
               </li>
             )}
           </ul>

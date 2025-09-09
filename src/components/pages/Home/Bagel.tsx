@@ -18,12 +18,8 @@ export default function Bagel() {
           src="/animation/avatar/girlSkirtBubble.webm"
           type="video/webm"
         />
-        您的瀏覽器不支援 video 播放。
       </video>
-      {/* <video autoPlay loop className=" h-full w-50">
-          <source src="/animation/bagel/bagel2.webm" type="video/webm" />
-          您的瀏覽器不支援 video 播放。
-        </video> */}
+     
     </div>
   );
 }

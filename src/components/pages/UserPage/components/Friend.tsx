@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import {
   useGetFriendSupa,
-  usePatchFriendRequest,
+  // usePatchFriendRequest,
   useDeleteFriendSupa,
 } from "@/api";
 import { useQueryClient } from "@tanstack/react-query";
@@ -35,7 +35,7 @@ interface FriendProps {
 }
 
 export default function Friend({ showState = "accept" }: FriendProps) {
-  const { mutate: patchFriendRequest } = usePatchFriendRequest();
+  // const { mutate: patchFriendRequest } = usePatchFriendRequest();
   const queryClient = useQueryClient();
   const { mutate: deleteFriend } = useDeleteFriendSupa();
   const { id } = useParams();
@@ -89,14 +89,7 @@ export default function Friend({ showState = "accept" }: FriendProps) {
                   : friend.request_user.trial_pass_count;
 
               return (
-                <li
-                  key={friend.id}
-                  className="relative group"
-                  onClick={() => {
-                    console.log("got click");
-                    navigate(`/user/${thisId}`);
-                  }}
-                >
+                <li key={friend.id} className="relative group">
                   <ProfileCard
                     className="rounded-lg w-full relative h-full flex flex-col gap-2"
                     handle={thisNickName}
@@ -108,42 +101,25 @@ export default function Friend({ showState = "accept" }: FriendProps) {
                     showUserInfo={true}
                     enableTilt={true}
                     // 根據狀態傳遞不同的處理函數
-                    onContactClick={() =>
-                      patchFriendRequest(
-                        {
-                          request_id: friend.request_id,
-                          address_id: friend.address_id,
-                          isAccept: true,
-                        },
-                        {
-                          onSuccess: () => {
-                            queryClient.invalidateQueries({
-                              queryKey: ["friend", id],
-                            });
-                          },
-                        }
-                      )
-                    }
+                    onContactClick={() => navigate(`/user/${thisId}`)}
                   />
 
                   <IoCloseSharp
-                    className="size-8 absolute top-4 right-4 opacity-0 text-gray-500 group-hover:opacity-100 z-50 transition-opacity duration-200 cursor-pointer hover:text-white"
+                    className="size-8 absolute top-4 right-4 opacity-0 text-gray-500 group-hover:opacity-100 z-10 transition-opacity duration-200 cursor-pointer hover:text-white"
                     onClick={(e) => {
                       e.stopPropagation();
+                      console.log("got click");
                       setShow(true);
                     }}
                   />
 
                   {show && (
-                    <div
-                      className="fixed inset-0 bg-black/5 flex items-center justify-center z-50"
-                      onClick={() => setShow(false)}
-                    >
+                    <div className="fixed w-full h-full top-0 left-0 bg-black/5 flex items-center justify-center z-50">
                       <div className="bg-schema-surface-container-high/30 rounded-xl py-6 px-10 text-center shadow-lg relative z-50 flex-col flex gap-3">
                         <h2 className="text-lg font-bold ">
                           確定要刪除好友嗎？
                         </h2>
-                        <img src={monsterCry} alt="" className="w-full" />
+                        {/* <img src={monsterCry} alt="" className="w-full" /> */}
                         <p className="text-sm">嗚嗚嗚</p>
                         <img src={monsterCry} alt="" className="w-40" />
                         <div className="flex justify-center gap-4 ">

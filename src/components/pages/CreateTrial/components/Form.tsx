@@ -58,7 +58,7 @@ export default function Form({ challenge }: FormProps) {
   const dispatch = useDispatch();
 
   function showNote(content: string, type?: "default" | "bad") {
-    dispatch(setToast({isOpen: true, content, type, imgUrl:""})); 
+    dispatch(setToast({ isOpen: true, content, type, imgUrl: "" }));
   }
   const userID = useSelector((state: RootState) => state.account.user_id);
   const { id } = useParams<{ id: string }>();
@@ -135,11 +135,13 @@ export default function Form({ challenge }: FormProps) {
       console.log("試煉數據:", newData);
 
       postCreateTrial(newData, {
-        onSuccess: () => {
+        onSuccess: (data) => {
           showNote("試煉創建成功！");
           setShowConfirm(false);
           setPendingTrialData(null);
           reset();
+          console.log("創建試煉成功，回傳的 data:", data);
+          navigate(`/trials/detail/${data[0].id}/0`);
         },
         onError: (error) => {
           showNote("創建失敗( ´•̥̥̥ω•̥̥̥` )", "bad");

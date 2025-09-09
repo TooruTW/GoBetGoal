@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { FaPlus } from "react-icons/fa";
 import goodJob from "@/assets/resultNoImg/goodJob.png";
-import cheat from "@/assets/resultNoImg/cheat.jpg";
+import cheat from "@/assets/resultNoImg/cheat.webp";
 import { monsterCry } from "@/assets/monster";
 import { useImageUpload } from "@/hooks/useImageUpload";
 import { usePostPostSupa, getImageUrl } from "@/api";
