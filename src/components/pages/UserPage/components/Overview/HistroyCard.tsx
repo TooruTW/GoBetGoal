@@ -1,7 +1,7 @@
 import { useTrialSupa } from "@/api";
 import { useEffect, useState } from "react";
 import goodJob from "@/assets/resultNoImg/goodJob.png";
-import cheat from "@/assets/resultNoImg/cheat.jpg";
+import cheat from "@/assets/resultNoImg/cheat.webp";
 import { monsterCry } from "@/assets/monster";
 import { useParams } from "react-router-dom";
 

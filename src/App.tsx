@@ -9,7 +9,6 @@ import { useGetFriendSupa } from "./api/index";
 import { setFriends, setRemoveSelf } from "./store/slices/friendsSlice";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
-import { useAchievementValidate } from "./hooks/useAchievementValidate";
 
 
 function App() {
@@ -49,12 +48,6 @@ function App() {
     isLoading: friendLoading,
     error: friendError,
   } = useGetFriendSupa(userID);
-
-  const achievementStatus = useAchievementValidate();
-useEffect(() => {
-  if(!userID || achievementStatus.isLoading || !achievementStatus.achievementStatusData) return;
-    console.log(achievementStatus);
-}, [achievementStatus,userID]);
 
   useEffect(() => {
     if (friendData && !friendLoading && !friendError) {

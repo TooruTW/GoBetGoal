@@ -19,8 +19,7 @@ export function usePostCreateTrial() {
       console.error("新增失敗", error);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["user_info"],exact:false });
+      queryClient.invalidateQueries({ queryKey: ["user_info"], exact: false });
     },
   });
 }
-

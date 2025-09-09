@@ -1,7 +1,7 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { useState, useCallback, useEffect } from "react";
 import goodJob from "@/assets/resultNoImg/goodJob.png";
-import cheat from "@/assets/resultNoImg/cheat.jpg";
+import cheat from "@/assets/resultNoImg/cheat.webp";
 import { monsterCry, monsterDefault } from "@/assets/monster";
 
 function RetryImage({

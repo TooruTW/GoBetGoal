@@ -9,6 +9,7 @@ import { RootState } from "@/store";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 import { useIsSafariOrIOS } from "@/hooks/useIsSafariOrIOS";
 import SequencePlayer from "@/components/ui/SequencePlayer.tsx";
+import { girlFrames } from "@/assets/sequence/girl";
 
 export default function CTA() {
   const account = useSelector((state: RootState) => state.account);
@@ -67,7 +68,7 @@ export default function CTA() {
 
       <div className=" z-20 flex justify-center  px-3 items-center w-full  absolute top-1/2 left-1/2 -translate-1/2">
         {isSafariOrIOS ? (
-          <SequencePlayer folder="girl" fps={24} width={100} height={100} />
+          <SequencePlayer imgList={girlFrames} fps={24} width={100} height={100} />
         ) : (
           <video autoPlay loop muted playsInline className="w-30 md:w-50 ">
             <source

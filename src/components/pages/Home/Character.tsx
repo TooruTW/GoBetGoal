@@ -244,7 +244,7 @@ export default function VideoGallery() {
   return (
     <div
       ref={characterRef}
-      className="flex items-center justify-between max-md:flex-col max-md:py-20 max-md:gap-10 w-full min-h-screen px-6 overflow-hidden mt-20 lg:mt-50 xl:mt-150"
+      className="flex items-center justify-between max-md:flex-col max-md:py-20 max-md:gap-10 w-full min-h-screen px-6 overflow-hidden mt-30 lg:mt-50 xl:mt-150"
     >
       {/* 影片播放區 */}
       <h2 className="text-h2 ">多樣角色陪你冒險</h2>

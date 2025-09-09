@@ -9,6 +9,7 @@ import {
   FaCaretUp,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { girlFrames } from "@/assets/sequence/girl";
 
 const BagelJumpGame = () => {
   const isSafariOrIOS = useIsSafariOrIOS();
@@ -66,7 +67,7 @@ const BagelJumpGame = () => {
 
     window.addEventListener("keydown", handleKeyPress);
     return () => window.removeEventListener("keydown", handleKeyPress);
-  }, [gameStarted, isJumping, gameOver]);
+  }, [gameStarted, isJumping, gameOver, jump]);
 
   // 遊戲循環
   useEffect(() => {
@@ -214,7 +215,7 @@ const BagelJumpGame = () => {
           }}
         >
           {isSafariOrIOS ? (
-            <SequencePlayer folder="girl" fps={24} width={100} height={100} />
+            <SequencePlayer imgList={girlFrames} fps={24} width={100} height={100} />
           ) : (
             <video
               autoPlay

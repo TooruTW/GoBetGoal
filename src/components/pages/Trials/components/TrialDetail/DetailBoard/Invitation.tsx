@@ -3,7 +3,7 @@ import { UserInfoSupa } from "@/types/UserInfoSupa";
 import { Button } from "@/components/ui/button";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   usePostInviteFriend,
   useTrialSupa,
@@ -235,6 +235,9 @@ export default function Invitation({ className, onClick }: acceptProps) {
               複製
             </Button>
           </div>
+          <Link to={`/user/${userId}/friends`}>  
+          <p className="text-label hover:scale-105 transition-all duration-300 underline underline-offset-4 ">想邀的人不在名單裡嗎？ 去新增吧</p>
+          </Link>
         </div>
         <ul className="flex flex-col rounded-md px-10 max-h-100 overflow-y-auto w-full py-4">
           {InvitationList.length > 0 ? (
