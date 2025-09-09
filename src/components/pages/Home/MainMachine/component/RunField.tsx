@@ -3,13 +3,11 @@ import TemplateLoop from "./TemplateLoop.tsx";
 import Candy from "@/components/layout/Header/Navigator/Candy.tsx";
 import { bagel1, bagel2, bagel3, bagel4 } from "@/assets/bagel";
 import SequencePlayer from "@/components/ui/SequencePlayer.tsx";
-import { useIsSafariOrIOS } from "@/hooks/useIsSafariOrIOS";
 import { monsterCurious } from "@/assets/monsterCurious";
 import { girlFrames } from "@/assets/sequence/girl";
 
 export default function RunField() {
   const candy = 999;
-  const isSafariOrIOS = useIsSafariOrIOS();
 
   return (
     <div className="h-screen w-screen my-auto flex flex-col justify-between  text-nowrap">
