@@ -3,6 +3,8 @@ import TemplateLoop from "./TemplateLoop.tsx";
 import Candy from "@/components/layout/Header/Navigator/Candy.tsx";
 import { bagel1, bagel2, bagel3, bagel4 } from "@/assets/bagel";
 
+import SequencePlayer from "@/components/ui/SequencePlayer.tsx";
+
 export default function RunField() {
   const candy = 999;
   return (
@@ -19,16 +21,25 @@ export default function RunField() {
             <h3 className="text-h5 md:text-h2 font-bold text-wrap">
               AI小怪獸陪你達成多樣試煉
             </h3>
+            <SequencePlayer
+              folder="monsterCurious"
+              frameCount={60}
+              width={100}
+              height={100}
+              fps={24}
+            />
             <div className=" aspect-[3/4] h-20 md:h-40 rounded-2xl overflow-hidden border border-schema-primary">
               <p className="bg-schema-primary text-schema-on-primary p-2 text-center ">
                 上傳挑戰證明
               </p>
+
               <div className="   relative ">
                 <img
                   src="/image/challengeSample/50 Diet.webp"
                   alt=""
                   className="z-0 animate-pulse"
                 />
+
                 <video
                   autoPlay
                   loop
@@ -63,8 +74,6 @@ export default function RunField() {
               <img src={bagel2} alt="" className="w-full animate-bounce" />
               <img src={bagel4} alt="" className="w-full animate-bounce" />
             </div>
-
-   
           </div>
           <video
             autoPlay
