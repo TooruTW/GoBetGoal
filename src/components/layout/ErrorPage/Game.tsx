@@ -215,7 +215,7 @@ const BagelJumpGame = () => {
           }}
         >
           {isSafariOrIOS ? (
-            <SequencePlayer imgList={girlFrames} fps={24} width={100} height={100} />
+            <SequencePlayer imgList={girlFrames} fps={24} width={"100px"} height={"100px"} />
           ) : (
             <video
               autoPlay
