@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { bagel1, bagel2, bagel3, bagel4 } from "@/assets/bagel";
+import SequencePlayer from "@/components/ui/SequencePlayer.tsx";
+import { useIsSafariOrIOS } from "@/hooks/useIsSafariOrIOS";
 import {
   FaCaretDown,
   FaCaretLeft,
@@ -7,9 +9,10 @@ import {
   FaCaretUp,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { useIsSafariOrIOS } from "@/hooks/useIsSafariOrIOS";
 
 const BagelJumpGame = () => {
+  const isSafariOrIOS = useIsSafariOrIOS();
+
   const [playerY, setPlayerY] = useState(300);
   const [velocity, setVelocity] = useState(0);
   const [isJumping, setIsJumping] = useState(false);
@@ -28,7 +31,6 @@ const BagelJumpGame = () => {
 
   // 貝果圖片
   const bagelImages = [bagel1, bagel2, bagel3, bagel4];
-  const isSafariOrIOS = useIsSafariOrIOS();
 
   const jump = () => {
     if (!isJumping && !gameOver) {
@@ -212,7 +214,7 @@ const BagelJumpGame = () => {
           }}
         >
           {isSafariOrIOS ? (
-            <img src={""} alt="" />
+            <SequencePlayer folder="girl" fps={24} width={100} height={100} />
           ) : (
             <video
               autoPlay

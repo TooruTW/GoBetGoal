@@ -30,8 +30,8 @@ export default function RunField() {
               AI小怪獸陪你達成多樣試煉
             </h3>
 
-            <div className=" aspect-[3/4] h-20 md:h-40 rounded-2xl overflow-hidden border border-schema-primary">
-              <p className="bg-schema-primary text-schema-on-primary p-2 text-center ">
+            <div className=" aspect-[3/4] h-36 md:h-40 rounded-2xl overflow-hidden border border-schema-primary">
+              <p className="bg-schema-primary text-schema-on-primary p-2 text-center  whitespace-nowrap">
                 上傳挑戰證明
               </p>
 
@@ -67,33 +67,34 @@ export default function RunField() {
         <TemplateLoop />
       </div>
       <div className=" w-full h-full flex flex-col items-end">
-        <div className="flex items-center justify-evenly w-full px-3 max-w-330">
-          <div className="md:flex">
+        <div className="flex justify-evenly items-center">
+          <div className="md:flex w-1/3">
             <div>
               <h3 className="text-h5 md:text-h2 font-bold">
                 贏取豐厚貝果幣、成就
               </h3>
               <Candy amount={candy} />
             </div>
-            <div className="grid grid-cols-4 gap-6 md:gap-12 md:px-3">
+            <div className="grid grid-cols-4 gap-6 md:gap-12 md:px-3 w-max-100">
               <img src={bagel1} alt="" className="w-full animate-bounce" />
               <img src={bagel3} alt="" className="w-full animate-bounce" />
               <img src={bagel2} alt="" className="w-full animate-bounce" />
               <img src={bagel4} alt="" className="w-full animate-bounce" />
             </div>
           </div>
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className=" w-30 md:w-50 scale-x-[-1] "
-          >
-            <source
-              src="/animation/mainCharacter/character45.webm"
-              type="video/webm"
-            />
-          </video>
+          <div className="scale-x-[-1]  ">
+            {isSafariOrIOS ? (
+              <SequencePlayer folder="girl" fps={24} width={100} height={100} />
+            ) : (
+              <video autoPlay loop muted playsInline>
+                <source
+                  src="/animation/mainCharacter/character45.webm"
+                  type="video/webm"
+                  className="w-30 md:w-50 scale-x-[-1]"
+                />
+              </video>
+            )}
+          </div>
         </div>
         <AchievementLoop2 />
       </div>

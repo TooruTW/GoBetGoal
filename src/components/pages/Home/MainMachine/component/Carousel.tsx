@@ -40,7 +40,7 @@ export default function Carousel({ className, isCarouselMode }: CarouselProps) {
           end: "+=250%",
           scrub: 1,
           onUpdate: (self) => {
-            setSlideIndex(Math.max(0, Math.floor(self.progress * 4) - 1));
+            setSlideIndex(Math.max(0, Math.floor(self.progress * 5) - 1));
           },
         },
       });

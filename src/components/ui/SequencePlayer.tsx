@@ -16,16 +16,16 @@ export default function SequencePlayer({
   const [frames, setFrames] = useState<string[]>([]);
   const [currentFrame, setCurrentFrame] = useState(0);
 
-  // 匯入整個 sequecnce 資料夾
+  // 匯入整個 sequence 資料夾
   const allFrames = import.meta.glob(
-    "/src/assets/sequecnce/**/*.{png,jpg,webp}",
+    "/src/assets/sequence/**/*.{png,jpg,webp}",
     { eager: true, import: "default" }
   ) as Record<string, string>;
 
   useEffect(() => {
     // 過濾出指定 folder 的圖片
     const folderFrames = Object.entries(allFrames)
-      .filter(([path]) => path.includes(`/sequecnce/${folder}/`))
+      .filter(([path]) => path.includes(`/sequence/${folder}/`))
       .sort(([a], [b]) => {
         // 依照 frame 編號排序
         const getNum = (p: string) =>

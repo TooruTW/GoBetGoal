@@ -1,4 +1,8 @@
+import SequencePlayer from "@/components/ui/SequencePlayer.tsx";
+
+import { useIsSafariOrIOS } from "@/hooks/useIsSafariOrIOS";
 export default function Run() {
+  const isSafariOrIOS = useIsSafariOrIOS();
   return (
     <div className="w-full flex flex-col items-center absolute top-0 z-20">
       <div className="  w-full object-cover">
@@ -17,19 +21,16 @@ export default function Run() {
           />
         </video>
       </div>
-
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className=" w-1/4 absolute z-10 bottom-0 "
-      >
-        <source
-          src="/animation/mainCharacter/character45.webm"
-          type="video/webm"
-        />
-      </video>
+      {isSafariOrIOS ? (
+        <SequencePlayer folder="girl" fps={24} width={100} height={100} />
+      ) : (
+        <video autoPlay loop muted playsInline className="w-30 md:w-50 ">
+          <source
+            src="/animation/mainCharacter/character45.webm"
+            type="video/webm"
+          />
+        </video>
+      )}
     </div>
   );
 }
