@@ -14,12 +14,17 @@ export default function RunField() {
     <div className="h-screen w-screen my-auto flex flex-col justify-between  text-nowrap">
       <div className="  h-full ">
         <div className="flex justify-evenly items-center">
-          <video autoPlay loop muted playsInline className="w-30 md:w-50 ">
-            <source
-              src="/animation/mainCharacter/character45.webm"
-              type="video/webm"
-            />
-          </video>
+          {isSafariOrIOS ? (
+            <SequencePlayer folder="girl" fps={24} width={100} height={100} />
+          ) : (
+            <video autoPlay loop muted playsInline className="w-30 md:w-50 ">
+              <source
+                src="/animation/mainCharacter/character45.webm"
+                type="video/webm"
+              />
+            </video>
+          )}
+
           <div className="md:flex-row-reverse ">
             <h3 className="text-h5 md:text-h2 font-bold text-wrap">
               AI小怪獸陪你達成多樣試煉
@@ -41,10 +46,9 @@ export default function RunField() {
                   {isSafariOrIOS ? (
                     <SequencePlayer
                       folder="monsterCurious"
-                      frameCount={60}
+                      fps={24}
                       width={100}
                       height={100}
-                      fps={24}
                     />
                   ) : (
                     <video autoPlay loop muted playsInline>

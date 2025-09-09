@@ -7,11 +7,13 @@ import { useSound } from "@/hooks/useSound";
 
 import { RootState } from "@/store";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
+import { useIsSafariOrIOS } from "@/hooks/useIsSafariOrIOS";
+import SequencePlayer from "@/components/ui/SequencePlayer.tsx";
 
 export default function CTA() {
   const account = useSelector((state: RootState) => state.account);
   const playClick = useSound("/sounds/blast.mp3");
-
+  const isSafariOrIOS = useIsSafariOrIOS();
   const [containerRef, isVisible] = useIntersectionObserver({
     threshold: 0.1, // 當 10% 的元素可見時觸發
     rootMargin: "0px",
@@ -64,12 +66,16 @@ export default function CTA() {
       </div>
 
       <div className=" z-20 flex justify-center  px-3 items-center w-full  absolute top-1/2 left-1/2 -translate-1/2">
-        <video ref={characterVideoRef} loop muted playsInline className="w-1/5">
-          <source
-            src="/animation/mainCharacter/character45.webm"
-            type="video/webm"
-          />
-        </video>
+        {isSafariOrIOS ? (
+          <SequencePlayer folder="girl" fps={24} width={100} height={100} />
+        ) : (
+          <video autoPlay loop muted playsInline className="w-30 md:w-50 ">
+            <source
+              src="/animation/mainCharacter/character45.webm"
+              type="video/webm"
+            />
+          </video>
+        )}
         <img src={monsterRun} alt="" className=" w-1/6 " />
 
         <div className="ps-5">

@@ -1,86 +1,63 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 interface SequencePlayerProps {
-  folder: string;
-  frameCount: number; // 幀數，例如 60
+  folder: string; // e.g. "monsterCurious" 或 "girl"
+  fps?: number;
   width?: number;
   height?: number;
-  fps?: number; // 每秒幀數
 }
 
-const SequencePlayer: React.FC<SequencePlayerProps> = ({
+export default function SequencePlayer({
   folder,
-  frameCount,
-  width = 600,
-  height = 600,
   fps = 24,
-}) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [images, setImages] = useState<HTMLImageElement[]>([]);
-  const [loaded, setLoaded] = useState(0);
+  width = 200,
+  height = 200,
+}: SequencePlayerProps) {
+  const [frames, setFrames] = useState<string[]>([]);
+  const [currentFrame, setCurrentFrame] = useState(0);
+
+  // 匯入整個 sequecnce 資料夾
+  const allFrames = import.meta.glob(
+    "/src/assets/sequecnce/**/*.{png,jpg,webp}",
+    { eager: true, import: "default" }
+  ) as Record<string, string>;
 
   useEffect(() => {
-    const imgs: HTMLImageElement[] = [];
-    let loadedCount = 0;
+    // 過濾出指定 folder 的圖片
+    const folderFrames = Object.entries(allFrames)
+      .filter(([path]) => path.includes(`/sequecnce/${folder}/`))
+      .sort(([a], [b]) => {
+        // 依照 frame 編號排序
+        const getNum = (p: string) =>
+          parseInt(p.match(/(\d+)\.(png|jpg|webp)$/)?.[1] || "0", 10);
+        return getNum(a) - getNum(b);
+      })
+      .map(([, src]) => src);
 
-    for (let i = 0; i < frameCount; i++) {
-      const img = new Image();
-      img.src = `/sequence/${folder}/frame${i
-        .toString()
-        .padStart(2, "0")}.webp`;
-
-      img.onload = () => {
-        loadedCount++;
-        setLoaded(loadedCount); // 更新進度
-        if (loadedCount === frameCount) {
-          setImages(imgs);
-        }
-      };
-      imgs.push(img);
-    }
-  }, [folder, frameCount]);
+    setFrames(folderFrames);
+    setCurrentFrame(0);
+  }, [folder]);
 
   // 播放動畫
   useEffect(() => {
-    if (images.length === 0) return;
+    if (frames.length === 0) return;
+    const interval = setInterval(() => {
+      setCurrentFrame((prev) => (prev + 1) % frames.length);
+    }, 1000 / fps);
 
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    return () => clearInterval(interval);
+  }, [frames, fps]);
 
-    let frame = 0;
-    const interval = 1000 / fps;
-    let lastTime = performance.now();
-
-    const render = (time: number) => {
-      if (time - lastTime >= interval) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(images[frame], 0, 0, canvas.width, canvas.height);
-        frame = (frame + 1) % images.length;
-        lastTime = time;
-      }
-      requestAnimationFrame(render);
-    };
-
-    requestAnimationFrame(render);
-  }, [images, fps]);
+  if (frames.length === 0) {
+    return <div style={{ width, height }}>Loading...</div>;
+  }
 
   return (
-    <div className="flex justify-center items-center">
-      <canvas
-        ref={canvasRef}
-        width={width}
-        height={height}
-        className=" bg-transparent"
-      />
-      {loaded < frameCount && (
-        <p className="absolute text-sm text-gray-500">
-          Loading... {loaded}/{frameCount}
-        </p>
-      )}
-    </div>
+    <img
+      src={frames[currentFrame]}
+      alt={`frame-${currentFrame}`}
+      width={width}
+      height={height}
+    />
   );
-};
-
-export default SequencePlayer;
+}
