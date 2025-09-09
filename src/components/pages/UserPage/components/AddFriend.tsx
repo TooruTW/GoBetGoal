@@ -22,7 +22,6 @@ export default function AddFriend() {
   const userID = useSelector((state: RootState) => state.account.user_id);
   const myFriend = useSelector((state: RootState) => state.friends.friends);
 
-
   useGSAP(
     () => {
       if (searchResult.length === 0 || !suggestionRef.current) return;
@@ -139,15 +138,17 @@ export default function AddFriend() {
                   value={searchName}
                   onChange={(e) => setSearchName(e.target.value)}
                   onFocus={() => setIsSuggestionOpen(true)}
+                  onBlur={() => setIsSuggestionOpen(false)}
                   className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <div
                   ref={suggestionRef}
-                  className={`absolute left-0 top-full bg-schema-surface-container-high rounded-lg w-full p-2 max-h-50 overflow-y-scroll z-10 ${
+                  style={{scrollbarColor: "gray transparent", scrollbarWidth: "thin"}}
+                  className={`absolute left-0 top-full bg-schema-surface-container-high rounded-lg w-full p-2 max-h-60 overflow-y-scroll overflow-x-hidden z-10 ${
                     isSuggestionOpen ? "opacity-100" : "opacity-0 scale-0"
                   }`}
                 >
-                  <ul className="flex flex-col gap-4">
+                  <ul className="flex flex-col gap-4 ">
                     {searchResult?.length > 0 &&
                       searchResult?.map((user) => {
                         const isFriend = myFriend.some(
@@ -181,7 +182,7 @@ export default function AddFriend() {
                 </div>
               </div>
               {/* 輸入備註 */}
-              <div>
+              {/* <div>
                 <label className="block text-sm font-medium text-schema-on-surface">
                   備註 (可選)
                 </label>
@@ -193,7 +194,7 @@ export default function AddFriend() {
                   onChange={(e) => setNote(e.target.value)}
                   className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
-              </div>
+              </div> */}
 
               {/* 新增好友按鈕 */}
               <Button
