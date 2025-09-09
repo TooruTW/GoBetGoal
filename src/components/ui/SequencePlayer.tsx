@@ -1,44 +1,55 @@
 import React, { useEffect, useRef, useState } from "react";
-
 interface SequencePlayerProps {
-  folder: string; // e.g. "monsterCurious69"
+  imglist: string[]; // e.g. "monsterCurious69"
   frameCount: number; // 幀數，例如 60
   width?: number;
   height?: number;
   fps?: number; // 每秒幀數
+  className?: string;
 }
 
 const SequencePlayer: React.FC<SequencePlayerProps> = ({
-  folder,
-  frameCount,
+  imglist,
+  // frameCount,
   width = 600,
   height = 600,
   fps = 24,
+  className,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [images, setImages] = useState<HTMLImageElement[]>([]);
-  const [loaded, setLoaded] = useState(0);
+  // const [loaded, setLoaded] = useState(0);
 
-  useEffect(() => {
-    const imgs: HTMLImageElement[] = [];
-    let loadedCount = 0;
-
-    for (let i = 0; i < frameCount; i++) {
+  useEffect(()=>{
+    if(imglist.length === 0) return;
+    const imgElements: HTMLImageElement[] = imglist.map((src:string)=>{
       const img = new Image();
-      img.src = `/sequence/${folder}/frame${i
-        .toString()
-        .padStart(2, "0")}.webp`;
+      img.src = src;
+      return img;
+    })
+    setImages(imgElements);
+  },[imglist])
 
-      img.onload = () => {
-        loadedCount++;
-        setLoaded(loadedCount); // 更新進度
-        if (loadedCount === frameCount) {
-          setImages(imgs);
-        }
-      };
-      imgs.push(img);
-    }
-  }, [folder, frameCount]);
+  // useEffect(() => {
+  //   const imgs: HTMLImageElement[] = [];
+  //   let loadedCount = 0;
+
+  //   for (let i = 0; i < frameCount; i++) {
+  //     const img = new Image();
+  //     img.src = `/sequence/${folder}/frame${i
+  //       .toString()
+  //       .padStart(2, "0")}.webp`;
+
+  //     img.onload = () => {
+  //       loadedCount++;
+  //       setLoaded(loadedCount); // 更新進度
+  //       if (loadedCount === frameCount) {
+  //         setImages(imgs);
+  //       }
+  //     };
+  //     imgs.push(img);
+  //   }
+  // }, [folder, frameCount]);
 
   // 播放動畫
   useEffect(() => {
@@ -67,18 +78,18 @@ const SequencePlayer: React.FC<SequencePlayerProps> = ({
   }, [images, fps]);
 
   return (
-    <div className="flex justify-center items-center">
+    <div className={`flex justify-center items-center ${className}`}>
       <canvas
         ref={canvasRef}
         width={width}
         height={height}
         className=" bg-transparent"
       />
-      {loaded < frameCount && (
+      {/* {loaded < frameCount && (
         <p className="absolute text-sm text-gray-500">
           Loading... {loaded}/{frameCount}
         </p>
-      )}
+      )} */}
     </div>
   );
 };

@@ -52,7 +52,8 @@ const adjust = (
   fromMax: number,
   toMin: number,
   toMax: number
-): number => round(toMin + ((toMax - toMin) * (value - fromMin)) / (fromMax - fromMin));
+): number =>
+  round(toMin + ((toMax - toMin) * (value - fromMin)) / (fromMax - fromMin));
 
 const easeInOutCubic = (x: number): number =>
   x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
@@ -157,18 +158,21 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
     };
   }, [enableTilt]);
 
-  const handlePointerMove = useCallback((e: PointerEvent) => {
-    const card = cardRef.current;
-    const wrap = wrapRef.current;
-    if (!card || !wrap || !animationHandlers) return;
-    const rect = card.getBoundingClientRect();
-    animationHandlers.updateCardTransform(
-      e.clientX - rect.left,
-      e.clientY - rect.top,
-      card,
-      wrap
-    );
-  }, [animationHandlers]);
+  const handlePointerMove = useCallback(
+    (e: PointerEvent) => {
+      const card = cardRef.current;
+      const wrap = wrapRef.current;
+      if (!card || !wrap || !animationHandlers) return;
+      const rect = card.getBoundingClientRect();
+      animationHandlers.updateCardTransform(
+        e.clientX - rect.left,
+        e.clientY - rect.top,
+        card,
+        wrap
+      );
+    },
+    [animationHandlers]
+  );
 
   const handlePointerEnter = useCallback(() => {
     const card = cardRef.current;
@@ -179,20 +183,23 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
     card.classList.add("active");
   }, [animationHandlers]);
 
-  const handlePointerLeave = useCallback((e: PointerEvent) => {
-    const card = cardRef.current;
-    const wrap = wrapRef.current;
-    if (!card || !wrap || !animationHandlers) return;
-    animationHandlers.createSmoothAnimation(
-      ANIMATION_CONFIG.SMOOTH_DURATION,
-      e.offsetX,
-      e.offsetY,
-      card,
-      wrap
-    );
-    wrap.classList.remove("active");
-    card.classList.remove("active");
-  }, [animationHandlers]);
+  const handlePointerLeave = useCallback(
+    (e: PointerEvent) => {
+      const card = cardRef.current;
+      const wrap = wrapRef.current;
+      if (!card || !wrap || !animationHandlers) return;
+      animationHandlers.createSmoothAnimation(
+        ANIMATION_CONFIG.SMOOTH_DURATION,
+        e.offsetX,
+        e.offsetY,
+        card,
+        wrap
+      );
+      wrap.classList.remove("active");
+      card.classList.remove("active");
+    },
+    [animationHandlers]
+  );
 
   useEffect(() => {
     if (!enableTilt || !animationHandlers) return;
@@ -221,17 +228,33 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
       card.removeEventListener("pointerleave", handlePointerLeave);
       animationHandlers.cancelAnimation();
     };
-  }, [enableTilt, animationHandlers, handlePointerMove, handlePointerEnter, handlePointerLeave]);
+  }, [
+    enableTilt,
+    animationHandlers,
+    handlePointerMove,
+    handlePointerEnter,
+    handlePointerLeave,
+  ]);
 
-  const cardStyle = useMemo(() => ({
-    "--icon": iconUrl ? `url(${iconUrl})` : "none",
-    "--grain": grainUrl ? `url(${grainUrl})` : "none",
-    "--behind-gradient": showBehindGradient ? (behindGradient ?? DEFAULT_BEHIND_GRADIENT) : "none",
-    "--inner-gradient": innerGradient ?? DEFAULT_INNER_GRADIENT,
-  }) as React.CSSProperties, [iconUrl, grainUrl, showBehindGradient, behindGradient, innerGradient]);
+  const cardStyle = useMemo(
+    () =>
+      ({
+        "--icon": iconUrl ? `url(${iconUrl})` : "none",
+        "--grain": grainUrl ? `url(${grainUrl})` : "none",
+        "--behind-gradient": showBehindGradient
+          ? behindGradient ?? DEFAULT_BEHIND_GRADIENT
+          : "none",
+        "--inner-gradient": innerGradient ?? DEFAULT_INNER_GRADIENT,
+      } as React.CSSProperties),
+    [iconUrl, grainUrl, showBehindGradient, behindGradient, innerGradient]
+  );
 
   return (
-    <div ref={wrapRef} className={`pc-card-wrapper w-full h-full ${className}`.trim()} style={cardStyle}>
+    <div
+      ref={wrapRef}
+      className={`pc-card-wrapper w-full h-full ${className}`.trim()}
+      style={cardStyle}
+    >
       <section ref={cardRef} className="pc-card w-full h-full">
         <div className="pc-inside">
           <div className="pc-shine" />
@@ -257,7 +280,9 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                     className="pc-contact-btn"
                     onClick={handleAcceptFriend}
                     type="button"
-                    aria-label={`Accept friend request from ${handle || "user"}`}
+                    aria-label={`Accept friend request from ${
+                      handle || "user"
+                    }`}
                   >
                     接受
                   </button>
