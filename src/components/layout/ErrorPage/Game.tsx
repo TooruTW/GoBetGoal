@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { bagel1, bagel2, bagel3, bagel4 } from "@/assets/bagel";
+import SequencePlayer from "@/components/ui/SequencePlayer.tsx";
+import { useIsSafariOrIOS } from "@/hooks/useIsSafariOrIOS";
 import {
   FaCaretDown,
   FaCaretLeft,
@@ -9,6 +11,8 @@ import {
 import { Link } from "react-router-dom";
 
 const BagelJumpGame = () => {
+  const isSafariOrIOS = useIsSafariOrIOS();
+
   const [playerY, setPlayerY] = useState(300);
   const [velocity, setVelocity] = useState(0);
   const [isJumping, setIsJumping] = useState(false);
@@ -209,19 +213,23 @@ const BagelJumpGame = () => {
             imageRendering: "pixelated",
           }}
         >
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="w-20 "
-            style={{ imageRendering: "pixelated" }}
-          >
-            <source
-              src="/animation/mainCharacter/character45.webm"
-              type="video/webm"
-            />
-          </video>
+          {isSafariOrIOS ? (
+            <SequencePlayer folder="girl" fps={24} width={100} height={100} />
+          ) : (
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-20 "
+              style={{ imageRendering: "pixelated" }}
+            >
+              <source
+                src="/animation/mainCharacter/character45.webm"
+                type="video/webm"
+              />
+            </video>
+          )}
         </div>
 
         <button className=" absolute cursor-pointer -bottom-35  left-1/2 -translate-x-1/2 px-6 py-3  text-schema-primary font-bold border-4 border-schema-primary hover:opacity-90 active:scale-95">

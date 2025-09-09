@@ -1,7 +1,7 @@
 import SequencePlayer from "@/components/ui/SequencePlayer";
-import { monsterCurious } from "@/assets/monsterCurious";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import { useIsSafariOrIOS } from "@/hooks/useIsSafariOrIOS";
 import { useEffect, useRef } from "react";
 
 export default function ShowCheckResult({
@@ -10,6 +10,7 @@ export default function ShowCheckResult({
   state: "pass" | "fail" | "checking";
 }) {
   const showCheckResultRef = useRef<HTMLDivElement>(null);
+  const isSafariOrIOS = useIsSafariOrIOS();
   useEffect(() => {
     console.log(state, "checking state");
   }, [state]);
@@ -49,15 +50,23 @@ export default function ShowCheckResult({
         <div className="w-full h-1 border-5 border-schema-primary absolute top-1/2 -translate-y-1/2"></div>
         <div className="w-full h-1 border-5 border-schema-primary absolute top-1/2 -translate-y-1/2 rotate-90"></div>
       </div>
-      <SequencePlayer
-        imglist={monsterCurious}
-        frameCount={60}
-        width={100}
-        height={100}
-        fps={24}
-        className="w-full aspect-square absolute left-1/2 -translate-x-1/2 "
-      />
-      {/* <video src="/animation/monster/monsterCurious.webm" className="w-full max-w-100 aspect-square absolute left-1/2 -translate-x-1/2 " autoPlay loop muted></video> */}
+      <div className="w-full max-w-100 aspect-square absolute left-1/2 -translate-x-1/2 ">
+        {isSafariOrIOS ? (
+          <SequencePlayer
+            folder="monsterCurious"
+            width={100}
+            height={100}
+            fps={24}
+          />
+        ) : (
+          <video autoPlay loop muted playsInline>
+            <source
+              src="/animation/monster/monsterCurious.webm"
+              type="video/webm"
+            />
+          </video>
+        )}
+      </div>
     </div>
   );
 }

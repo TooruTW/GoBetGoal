@@ -57,7 +57,7 @@ export default function Navigator({ setIsShowNotification }: NavigatorProps) {
 
   return (
     <nav>
-      <ul className="flex gap-3 items-center text-sm">
+      <ul className="flex gap-3 items-center text-sm text-nowrap whitespace-nowrap">
         {account.user_id && (
           <>
             <li className=" group relative">
