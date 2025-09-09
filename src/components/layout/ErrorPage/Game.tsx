@@ -7,6 +7,7 @@ import {
   FaCaretUp,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useIsSafariOrIOS } from "@/hooks/useIsSafariOrIOS";
 
 const BagelJumpGame = () => {
   const [playerY, setPlayerY] = useState(300);
@@ -27,6 +28,7 @@ const BagelJumpGame = () => {
 
   // 貝果圖片
   const bagelImages = [bagel1, bagel2, bagel3, bagel4];
+  const isSafariOrIOS = useIsSafariOrIOS();
 
   const jump = () => {
     if (!isJumping && !gameOver) {
@@ -209,19 +211,23 @@ const BagelJumpGame = () => {
             imageRendering: "pixelated",
           }}
         >
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="w-20 "
-            style={{ imageRendering: "pixelated" }}
-          >
-            <source
-              src="/animation/mainCharacter/character45.webm"
-              type="video/webm"
-            />
-          </video>
+          {isSafariOrIOS ? (
+            <img src={""} alt="" />
+          ) : (
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-20 "
+              style={{ imageRendering: "pixelated" }}
+            >
+              <source
+                src="/animation/mainCharacter/character45.webm"
+                type="video/webm"
+              />
+            </video>
+          )}
         </div>
 
         <button className=" absolute cursor-pointer -bottom-35  left-1/2 -translate-x-1/2 px-6 py-3  text-schema-primary font-bold border-4 border-schema-primary hover:opacity-90 active:scale-95">

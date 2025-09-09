@@ -51,13 +51,13 @@ export default function FormModify() {
   };
 
   return (
-    <div className="w-full  flex flex-col gap-4 items-center max-w-110 py-10">
+    <div className="w-full  flex flex-col gap-4 items-center max-w-110 py-10 whitespace-nowrap">
       <div className="flex justify-between w-full pb-8">
         <h2 className="text-2xl font-bold">編輯資訊</h2>
         <Button onClick={handleUpdate}>更新資訊</Button>
       </div>
       <div className="w-full flex flex-col gap-4">
-        <div className="w-full flex gap-4 items-center">
+        <div className="w-full flex gap-4 items-center ">
           <h2 className="text-nowrap">暱稱</h2>
           <input
             type="text"

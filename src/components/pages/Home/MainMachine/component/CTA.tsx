@@ -49,13 +49,12 @@ export default function CTA() {
           playsInline
           className="w-full sm:mt-20"
         >
-          {/* Safari 等瀏覽器可能讀 mov（但建議轉成 mp4） */}
           <source
             src="/animation/sideVaporwave.mp4"
             type='video/mp4; codecs="hvc1"'
             className="rounded-4xl"
           />
-          {/* Chrome / Firefox / Edge 建議使用 webm */}
+
           <source
             src="/animation/sideVaporwave.webm"
             type="video/webm"
