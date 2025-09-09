@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useFriendlyError } from "./useFriendlyError";
 import SequencePlayer from "@/components/ui/SequencePlayer.tsx";
 import { useIsSafariOrIOS } from "@/hooks/useIsSafariOrIOS";
+import { monsterCurious } from "@/assets/monsterCurious";
 
 export default function ForgotPassword() {
   const [searchParams] = useSearchParams();
@@ -30,8 +31,7 @@ export default function ForgotPassword() {
       <div className="w-2/3 sm:w-1/3">
         {isSafariOrIOS ? (
           <SequencePlayer
-            folder="monsterCurious"
-            frameCount={60}
+            imgList={monsterCurious}
             width={100}
             height={100}
             fps={24}
