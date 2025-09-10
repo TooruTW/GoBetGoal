@@ -19,7 +19,7 @@ export default function Run() {
           />
         </video>
         <div className="absolute top-0 left-0 w-full h-full flex justify-center items-end">
-          <SequencePlayer imgList={girlFrames} height={20} fps={24} />
+          <SequencePlayer imgList={girlFrames} height={"40%"} fps={24} />
         </div>
       </div>
     </div>

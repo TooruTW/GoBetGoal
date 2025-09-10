@@ -49,13 +49,15 @@ export default function ShowCheckResult({
         <div className="w-full h-1 border-5 border-schema-primary absolute top-1/2 -translate-y-1/2"></div>
         <div className="w-full h-1 border-5 border-schema-primary absolute top-1/2 -translate-y-1/2 rotate-90"></div>
       </div>
-      <div className="w-full max-w-100 aspect-square absolute left-1/2 -translate-x-1/2 ">
-        <SequencePlayer
-          imgList={monsterCurious}
-          width={100}
-          height={100}
-          fps={24}
-        />
+      <div className="w-full  absolute bottom-0 left-0 ">
+
+          <SequencePlayer
+            imgList={monsterCurious}
+            width={"100%"}
+            height={"100%"}
+            fps={24}
+          />
+
       </div>
     </div>
   );

@@ -138,7 +138,7 @@ export default function AddFriend() {
                   value={searchName}
                   onChange={(e) => setSearchName(e.target.value)}
                   onFocus={() => setIsSuggestionOpen(true)}
-                  onBlur={() => setIsSuggestionOpen(false)}
+                  // onBlur={() => setIsSuggestionOpen(false)}
                   className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <div

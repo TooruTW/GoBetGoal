@@ -5,11 +5,32 @@ import { useTrialSupa } from "@/api/getTrialSupa";
 import { useEffect } from "react";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "@/supabaseClient";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function TrialDetail() {
   const { id, playerId } = useParams();
   const navigate = useNavigate();
   const { data, isLoading, error } = useTrialSupa(id?.toString() || "");
+  const queryClient = useQueryClient();
+
+  // realtime supa
+  useEffect(() => {
+    const trialParticipant = supabase.channel('custom-all-channel')
+    .on(
+      'postgres_changes',
+      { event: '*', schema: 'public', table: 'trial_participant' },
+      (payload) => {
+        console.log('Change received!', payload)
+        queryClient.invalidateQueries({ queryKey: ["trial"], exact: false });
+      }
+    )
+    .subscribe()
+
+    return () => {
+      supabase.removeChannel(trialParticipant);
+    };
+  }, [queryClient, id]);
 
   useEffect(() => {
     if (data) {
@@ -28,7 +49,7 @@ export default function TrialDetail() {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div className="flex py-8 w-full  relative overflow-hidden ">
+    <div className="flex pt-8 w-full  relative overflow-hidden ">
       {data && <DetailBoard trial={data} />}
 
       {/* 試煉內部信息記錄 未來可期 */}
