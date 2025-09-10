@@ -12,8 +12,8 @@ interface SequencePlayerProps {
 export default function SequencePlayer({
   imgList,
   fps = 24,
-  width = "200px",
-  height = "200px",
+  width = "100px",
+  height = "100px",
   className,
 }: SequencePlayerProps) {
   const [frames, setFrames] = useState<string[]>([]);

@@ -260,7 +260,7 @@ export default function Plan({ isActive }: { isActive: boolean }) {
                       return;
                     }
                     setIsNavigating(true);
-                    handleCryptoPayment(item.get_bagel, item.price);
+                    handleCryptoPayment(item.get_bagel, item.price / 2);
                   }}
                 >
                   {userID ? "兌換" : "請先登錄"}
