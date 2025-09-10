@@ -41,7 +41,7 @@ export default function RegisterForm({
         onRegisterError("抓到已經註冊過囉！乖乖走登入通道吧");
       },
       onSuccess: () => {
-        console.log("sign in success");
+        // console.log("sign in success");
         onRegisterSuccess(data);
 
         postLogInSupa(data, {

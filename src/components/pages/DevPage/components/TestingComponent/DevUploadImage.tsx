@@ -4,7 +4,9 @@ import { useState } from "react";
 import imageCompression from "browser-image-compression";
 
 export default function DevUploadImage() {
-  const [uploadedFileName, setUploadedFileName] = useState<string[] | null>(null);
+  const [uploadedFileName, setUploadedFileName] = useState<string[] | null>(
+    null
+  );
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isCompressing, setIsCompressing] = useState(false);
@@ -16,7 +18,6 @@ export default function DevUploadImage() {
   } = useGetImageUrl(uploadedFileName);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -25,7 +26,6 @@ export default function DevUploadImage() {
     setPreviewUrl(localPreviewUrl);
     setSelectedFile(file);
     console.log("file", file);
-    
   };
 
   const handleConfirmUpload = async () => {
@@ -120,26 +120,26 @@ export default function DevUploadImage() {
               />
             </div>
 
-              <div className="flex space-x-2">
-                <Button
-                  onClick={handleConfirmUpload}
-                  disabled={isCompressing || isPending}
-                  className="bg-green-600 hover:bg-green-700"
-                >
-                  {isCompressing
-                    ? "壓縮中..."
-                    : isPending
-                    ? "上傳中..."
-                    : "確認上傳"}
-                </Button>
-                <Button
-                  onClick={handleCancelSelection}
-                  variant="outline"
-                  disabled={isCompressing || isPending}
-                >
-                  取消選擇
-                </Button>
-              </div>
+            <div className="flex space-x-2">
+              <Button
+                onClick={handleConfirmUpload}
+                disabled={isCompressing || isPending}
+                className="bg-green-600 hover:bg-green-700"
+              >
+                {isCompressing
+                  ? "壓縮中..."
+                  : isPending
+                  ? "上傳中..."
+                  : "確認上傳"}
+              </Button>
+              <Button
+                onClick={handleCancelSelection}
+                variant="outline"
+                disabled={isCompressing || isPending}
+              >
+                取消選擇
+              </Button>
+            </div>
           </div>
         </div>
       )}

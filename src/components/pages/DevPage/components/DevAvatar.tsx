@@ -38,9 +38,9 @@ export default function DevAvatar() {
   };
 
   useEffect(() => {
-    if (isLoading) return;
-    if (error) console.log(error);
-    if (data) setAvatars(data);
+    if (isLoading || error || !data) return;
+    if (error) if (data) console.log(error);
+    setAvatars(data);
   }, [data, isLoading, error]);
 
   return (

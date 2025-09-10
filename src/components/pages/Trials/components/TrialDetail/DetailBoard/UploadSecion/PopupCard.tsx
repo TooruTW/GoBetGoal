@@ -12,41 +12,47 @@ import {
 type acceptProps = {
   imgUrl: string[];
   onClose: () => void;
-}
+};
 export default function PopupCard(props: acceptProps) {
   const { imgUrl, onClose } = props;
 
-  const [api, setApi] = React.useState<CarouselApi>()
-  const [current, setCurrent] = React.useState(0)
-  const [count, setCount] = React.useState(0)
+  const [api, setApi] = React.useState<CarouselApi>();
+  const [current, setCurrent] = React.useState(0);
+  const [count, setCount] = React.useState(0);
 
-  const backgroundRef = React.useRef<HTMLDivElement>(null)
+  const backgroundRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     if (!api) {
-      return
+      return;
     }
-    setCount(api.scrollSnapList().length)
-    setCurrent(api.selectedScrollSnap() + 1)
+    setCount(api.scrollSnapList().length);
+    setCurrent(api.selectedScrollSnap() + 1);
     api.on("select", () => {
-      setCurrent(api.selectedScrollSnap() + 1)
-    })
-  }, [api])
+      setCurrent(api.selectedScrollSnap() + 1);
+    });
+  }, [api]);
 
   const handleClose = (event: React.MouseEvent<HTMLDivElement>) => {
-    if(event.target === backgroundRef.current) {
-      console.log("click outside");
+    if (event.target === backgroundRef.current) {
+      // console.log("click outside");
       onClose();
     }
     event.stopPropagation();
     event.preventDefault();
-  }
+  };
 
   return (
-    <div ref={backgroundRef} onClick={(event) => handleClose(event)} className="fixed top-0 left-0 w-full h-full z-30 flex justify-center items-center backdrop-blur-sm">
-
-      <Carousel  className="w-110 rounded-md overflow-hidden" setApi={setApi}>
-        <IoCloseSharp className="absolute w-16 h-16 top-0 right-0 p-4 z-50 text-white/50 hover:text-white/80 active:text-white" onClick={onClose}/>
+    <div
+      ref={backgroundRef}
+      onClick={(event) => handleClose(event)}
+      className="fixed top-0 left-0 w-full h-full z-30 flex justify-center items-center backdrop-blur-sm"
+    >
+      <Carousel className="w-110 rounded-md overflow-hidden" setApi={setApi}>
+        <IoCloseSharp
+          className="absolute w-16 h-16 top-0 right-0 p-4 z-50 text-white/50 hover:text-white/80 active:text-white"
+          onClick={onClose}
+        />
         <CarouselContent>
           {imgUrl.map((item, index) => {
             return (

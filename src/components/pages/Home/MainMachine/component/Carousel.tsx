@@ -134,7 +134,7 @@ export default function Carousel({ className, isCarouselMode }: CarouselProps) {
           }`}
         >
           <GameComponent />
-        </div>{" "}
+        </div>
         */
       </div>
     </div>

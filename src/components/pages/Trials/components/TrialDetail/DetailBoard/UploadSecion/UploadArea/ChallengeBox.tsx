@@ -99,7 +99,7 @@ export default function ChallengeBox({
     usePatchUploadToChallengeHistorySupa();
   // update chance remain
   const { mutate: patchChanceRemain } = usePatchChanceRemain();
-  const { mutate: patchUserInfo } = usePatchChangeUserInfo(); 
+  const { mutate: patchUserInfo } = usePatchChangeUserInfo();
 
   // handle cheat
   const handleCheat = () => {
@@ -117,7 +117,7 @@ export default function ChallengeBox({
       },
       {
         onSuccess: () => {
-          console.log("cheat success");
+          // console.log("cheat success");
           queryClient.invalidateQueries({
             queryKey: ["trial", currentChallenge.trial_id],
           });
@@ -140,7 +140,7 @@ export default function ChallengeBox({
         { history_id: id, imageUrlArr: imageUrlArr },
         {
           onSuccess: () => {
-            console.log("test pass, result is uploaded");
+            // console.log("test pass, result is uploaded");
             queryClient.invalidateQueries({
               queryKey: ["trial", currentChallenge.trial_id],
             });
@@ -163,7 +163,7 @@ export default function ChallengeBox({
       },
       {
         onSuccess: () => {
-          console.log("test fail, chance_remain is updated");
+          // console.log("test fail, chance_remain is updated");
           queryClient.invalidateQueries({
             queryKey: ["trial", currentChallenge.trial_id],
           });
@@ -189,7 +189,6 @@ export default function ChallengeBox({
       !isImageLoading &&
       !imageError
     ) {
-
       if (!isAIChecking) {
         const diffcount =
           challenge_stage.description.length - imageUrlArr.length;
@@ -210,7 +209,7 @@ export default function ChallengeBox({
       ).then((result) => {
         const isPassTest = result.overallResult;
         const passedImgUrl = result.imageResults.map((item) => item.imageUrl);
-        console.log(result, "result");
+        // console.log(result, "result");
 
         if (isPassTest) {
           handlePass(currentChallenge.id, passedImgUrl);

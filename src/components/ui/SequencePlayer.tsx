@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
 
 interface SequencePlayerProps {
   imgList: string[]; // e.g. "monsterCurious" 或 "girl"
@@ -17,24 +18,25 @@ export default function SequencePlayer({
 }: SequencePlayerProps) {
   const [frames, setFrames] = useState<string[]>([]);
   const [currentFrame, setCurrentFrame] = useState(0);
+  const [ref, isVisible] = useIntersectionObserver();
 
   useEffect(() => {
     setFrames(imgList);
     setCurrentFrame(0);
   }, [imgList]);
 
-  // 播放動畫
+  // 播放動畫 - 只有在可見時才播放
   useEffect(() => {
-    if (!frames || frames.length === 0) return;
+    if (!frames || frames.length === 0 || !isVisible) return;
     const interval = setInterval(() => {
       setCurrentFrame((prev) => (prev + 1) % frames.length);
     }, 1000 / fps);
 
     return () => clearInterval(interval);
-  }, [frames, fps]);
+  }, [frames, fps, isVisible]);
 
   return (
-    <>
+    <div ref={ref as React.RefObject<HTMLDivElement>}>
       {frames && frames.length > 0 ? (
         <img
           src={frames[currentFrame]}
@@ -45,6 +47,6 @@ export default function SequencePlayer({
       ) : (
         <div style={{ width, height }}>Loading...</div>
       )}
-    </>
+    </div>
   );
 }

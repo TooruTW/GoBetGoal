@@ -18,7 +18,7 @@ export default function TrialDetail() {
       const diffDays = endDate.diff(now, "day");
 
       if (diffDays < 0) {
-        console.log("trial is over");
+        // console.log("trial is over");
         navigate(`/trial-complete/${id}`);
       }
     }

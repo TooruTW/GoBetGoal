@@ -2,10 +2,7 @@ import { supabase } from "@/supabaseClient";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const deletePostSupa = async (postId: string) => {
-  const { data, error } = await supabase
-    .from("post")
-    .delete()
-    .eq("id", postId);
+  const { data, error } = await supabase.from("post").delete().eq("id", postId);
 
   if (error) throw error;
   return { data, error };

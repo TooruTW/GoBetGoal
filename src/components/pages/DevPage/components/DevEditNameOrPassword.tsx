@@ -45,7 +45,7 @@ export default function DevEditNameOrPassword() {
                       queryClient.invalidateQueries({
                         queryKey: ["user_info", userID],
                       });
-                      console.log("success");
+                      // console.log("success");
                     },
                   }
                 );
@@ -68,7 +68,7 @@ export default function DevEditNameOrPassword() {
               if (newPassword)
                 patchChangePassword(newPassword, {
                   onSuccess: () => {
-                    console.log("success");
+                    // console.log("success");
                     setNewPassword(null);
                     queryClient.invalidateQueries({ queryKey: ["user"] });
                     navigate("/");

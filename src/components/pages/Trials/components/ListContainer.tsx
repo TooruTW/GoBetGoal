@@ -72,24 +72,22 @@ export default function ListContainer() {
 
   return (
     <div>
-      {
-        filteredData.length === 0 ? (
-          <div className="text-schema-on-surface-variant">
-            {userId ? "目前沒有試煉" : "請先登入"}
-          </div>
-        ) : (
-          <div className="w-full grid md:grid-cols-2 gap-6 relative z-20">
-            {filteredData?.map((trial) => (
-              <GlareHover
-                key={trial.id}
-                className="bg-surface-container trial-card"
-              >
-                <TrialCard trial={trial} />
-              </GlareHover>
-            ))}
-          </div>
-        )
-      }
+      {filteredData.length === 0 ? (
+        <div className="text-schema-on-surface-variant">
+          {userId ? "目前沒有試煉" : "請先登入"}
+        </div>
+      ) : (
+        <div className="w-full grid md:grid-cols-2 gap-6 relative z-20">
+          {filteredData?.map((trial) => (
+            <GlareHover
+              key={trial.id}
+              className="bg-surface-container trial-card"
+            >
+              <TrialCard trial={trial} />
+            </GlareHover>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

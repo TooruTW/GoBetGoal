@@ -91,7 +91,7 @@ export default function Plan({ isActive }: { isActive: boolean }) {
     get_bagel: number,
     deposit_money: number
   ) => {
-    console.log("handleCryptoPayment", get_bagel, deposit_money);
+    // console.log("handleCryptoPayment", get_bagel, deposit_money);
     if (!userID) return;
 
     const url = "https://gobetgoal.rocket-coding.com/api/payments/create";
@@ -108,7 +108,7 @@ export default function Plan({ isActive }: { isActive: boolean }) {
       }),
     });
     const data = await result.json();
-    console.log(data);
+    // console.log(data);
     setNewebPayForm(data);
   };
 
@@ -164,7 +164,7 @@ export default function Plan({ isActive }: { isActive: boolean }) {
 
   useGSAP(
     () => {
-      if(!isActive) return;
+      if (!isActive) return;
       gsap.from(".line", {
         delay: 1,
         scale: 0,
@@ -236,8 +236,16 @@ export default function Plan({ isActive }: { isActive: boolean }) {
               <div className="relative">
                 <p className="text-sm font-title">NTD {item.price}</p>
 
-                <div  className={`line w-full absolute top-1/2 -translate-y-1/2 border-2 border-red-500 -rotate-12 ${!isActive ? "scale-0" : ""}`}></div>
-                <h3 className={`price-card text-h2 font-title absolute bottom-0 left-full w-fit -rotate-12 z-20 bg-red-500 p-2 rounded-lg text-center ${!isActive ? "scale-0" : ""}`}>
+                <div
+                  className={`line w-full absolute top-1/2 -translate-y-1/2 border-2 border-red-500 -rotate-12 ${
+                    !isActive ? "scale-0" : ""
+                  }`}
+                ></div>
+                <h3
+                  className={`price-card text-h2 font-title absolute bottom-0 left-full w-fit -rotate-12 z-20 bg-red-500 p-2 rounded-lg text-center ${
+                    !isActive ? "scale-0" : ""
+                  }`}
+                >
                   NTD {Math.floor(item.price / 2)}
                 </h3>
               </div>
@@ -273,14 +281,24 @@ export default function Plan({ isActive }: { isActive: boolean }) {
           </li>
         ))}
       </ul>
-      <p className="mt-4" >夭壽說他買單： <span className="font-bold cursor-pointer" onClick={()=>{
-        navigator.clipboard.writeText("4000-2211-1111-1111");
-        dispatch(setToast({
-          content: "已複製",
-          type: "success",
-          time: 2000,
-        }));
-      }}>4000-2211-1111-1111</span></p>
+      <p className="mt-4">
+        夭壽說他買單：{" "}
+        <span
+          className="font-bold cursor-pointer"
+          onClick={() => {
+            navigator.clipboard.writeText("4000-2211-1111-1111");
+            dispatch(
+              setToast({
+                content: "已複製",
+                type: "success",
+                time: 2000,
+              })
+            );
+          }}
+        >
+          4000-2211-1111-1111
+        </span>
+      </p>
       <NewebPayForm {...newebPayForm} />
 
       {/* 導航中 */}

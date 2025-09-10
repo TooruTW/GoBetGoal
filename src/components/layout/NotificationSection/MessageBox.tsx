@@ -90,7 +90,7 @@ export default function MessageBox({
       duration: 0.5,
       ease: "power2.inOut",
       onComplete: () => {
-        console.log("delete");
+        // console.log("delete");
         deleteNotification(id);
       },
     });
@@ -99,11 +99,11 @@ export default function MessageBox({
   const handleAccept = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     if (!action_id || !from_id) return;
-    console.log("accept", action_id);
+    // console.log("accept", action_id);
 
     switch (type) {
       case "friend_request":
-        console.log("friend_request", action_id);
+        // console.log("friend_request", action_id);
         acceptFriend({
           request_id: action_id,
           address_id: userID,
@@ -111,7 +111,7 @@ export default function MessageBox({
         });
         break;
       case "trial_invite":
-        console.log("trial_invite", action_id);
+        // console.log("trial_invite", action_id);
         joinTrial({ trial_id: action_id, participant_id: userID });
         break;
 
@@ -153,7 +153,7 @@ export default function MessageBox({
       default:
         break;
     }
-    console.log("navigate to", url);
+    // console.log("navigate to", url);
     window.open(url, "_blank");
   };
 

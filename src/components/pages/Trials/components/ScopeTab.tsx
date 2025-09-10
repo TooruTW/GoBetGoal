@@ -53,19 +53,19 @@ export default function ScopeTab() {
         className="w-1/3 h-full absolute left-0 top-0 rounded-2xl z-0 bg-schema-surface-container-highest scale-110 pointer-events-none"
       ></div>
       <h1
-        className={`text-2xl font-bold z-10 all cursor-pointer`}
+        className={`text-2xl font-bold z-10 all cursor-pointer max-md:text-p`}
         onClick={() => handleNav("all")}
       >
         試煉廣場
       </h1>
       <h1
-        className={`text-2xl font-bold z-10 my cursor-pointer`}
+        className={`text-2xl font-bold z-10 my cursor-pointer max-md:text-p`}
         onClick={() => handleNav("my")}
       >
         我的試煉
       </h1>
       <h1
-        className={`text-2xl font-bold z-10 like cursor-pointer`}
+        className={`text-2xl font-bold z-10 like cursor-pointer max-md:text-p`}
         onClick={() => handleNav("like")}
       >
         我的收藏
