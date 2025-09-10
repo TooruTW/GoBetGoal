@@ -56,7 +56,7 @@ function RetryImage({
   }, [retryCount, maxRetries, retryDelay, realSrc]);
 
   useEffect(() => {
-    console.log("realSrc", realSrc);
+    // console.log("realSrc", realSrc);
     setCurrentSrc(realSrc);
     setRetryCount(0);
     setShowSkeleton(true);

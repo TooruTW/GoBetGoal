@@ -25,7 +25,7 @@ export default function AddFriend() {
   useGSAP(
     () => {
       if (searchResult.length === 0 || !suggestionRef.current) return;
-      console.log("searchResult", searchResult);
+      // console.log("searchResult", searchResult);
 
       gsap.from(".name-list", {
         delay: 0.5,
@@ -52,7 +52,7 @@ export default function AddFriend() {
       setSearchResult(userInfoAll);
       return;
     }
-    console.log("searchName", searchName);
+    // console.log("searchName", searchName);
 
     const result = userInfoAll.filter((user) =>
       user.nick_name.toLowerCase().includes(searchName.toLowerCase())
@@ -73,7 +73,7 @@ export default function AddFriend() {
       },
       {
         onSuccess: () => {
-          console.log("新增好友成功");
+          // console.log("新增好友成功");
           setOpen(false);
           setFriendID("");
           setNote("");
@@ -143,7 +143,10 @@ export default function AddFriend() {
                 />
                 <div
                   ref={suggestionRef}
-                  style={{scrollbarColor: "gray transparent", scrollbarWidth: "thin"}}
+                  style={{
+                    scrollbarColor: "gray transparent",
+                    scrollbarWidth: "thin",
+                  }}
                   className={`absolute left-0 top-full bg-schema-surface-container-high rounded-lg w-full p-2 max-h-60 overflow-y-scroll overflow-x-hidden z-10 ${
                     isSuggestionOpen ? "opacity-100" : "opacity-0 scale-0"
                   }`}

@@ -123,7 +123,7 @@ export default function NotificationSection({
           duration: 0.5,
           ease: "power2.inOut",
           onComplete: () => {
-            console.log(beRead, "beRead");
+            // console.log(beRead, "beRead");
             patchReadNotification(beRead);
             isClosable.current = false;
           },

@@ -71,7 +71,6 @@ export default function Auth() {
                 {loginError}
               </p>
             )}
-            
           </TabsContent>
         </Tabs>
       </div>

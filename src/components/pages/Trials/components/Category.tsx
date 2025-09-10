@@ -169,7 +169,7 @@ export default function Category() {
           background: `linear-gradient(to right, var(--${videoList[currentIndex].color}) 0%,#F2E4EE 100%)`,
         }}
       >
-        <div className="md:flex md:flex-row-reverse  w-1/2 h-full relative items-center p-3">
+        <div className="flex flex-row-reverse max-md:flex-col max-md:justify-around w-1/2 h-full relative items-center p-3">
           {/* 中間：標題區 */}
           <div className="text-center text-white z-20 md:w-1/2">
             <h2 className="text-schema-inverse-on-surface text-h2">

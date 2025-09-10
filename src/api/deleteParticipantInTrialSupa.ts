@@ -11,14 +11,13 @@ const deleteParticipantInTrialSupa = async (
     .eq("trial_id", trialId)
     .eq("participant_id", userId);
 
-    if(error) {
-      console.log(error, "error");
-      throw error;
-    };
+  if (error) {
+    console.log(error, "error");
+    throw error;
+  }
 
   console.log(trialId, userId, "got kill");
   console.log(data, "data");
-
 };
 
 export function useDeleteParticipantInTrialSupa() {

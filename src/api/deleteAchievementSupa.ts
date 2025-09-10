@@ -2,11 +2,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/supabaseClient";
 
 const deleteAchievementSupa = async (id: string) => {
-  console.log("deleteAchievementSupa", id);
-  const { error } = await supabase
-    .from("achievements")
-    .delete()
-    .eq("id", id);
+  // console.log("deleteAchievementSupa", id);
+  const { error } = await supabase.from("achievements").delete().eq("id", id);
   if (error) throw error;
 };
 

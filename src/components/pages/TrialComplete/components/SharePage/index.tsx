@@ -73,12 +73,12 @@ export default function SharePage(props: AcceptanceProps) {
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(window.location.href);
-    console.log("copy");
+    // console.log("copy");
   };
 
   const handleShareToFacebook = () => {
     const url = window.location.href;
-    console.log(url, "share to fb");
+    // console.log(url, "share to fb");
 
     const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
       url

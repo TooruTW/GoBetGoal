@@ -1,10 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/supabaseClient";
 
-
-
 const postLogOutSupa = async () => {
-    const { error } = await supabase.auth.signOut()
+  const { error } = await supabase.auth.signOut();
   if (error) throw error;
 };
 

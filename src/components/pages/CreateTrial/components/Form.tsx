@@ -122,7 +122,7 @@ export default function Form({ challenge }: FormProps) {
   const createTrial = async (formData: FormData) => {
     if (!id) return;
     try {
-      console.log("開始創建試煉:", formData);
+      // console.log("開始創建試煉:", formData);
 
       const newData: createTrial = {
         start_at: formData.trialStart,
@@ -132,7 +132,7 @@ export default function Form({ challenge }: FormProps) {
         create_by: userID,
       };
 
-      console.log("試煉數據:", newData);
+      // console.log("試煉數據:", newData);
 
       postCreateTrial(newData, {
         onSuccess: (data) => {
@@ -140,7 +140,7 @@ export default function Form({ challenge }: FormProps) {
           setShowConfirm(false);
           setPendingTrialData(null);
           reset();
-          console.log("創建試煉成功，回傳的 data:", data);
+          // console.log("創建試煉成功，回傳的 data:", data);
           navigate(`/trials/detail/${data[0].id}/0`);
         },
         onError: (error) => {
@@ -316,7 +316,7 @@ export default function Form({ challenge }: FormProps) {
               },
             })}
             type="text"
-            className="border-2 border-schema-primary rounded-md px-4 py-2.5"
+            className="border-2 border-schema-primary rounded-md px-4 py-2.5 text-schema-on-surface"
             placeholder="夏天到了還沒瘦？"
           />
           {errors.trialName && (

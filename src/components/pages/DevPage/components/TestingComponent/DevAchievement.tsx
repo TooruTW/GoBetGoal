@@ -4,25 +4,34 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 
 export default function DevAchievement() {
+  const userId = useSelector((state: RootState) => state.account.user_id);
+  const [userAchiSet, setUserAchiSet] = useState<Set<string>>(new Set());
 
-    const userId = useSelector((state:RootState)=>state.account.user_id)
-    const [userAchiSet, setUserAchiSet] = useState<Set<string>>(new Set())
-
-  const { data:allAchievement, error:allError, isLoading:isAllLoading } = useAchievementSupa();
-  const { data:userAchievement, error:userError, isLoading:isUserLoading } = useUserAchievementSupa(userId);
+  const {
+    data: allAchievement,
+    error: allError,
+    isLoading: isAllLoading,
+  } = useAchievementSupa();
+  const {
+    data: userAchievement,
+    error: userError,
+    isLoading: isUserLoading,
+  } = useUserAchievementSupa(userId);
 
   useEffect(() => {
     if (isAllLoading || allError || !allAchievement) return;
     console.log(allAchievement);
   }, [allAchievement, allError, isAllLoading]);
 
-  useEffect(()=>{
-    if(isUserLoading || userError || !userAchievement) return
-    console.log(userAchievement,"user")
+  useEffect(() => {
+    if (isUserLoading || userError || !userAchievement) return;
+    console.log(userAchievement, "user");
 
-    const userAchiSet = new Set(userAchievement.map((achi)=>achi.achievement_id))
-    setUserAchiSet(userAchiSet)
-  },[userAchievement, userError, isUserLoading])
+    const userAchiSet = new Set(
+      userAchievement.map((achi) => achi.achievement_id)
+    );
+    setUserAchiSet(userAchiSet);
+  }, [userAchievement, userError, isUserLoading]);
 
   return (
     <div>
@@ -30,7 +39,12 @@ export default function DevAchievement() {
         {allAchievement &&
           allAchievement.map((achievement) => {
             return (
-              <li key={achievement.id} className={`${userAchiSet.has(achievement.id) ? "opacity-100" : "opacity-30"}`}>
+              <li
+                key={achievement.id}
+                className={`${
+                  userAchiSet.has(achievement.id) ? "opacity-100" : "opacity-30"
+                }`}
+              >
                 <p>{achievement.id}</p>
                 <p>{achievement.order}</p>
                 <p>{achievement.title}</p>

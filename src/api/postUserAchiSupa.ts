@@ -29,7 +29,10 @@ export function usePostUserAchiSupa() {
   return useMutation({
     mutationFn: postAchievementSupa,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["achievement"],exact:false });
+      queryClient.invalidateQueries({
+        queryKey: ["achievement"],
+        exact: false,
+      });
     },
     onError: (error) => {
       console.log(error);
