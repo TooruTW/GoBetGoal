@@ -10,7 +10,6 @@ import { setFriends, setRemoveSelf } from "./store/slices/friendsSlice";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 
-
 function App() {
   const [userID, setUserID] = useState<string>("");
   const dispatch = useDispatch();
@@ -35,8 +34,8 @@ function App() {
 
   useEffect(() => {
     if (userID !== "" && !isLoading && !error && userInfoSupa && user) {
-      const userInfoSupaData = {...userInfoSupa[0], email: user.email};
-      console.log("Updating Redux account:", userInfoSupaData);
+      const userInfoSupaData = { ...userInfoSupa[0], email: user.email };
+      // console.log("Updating Redux account:", userInfoSupaData);
       dispatch(setAccount(userInfoSupaData));
     } else {
       dispatch(setAccount(null));

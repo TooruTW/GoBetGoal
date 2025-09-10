@@ -152,7 +152,7 @@ export default function Invitation({ className, onClick }: acceptProps) {
     e.stopPropagation();
     if (isInviting) return; // 防止重複點擊
 
-    console.log(selectedInvitation);
+    // console.log(selectedInvitation);
     setIsInviting(true);
 
     let completedCount = 0;
@@ -210,11 +210,11 @@ export default function Invitation({ className, onClick }: acceptProps) {
         time: 3500,
       })
     );
-    console.log("copy");
+    // console.log("copy");
   };
 
   useClickOutside(InvitationListRef, () => {
-    console.log("click outside");
+    // console.log("click outside");
     onClick();
   });
 
@@ -235,8 +235,10 @@ export default function Invitation({ className, onClick }: acceptProps) {
               複製
             </Button>
           </div>
-          <Link to={`/user/${userId}/friends`}>  
-          <p className="text-label hover:scale-105 transition-all duration-300 underline underline-offset-4 ">想邀的人不在名單裡嗎？ 去新增吧</p>
+          <Link to={`/user/${userId}/friends`}>
+            <p className="text-label hover:scale-105 transition-all duration-300 underline underline-offset-4 ">
+              想邀的人不在名單裡嗎？ 去新增吧
+            </p>
           </Link>
         </div>
         <ul className="flex flex-col rounded-md px-10 max-h-100 overflow-y-auto w-full py-4">

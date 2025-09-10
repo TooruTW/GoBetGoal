@@ -12,7 +12,7 @@ const getTrialSupa = async (id: string): Promise<TrialDetailSupa[]> => {
   if (error) {
     console.log(error);
     throw error;
-  }  
+  }
   return data;
 };
 

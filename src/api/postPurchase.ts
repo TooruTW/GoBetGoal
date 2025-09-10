@@ -9,7 +9,7 @@ const postPurchase = async ({
   price,
 }: {
   user_id: string;
-  item_type: 'challenge' | 'avatar' | 'trial_deposit' | 'cheat_blanket';
+  item_type: "challenge" | "avatar" | "trial_deposit" | "cheat_blanket";
   item_id: string;
   item_name: string;
   price: number;
@@ -21,15 +21,17 @@ const postPurchase = async ({
 
   const { data, error } = await supabase
     .from("purchase_records")
-    .insert([{ 
-      user_id, 
-      item_type, 
-      item_id, 
-      item_name, 
-      price
-    }])
+    .insert([
+      {
+        user_id,
+        item_type,
+        item_id,
+        item_name,
+        price,
+      },
+    ])
     .select();
-  
+
   if (error) throw error;
   return data;
 };

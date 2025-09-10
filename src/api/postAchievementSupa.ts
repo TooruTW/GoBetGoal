@@ -14,7 +14,14 @@ const postAchievementSupa = async (insertData: Achievement) => {
   console.log("postAchievementSupa", insertData);
   const { data, error } = await supabase
     .from("achievements")
-    .insert([{ order: insertData.order, title: insertData.title, description: insertData.description, icon_url: insertData.icon_url }])
+    .insert([
+      {
+        order: insertData.order,
+        title: insertData.title,
+        description: insertData.description,
+        icon_url: insertData.icon_url,
+      },
+    ])
     .select();
   if (error) throw error;
   return data;

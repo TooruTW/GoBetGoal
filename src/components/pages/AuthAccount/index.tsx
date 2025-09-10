@@ -43,7 +43,7 @@ export default function AuthAccount() {
   const { mutate: postFirstEditUserInfo } = usePostFirstEditUserInfo();
 
   const onRegister: SubmitHandler<FormValues> = async (data) => {
-    console.log(data);
+    // console.log(data);
     if (!id || !data.nickname || !data.avatar) return;
     postFirstEditUserInfo(
       {
@@ -55,11 +55,11 @@ export default function AuthAccount() {
         onSuccess: () => {
           if (!id || !data.nickname || !data.avatar) return;
 
-          console.log("setting success");
+          // console.log("setting success");
 
           // 觸發 user_info 查詢更新，這樣 Redux 就會跟著更新
           queryClient.invalidateQueries({ queryKey: ["user_info", id] });
-          console.log("User info updated after edit");
+          // console.log("User info updated after edit");
 
           setAccountSuccess(true);
           setRegisterInfo({

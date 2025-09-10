@@ -32,7 +32,7 @@ export const usePatchAcceptTrialInvite = () => {
       console.log(error);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["user_info"],exact:false });
+      queryClient.invalidateQueries({ queryKey: ["user_info"], exact: false });
     },
   });
 

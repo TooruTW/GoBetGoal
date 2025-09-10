@@ -1,15 +1,15 @@
 type CheckResult = {
-  "overallResult": boolean,
-  "overallMessage": string,
-  "imageResults": [
-      {
-          "imageUrl": string,
-          "isSafe": boolean,
-          "isCompliant": boolean,
-          "reason": string
-      }
-  ]
-}
+  overallResult: boolean;
+  overallMessage: string;
+  imageResults: [
+    {
+      imageUrl: string;
+      isSafe: boolean;
+      isCompliant: boolean;
+      reason: string;
+    }
+  ];
+};
 
 type acceptProps = {
   imageUrls: string[];

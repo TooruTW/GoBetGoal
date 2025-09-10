@@ -18,7 +18,7 @@ export default function PopupCard({
   const [resultDescription, setResultDescription] = useState("");
 
   useEffect(() => {
-    console.log(status, "status");
+    // console.log(status, "status");
 
     if (status === "pass") {
       setResultDescription("恭喜你通過了");

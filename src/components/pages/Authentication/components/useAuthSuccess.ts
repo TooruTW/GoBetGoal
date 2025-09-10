@@ -19,7 +19,7 @@ export const useAuthSuccess = ({
     loginData: { user: User | null; session: Session | null },
     context: string = "登入"
   ) => {
-    console.log(`${context} success, data:`, loginData);
+    // console.log(`${context} success, data:`, loginData);
     queryClient.invalidateQueries({ queryKey: ["user"] });
 
     // 取得 user id
@@ -29,7 +29,7 @@ export const useAuthSuccess = ({
       return;
     }
 
-    console.log("User ID:", userId);
+    // console.log("User ID:", userId);
 
     // 觸發 user_info 查詢更新，這樣 Redux 就會跟著更新
     queryClient.invalidateQueries({ queryKey: ["user_info", userId] });
@@ -37,7 +37,7 @@ export const useAuthSuccess = ({
     // 查詢 user_info
     try {
       const userInfo = await getUserInfoSupa(userId);
-      console.log("User info:", userInfo);
+      // console.log("User info:", userInfo);
 
       if (!userInfo || userInfo.length === 0) {
         navigate(`/auth-account/${userId}`);

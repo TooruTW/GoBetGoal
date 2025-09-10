@@ -17,13 +17,15 @@ const postDeposit = async ({
 
   const { data, error } = await supabase
     .from("deposit")
-    .insert([{ 
-      user_id, 
-      get_bagel,
-      deposit_money,
-    }])
+    .insert([
+      {
+        user_id,
+        get_bagel,
+        deposit_money,
+      },
+    ])
     .select();
-  
+
   if (error) throw error;
   return data;
 };

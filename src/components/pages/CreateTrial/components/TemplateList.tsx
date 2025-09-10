@@ -21,15 +21,13 @@ export default function TemplateList({ className }: { className?: string }) {
     useGetUserPurchase(userID);
   const dispatch = useDispatch();
 
- 
-
   useEffect(() => {
     if (isLoading || isPurchaseLoading || !data) return;
-    console.log(data);
+    // console.log(data);
 
     dispatch(setChallengeTemplate(data));
     let templateList = [];
-    if (userID && purchaseRecord && purchaseRecord.length > 0  ) {
+    if (userID && purchaseRecord && purchaseRecord.length > 0) {
       templateList = data.map((template) => {
         const isPurchased = purchaseRecord.some(
           (purchase) => purchase.item_id === template.id

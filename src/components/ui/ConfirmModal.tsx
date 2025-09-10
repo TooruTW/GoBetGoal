@@ -35,10 +35,10 @@ export default function ConfirmModal({
   const location = useLocation();
 
   const handleConfirm = () => {
-    console.log("Confirm clicked with selectedToBuy:", selectedToBuy);
+    // console.log("Confirm clicked with selectedToBuy:", selectedToBuy);
     if (!selectedToBuy) return;
 
-    console.log("Account candy count:", account.candy_count);
+    // console.log("Account candy count:", account.candy_count);
 
     // 檢查貝果數量
     if (account.candy_count >= selectedToBuy.price) {

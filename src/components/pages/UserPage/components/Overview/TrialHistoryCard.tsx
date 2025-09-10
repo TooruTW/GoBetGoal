@@ -106,7 +106,7 @@ export default function TrialCard(props: acceptProps) {
     );
   }
 
-  console.log(challenge.color);
+  // console.log(challenge.color);
 
   return (
     <div
