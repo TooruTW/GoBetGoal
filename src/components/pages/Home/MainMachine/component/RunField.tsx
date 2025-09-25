@@ -5,20 +5,28 @@ import { bagel1, bagel2, bagel3, bagel4 } from "@/assets/bagel";
 import SequencePlayer from "@/components/ui/SequencePlayer.tsx";
 import { monsterCurious } from "@/assets/monsterCurious";
 import { girlFrames } from "@/assets/sequence/girl";
+import useCheckBrowser from "@/hooks/useCheckBrowser";
 
 export default function RunField() {
   const candy = 999;
-
+  const { isDesktopChrome } = useCheckBrowser();
   return (
     <div className="w-screen h-screen flex flex-col text-nowrap">
       <div className="h-1/2 flex flex-col gap-10">
         <div className="flex justify-evenly items-center h-full max-h-50">
           <div className="h-full w-1/2 flex items-center justify-center">
-            <SequencePlayer
-              height={"100%"}
-              imgList={girlFrames}
-              fps={24}
-            />
+            {isDesktopChrome ? (
+              <video
+                src="/animation/mainCharacter/character45.webm"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="h-full"
+              ></video>
+            ) : (
+              <SequencePlayer height={"100%"} imgList={girlFrames} fps={24} />
+            )}
           </div>
 
           <div className="md:flex-row-reverse shrink-0 flex flex-col items-center gap-10">
@@ -87,11 +95,22 @@ export default function RunField() {
 
           {/* 女孩 */}
           <div className="h-full flex items-center justify-center overflow-hidden">
-            <SequencePlayer
-              imgList={girlFrames}
-              fps={24}
-              className="-scale-x-100"
-            />
+            {isDesktopChrome ? (
+              <video
+                src="/animation/mainCharacter/character45.webm"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="h-full -scale-x-100"
+              ></video>
+            ) : (
+              <SequencePlayer
+                imgList={girlFrames}
+                fps={24}
+                className="-scale-x-100"
+              />
+            )}
           </div>
         </div>
 
