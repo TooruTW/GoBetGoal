@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { useIsSafariOrIOS } from "@/hooks/useIsSafariOrIOS";
+import useCheckBrowser from "@/hooks/useCheckBrowser";
 
 const videoList = [
   {
@@ -139,7 +139,7 @@ export default function VideoGallery() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const characterRef = useRef<HTMLDivElement>(null);
-  const isSafariOrIOS = useIsSafariOrIOS();
+  const { isDesktopChrome } = useCheckBrowser();
 
   // 使用 Intersection Observer 來控制可見性（不受 ScrollTrigger 影響）
   useEffect(() => {
@@ -263,13 +263,7 @@ export default function VideoGallery() {
               {!isLoaded && <Skeleton className="h-full w-full" />}
               {isLoaded && (
                 <>
-                  {isSafariOrIOS ? (
-                    <img
-                      src={currentItem.src}
-                      alt={currentItem.name}
-                      className=" w-full transform md:skew-x-12 "
-                    />
-                  ) : (
+                  {isDesktopChrome ? (
                     <video
                       key={currentItem.video}
                       autoPlay
@@ -279,6 +273,12 @@ export default function VideoGallery() {
                     >
                       <source src={currentItem.video} type="video/webm" />
                     </video>
+                  ) : (
+                    <img
+                      src={currentItem.src}
+                      alt={currentItem.name}
+                      className=" w-full transform md:skew-x-12 "
+                    />
                   )}
                 </>
               )}
