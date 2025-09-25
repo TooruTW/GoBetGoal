@@ -47,11 +47,21 @@ export default function RunField() {
                 />
 
                 <div className="absolute z-10 bottom-0 left-1/2 -translate-x-1/2 w-full ">
-                  <SequencePlayer
-                    imgList={monsterCurious}
-                    fps={24}
-                    height={"100%"}
-                  />
+                  {isDesktopChrome ? (
+                    <video
+                      src="/animation/monster/monsterCurious.webm"
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                    ></video>
+                  ) : (
+                    <SequencePlayer
+                      imgList={monsterCurious}
+                      fps={24}
+                      height={"100%"}
+                    />
+                  )}
                 </div>
               </div>
             </div>
