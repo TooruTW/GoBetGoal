@@ -4,13 +4,13 @@ import { useForgotPassword } from "@/api";
 import { Button } from "@/components/ui/button";
 import { useFriendlyError } from "./useFriendlyError";
 import SequencePlayer from "@/components/ui/SequencePlayer.tsx";
-import { useIsSafariOrIOS } from "@/hooks/useIsSafariOrIOS";
+import useCheckBrowser from "@/hooks/useCheckBrowser";
 import { monsterCurious } from "@/assets/monsterCurious";
 
 export default function ForgotPassword() {
   const [searchParams] = useSearchParams();
   const emailFromLogin = searchParams.get("email") || "";
-  const isSafariOrIOS = useIsSafariOrIOS();
+  const { isDesktopChrome } = useCheckBrowser();
 
   const { getFriendlyError } = useFriendlyError();
   const [email, setEmail] = useState(emailFromLogin);
@@ -29,20 +29,20 @@ export default function ForgotPassword() {
   return (
     <div className="flex flex-col gap-4 max-w-md mx-auto justify-center items-center flex-1 mt-20 px-3">
       <div className="w-2/3 sm:w-1/3">
-        {isSafariOrIOS ? (
-          <SequencePlayer
-            imgList={monsterCurious}
-            width={"100px"}
-            height={"100px"}
-            fps={24}
-          />
-        ) : (
+        {isDesktopChrome ? (
           <video autoPlay loop muted playsInline>
             <source
               src="/animation/monster/monsterCurious.webm"
               type="video/webm"
             />
           </video>
+        ) : (
+          <SequencePlayer
+            imgList={monsterCurious}
+            width={"100px"}
+            height={"100px"}
+            fps={24}
+          />
         )}
       </div>
       <h2 className="text-xl font-bold">忘記密碼？</h2>
