@@ -245,12 +245,18 @@ export default function TrialComplete() {
           duration: 1,
           yPercent: 100,
           ease: "power2.inOut",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
         },
         {
           opacity: 1,
           duration: 1,
           yPercent: 0,
           ease: "power2.inOut",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
         }
       );
     }
@@ -261,6 +267,7 @@ export default function TrialComplete() {
       duration: 1,
       yPercent: 100,
       ease: "power2.inOut",
+      display: "none",
     });
   });
   useClickOutside(sharePageRef, () => {
@@ -312,7 +319,7 @@ export default function TrialComplete() {
 
       <div
         ref={sharePageRef}
-        className="w-full fixed bottom-0 max-h-4/5 z-10 bg-schema-surface-container flex justify-center items-center rounded-t-4xl border-2 border-t-schema-outline border-l-schema-outline border-r-schema-outline py-20"
+        className="w-full hidden fixed bottom-0 max-h-4/5 z-10 bg-schema-surface-container rounded-t-4xl border-2 border-t-schema-outline border-l-schema-outline border-r-schema-outline py-20 "
       >
         <IoClose
           className="size-11 p-2 absolute top-10 right-10 cursor-pointer hover:size-12"
