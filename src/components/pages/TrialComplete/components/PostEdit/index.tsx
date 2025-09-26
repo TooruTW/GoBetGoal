@@ -77,9 +77,9 @@ export default function PostEdit(props: PostEditProps) {
   };
 
   return (
-    <div className="flex flex-col gap-2 w-full px-8 max-w-200 items-center">
+    <div className="flex flex-col gap-2 w-full px-8 max-w-220 items-center ">
       <div
-        className="w-50 aspect-5/6 border-2 border-dashed border-schema-outline rounded-md flex items-center justify-center relative cursor-pointer"
+        className=" w-50 aspect-5/6 border-2 border-dashed border-schema-outline rounded-md flex items-center justify-center relative cursor-pointer"
         onClick={() => {
           const fileInput = document.querySelector(
             'input[type="file"]'
@@ -89,7 +89,7 @@ export default function PostEdit(props: PostEditProps) {
           }
         }}
       >
-        <p>自由分享成果照片</p>
+        <p className="absolute top-4 left-1/2 -translate-x-1/2 z-10 pointer-events-none text-nowrap">自由分享成果照片</p>
         <FaPlus
           className={`size-10 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none ${
             uploadImage && "opacity-50"
@@ -105,7 +105,7 @@ export default function PostEdit(props: PostEditProps) {
           <img
             src={URL.createObjectURL(uploadImage)}
             alt="upload"
-            className="size-full object-cover opacity-60 pointer-events-none"
+            className="size-full object-contain opacity-60 pointer-events-none"
           />
         )}
       </div>
@@ -118,7 +118,7 @@ export default function PostEdit(props: PostEditProps) {
           onChange={(e) => setUploadContect(e.target.value)}
         />
       </div>
-      <div className="grid grid-cols-6 gap-2 ">
+      <div className="grid grid-cols-6 gap-2 overflow-y-scroll max-h-100">
         {previewImgList.map((img, index) => {
           let realSrc = img;
           switch (img) {
