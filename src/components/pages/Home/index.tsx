@@ -1,16 +1,11 @@
-// import { Link } from "react-router-dom";
-import Character from "./Character";
+import Character from "./Character/index.tsx";
 import MainMachine from "./MainMachine/index.tsx";
 import GameSurround from "./MainMachine/component/GameSurround.tsx";
-import { useRef, useState, useEffect } from "react";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
+import { useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { Link } from "react-router-dom";
 import { monsterDefault } from "@/assets/monster";
-// import Progress from "./MainMachine/component/Progress.tsx";
 import AwardList from "./MainMachine/component/AwardList.tsx";
 import PostSection from "./MainMachine/component/PostSection.tsx";
 import RunField from "./MainMachine/component/RunField.tsx";
@@ -23,66 +18,50 @@ import LogoImgTxtLight from "@/assets/logo/LogoImgTxtLight.svg";
 import FallingText from "./MainMachine/component/FallingText.tsx";
 import mainBack from "@/assets/main/mainBack.webp";
 import { useSound } from "@/hooks/useSound";
+import { useHomeAnimation } from "./hooks/useHomeAnimation";
+import { useImagePreloader } from "./hooks/useImagePreloader";
+import { HOME_RESOURCES } from "./hooks/homeResources";
+import LoadingProgress from "./components/LoadingProgress";
 import AudioController from "./MainMachine/component/Audio.tsx";
-
-// 註冊 ScrollTrigger 插件
-gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
   const account = useSelector((state: RootState) => state.account);
   const isDarkMode = account.system_preference_color_mode === "dark";
-  const mainMachineRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
-  const [isSlideOver, setIsSlideOver] = useState(false);
   const playClick = useSound("/sounds/blast.mp3");
 
-  // 控制 carousel 模式的狀態
-  const [isCarouselMode, setIsCarouselMode] = useState(false);
+  // 使用自定義動畫 hook
+  const { mainMachineRef, animationState } = useHomeAnimation();
+  const { isCarouselMode, isSlideOver } = animationState;
+
+  // 使用圖片預載入 hook
+  const { preloadState, preloadResources } = useImagePreloader();
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
 
-  // MainMachine 的動畫
-  useGSAP(() => {
-    if (!mainMachineRef.current) return;
-    const tl = gsap.timeline();
-    tl.to(mainMachineRef.current, {
-      keyframes: [
-        { scale: 1, opacity: 0 },
-        { scale: 1, opacity: 1 },
-        { scale: 10, opacity: 1 },
-        { scale: 10, opacity: 1 },
-        { scale: 5, opacity: 1 },
-      ],
-      duration: 1,
-      scrollTrigger: {
-        trigger: mainMachineRef.current,
-        start: "top top",
-        end: "+=1000%",
-        scrub: 1,
-        pin: true,
-        pinSpacing: true,
-        onUpdate: (self) => {
-          const progress = self.progress;
-          // 當動畫進度在 scale: 12 階段時啟用 carousel 模式
-          if (progress >= 0.4 && progress <= 0.6) {
-            setIsCarouselMode(true);
-          } else {
-            setIsCarouselMode(false);
-          }
-          if (progress >= 1) {
-            setIsSlideOver(true);
-          } else {
-            setIsSlideOver(false);
-          }
-        },
-      },
-    });
-  });
+    // 開始預載入資源
+    const startPreloading = async () => {
+      try {
+        await preloadResources(HOME_RESOURCES);
+        console.log("Home 組件資源預載入完成");
+      } catch (error) {
+        console.warn("資源預載入過程中出現錯誤:", error);
+      }
+    };
+
+    startPreloading();
+  }, [preloadResources]);
 
   return (
     <div className="w-full min-h-screen flex flex-col items-center justify-center gap-10 overflow-hidden">
+      {/* 載入進度顯示 */}
+      <LoadingProgress
+        progress={preloadState.progress}
+        isComplete={preloadState.isComplete}
+        errors={preloadState.errors}
+      />
+
       <AudioController />
 
       {/* MainMachine 區域 */}
