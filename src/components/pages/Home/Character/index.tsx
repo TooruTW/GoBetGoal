@@ -1,18 +1,17 @@
-import { RefObject } from "react";
 import useCheckBrowser from "@/hooks/useCheckBrowser";
 import { CHARACTER_LIST } from "./constants";
 import { useCharacterVisibility } from "./hooks/useCharacterVisibility";
 import { useCharacterAnimation } from "./hooks/useCharacterAnimation";
 import { useCharacterCarousel } from "./hooks/useCharacterCarousel";
 
-export default function VideoGallery() {
+export default function Character() {
   const { isDesktopChrome } = useCheckBrowser();
 
   // 使用可見性控制 hook
   const [characterRef, isVisible] = useCharacterVisibility();
 
   // 使用動畫控制 hook
-  useCharacterAnimation(characterRef as RefObject<HTMLElement | null>);
+  useCharacterAnimation(characterRef);
 
   // 使用輪播控制 hook
   const { currentIndex, currentItem, currentP, currentName, handleItemClick } =
@@ -60,7 +59,6 @@ export default function VideoGallery() {
           return (
             <div key={index} className="w-1/5 md:w-full">
               <img
-                key={index}
                 src={item.src}
                 alt={item.name}
                 onClick={() => handleItemClick(index)}

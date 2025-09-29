@@ -21,8 +21,8 @@ type UseCharacterAnimationOptions = {
  * @param ref - 要綁定動畫的元素 ref
  * @param options - 動畫選項
  */
-export const useCharacterAnimation = (
-  ref: RefObject<HTMLElement | null>,
+export const useCharacterAnimation = <T extends HTMLElement = HTMLDivElement>(
+  ref: RefObject<T | null>,
   options: UseCharacterAnimationOptions = {}
 ) => {
   const {
