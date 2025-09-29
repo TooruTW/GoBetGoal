@@ -1,28 +1,28 @@
 import Character from "./Character/index.tsx";
 import MainMachine from "./MainMachine/index.tsx";
-import GameSurround from "./MainMachine/component/GameSurround.tsx";
+import GameSurround from "./components/GameSurround.tsx";
 import { useRef, useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { Link } from "react-router-dom";
 import { monsterDefault } from "@/assets/monster";
-import AwardList from "./MainMachine/component/AwardList.tsx";
-import PostSection from "./MainMachine/component/PostSection.tsx";
-import RunField from "./MainMachine/component/RunField.tsx";
-import Footer from "./MainMachine/component/Footer.tsx";
-import CTA from "./MainMachine/component/CTA.tsx";
+import AwardList from "./components/AwardList.tsx";
+import PostSection from "./components/PostSection.tsx";
+import RunField from "./components/RunField.tsx";
+import Footer from "./components/Footer.tsx";
+import CTA from "./components/CTA.tsx";
 import Plan from "../Shop/components/Plan.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import LogoImgTxtDark from "@/assets/logo/LogoImgTxtDark.svg";
 import LogoImgTxtLight from "@/assets/logo/LogoImgTxtLight.svg";
-import FallingText from "./MainMachine/component/FallingText.tsx";
+import FallingText from "./components/FallingText.tsx";
 import mainBack from "@/assets/main/mainBack.webp";
 import { useSound } from "@/hooks/useSound";
 import { useHomeAnimation } from "./hooks/useHomeAnimation";
 import { useImagePreloader } from "./hooks/useImagePreloader";
 import { HOME_RESOURCES } from "./hooks/homeResources";
 import LoadingProgress from "./components/LoadingProgress";
-import AudioController from "./MainMachine/component/Audio.tsx";
+import AudioController from "./components/Audio.tsx";
 
 export default function Home() {
   // 只選擇需要的狀態，避免整個 account 物件變化觸發重新渲染

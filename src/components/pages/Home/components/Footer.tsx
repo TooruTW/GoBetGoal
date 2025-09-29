@@ -1,8 +1,8 @@
 import Ballpit from "@/components/shared/reactBit/Ballpit";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
-import Machine2 from "./Machine2.tsx";
-import BottomNav from "./BottomNav.tsx";
+import Machine2 from "../MainMachine/component/Machine2.tsx";
+import BottomNav from "../MainMachine/component/BottomNav.tsx";
 import LogoImgTxtDark from "@/assets/logo/LogoImgTxtDark.svg";
 import LogoImgTxtLight from "@/assets/logo/LogoImgTxtLight.svg";
 import { monsterCongrats, monsterSleep, monsterSport } from "@/assets/monster";

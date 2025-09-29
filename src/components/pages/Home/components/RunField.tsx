@@ -1,5 +1,5 @@
-import AchievementLoop2 from "./AchievementLoop2.tsx";
-import TemplateLoop from "./TemplateLoop.tsx";
+import AchievementLoop2 from "../MainMachine/component/AchievementLoop2.tsx";
+import TemplateLoop from "../MainMachine/component/TemplateLoop.tsx";
 import Candy from "@/components/layout/Header/Navigator/Candy.tsx";
 import { bagel1, bagel2, bagel3, bagel4 } from "@/assets/bagel";
 import SequencePlayer from "@/components/ui/SequencePlayer.tsx";
