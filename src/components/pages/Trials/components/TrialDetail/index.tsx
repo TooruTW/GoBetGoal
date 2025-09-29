@@ -16,16 +16,16 @@ export default function TrialDetail() {
 
   // realtime supa
   useEffect(() => {
-    const trialParticipant = supabase.channel('custom-all-channel')
-    .on(
-      'postgres_changes',
-      { event: '*', schema: 'public', table: 'trial_participant' },
-      (payload) => {
-        console.log('Change received!', payload)
-        queryClient.invalidateQueries({ queryKey: ["trial"], exact: false });
-      }
-    )
-    .subscribe()
+    const trialParticipant = supabase
+      .channel("custom-all-channel")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "trial_participant" },
+        () => {
+          queryClient.invalidateQueries({ queryKey: ["trial"], exact: false });
+        }
+      )
+      .subscribe();
 
     return () => {
       supabase.removeChannel(trialParticipant);
@@ -39,13 +39,20 @@ export default function TrialDetail() {
       const diffDays = endDate.diff(now, "day");
 
       if (diffDays < 0) {
-        // console.log("trial is over");
         navigate(`/trial-complete/${id}`);
       }
     }
   }, [data, id, navigate, playerId]);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="flex flex-col items-center gap-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-schema-primary"></div>
+          <p className="text-schema-on-surface">載入中...</p>
+        </div>
+      </div>
+    );
   if (error) return <div>Error: {error.message}</div>;
 
   return (

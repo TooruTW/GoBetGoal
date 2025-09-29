@@ -9,42 +9,44 @@ export default function ScopeTab() {
   const location = useLocation();
 
   const handleNav = (scopeTab: string) => {
-    if(!scope) return;
+    if (!scope) return;
     const newPath = location.pathname.replace(scope, scopeTab);
     navigate(newPath);
   };
 
   const scopeTabRef = useRef<HTMLDivElement>(null);
 
-  useGSAP(()=>{
-  switch (scope) {
-    case "all":
-      gsap.to(scopeTabRef.current, {
-        xPercent: 0,
-        scale: 1,
-      });
+  useGSAP(
+    () => {
+      switch (scope) {
+        case "all":
+          gsap.to(scopeTabRef.current, {
+            xPercent: 0,
+            scale: 1,
+          });
 
-      break;
+          break;
 
-      case "my":
-      gsap.to(scopeTabRef.current, {
-        xPercent: 100,
-        scale: 1,
-      });
-      break;
+        case "my":
+          gsap.to(scopeTabRef.current, {
+            xPercent: 100,
+            scale: 1,
+          });
+          break;
 
-      case "like":
-      gsap.to(scopeTabRef.current, {
-        xPercent: 200,
-        scale: 1,
-      });
-      break;
-  
-    default:
-      break;
-  }
-  },{dependencies:[scope]})
+        case "like":
+          gsap.to(scopeTabRef.current, {
+            xPercent: 200,
+            scale: 1,
+          });
+          break;
 
+        default:
+          break;
+      }
+    },
+    { dependencies: [scope] }
+  );
 
   return (
     <div className=" px-4 py-2 flex justify-center items-center gap-8 relative">

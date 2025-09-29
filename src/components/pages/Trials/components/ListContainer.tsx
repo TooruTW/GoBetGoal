@@ -18,7 +18,6 @@ export default function ListContainer() {
 
   useEffect(() => {
     if (isLoading || !data) return;
-    if (error) console.log(error);
     let tempFilteredData: TrialSupa[] = data;
     if (scope === "my") {
       tempFilteredData = data.filter((trial) =>

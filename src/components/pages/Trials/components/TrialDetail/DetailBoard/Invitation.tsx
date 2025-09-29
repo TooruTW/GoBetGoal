@@ -152,7 +152,6 @@ export default function Invitation({ className, onClick }: acceptProps) {
     e.stopPropagation();
     if (isInviting) return; // 防止重複點擊
 
-    // console.log(selectedInvitation);
     setIsInviting(true);
 
     let completedCount = 0;
@@ -210,11 +209,9 @@ export default function Invitation({ className, onClick }: acceptProps) {
         time: 3500,
       })
     );
-    // console.log("copy");
   };
 
   useClickOutside(InvitationListRef, () => {
-    // console.log("click outside");
     onClick();
   });
 

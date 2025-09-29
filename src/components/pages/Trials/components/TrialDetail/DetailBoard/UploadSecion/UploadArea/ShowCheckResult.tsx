@@ -13,7 +13,7 @@ export default function ShowCheckResult({
   const showCheckResultRef = useRef<HTMLDivElement>(null);
   const { isDesktopChrome } = useCheckBrowser();
   useEffect(() => {
-    console.log(state, "checking state");
+    // State change handling
   }, [state]);
 
   useGSAP(

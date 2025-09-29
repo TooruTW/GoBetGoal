@@ -74,7 +74,6 @@ export default function PlayerCard(props: acceptProps) {
       },
       {
         onSuccess: () => {
-          // console.log("add friend success");
           queryClient.invalidateQueries({ queryKey: ["friends"] });
         },
       }
