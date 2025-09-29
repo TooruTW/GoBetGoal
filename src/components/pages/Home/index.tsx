@@ -25,8 +25,11 @@ import LoadingProgress from "./components/LoadingProgress";
 import AudioController from "./MainMachine/component/Audio.tsx";
 
 export default function Home() {
-  const account = useSelector((state: RootState) => state.account);
-  const isDarkMode = account.system_preference_color_mode === "dark";
+  // 只選擇需要的狀態，避免整個 account 物件變化觸發重新渲染
+  const isDarkMode = useSelector(
+    (state: RootState) => state.account.system_preference_color_mode === "dark"
+  );
+  const userId = useSelector((state: RootState) => state.account.user_id);
   const imageRef = useRef<HTMLImageElement>(null);
   const playClick = useSound("/sounds/blast.mp3");
 
@@ -81,7 +84,7 @@ export default function Home() {
 
           <Link
             to={{
-              pathname: account.user_id ? "/create-trial" : "/auth",
+              pathname: userId ? "/create-trial" : "/auth",
             }}
             className="block cursor-pointer"
           >
