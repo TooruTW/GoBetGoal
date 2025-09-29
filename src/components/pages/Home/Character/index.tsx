@@ -1,14 +1,11 @@
-import { useState, useEffect, RefObject } from "react";
+import { RefObject } from "react";
 import useCheckBrowser from "@/hooks/useCheckBrowser";
 import { CHARACTER_LIST } from "./constants";
 import { useCharacterVisibility } from "./hooks/useCharacterVisibility";
 import { useCharacterAnimation } from "./hooks/useCharacterAnimation";
+import { useCharacterCarousel } from "./hooks/useCharacterCarousel";
 
 export default function VideoGallery() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const currentItem = CHARACTER_LIST[currentIndex];
-  const [currentP, setCurrentP] = useState(CHARACTER_LIST[0].p);
-  const [currentName, setCurrentName] = useState(CHARACTER_LIST[0].name);
   const { isDesktopChrome } = useCheckBrowser();
 
   // 使用可見性控制 hook
@@ -17,20 +14,9 @@ export default function VideoGallery() {
   // 使用動畫控制 hook
   useCharacterAnimation(characterRef as RefObject<HTMLElement | null>);
 
-  // 自動輪播 - 只在可見時運作
-  useEffect(() => {
-    if (!isVisible) return; // 不可見時不運作
-
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => {
-        const nextIndex = (prev + 1) % CHARACTER_LIST.length;
-        setCurrentP(CHARACTER_LIST[nextIndex].p);
-        setCurrentName(CHARACTER_LIST[nextIndex].name);
-        return nextIndex;
-      });
-    }, 4000); // 每 4 秒換一個
-    return () => clearInterval(interval);
-  }, [isVisible]);
+  // 使用輪播控制 hook
+  const { currentIndex, currentItem, currentP, currentName, handleItemClick } =
+    useCharacterCarousel(isVisible);
 
   return (
     <div
@@ -77,11 +63,7 @@ export default function VideoGallery() {
                 key={index}
                 src={item.src}
                 alt={item.name}
-                onClick={() => {
-                  setCurrentIndex(index);
-                  setCurrentP(item.p);
-                  setCurrentName(item.name);
-                }}
+                onClick={() => handleItemClick(index)}
                 loading="lazy"
                 className={`w-full object-cover rounded-md cursor-pointer transition-all md:skew-x-12 opacity-100 ${
                   currentIndex === index
