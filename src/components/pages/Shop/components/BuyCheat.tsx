@@ -158,15 +158,8 @@ export default function BuyCheat({ onClose }: BuyCheatProps) {
       price: selectedToBuy.price,
     };
 
-    console.log("準備購買快樂遮羞布:", {
-      purchaseData,
-      currentCandyCount: userCandyCount,
-      currentCheatBlanket: currentCheatBlanket,
-    });
-
     postPurchase(purchaseData, {
-      onSuccess: (response) => {
-        console.log("快樂遮羞布購買成功，響應:", response);
+      onSuccess: () => {
         dispatch(
           setToast({
             content: "購買成功！^ >𖥦< ^ ੭",
@@ -187,8 +180,6 @@ export default function BuyCheat({ onClose }: BuyCheatProps) {
           },
           {
             onSuccess: () => {
-              console.log("貝果餘額更新成功，扣除:", selectedToBuy.price);
-
               // 增加快樂遮羞布
               const updatedCheatBlanket =
                 currentCheatBlanket + selectedToBuy.num;
@@ -201,11 +192,6 @@ export default function BuyCheat({ onClose }: BuyCheatProps) {
                 },
                 {
                   onSuccess: () => {
-                    console.log(
-                      "快樂遮羞布數量更新成功，新增:",
-                      selectedToBuy.num
-                    );
-
                     // 重新獲取 user_info 資料來更新 Redux
                     queryClient.invalidateQueries({
                       queryKey: ["user_info", userID],
