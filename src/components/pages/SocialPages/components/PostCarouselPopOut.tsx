@@ -1,5 +1,3 @@
-import { type CarouselApi } from "@/components/ui/carousel";
-import { useEffect, useState } from "react";
 import {
   Carousel,
   CarouselContent,
@@ -10,6 +8,7 @@ import {
 import goodJob from "@/assets/resultNoImg/goodJob.png";
 import cheat from "@/assets/resultNoImg/cheat.webp";
 import { monsterCry } from "@/assets/monster";
+import { usePostCarousel } from "./usePostCarousel";
 
 type PostCarouselProps = {
   imgUrl: string[];
@@ -19,18 +18,7 @@ type PostCarouselProps = {
 
 export function PostCarouselPopOut(props: PostCarouselProps) {
   const { imgUrl, className, onClick } = props;
-  const [api, setApi] = useState<CarouselApi>();
-  const [current, setCurrent] = useState(0);
-
-  useEffect(() => {
-    if (!api) {
-      return;
-    }
-    setCurrent(api.selectedScrollSnap() + 1);
-    api.on("select", () => {
-      setCurrent(api.selectedScrollSnap() + 1);
-    });
-  }, [api]);
+  const { api, setApi, current } = usePostCarousel();
 
   return (
     <Carousel
