@@ -62,8 +62,6 @@ export default function TrialComplete() {
 
   const handleTakeReward = () => {
     if (isRewardTaken || !data || !certification || !id) return;
-    console.log("take reward");
-    console.log(certification.trialReward, "certification.trialReward");
 
     patchReceiveReward(
       {
@@ -163,11 +161,9 @@ export default function TrialComplete() {
   // set trial brief info
   useEffect(() => {
     if (isLoading || !data || !selectedUserID) return;
-    console.log(selectedUserID, "selectedUserID");
     const filteredData = data.filter(
       (item) => item.participant_id === selectedUserID
     );
-    console.log(filteredData, "filteredData");
     const imageArray = filteredData.map((data) => data.upload_image || []);
     setImages(imageArray);
 
@@ -276,7 +272,15 @@ export default function TrialComplete() {
 
   const { finishTrial1Times } = useAchievementValidate();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="flex flex-col items-center gap-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-schema-primary"></div>
+          <p className="text-schema-on-surface">載入中...</p>
+        </div>
+      </div>
+    );
   if (error) return <div>Error: {error.message}</div>;
 
   return (
@@ -300,7 +304,6 @@ export default function TrialComplete() {
             handleShowSharePage(e);
             const result = finishTrial1Times();
             if (!result?.isGet) {
-              console.log(result, "result");
               dispatch(
                 setToast({
                   content: result?.description || "",

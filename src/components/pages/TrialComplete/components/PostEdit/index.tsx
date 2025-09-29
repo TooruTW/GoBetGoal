@@ -33,7 +33,6 @@ export default function PostEdit(props: PostEditProps) {
   };
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(uploadContect, uploadImage, "uploadContect,uploadImage");
     if (uploadImage) {
       const compressedImages = await compressImages([uploadImage]);
       const uploadedImages = await uploadImages(compressedImages);
@@ -89,7 +88,9 @@ export default function PostEdit(props: PostEditProps) {
           }
         }}
       >
-        <p className="absolute top-4 left-1/2 -translate-x-1/2 z-10 pointer-events-none text-nowrap">自由分享成果照片</p>
+        <p className="absolute top-4 left-1/2 -translate-x-1/2 z-10 pointer-events-none text-nowrap">
+          自由分享成果照片
+        </p>
         <FaPlus
           className={`size-10 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none ${
             uploadImage && "opacity-50"
