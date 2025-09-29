@@ -1,7 +1,7 @@
 import Character from "./Character/index.tsx";
 import MainMachine from "./MainMachine/index.tsx";
 import GameSurround from "./MainMachine/component/GameSurround.tsx";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { Link } from "react-router-dom";
@@ -32,6 +32,20 @@ export default function Home() {
   const userId = useSelector((state: RootState) => state.account.user_id);
   const imageRef = useRef<HTMLImageElement>(null);
   const playClick = useSound("/sounds/blast.mp3");
+
+  // 使用 useMemo 優化 Logo 路徑計算
+  const logoPath = useMemo(
+    () => (isDarkMode ? LogoImgTxtDark : LogoImgTxtLight),
+    [isDarkMode]
+  );
+
+  // 使用 useMemo 優化 Link 的 to 屬性
+  const linkPath = useMemo(
+    () => ({
+      pathname: userId ? "/create-trial" : "/auth",
+    }),
+    [userId]
+  );
 
   // 使用自定義動畫 hook
   const { mainMachineRef, animationState } = useHomeAnimation();
@@ -74,7 +88,7 @@ export default function Home() {
       >
         <div className="absolute z-40 top-20 left-1/2 -translate-x-1/2 w-full px-3 flex flex-col items-center">
           <img
-            src={isDarkMode ? LogoImgTxtDark : LogoImgTxtLight}
+            src={logoPath}
             alt="Logo"
             className="animate-pulse z-20 pointer-events-none mb-2 w-90"
           />
@@ -82,12 +96,7 @@ export default function Home() {
             跟朋友邊玩遊戲邊養成理想身材 ，跟咬一口貝果一樣輕鬆
           </p>
 
-          <Link
-            to={{
-              pathname: userId ? "/create-trial" : "/auth",
-            }}
-            className="block cursor-pointer"
-          >
+          <Link to={linkPath} className="block cursor-pointer">
             <Button onClick={playClick}>立即體驗</Button>
           </Link>
         </div>
