@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
+import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 
 interface SequencePlayerProps {
   imgList: string[]; // e.g. "monsterCurious" 或 "girl"
