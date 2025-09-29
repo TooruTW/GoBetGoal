@@ -1,44 +1,19 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import useCheckBrowser from "@/hooks/useCheckBrowser";
 import { CHARACTER_LIST } from "./constants";
+import { useCharacterVisibility } from "./hooks/useCharacterVisibility";
 
 export default function VideoGallery() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const currentItem = CHARACTER_LIST[currentIndex];
   const [currentP, setCurrentP] = useState(CHARACTER_LIST[0].p);
   const [currentName, setCurrentName] = useState(CHARACTER_LIST[0].name);
-  const [isVisible, setIsVisible] = useState(false);
-  const characterRef = useRef<HTMLDivElement>(null);
   const { isDesktopChrome } = useCheckBrowser();
 
-  // 使用 Intersection Observer 來控制可見性（不受 ScrollTrigger 影響）
-  useEffect(() => {
-    if (!characterRef.current) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-          } else {
-            setIsVisible(false);
-          }
-        });
-      },
-      {
-        threshold: 0.2, // 當 50% 的元素可見時觸發
-        rootMargin: "0px 0px -20% 0px", // 底部留 20% 邊距
-      }
-    );
-
-    observer.observe(characterRef.current);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
+  // 使用可見性控制 hook
+  const [characterRef, isVisible] = useCharacterVisibility();
 
   useGSAP(
     () => {
