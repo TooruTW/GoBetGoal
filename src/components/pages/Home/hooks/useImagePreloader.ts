@@ -3,7 +3,7 @@ import { useState, useCallback } from "react";
 // 資源類型定義
 type ResourceType = "image" | "video" | "audio";
 
-type PreloadResource = {
+export type PreloadResource = {
   src: string;
   type: ResourceType;
   priority?: "high" | "medium" | "low";
