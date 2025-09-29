@@ -2,7 +2,7 @@ import { monsterRun } from "@/assets/monster";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import React, { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useSound } from "@/hooks/useSound";
 
 import { RootState } from "@/store";
@@ -20,24 +20,15 @@ export default function CTA() {
   });
 
   const backgroundVideoRef = useRef<HTMLVideoElement>(null);
-  const characterVideoRef = useRef<HTMLVideoElement>(null);
   const { isDesktopChrome } = useCheckBrowser();
 
   // 當可見性改變時控制影片播放
-  React.useEffect(() => {
+  useEffect(() => {
     if (backgroundVideoRef.current) {
       if (isVisible) {
         backgroundVideoRef.current.play().catch(console.error);
       } else {
         backgroundVideoRef.current.pause();
-      }
-    }
-
-    if (characterVideoRef.current) {
-      if (isVisible) {
-        characterVideoRef.current.play().catch(console.error);
-      } else {
-        characterVideoRef.current.pause();
       }
     }
   }, [isVisible]);
@@ -75,8 +66,13 @@ export default function CTA() {
             />
           </video>
         ) : (
-          <SequencePlayer imgList={girlFrames} fps={24} width={"100px"} height={"100px"} />
-        ) }
+          <SequencePlayer
+            imgList={girlFrames}
+            fps={24}
+            width={"100px"}
+            height={"100px"}
+          />
+        )}
         <img src={monsterRun} alt="" className=" w-1/6 " />
 
         <div className="ps-5">
