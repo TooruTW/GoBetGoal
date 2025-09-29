@@ -20,12 +20,10 @@ export default function DevAchievement() {
 
   useEffect(() => {
     if (isAllLoading || allError || !allAchievement) return;
-    console.log(allAchievement);
   }, [allAchievement, allError, isAllLoading]);
 
   useEffect(() => {
     if (isUserLoading || userError || !userAchievement) return;
-    console.log(userAchievement, "user");
 
     const userAchiSet = new Set(
       userAchievement.map((achi) => achi.achievement_id)

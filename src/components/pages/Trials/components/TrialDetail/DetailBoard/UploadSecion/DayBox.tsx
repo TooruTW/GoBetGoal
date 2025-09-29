@@ -19,7 +19,6 @@ export default function DayBox({
       setCurrentIndex(dateInfo.stageIndex);
       setIsChooseDate(true);
     }
-    console.log("clicked", date, dateInfo.stageIndex);
   };
   let color: string = "";
   switch (status) {

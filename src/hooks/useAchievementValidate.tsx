@@ -69,7 +69,6 @@ export const useAchievementValidate = () => {
       (achi) => achi.id === achiId
     );
     if (isGet) {
-      // console.log(isGet, "already get");
       return { isGet: true };
     }
     postUserAchi({
@@ -127,7 +126,6 @@ export const useAchievementValidate = () => {
       );
 
       if (isGet) {
-        // console.log(`Achievement ${achievement.id} already obtained`);
         continue;
       }
 
@@ -137,7 +135,6 @@ export const useAchievementValidate = () => {
           user_id: userId,
           achievement_id: achievement.id,
         });
-        // console.log(`Achievement ${achievement.id} unlocked!`);
         return {
           isGet: false,
           description: achievement.description,

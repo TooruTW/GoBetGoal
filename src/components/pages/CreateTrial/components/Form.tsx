@@ -109,12 +109,6 @@ export default function Form({ challenge }: FormProps) {
       });
 
       setHasPurchased(purchased);
-      console.log("最終購買狀態:", {
-        purchased,
-        hasPurchased: purchased,
-        userPurchasesCount: userPurchases.length,
-        challengeId: challenge.id,
-      });
     }
   }, [userID, userPurchases, challenge, isPurchaseLoading]);
 
@@ -122,8 +116,6 @@ export default function Form({ challenge }: FormProps) {
   const createTrial = async (formData: FormData) => {
     if (!id) return;
     try {
-      // console.log("開始創建試煉:", formData);
-
       const newData: createTrial = {
         start_at: formData.trialStart,
         deposit: formData.trialDeposit,
@@ -132,27 +124,21 @@ export default function Form({ challenge }: FormProps) {
         create_by: userID,
       };
 
-      // console.log("試煉數據:", newData);
-
       postCreateTrial(newData, {
         onSuccess: (data) => {
           showNote("試煉創建成功！");
           setShowConfirm(false);
           setPendingTrialData(null);
           reset();
-          // console.log("創建試煉成功，回傳的 data:", data);
           navigate(`/trials/detail/${data[0].id}/0`);
         },
-        onError: (error) => {
+        onError: () => {
           showNote("創建失敗( ´•̥̥̥ω•̥̥̥` )", "bad");
-          console.log("創建試煉失敗:", error);
           setShowConfirm(false);
           setPendingTrialData(null);
         },
       });
-    } catch (error) {
-      console.log("創建試煉過程出錯:", error);
-
+    } catch {
       alert("創建試煉過程出錯");
       setPendingTrialData(null);
     }
@@ -161,7 +147,7 @@ export default function Form({ challenge }: FormProps) {
   // 處理購買確認
   const handlePurchaseConfirm = () => {
     if (!selectedToBuy || !challenge) {
-      console.log("缺少必要數據:", { selectedToBuy, challenge });
+      console.error("缺少必要數據:", { selectedToBuy, challenge });
       return;
     }
 
@@ -173,31 +159,20 @@ export default function Form({ challenge }: FormProps) {
       price: challenge.price,
     };
 
-    console.log("準備執行購買:", {
-      purchaseData,
-      userID,
-      challengeId: challenge.id,
-      challengeTitle: challenge.title,
-      challengePrice: challenge.price,
-    });
-
     // 檢查必要字段
     if (!userID) {
-      console.log("用戶ID不存在");
       showNote("請重新登錄( ´•̥̥̥ω•̥̥̥` )", "bad");
       return;
     }
 
     if (!challenge.id) {
-      console.log("試煉ID不存在");
       showNote("這個試煉維修中，請左轉( ´•̥̥̥ω•̥̥̥` )", "bad");
       return;
     }
 
     postPurchase(purchaseData, {
-      onSuccess: (response) => {
+      onSuccess: () => {
         showNote("購買成功！/˃̵ ֊ ˂̵ マ Ⳋ ");
-        console.log("購買成功:", response);
         setHasPurchased(true);
         setShowConfirm(false);
         setSelectedToBuy(null);
@@ -210,14 +185,12 @@ export default function Form({ challenge }: FormProps) {
               queryClient.invalidateQueries({
                 queryKey: ["user_info", userID],
               });
-              console.log("success");
             },
           }
         );
 
         // 購買成功後自動創建試煉
         if (pendingTrialData) {
-          console.log("購買成功，開始創建試煉");
           createTrial(pendingTrialData);
         }
       },
@@ -243,9 +216,6 @@ export default function Form({ challenge }: FormProps) {
           errorMessage = error.message;
         }
         showNote(`購買失敗 ( ง ᵒ̌皿ᵒ̌)ง⁼³ ${errorMessage}`, "bad");
-        console.error("購買失敗詳細信息:", {
-          error,
-        });
         setShowConfirm(false);
         setSelectedToBuy(null);
         setPendingTrialData(null);
@@ -257,24 +227,14 @@ export default function Form({ challenge }: FormProps) {
 
   // 修復後的 onSubmit 邏輯
   const onSubmit = async (data: FormData) => {
-    console.log("表單提交:", {
-      data,
-      hasPurchased,
-      challenge,
-      challengePrice: challenge?.price,
-      userID,
-    });
-
     // 如果已購買或免費，直接創建試煉
     if (hasPurchased || !challenge || challenge.price === 0) {
-      console.log("直接創建試煉（已購買或免費）");
       await createTrial(data);
       return;
     }
 
     // 如果需要購買，保存表單數據並顯示購買確認
     if (challenge.price > 0) {
-      console.log("需要購買，顯示確認對話框");
       setPendingTrialData(data); // 保存表單數據
       setSelectedToBuy({
         id: challenge.id,
@@ -336,7 +296,6 @@ export default function Form({ challenge }: FormProps) {
             value={trialStartValue}
             onChange={(date) => {
               setValue("trialStart", date);
-              console.log("trialStartValue", date);
             }}
             placeholder="請選擇日期"
           />

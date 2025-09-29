@@ -5,11 +5,6 @@ import { Button } from "@/components/ui/button";
 export default function TrialErrorPage() {
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     navigate("/trials");
-  //   }, 5000);
-  // }, [navigate]);
 
   function handleNavigate() {
     navigate("/trials");

@@ -18,7 +18,6 @@ export function usePostLogOutSupa() {
       console.log("uploading");
     },
     onSuccess: () => {
-      console.log("log out success");
       queryClient.invalidateQueries({ queryKey: ["user"] });
     },
   });

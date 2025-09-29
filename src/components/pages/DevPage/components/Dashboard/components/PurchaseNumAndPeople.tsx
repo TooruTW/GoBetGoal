@@ -101,7 +101,6 @@ const PurchaseNumAndPeople = () => {
             />
             <Tooltip />
             <Legend />
-            {/* <Area type="monotone" dataKey="amt" fill="#8884d8" stroke="#8884d8" /> */}
             <Bar dataKey="People" barSize={20} fill="var(--secondary)" />
             <Line type="monotone" dataKey="Num" stroke="var(--primary)" />
           </ComposedChart>

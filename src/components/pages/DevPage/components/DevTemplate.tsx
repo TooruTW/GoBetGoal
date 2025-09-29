@@ -28,12 +28,10 @@ export default function DevTemplate() {
   };
 
   const handleSubmit = () => {
-    console.log(input);
     postAvatar(input);
   };
 
   const handleDelete = (id: string) => {
-    console.log(id);
     deleteAvatar(id);
   };
 

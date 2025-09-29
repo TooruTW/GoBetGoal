@@ -9,7 +9,6 @@ export default function Category() {
           <NavLink
             to={category.url}
             className={({ isActive }) => (isActive ? "  " : "opacity-50")}
-            // style={{ borderRadius: "10px", overflow: "hidden" }}
             key={category.id}
           >
             <li

@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import {
   useGetFriendSupa,
-  // usePatchFriendRequest,
   useDeleteFriendSupa,
 } from "@/api";
 import { useQueryClient } from "@tanstack/react-query";
@@ -35,7 +34,6 @@ interface FriendProps {
 }
 
 export default function Friend({ showState = "accept" }: FriendProps) {
-  // const { mutate: patchFriendRequest } = usePatchFriendRequest();
   const queryClient = useQueryClient();
   const { mutate: deleteFriend } = useDeleteFriendSupa();
   const { id } = useParams();
@@ -53,7 +51,6 @@ export default function Friend({ showState = "accept" }: FriendProps) {
       }
       return false;
     });
-    // console.log(filteredData);
     setFriendList(filteredData);
   }, [data, isLoading, id, showState]);
 
@@ -108,7 +105,6 @@ export default function Friend({ showState = "accept" }: FriendProps) {
                     className="size-8 absolute top-4 right-4 opacity-0 text-gray-500 group-hover:opacity-100 z-10 transition-opacity duration-200 cursor-pointer hover:text-white"
                     onClick={(e) => {
                       e.stopPropagation();
-                      // console.log("got click");
                       setShow(true);
                     }}
                   />

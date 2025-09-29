@@ -61,7 +61,6 @@ export default function Home() {
     const startPreloading = async () => {
       try {
         await preloadResources(HOME_RESOURCES);
-        console.log("Home 組件資源預載入完成");
       } catch (error) {
         console.warn("資源預載入過程中出現錯誤:", error);
       }

@@ -5,7 +5,7 @@ const deleteParticipantInTrialSupa = async (
   trialId: string,
   userId: string
 ) => {
-  const { error, data } = await supabase
+  const { error } = await supabase
     .from("trial_participant")
     .delete()
     .eq("trial_id", trialId)
@@ -15,9 +15,6 @@ const deleteParticipantInTrialSupa = async (
     console.log(error, "error");
     throw error;
   }
-
-  console.log(trialId, userId, "got kill");
-  console.log(data, "data");
 };
 
 export function useDeleteParticipantInTrialSupa() {

@@ -17,7 +17,6 @@ const postAchievementSupa = async (insertData: AcceptProps) => {
     ])
     .select();
   if (error) {
-    console.log(error);
     throw error;
   }
 
@@ -33,9 +32,6 @@ export function usePostUserAchiSupa() {
         queryKey: ["achievement"],
         exact: false,
       });
-    },
-    onError: (error) => {
-      console.log(error);
     },
   });
 }

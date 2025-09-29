@@ -1,7 +1,5 @@
 import { Link } from "react-router-dom";
 import { TbDashboardFilled } from "react-icons/tb";
-// import { FaFlag } from "react-icons/fa";
-// import { HiTemplate } from "react-icons/hi";
 import { LuBadgeCheck } from "react-icons/lu";
 import { FaUserCircle } from "react-icons/fa";
 
@@ -25,22 +23,6 @@ export default function DevSideBar() {
             </p>
           </li>
         </Link>
-        {/* <Link to="dev-template">
-          <li className="hover:bg-schema-surface-container-highest  p-4 h-20 flex items-center gap-4 ">
-            <HiTemplate />
-            <p className="hidden group-hover:block transform transition duration-300">
-              試煉模板
-            </p>
-          </li>
-        </Link> */}
-        {/* <Link to="dev-trial">
-          <li className="hover:bg-schema-surface-container-highest  p-4 h-20 flex items-center gap-4 ">
-            <FaFlag />
-            <p className="hidden group-hover:block transform transition duration-300">
-              試煉管理
-            </p>
-          </li>
-        </Link> */}
         <Link to="dev-avatar">
           <li className="hover:bg-schema-surface-container-highest  p-4 h-20 flex items-center gap-4 ">
             <FaUserCircle />

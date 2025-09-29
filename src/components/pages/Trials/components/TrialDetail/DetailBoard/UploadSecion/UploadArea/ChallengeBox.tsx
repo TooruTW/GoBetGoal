@@ -104,7 +104,6 @@ export default function ChallengeBox({
   // handle cheat
   const handleCheat = () => {
     if (cheatCount <= 0) {
-      console.log("沒資本還想用資本的力量？！");
       dispatch(setShowBuyCheat());
       return;
     }
@@ -117,7 +116,6 @@ export default function ChallengeBox({
       },
       {
         onSuccess: () => {
-          // console.log("cheat success");
           queryClient.invalidateQueries({
             queryKey: ["trial", currentChallenge.trial_id],
           });
@@ -140,7 +138,6 @@ export default function ChallengeBox({
         { history_id: id, imageUrlArr: imageUrlArr },
         {
           onSuccess: () => {
-            // console.log("test pass, result is uploaded");
             queryClient.invalidateQueries({
               queryKey: ["trial", currentChallenge.trial_id],
             });
@@ -163,7 +160,6 @@ export default function ChallengeBox({
       },
       {
         onSuccess: () => {
-          // console.log("test fail, chance_remain is updated");
           queryClient.invalidateQueries({
             queryKey: ["trial", currentChallenge.trial_id],
           });
@@ -209,7 +205,6 @@ export default function ChallengeBox({
       ).then((result) => {
         const isPassTest = result.overallResult;
         const passedImgUrl = result.imageResults.map((item) => item.imageUrl);
-        // console.log(result, "result");
 
         if (isPassTest) {
           handlePass(currentChallenge.id, passedImgUrl);
@@ -244,16 +239,6 @@ export default function ChallengeBox({
   // confirm upload - compress and upload to supabase storage
   // set selected file
   const handleSetSelectedFile = (file: File, index: number) => {
-    // if (selectedFile.length < challenge_stage.description.length) {
-    //   const fakeFile = new File([], "fake.jpg", { type: "image/jpeg" });
-    //   const fakeList = new Array(challenge_stage.description.length).fill(
-    //     fakeFile
-    //   );
-    //   setSelectedFile(fakeList);
-    //   console.log(fakeList, "create fakeFilelist");
-    // }
-    // console.log(index, "index");
-
     setSelectedFile((prev) => {
       const newSelectedFile = [...prev];
       newSelectedFile[index] = file;
@@ -265,7 +250,6 @@ export default function ChallengeBox({
   const handleConfirmUpload = async () => {
     // 如果有選擇檔案，先處理上傳
     if (selectedFile && selectedFile.length > 0) {
-      console.log(selectedFile, "selectedFile");
       setUploadedFileName([]);
       try {
         // 1. 先壓縮圖片
