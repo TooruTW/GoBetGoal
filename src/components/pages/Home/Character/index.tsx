@@ -1,19 +1,14 @@
 import { useState, useEffect, useRef } from "react";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import useCheckBrowser from "@/hooks/useCheckBrowser";
 import { CHARACTER_LIST } from "./constants";
 
-
-
 export default function VideoGallery() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const currentItem = CHARACTER_LIST[currentIndex];
-  const [currentVideo, setCurrentVideo] = useState(CHARACTER_LIST[0].video);
   const [currentP, setCurrentP] = useState(CHARACTER_LIST[0].p);
   const [currentName, setCurrentName] = useState(CHARACTER_LIST[0].name);
-  const [isLoaded, setIsLoaded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const characterRef = useRef<HTMLDivElement>(null);
   const { isDesktopChrome } = useCheckBrowser();
@@ -33,7 +28,7 @@ export default function VideoGallery() {
         });
       },
       {
-        threshold: 0.5, // 當 50% 的元素可見時觸發
+        threshold: 0.2, // 當 50% 的元素可見時觸發
         rootMargin: "0px 0px -20% 0px", // 底部留 20% 邊距
       }
     );
@@ -67,56 +62,18 @@ export default function VideoGallery() {
 
   // 自動輪播 - 只在可見時運作
   useEffect(() => {
-    if (!isVisible || !isLoaded) return; // 不可見時不運作
+    if (!isVisible) return; // 不可見時不運作
 
     const interval = setInterval(() => {
       setCurrentIndex((prev) => {
         const nextIndex = (prev + 1) % CHARACTER_LIST.length;
-        setCurrentVideo(CHARACTER_LIST[nextIndex].video);
         setCurrentP(CHARACTER_LIST[nextIndex].p);
         setCurrentName(CHARACTER_LIST[nextIndex].name);
         return nextIndex;
       });
     }, 4000); // 每 4 秒換一個
     return () => clearInterval(interval);
-  }, [isVisible, isLoaded]);
-
-  useEffect(() => {
-    if (!characterRef.current) return;
-    setIsLoaded(false);
-    const mediaElements = characterRef.current.querySelectorAll("img, video");
-    let loadedCount = 0;
-    const totalCount = mediaElements.length;
-    const checkAllLoaded = () => {
-      if (loadedCount === totalCount) {
-        setIsLoaded(true);
-      }
-    };
-    mediaElements.forEach((element) => {
-      if (element.tagName === "IMG") {
-        const img = element as HTMLImageElement;
-        if (img.complete) {
-          loadedCount++;
-        } else {
-          img.addEventListener("load", () => {
-            loadedCount++;
-            checkAllLoaded();
-          });
-        }
-      } else if (element.tagName === "VIDEO") {
-        const video = element as HTMLVideoElement;
-        if (video.readyState >= 3) {
-          loadedCount++;
-        } else {
-          video.addEventListener("canplaythrough", () => {
-            loadedCount++;
-            checkAllLoaded();
-          });
-        }
-      }
-    });
-    checkAllLoaded();
-  }, [currentVideo]);
+  }, [isVisible]);
 
   return (
     <div
@@ -134,32 +91,22 @@ export default function VideoGallery() {
           {currentP}
         </p>
         <div className="transform md:-skew-x-12 border-3 border-schema-primary overflow-hidden w-full aspect-[1/1.25]">
-          {!isLoaded && <Skeleton className="h-full w-full" />}
-          {isLoaded && (
-            <>
-              {!isLoaded && <Skeleton className="h-full w-full" />}
-              {isLoaded && (
-                <>
-                  {isDesktopChrome ? (
-                    <video
-                      key={currentItem.video}
-                      autoPlay
-                      loop
-                      muted
-                      className="h-full w-full transform md:skew-x-12 scale-130"
-                    >
-                      <source src={currentItem.video} type="video/webm" />
-                    </video>
-                  ) : (
-                    <img
-                      src={currentItem.src}
-                      alt={currentItem.name}
-                      className=" w-full transform md:skew-x-12 "
-                    />
-                  )}
-                </>
-              )}
-            </>
+          {isDesktopChrome ? (
+            <video
+              key={currentItem.video}
+              autoPlay
+              loop
+              muted
+              className="h-full w-full transform md:skew-x-12 scale-130"
+            >
+              <source src={currentItem.video} type="video/webm" />
+            </video>
+          ) : (
+            <img
+              src={currentItem.src}
+              alt={currentItem.name}
+              className="w-full transform md:skew-x-12"
+            />
           )}
         </div>
       </div>
@@ -175,14 +122,11 @@ export default function VideoGallery() {
                 alt={item.name}
                 onClick={() => {
                   setCurrentIndex(index);
-                  setCurrentVideo(item.video);
                   setCurrentP(item.p);
                   setCurrentName(item.name);
                 }}
                 loading="lazy"
-                className={`w-full object-cover rounded-md cursor-pointer transition-all md:skew-x-12 ${
-                  isLoaded ? "opacity-100" : "opacity-0"
-                } ${
+                className={`w-full object-cover rounded-md cursor-pointer transition-all md:skew-x-12 opacity-100 ${
                   currentIndex === index
                     ? "border-2 border-schema-primary "
                     : "hover:border hover:border-schema-primary active:scale-90"
