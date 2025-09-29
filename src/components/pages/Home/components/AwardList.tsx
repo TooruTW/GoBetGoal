@@ -1,5 +1,5 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Award from "./Award.tsx";
+import Award from "../MainMachine/component/Award.tsx";
 
 export default function AwardList() {
   return (

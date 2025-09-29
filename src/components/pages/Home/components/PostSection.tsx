@@ -1,4 +1,4 @@
-import Post from "./Post";
+import Post from "../MainMachine/component/Post";
 import { monsterLook } from "@/assets/monster";
 export default function PostSection() {
   return (

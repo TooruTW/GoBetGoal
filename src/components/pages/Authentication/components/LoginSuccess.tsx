@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useGetUserInfoSupa } from "@/api";
 import { monsterCongrats } from "@/assets/monster";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import GameSurround from "../../Home/MainMachine/component/GameSurround";
+import GameSurround from "../../Home/components/GameSurround";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 
