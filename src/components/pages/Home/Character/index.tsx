@@ -1,9 +1,8 @@
-import { useState, useEffect } from "react";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
+import { useState, useEffect, RefObject } from "react";
 import useCheckBrowser from "@/hooks/useCheckBrowser";
 import { CHARACTER_LIST } from "./constants";
 import { useCharacterVisibility } from "./hooks/useCharacterVisibility";
+import { useCharacterAnimation } from "./hooks/useCharacterAnimation";
 
 export default function VideoGallery() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -15,25 +14,8 @@ export default function VideoGallery() {
   // 使用可見性控制 hook
   const [characterRef, isVisible] = useCharacterVisibility();
 
-  useGSAP(
-    () => {
-      if (!characterRef.current) return;
-
-      // 原有的淡入動畫
-      gsap.from(characterRef.current, {
-        opacity: 0,
-        duration: 1,
-        ease: "power2.inOut",
-        scrollTrigger: {
-          trigger: characterRef.current,
-          start: "top top",
-          end: "bottom bottom",
-          scrub: 1,
-        },
-      });
-    },
-    { scope: characterRef }
-  );
+  // 使用動畫控制 hook
+  useCharacterAnimation(characterRef as RefObject<HTMLElement | null>);
 
   // 自動輪播 - 只在可見時運作
   useEffect(() => {
