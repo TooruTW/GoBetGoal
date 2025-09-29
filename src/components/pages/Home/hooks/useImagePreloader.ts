@@ -74,26 +74,38 @@ export function useImagePreloader(): UseImagePreloaderReturn {
           case "video":
             element = document.createElement("video");
             element.preload = "metadata";
+            element.muted = true; // 靜音以避免自動播放限制
             break;
           case "audio":
             element = new Audio();
+            element.preload = "auto"; // 強制預載入音頻
+            element.muted = true; // 靜音以避免自動播放限制
             break;
           default:
             reject(new Error(`不支援的資源類型: ${type}`));
             return;
         }
 
+        // 根據資源類型設定不同的超時時間
+        const timeoutDuration =
+          type === "video" ? 15000 : type === "audio" ? 20000 : 10000; // 音頻給最長時間
         const timeout = setTimeout(() => {
           reject(new Error(`載入超時: ${src}`));
-        }, 10000); // 10秒超時
+        }, timeoutDuration);
 
-        element.onload = () => {
+        const cleanup = () => {
           clearTimeout(timeout);
           setLoadedResources((prev) => new Set(prev).add(src));
+        };
+
+        // 處理載入成功
+        const handleLoad = () => {
+          cleanup();
           resolve();
         };
 
-        element.onerror = () => {
+        // 處理載入失敗
+        const handleError = () => {
           clearTimeout(timeout);
           const error = `載入失敗: ${src}`;
           setPreloadState((prev) => ({
@@ -102,6 +114,23 @@ export function useImagePreloader(): UseImagePreloaderReturn {
           }));
           reject(new Error(error));
         };
+
+        // 根據資源類型設定不同的事件監聽器
+        if (type === "video") {
+          element.addEventListener("loadedmetadata", handleLoad, {
+            once: true,
+          });
+          element.addEventListener("error", handleError, { once: true });
+        } else if (type === "audio") {
+          // 音頻使用 canplaythrough 事件，確保完全載入
+          element.addEventListener("canplaythrough", handleLoad, {
+            once: true,
+          });
+          element.addEventListener("error", handleError, { once: true });
+        } else {
+          element.onload = handleLoad;
+          element.onerror = handleError;
+        }
 
         element.src = src;
       });
@@ -152,6 +181,13 @@ export function useImagePreloader(): UseImagePreloaderReturn {
             progress: (loadedCount / sortedResources.length) * 100,
           }));
         } catch (error) {
+          // 即使載入失敗也要更新進度
+          loadedCount++;
+          setPreloadState((prev) => ({
+            ...prev,
+            loaded: loadedCount,
+            progress: (loadedCount / sortedResources.length) * 100,
+          }));
           console.warn("高優先級資源載入失敗:", error);
         }
       }
@@ -171,6 +207,13 @@ export function useImagePreloader(): UseImagePreloaderReturn {
               progress: (loadedCount / sortedResources.length) * 100,
             }));
           } catch (error) {
+            // 即使載入失敗也要更新進度，避免卡住
+            loadedCount++;
+            setPreloadState((prev) => ({
+              ...prev,
+              loaded: loadedCount,
+              progress: (loadedCount / sortedResources.length) * 100,
+            }));
             console.warn("資源載入失敗:", error);
           }
         });
