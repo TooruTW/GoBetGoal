@@ -14,7 +14,6 @@ export const useImageUpload = () => {
     };
 
     const compressedFiles: File[] = files;
-    // console.log(files, "files in compressImages");
 
     await Promise.all(
       files.map(async (file, index) => {

@@ -25,7 +25,6 @@ export default function DevUploadImage() {
     const localPreviewUrl = URL.createObjectURL(file);
     setPreviewUrl(localPreviewUrl);
     setSelectedFile(file);
-    console.log("file", file);
   };
 
   const handleConfirmUpload = async () => {
@@ -41,13 +40,7 @@ export default function DevUploadImage() {
 
     try {
       const compressedFile = await imageCompression(selectedFile, options);
-      console.log(
-        "compressedFile instanceof Blob",
-        compressedFile instanceof Blob
-      ); // true
-      console.log(
-        `compressedFile size ${compressedFile.size / 1024 / 1024} MB`
-      ); // smaller than maxSizeMB
+  
 
       const randomFileName = `${Date.now()}`;
 
@@ -55,7 +48,6 @@ export default function DevUploadImage() {
         { file: compressedFile, fileName: randomFileName },
         {
           onSuccess: () => {
-            console.log("上傳成功，設置 fileName 為:", randomFileName);
             setUploadedFileName([randomFileName]);
             setIsCompressing(false);
           },
@@ -92,7 +84,6 @@ export default function DevUploadImage() {
   const handleImageLoad = (
     e: React.SyntheticEvent<HTMLImageElement, Event>
   ) => {
-    console.log("圖片載入成功");
     const img = e.target as HTMLImageElement;
     img.style.display = "block";
   };

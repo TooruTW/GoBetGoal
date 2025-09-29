@@ -67,8 +67,7 @@ export default function NotificationSection({
       .on(
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "notification" },
-        (payload) => {
-          console.log("Change received!", payload);
+        () => {
           queryClient.invalidateQueries({ queryKey: ["notification"] });
         }
       )
@@ -123,7 +122,6 @@ export default function NotificationSection({
           duration: 0.5,
           ease: "power2.inOut",
           onComplete: () => {
-            // console.log(beRead, "beRead");
             patchReadNotification(beRead);
             isClosable.current = false;
           },

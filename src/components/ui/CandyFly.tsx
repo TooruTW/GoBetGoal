@@ -14,7 +14,6 @@ interface CandyDropProps {
 }
 
 const CandyFly = ({ trigger, onAnimationComplete }: CandyDropProps) => {
-  // console.log("CandyFly triggered:", trigger);
   const containerRef = useRef<HTMLDivElement>(null);
   const hasMounted = useRef(false);
 

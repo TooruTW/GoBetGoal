@@ -29,12 +29,10 @@ export default function DevAchievement() {
   };
 
   const handleSubmit = () => {
-    // console.log(input);
     postAchievement(input);
   };
 
   const handleDelete = (id: string) => {
-    // console.log(id);
     deleteAchievement(id);
   };
 

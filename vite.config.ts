@@ -3,7 +3,6 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
 
@@ -29,12 +28,7 @@ export default defineConfig({
             "@radix-ui/react-tabs",
           ],
           // 將動畫庫分離
-          animation: [
-            "gsap",
-            "@gsap/react",
-            "lottie-web",
-            "@lottiefiles/dotlottie-react",
-          ],
+          animation: ["gsap", "@gsap/react", "@lottiefiles/dotlottie-react"],
           // 將工具庫分離
           utils: [
             "date-fns",

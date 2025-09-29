@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import {
   useGetFriendSupa,
-  // usePatchFriendRequest,
   useDeleteFriendSupa,
 } from "@/api";
 import { useQueryClient } from "@tanstack/react-query";
@@ -35,7 +34,6 @@ interface FriendProps {
 }
 
 export default function Friend({ showState = "accept" }: FriendProps) {
-  // const { mutate: patchFriendRequest } = usePatchFriendRequest();
   const queryClient = useQueryClient();
   const { mutate: deleteFriend } = useDeleteFriendSupa();
   const { id } = useParams();
