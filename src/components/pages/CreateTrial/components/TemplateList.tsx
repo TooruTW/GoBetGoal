@@ -23,7 +23,6 @@ export default function TemplateList({ className }: { className?: string }) {
 
   useEffect(() => {
     if (isLoading || isPurchaseLoading || !data) return;
-    // console.log(data);
 
     dispatch(setChallengeTemplate(data));
     let templateList = [];

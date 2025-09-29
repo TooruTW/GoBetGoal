@@ -5,11 +5,11 @@ import { IoIosArrowDown } from "react-icons/io";
 import { useState } from "react";
 
 export default function CreateTrial() {
-  const [isListOpen, setIsListOpen] = useState(true);
-  const [isFormOpen, setIsFormOpen] = useState(true);
+  const [isListOpen, setIsListOpen] = useState(false);
+  const [isFormOpen, setIsFormOpen] = useState(false);
 
   return (
-    <div className="w-full py-20 flex flex-col justify-center items-center overflow-r-hidden relative min-h-screen">
+    <div className="w-full py-20 flex flex-col justify-center items-center overflow-hidden relative min-h-screen">
       <div className="w-full max-w-282 px-4 flex gap-6 max-xl:flex-col max-xl:items-center">
         <div className="w-2/5 max-xl:w-full max-w-175">
           <Title></Title>
@@ -31,7 +31,9 @@ export default function CreateTrial() {
               ></IoIosArrowDown>
             </div>
             <TemplateList
-              className={`${isListOpen ? "h-fit" : "max-xl:hidden"}`}
+              className={`${
+                isListOpen ? "h-fit" : "max-xl:h-0 max-xl:overflow-hidden"
+              }`}
             ></TemplateList>
           </div>
         </div>
@@ -53,7 +55,9 @@ export default function CreateTrial() {
             ></IoIosArrowDown>
           </div>
           <CreateTrialForm
-            className={`${isFormOpen ? "h-fit" : "max-xl:hidden"}`}
+            className={`${
+              isFormOpen ? "h-fit" : "max-xl:h-0 max-xl:overflow-hidden"
+            }`}
           ></CreateTrialForm>
         </div>
       </div>
