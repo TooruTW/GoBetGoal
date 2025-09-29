@@ -25,7 +25,6 @@ export default function AddFriend() {
   useGSAP(
     () => {
       if (searchResult.length === 0 || !suggestionRef.current) return;
-      // console.log("searchResult", searchResult);
 
       gsap.from(".name-list", {
         delay: 0.5,
@@ -52,7 +51,6 @@ export default function AddFriend() {
       setSearchResult(userInfoAll);
       return;
     }
-    // console.log("searchName", searchName);
 
     const result = userInfoAll.filter((user) =>
       user.nick_name.toLowerCase().includes(searchName.toLowerCase())
@@ -73,7 +71,6 @@ export default function AddFriend() {
       },
       {
         onSuccess: () => {
-          // console.log("新增好友成功");
           setOpen(false);
           setFriendID("");
           setNote("");
