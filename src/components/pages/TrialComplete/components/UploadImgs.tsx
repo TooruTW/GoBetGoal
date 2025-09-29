@@ -8,17 +8,16 @@ import { monsterCry } from "@/assets/monster";
 export default function UploadImgs({ images }: { images: string[][] }) {
   const uploadImgsRef = useRef<HTMLDivElement>(null);
   const [isReady, setIsReady] = useState(false);
-  const lodaingCountRef = useRef(0);
+  const loadingCountRef = useRef(0);
   const [hoverIndex, setHoverIndex] = useState<string | null>(null);
 
   useEffect(() => {
     if (images.length === 0) return;
-    console.log(images);
   }, [images]);
 
   const handleLoad = () => {
-    lodaingCountRef.current++;
-    if (lodaingCountRef.current === images.length) {
+    loadingCountRef.current++;
+    if (loadingCountRef.current === images.length) {
       setIsReady(true);
     }
   };

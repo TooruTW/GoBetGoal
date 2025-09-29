@@ -5,11 +5,20 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store";
 import { Button } from "@/components/ui/button";
 import { setToast } from "@/store/slices/toastSlice";
+import { RiEyeCloseLine, RiEye2Line } from "react-icons/ri";
 
 export default function FormModify() {
   const { mutate: patchChangePassword } = usePatchChangePassword();
   const { mutate: patchChangeUserInfo } = usePatchChangeUserInfo();
-  const [newPassword, setNewPassword] = useState<string | null>(null);
+  const [newPassword, setNewPassword] = useState<{
+    newPassword: string;
+    confirmPassword: string;
+  }>({ newPassword: "", confirmPassword: "" });
+  const [showPassword, setShowPassword] = useState({
+    newPassword: false,
+    confirmPassword: false,
+  });
+
   const [newName, setNewName] = useState<string | null>(null);
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
@@ -39,10 +48,13 @@ export default function FormModify() {
       );
     }
 
-    if (newPassword) {
-      patchChangePassword(newPassword, {
+    if (
+      newPassword.newPassword == newPassword.confirmPassword &&
+      newPassword.newPassword !== ""
+    ) {
+      patchChangePassword(newPassword.newPassword, {
         onSuccess: () => {
-          setNewPassword(null);
+          setNewPassword({ newPassword: "", confirmPassword: "" });
           queryClient.invalidateQueries({ queryKey: ["user"] });
           dispatch(
             setToast({
@@ -54,6 +66,13 @@ export default function FormModify() {
           );
         },
       });
+    } else if (newPassword.newPassword !== newPassword.confirmPassword) {
+      dispatch(
+        setToast({
+          content: "密碼不一致，請重新輸入",
+          type: "bad",
+        })
+      );
     }
   };
 
@@ -76,12 +95,45 @@ export default function FormModify() {
 
         <div className="w-full flex gap-4 items-center">
           <h2 className="text-nowrap">密碼</h2>
-          <input
-            type="text"
-            className="w-full border-1 border-schema-outline rounded-lg p-2"
-            placeholder="******"
-            onBlur={(e) => setNewPassword(e.target.value)}
-          />
+          <div className="relative w-full">
+            <input
+              type={showPassword.newPassword ? "text" : "password"}
+              className="w-full border-1 border-schema-outline rounded-lg p-2"
+              placeholder="******"
+              onBlur={(e) =>
+                setNewPassword({ ...newPassword, newPassword: e.target.value })
+              }
+            />
+            <div className="absolute right-0 top-0 h-full aspect-square flex items-center justify-center"
+            onClick={() => setShowPassword({ ...showPassword, newPassword: !showPassword.newPassword })}>
+            {showPassword.newPassword ? (
+              <RiEye2Line className=" size-6"/>
+            ) : (
+              <RiEyeCloseLine className=" size-6 opacity-50"/>
+            )}
+            </div>
+          </div>
+        </div>
+        <div className="w-full flex gap-4 items-center">
+          <h2 className="text-nowrap">確認密碼</h2>
+          <div className="relative w-full">
+            <input
+              type={showPassword.confirmPassword ? "text" : "password"}
+              className="w-full border-1 border-schema-outline rounded-lg p-2"
+              placeholder="******"
+              onBlur={(e) =>
+                setNewPassword({ ...newPassword, confirmPassword: e.target.value })
+              }
+            />
+            <div className="absolute right-0 top-0 h-full aspect-square flex items-center justify-center"
+            onClick={() => setShowPassword({ ...showPassword, confirmPassword: !showPassword.confirmPassword })}>
+            {showPassword.confirmPassword ? (
+              <RiEye2Line className=" size-6"/>
+            ) : (
+              <RiEyeCloseLine className=" size-6 opacity-50"/>
+            )}
+            </div>
+          </div>
         </div>
       </div>
     </div>

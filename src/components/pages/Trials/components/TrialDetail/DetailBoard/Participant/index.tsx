@@ -120,7 +120,6 @@ export default function Participant(props: acceptProps) {
         },
         {
           onSuccess: () => {
-            console.log("delete success");
             queryClient.invalidateQueries({
               queryKey: ["trial", trial[0].trial_id],
             });

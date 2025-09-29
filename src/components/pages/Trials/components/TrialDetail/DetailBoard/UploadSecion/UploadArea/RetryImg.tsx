@@ -44,7 +44,6 @@ function RetryImage({
       const nextCount = retryCount + 1;
       setRetryCount(nextCount);
 
-      console.log(`圖片載入失敗，重試中 (${nextCount}/${maxRetries})...`);
       setTimeout(() => {
         // 加時間戳避免快取問題
         setCurrentSrc(`${realSrc}?retry=${Date.now()}`);
@@ -56,7 +55,6 @@ function RetryImage({
   }, [retryCount, maxRetries, retryDelay, realSrc]);
 
   useEffect(() => {
-    // console.log("realSrc", realSrc);
     setCurrentSrc(realSrc);
     setRetryCount(0);
     setShowSkeleton(true);

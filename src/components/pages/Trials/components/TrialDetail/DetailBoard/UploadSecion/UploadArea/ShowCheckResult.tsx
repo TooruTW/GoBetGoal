@@ -3,6 +3,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useEffect, useRef } from "react";
 import { monsterCurious } from "@/assets/monsterCurious";
+import useCheckBrowser from "@/hooks/useCheckBrowser";
 
 export default function ShowCheckResult({
   state = "checking",
@@ -10,8 +11,9 @@ export default function ShowCheckResult({
   state: "pass" | "fail" | "checking";
 }) {
   const showCheckResultRef = useRef<HTMLDivElement>(null);
+  const { isDesktopChrome } = useCheckBrowser();
   useEffect(() => {
-    console.log(state, "checking state");
+    // State change handling
   }, [state]);
 
   useGSAP(
@@ -50,14 +52,22 @@ export default function ShowCheckResult({
         <div className="w-full h-1 border-5 border-schema-primary absolute top-1/2 -translate-y-1/2 rotate-90"></div>
       </div>
       <div className="w-full  absolute bottom-0 left-0 ">
-
+        {isDesktopChrome ? (
+          <video
+            src="/animation/monster/monsterCurious.webm"
+            autoPlay
+            loop
+            muted
+            playsInline
+          ></video>
+        ) : (
           <SequencePlayer
             imgList={monsterCurious}
             width={"100%"}
             height={"100%"}
             fps={24}
           />
-
+        )}
       </div>
     </div>
   );

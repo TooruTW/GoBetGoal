@@ -35,7 +35,6 @@ export default function PopupCard(props: acceptProps) {
 
   const handleClose = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.target === backgroundRef.current) {
-      // console.log("click outside");
       onClose();
     }
     event.stopPropagation();

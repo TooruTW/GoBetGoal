@@ -4,7 +4,6 @@ import { RootState } from "@/store";
 import { useRef, useState } from "react";
 import LogoImgTxtDark from "@/assets/logo/LogoImgTxtDark.svg";
 import LogoImgTxtLight from "@/assets/logo/LogoImgTxtLight.svg";
-// import SlotMachine from "./SlotMachine";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useSound } from "@/hooks/useSound";

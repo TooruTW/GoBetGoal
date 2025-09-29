@@ -62,8 +62,6 @@ export default function TrialComplete() {
 
   const handleTakeReward = () => {
     if (isRewardTaken || !data || !certification || !id) return;
-    console.log("take reward");
-    console.log(certification.trialReward, "certification.trialReward");
 
     patchReceiveReward(
       {
@@ -163,11 +161,9 @@ export default function TrialComplete() {
   // set trial brief info
   useEffect(() => {
     if (isLoading || !data || !selectedUserID) return;
-    console.log(selectedUserID, "selectedUserID");
     const filteredData = data.filter(
       (item) => item.participant_id === selectedUserID
     );
-    console.log(filteredData, "filteredData");
     const imageArray = filteredData.map((data) => data.upload_image || []);
     setImages(imageArray);
 
@@ -245,12 +241,18 @@ export default function TrialComplete() {
           duration: 1,
           yPercent: 100,
           ease: "power2.inOut",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
         },
         {
           opacity: 1,
           duration: 1,
           yPercent: 0,
           ease: "power2.inOut",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
         }
       );
     }
@@ -261,6 +263,7 @@ export default function TrialComplete() {
       duration: 1,
       yPercent: 100,
       ease: "power2.inOut",
+      display: "none",
     });
   });
   useClickOutside(sharePageRef, () => {
@@ -269,7 +272,15 @@ export default function TrialComplete() {
 
   const { finishTrial1Times } = useAchievementValidate();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="flex flex-col items-center gap-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-schema-primary"></div>
+          <p className="text-schema-on-surface">載入中...</p>
+        </div>
+      </div>
+    );
   if (error) return <div>Error: {error.message}</div>;
 
   return (
@@ -293,7 +304,6 @@ export default function TrialComplete() {
             handleShowSharePage(e);
             const result = finishTrial1Times();
             if (!result?.isGet) {
-              console.log(result, "result");
               dispatch(
                 setToast({
                   content: result?.description || "",
@@ -312,7 +322,7 @@ export default function TrialComplete() {
 
       <div
         ref={sharePageRef}
-        className="w-full fixed bottom-0 max-h-4/5 z-10 bg-schema-surface-container flex justify-center items-center rounded-t-4xl border-2 border-t-schema-outline border-l-schema-outline border-r-schema-outline py-20"
+        className="w-full hidden fixed bottom-0 max-h-4/5 z-10 bg-schema-surface-container rounded-t-4xl border-2 border-t-schema-outline border-l-schema-outline border-r-schema-outline py-20 "
       >
         <IoClose
           className="size-11 p-2 absolute top-10 right-10 cursor-pointer hover:size-12"

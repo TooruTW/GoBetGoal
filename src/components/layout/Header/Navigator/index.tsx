@@ -135,7 +135,6 @@ export default function Navigator({ setIsShowNotification }: NavigatorProps) {
           <>
             <li
               className="cursor-pointer relative group"
-              onMouseLeave={() => setShowHamMenu(false)}
             >
               {/* 分離點擊區域 */}
               <div

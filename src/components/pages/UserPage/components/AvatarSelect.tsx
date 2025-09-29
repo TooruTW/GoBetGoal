@@ -22,7 +22,7 @@ type Avatar = {
 };
 
 type AvatarCarouselProps = {
-  onSelect: (avatar: Avatar) => void;
+  onSelect?: (avatar: Avatar) => void;
 
   displayMode?: "lock" | "price" | "none";
   info?: string; // 資料庫目前儲存的頭像src
@@ -85,7 +85,7 @@ export default function AvatarSelect({
     if (avatar.price === 0 || isAvatarPurchased(avatar.uuid)) {
       // 如果點擊的是當前使用的頭像，直接選中不顯示更換對話框
       if (info === avatar.character_img_link) {
-        onSelect(avatar);
+        onSelect?.(avatar);
         return;
       }
 
@@ -109,8 +109,6 @@ export default function AvatarSelect({
       userID: userID,
     };
 
-    console.log("準備更換頭像:", updateData);
-
     patchUserInfo(updateData, {
       onSuccess: () => {
         dispatch(
@@ -123,7 +121,7 @@ export default function AvatarSelect({
         );
 
         // 更新本地狀態
-        onSelect(selectedToChange);
+        onSelect?.(selectedToChange);
         setSelectedToChange(null);
 
         // 重新獲取用戶信息
@@ -194,16 +192,8 @@ export default function AvatarSelect({
       price: selectedToBuy.price,
     };
 
-    console.log("準備購買頭像:", {
-      purchaseData,
-      avatarSrc: selectedToBuy.character_img_link,
-      avatarUuid: selectedToBuy.uuid,
-      userBagel,
-    });
-
     postPurchase(purchaseData, {
-      onSuccess: (response) => {
-        console.log("頭像購買成功，響應:", response);
+      onSuccess: () => {
         dispatch(
           setToast({
             content: "購買成功！ ^⌯𖥦⌯^ ੭",
@@ -227,7 +217,6 @@ export default function AvatarSelect({
               queryClient.invalidateQueries({
                 queryKey: ["purchase_records", userID],
               });
-              console.log("貝果餘額更新成功，扣除:", selectedToBuy.price);
             },
             onError: (error) => {
               console.error("更新貝果餘額失敗:", error);
@@ -236,7 +225,7 @@ export default function AvatarSelect({
         );
 
         // 購買成功後自動選擇該頭像
-        onSelect(selectedToBuy);
+        onSelect?.(selectedToBuy);
         setSelectedToBuy(null);
       },
       onError: (error: ApiError) => {

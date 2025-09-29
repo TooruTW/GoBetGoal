@@ -35,7 +35,6 @@ function App() {
   useEffect(() => {
     if (userID !== "" && !isLoading && !error && userInfoSupa && user) {
       const userInfoSupaData = { ...userInfoSupa[0], email: user.email };
-      // console.log("Updating Redux account:", userInfoSupaData);
       dispatch(setAccount(userInfoSupaData));
     } else {
       dispatch(setAccount(null));

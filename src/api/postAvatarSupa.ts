@@ -8,7 +8,6 @@ type Avatar = {
 };
 
 const postAvatarSupa = async (insertData: Avatar) => {
-  console.log("postAvatarSupa", insertData);
   const { data, error } = await supabase
     .from("avatar")
     .insert([

@@ -21,7 +21,6 @@ export function usePostInviteFriend() {
   return useMutation({
     mutationFn: postInviteFriend,
     onSuccess: () => {
-      console.log("新增成功");
       queryClient.invalidateQueries({ queryKey: ["trial", "all"] });
       queryClient.invalidateQueries({ queryKey: ["user_info"], exact: false });
     },

@@ -8,7 +8,7 @@ type OthersTrialInfoProps = {
   onClick: (id: string) => void;
 };
 
-export default function OthersTrailInfo({
+export default function OthersTrialInfo({
   participants,
   images,
   onClick,

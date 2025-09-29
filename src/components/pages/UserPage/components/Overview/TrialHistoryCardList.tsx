@@ -10,18 +10,15 @@ export default function ListContainer() {
 
   useEffect(() => {
     if (isLoading) {
-      console.log("isLoading");
       return;
     }
     if (userID === "") {
-      console.log("userID is empty");
       return;
     }
     if (error) {
       console.error("Query error:", error);
       return;
     }
-    console.log("All data:", data);
   }, [data, isLoading, userID, error]);
 
   // 載入狀態

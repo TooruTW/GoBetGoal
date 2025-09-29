@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { bagel1, bagel2, bagel3, bagel4 } from "@/assets/bagel";
 import SequencePlayer from "@/components/ui/SequencePlayer.tsx";
-import { useIsSafariOrIOS } from "@/hooks/useIsSafariOrIOS";
 import {
   FaCaretDown,
   FaCaretLeft,
@@ -10,9 +9,10 @@ import {
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { girlFrames } from "@/assets/sequence/girl";
+import useCheckBrowser from "@/hooks/useCheckBrowser";
 
 const BagelJumpGame = () => {
-  const isSafariOrIOS = useIsSafariOrIOS();
+  const { isDesktopChrome } = useCheckBrowser();
 
   const [playerY, setPlayerY] = useState(300);
   const [velocity, setVelocity] = useState(0);
@@ -214,9 +214,7 @@ const BagelJumpGame = () => {
             imageRendering: "pixelated",
           }}
         >
-          {isSafariOrIOS ? (
-            <SequencePlayer imgList={girlFrames} fps={24} width={"100px"} height={"100px"} />
-          ) : (
+          {isDesktopChrome ? (
             <video
               autoPlay
               loop
@@ -230,6 +228,13 @@ const BagelJumpGame = () => {
                 type="video/webm"
               />
             </video>
+          ) : (
+            <SequencePlayer
+              imgList={girlFrames}
+              fps={24}
+              width={"100px"}
+              height={"100px"}
+            />
           )}
         </div>
 

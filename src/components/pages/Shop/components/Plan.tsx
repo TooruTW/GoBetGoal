@@ -12,8 +12,6 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import Candy from "@/components/layout/Header/Navigator/Candy";
 import { RootState } from "@/store";
-// import { usePatchChangeUserInfo, usePostDeposit } from "@/api";
-// import { useQueryClient } from "@tanstack/react-query";
 import NewebPayForm, { NewebPayFormProps } from "./NewebPayForm";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Loading from "./Loading";
@@ -54,7 +52,6 @@ export default function Plan({ isActive }: { isActive: boolean }) {
   const [showAnime, setShowAnime] = useState<boolean[]>(
     new Array(plan.length).fill(false)
   );
-  // const queryClient = useQueryClient();
   const [popupState, setPopupState] = useState<"fail" | "success" | "none">(
     "none"
   );
@@ -82,8 +79,6 @@ export default function Plan({ isActive }: { isActive: boolean }) {
     setPopupState("none");
   };
 
-  // const { mutate: postDeposit } = usePostDeposit();
-  // const { mutate: patchUserInfo } = usePatchChangeUserInfo();
   const account = useSelector((state: RootState) => state.account);
   const userID = account.user_id;
 
@@ -91,7 +86,6 @@ export default function Plan({ isActive }: { isActive: boolean }) {
     get_bagel: number,
     deposit_money: number
   ) => {
-    // console.log("handleCryptoPayment", get_bagel, deposit_money);
     if (!userID) return;
 
     const url = "https://gobetgoal.rocket-coding.com/api/payments/create";
@@ -108,55 +102,8 @@ export default function Plan({ isActive }: { isActive: boolean }) {
       }),
     });
     const data = await result.json();
-    // console.log(data);
     setNewebPayForm(data);
   };
-
-  // 由後端更新貝果餘額
-  // const depositSuccess = (planIndex: number) => {
-  //   const selectedPlan = plan[planIndex];
-  //   postDeposit(
-  //     {
-  //       user_id: userID,
-  //       get_bagel: selectedPlan.get_bagel,
-  //       deposit_money: selectedPlan.price,
-  //     },
-  //     {
-  //       onSuccess: () => {
-  //         console.log("儲值成功");
-  //         const updatedBagel = account.candy_count + selectedPlan.get_bagel;
-  //         patchUserInfo(
-  //           { target: "candy_count", value: String(updatedBagel), userID },
-  //           {
-  //             onSuccess: () => {
-  //               queryClient.invalidateQueries({
-  //                 queryKey: ["user_info", userID],
-  //               });
-  //               console.log("貝果餘額更新成功");
-  //               setPopupState("success");
-  //             },
-  //             onError: (error) => {
-  //               console.error("更新貝果餘額失敗:", error);
-  //               setNoteContent("儲值成功但更新餘額失敗，請重新整理頁面");
-  //             },
-  //           }
-  //         );
-  //       },
-  //       onError: (error: Error) => {
-  //         console.error("儲值失敗:", error);
-  //         let errorMessage = "儲值失敗，請稍後再試 ^-﹏-^ ੭";
-  //         if (error?.message?.includes("duplicate")) {
-  //           errorMessage = "重複儲值請求 ^-﹏-^ ੭";
-  //         } else if (error?.message?.includes("unauthorized")) {
-  //           errorMessage = "請重新登入 ^-﹏-^ ੭";
-  //         } else if (error?.message) {
-  //           errorMessage = error.message;
-  //         }
-  //         setNoteContent(errorMessage);
-  //       },
-  //     }
-  //   );
-  // };
 
   const onClose = () => setPopupState("none");
 

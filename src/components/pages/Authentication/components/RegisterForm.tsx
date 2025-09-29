@@ -11,7 +11,7 @@ type FormValues = {
 
 type RegisterFormProps = {
   onRegisterError: (error: string) => void;
-  onRegisterSuccess: (data: FormValues) => void;
+  onRegisterSuccess?: (data: FormValues) => void;
 };
 
 export default function RegisterForm({
@@ -41,8 +41,7 @@ export default function RegisterForm({
         onRegisterError("抓到已經註冊過囉！乖乖走登入通道吧");
       },
       onSuccess: () => {
-        // console.log("sign in success");
-        onRegisterSuccess(data);
+        onRegisterSuccess?.(data);
 
         postLogInSupa(data, {
           onError: (error) => {

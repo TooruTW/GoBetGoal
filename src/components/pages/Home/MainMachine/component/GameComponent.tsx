@@ -1,6 +1,9 @@
 import SequencePlayer from "@/components/ui/SequencePlayer.tsx";
 import { girlFrames } from "@/assets/sequence/girl";
+import useCheckBrowser from "@/hooks/useCheckBrowser";
+
 export default function Run() {
+  const { isDesktopChrome } = useCheckBrowser();
   return (
     <div className="w-full flex flex-col items-center absolute top-0 z-20">
       <div className="w-full object-cover relative z-10">
@@ -18,8 +21,20 @@ export default function Run() {
             className="rounded-4xl"
           />
         </video>
+
         <div className="absolute top-0 left-0 w-full h-full flex justify-center items-end">
-          <SequencePlayer imgList={girlFrames} height={"20px"} fps={24} />
+          {isDesktopChrome ? (
+            <video
+              src="/animation/mainCharacter/character45.webm"
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="h-1/2"
+            ></video>
+          ) : (
+            <SequencePlayer imgList={girlFrames} height={"20px"} fps={24} />
+          )}
         </div>
       </div>
     </div>

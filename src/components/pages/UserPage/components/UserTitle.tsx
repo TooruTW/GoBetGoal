@@ -25,7 +25,7 @@ export default function UserTitle({ userInfo, isSelf }: acceptProps) {
   const [isAddFriendAble, setIsAddFriendAble] = useState(true);
 
   useEffect(() => {
-    if ( !id) return;
+    if (!id) return;
     if (friendList.length <= 0) return;
     const isAdded = friendList.some((friend) => {
       const isInclude = friend.user_id === id;

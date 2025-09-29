@@ -48,7 +48,15 @@ export default function MyTrialInfo(props: TrialCompleteProps) {
     }
   );
 
-  if (!trialBrief || !certification) return <h1>Loading...</h1>;
+  if (!trialBrief || !certification)
+    return (
+      <div className="flex justify-center items-center min-h-60">
+        <div className="flex flex-col items-center gap-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-schema-primary"></div>
+          <p className="text-schema-on-surface">載入中...</p>
+        </div>
+      </div>
+    );
 
   return (
     <div className="flex relative justify-center gap-10 items-center w-screen  border-b-4 border-schema-outline px-5 overflow-y-hidden max-xl:pb-4">

@@ -1,5 +1,4 @@
 import DetailBoard from "./DetailBoard";
-// import SideBoard from "./SideBoard";
 import { useParams } from "react-router-dom";
 import { useTrialSupa } from "@/api/getTrialSupa";
 import { useEffect } from "react";
@@ -16,16 +15,16 @@ export default function TrialDetail() {
 
   // realtime supa
   useEffect(() => {
-    const trialParticipant = supabase.channel('custom-all-channel')
-    .on(
-      'postgres_changes',
-      { event: '*', schema: 'public', table: 'trial_participant' },
-      (payload) => {
-        console.log('Change received!', payload)
-        queryClient.invalidateQueries({ queryKey: ["trial"], exact: false });
-      }
-    )
-    .subscribe()
+    const trialParticipant = supabase
+      .channel("custom-all-channel")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "trial_participant" },
+        () => {
+          queryClient.invalidateQueries({ queryKey: ["trial"], exact: false });
+        }
+      )
+      .subscribe();
 
     return () => {
       supabase.removeChannel(trialParticipant);
@@ -39,23 +38,25 @@ export default function TrialDetail() {
       const diffDays = endDate.diff(now, "day");
 
       if (diffDays < 0) {
-        // console.log("trial is over");
         navigate(`/trial-complete/${id}`);
       }
     }
   }, [data, id, navigate, playerId]);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="flex flex-col items-center gap-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-schema-primary"></div>
+          <p className="text-schema-on-surface">載入中...</p>
+        </div>
+      </div>
+    );
   if (error) return <div>Error: {error.message}</div>;
 
   return (
     <div className="flex pt-8 w-full  relative overflow-hidden ">
       {data && <DetailBoard trial={data} />}
-
-      {/* 試煉內部信息記錄 未來可期 */}
-      {/* <div className=" absolute bottom-0 left-4 p-5 bg-bg-module w-full max-w-120 rounded-t-md max-h-120 overflow-scroll z-10">
-        <SideBoard trial={data.trial} />
-      </div> */}
     </div>
   );
 }

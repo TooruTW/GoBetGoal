@@ -5,21 +5,12 @@ import { useGetUserSupa } from "@/api";
 import RegisterForm from "./RegisterForm";
 import LoginForm from "./LoginForm";
 import { monsterDefault } from "@/assets/monster";
-type FormValues = {
-  mail: string;
-  password: string;
-};
 
 export default function Auth() {
   const [loginError, setLoginError] = useState("");
   const [registerError, setRegisterError] = useState("");
   const navigate = useNavigate();
   const { data: user, isLoading, error } = useGetUserSupa();
-
-  const handleRegisterSuccess = (data: FormValues) => {
-    // 註冊成功後自動登入
-    console.log("註冊成功，準備登入", data);
-  };
 
   useEffect(() => {
     if (user) {
@@ -46,10 +37,7 @@ export default function Auth() {
 
           {/* 註冊 */}
           <TabsContent value="register">
-            <RegisterForm
-              onRegisterError={setRegisterError}
-              onRegisterSuccess={handleRegisterSuccess}
-            />
+            <RegisterForm onRegisterError={setRegisterError} />
             {registerError && (
               <p
                 role="alert"
