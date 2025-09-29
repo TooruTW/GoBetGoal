@@ -30,10 +30,6 @@ const patchReceiveReward = async ({
       })
       .eq("user_id", userID);
 
-  console.log(userID, "userID");
-  console.log(trialID, "trialID");
-  console.log(reward, "reward");
-
   if (currentAssetDataError) throw currentAssetDataError;
 
   if (error) {

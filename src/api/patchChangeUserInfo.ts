@@ -20,8 +20,6 @@ const patchChangeUserInfo = async ({
   value: number | string;
   userID: string;
 }) => {
-  console.log("Updating user_info:", { target, value, userID });
-
   // 先檢查記錄是否存在
   const { data: existingData, error: checkError } = await supabase
     .from("user_info")

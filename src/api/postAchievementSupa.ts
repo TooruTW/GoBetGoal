@@ -11,7 +11,6 @@ type Achievement = {
 };
 
 const postAchievementSupa = async (insertData: Achievement) => {
-  console.log("postAchievementSupa", insertData);
   const { data, error } = await supabase
     .from("achievements")
     .insert([

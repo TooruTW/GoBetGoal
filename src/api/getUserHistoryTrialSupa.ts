@@ -28,7 +28,6 @@ const getUserHistoryTrialSupa = async (userId: string) => {
     console.error("Supabase error:", error);
     throw error;
   }
-  console.log(data);
 
   return data;
 };
