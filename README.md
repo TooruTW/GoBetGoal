@@ -1,6 +1,6 @@
 # 🥯 GoBetGoal - 社交減重挑戰平台
 
-> 減重太難堅持？你有想過玩遊戲就能養成理想身材嗎？在遊樂場裡，你可以用一點點錢換取貝果幣，跟AI小怪獸賭一把，如果你和好友可以完成他發下的減重試煉，就可以得到他的豐厚獎勵，不然貝果幣就會被扣光！透過任務挑戰、排行榜與小懲罰/獎勵機制提升動力。
+> 減重太難堅持？你有想過玩遊戲就能養成理想身材嗎？在遊樂場裡，你可以用一點點錢換取貝果幣，跟 AI 小怪獸賭一把，如果你和好友可以完成他發下的減重試煉，就可以得到他的豐厚獎勵，不然貝果幣就會被扣光！透過任務挑戰、排行榜與小懲罰/獎勵機制提升動力。
 
 你敢接下挑戰嗎？
 
@@ -16,7 +16,7 @@
 >
 > **請勿使用真實信用卡進行測試！**
 
-##  專題網址
+## 專題網址
 
 - Demo 網站：[GoBetGoal](https://gobetgoal.vercel.app/)
 - Pitch 簡報：[Slides 連結](https://www.canva.com/design/DAGu5f2BTZI/pUpio7vWynHZwwwOsPTtzw/view?utm_content=DAGu5f2BTZI&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h3c702c823f)
@@ -26,14 +26,14 @@
 - Kelly | [GitHub](https://github.com/kc34522) | kelly556320@gmail.com
 - Weins | [GitHub](https://github.com/weiweins) | weinssha@gmail.com
 
-##  專案目標
+## 專案目標
 
 - 運用遊戲機制讓減重變成令人入迷的遊戲
 - 透過社交互動增加減重動機
 - 提供遊戲化的挑戰體驗
 - 建立健康的生活習慣
 
-##  目標用戶
+## 目標用戶
 
 - 想要減重但缺乏動機的人
 - 喜歡社交互動的減重者
@@ -126,7 +126,7 @@
 - **Playwright** - 端到端測試
 - **Vite** - 開發伺服器
 
-##  專案結構
+## 專案結構
 
 ```
 src/
@@ -177,3 +177,45 @@ src/
 - **`store/`** - Redux 狀態管理
 - **`types/`** - TypeScript 類型定義
 - **`routers/`** - 路由配置
+
+## git flow 規範
+
+### 分支命名
+
+- **main**：正式可發佈分支，僅接受 PR 合併（禁止直接 push），合併後可上線。
+- **dev**：日常整合分支，所有工作分支一律從這裡切出（禁止直接 push 到 `main`/`dev`）。
+- `feature/<scope>-<summary>`
+- `fix/<scope>-<summary>`
+- `hotfix/<summary>`（緊急修補從 `main` 切出）
+- `chore/<scope>-<summary>`
+- 建議可附 issue 編號：如 `feature/auth-setup-#123`
+
+### Commit 命名（Conventional Commits）
+
+- 格式：`<type>(<scope>): <subject>`
+- type：`feat` / `fix` / `docs` / `style` / `refactor` / `perf` / `test` / `chore`
+- 例：`feat(auth): add email/password login flow`
+- PR 標題同樣使用 Conventional Commits，PR 盡量小而頻繁
+
+### 流程
+
+#### 一般開發
+
+1. 從 `dev` 切出工作分支
+2. 編輯
+3. 執行 `npm run build` 檢查是否有錯誤
+4. 將分支推到 GitHub
+5. 發送合併至 `dev` 的 PR
+6. 檢查無誤後合併至 `dev`
+7. 本地端更新最新 `dev`
+
+#### 合併到 main
+
+1. 開新工作分支
+2. 檢查是否有 bug
+3. 最佳化可讀性
+4. 將分支推到 GitHub
+5. 發送合併至 `dev` 的 PR
+6. 檢查無誤後合併至 `dev`
+7. 在 GitHub 上發與 `main` 分支合併的 PR
+8. 合併至 `main`
